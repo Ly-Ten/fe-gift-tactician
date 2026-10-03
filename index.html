@@ -4,9 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Cadeaux — Fire Emblem: Fortune's Weave</title>
+<meta name="description" content="Guide des cadeaux et du recrutement pour Fire Emblem: Fortune's Weave : goûts de chaque personnage, inventaire, tournée de la semaine. Projet de fan non officiel.">
+<meta name="theme-color" content="#FBFAFD" id="themeColor">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Fil des cadeaux">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Jersey+15&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pixel-art.css">
 <style>
 :root{
   --bg:#ECE8F1; --surface:#FBFAFD; --raised:#E2DCEA; --ink:#1F1A2A; --muted:#5D5570; --line:#D2CADD;
@@ -399,19 +408,143 @@ textarea.code{width:100%;margin-top:8px;border:1px solid var(--line);background:
 small.hint2{display:block;margin-top:6px}
 @media (max-width:520px){.top-actions .bl{display:none}.top-actions .theme-btn{width:40px;height:40px;padding:0;font-size:17px}}
 .hint2{color:var(--muted);font-size:14px;margin:0 0 6px;line-height:1.4}
+
+/* ---------- v4 : icônes pixel art ---------- */
+.pi{display:inline-block;width:16px;height:16px;flex-shrink:0;background-repeat:no-repeat;background-position:center;background-size:100% 100%;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;image-rendering:pixelated;vertical-align:-2px}
+.pi.x2{width:32px;height:32px}
+.chip .ic{display:flex;padding-top:2px}
+.wl .wi{display:flex;justify-content:center;padding-top:2px}
+.pill.stock{display:inline-flex;align-items:center;gap:2px;vertical-align:1px}
+.grp h2 .pi,.ph h2 .pi{margin-right:2px}
+.ph h2 .pi.x2{vertical-align:-4px}
+.log li small .pi{vertical-align:-3px}
+
+/* ---------- v4 : en-tête compact ---------- */
+.top{padding:18px 18px 16px}
+.top-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand actions" "lords lords" "ctrl ctrl";column-gap:12px;align-items:start}
+.brand{grid-area:brand;min-width:0}
+.top-actions{grid-area:actions;margin-left:0}
+.lords{grid-area:lords}
+.ctrl{grid-area:ctrl;display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;margin-top:14px;min-width:0}
+.ctrl .honor{margin-top:0;flex:1 1 auto;min-width:0}
+.lordpill{display:none;align-items:center;gap:10px;padding:6px 12px 6px 8px;min-height:48px;max-width:100%;border-radius:12px;border:1px solid var(--acc);background:var(--bg);text-align:left}
+.lordpill b{display:block;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:18px;line-height:1.1}
+.lordpill small{display:block;color:var(--muted);font-size:13px;line-height:1.2}
+.lordpill .chev{color:var(--muted);font-size:13px;margin-left:2px;transition:transform .15s}
+.lordpill[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.side-tabs{display:none}
+.top.compact{padding:10px 14px 12px}
+.top.compact .top-inner{grid-template-areas:"brand actions" "ctrl ctrl" "lords lords"}
+.top.compact h1{font-size:22px}
+.top.compact .sub{display:none}
+.top.compact .lords{display:none;margin-top:10px}
+.top.compact.picking .lords{display:grid}
+.top.compact .lordpill{display:flex}
+.top.compact .ctrl{margin-top:8px}
+.top.compact .honor-lbl small{display:none}
+@media (max-width:639px){.top.compact .ticks{display:none}}
+@media (max-width:420px){.top.compact .lordpill small{display:none}.top.compact .stepper button{width:40px}}
+@media (prefers-reduced-motion:reduce){.lordpill .chev{transition:none}}
+
+/* ---------- v4 : colonnes ---------- */
+.maincol{min-width:0}
+.wrap > .maincol > footer{max-width:none;margin:0;padding:24px 4px 0}
+@media (min-width:920px){
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:18px;align-items:start}
+  .panel{top:calc(env(safe-area-inset-top,0px) + 14px);max-height:calc(100vh - 28px);margin-top:10px}
+}
+
+/* ---------- v4 : version ordinateur (trois colonnes) ---------- */
+@media (min-width:1280px){
+  .app{display:grid;grid-template-columns:300px minmax(0,1fr);align-items:start}
+  .top,.top.compact{position:sticky;top:0;height:100vh;overflow-y:auto;border-bottom:0;border-right:1px solid var(--line);padding:24px 18px 18px}
+  .top-inner,.top.compact .top-inner{display:flex;flex-direction:column;align-items:stretch;max-width:none;margin:0;min-height:100%}
+  .top h1,.top.compact h1{font-size:34px}
+  .top .sub,.top.compact .sub{display:block;margin:8px 0 18px}
+  .top .lords,.top.compact .lords{display:grid;grid-template-columns:1fr;gap:6px;margin:0;order:1}
+  .top .lord{min-height:52px;padding:8px 12px}
+  .top .lordpill{display:none !important}
+  .top .ctrl,.top.compact .ctrl{order:2;margin-top:18px}
+  .top .honor-lbl small{display:block !important}
+  .top .ticks{display:flex !important;flex-basis:100%;max-width:none}
+  .side-tabs{display:block;order:3;margin-top:20px}
+  .side-tabs .tabs{display:flex;flex-direction:column;gap:4px;background:transparent;padding:0;border-radius:0}
+  .side-tabs .tabs button{display:flex;align-items:center;gap:8px;text-align:left;padding:11px 14px;font-size:16.5px;border-radius:10px}
+  .side-tabs .tabs button:hover{background:color-mix(in srgb,var(--acc) 8%,transparent)}
+  .side-tabs .tabs button[aria-selected="true"]{background:var(--bg);box-shadow:inset 3px 0 0 var(--acc)}
+  .side-tabs .tabs .lg{display:inline}
+  .side-tabs .tabs .sh{display:none}
+  .side-tabs .tabs button .n{margin-left:auto}
+  .top-actions{order:4;margin-top:auto;padding-top:20px;flex-direction:column;align-items:stretch;gap:6px}
+  .top-actions .theme-btn{text-align:left;padding:9px 14px;font-size:15px}
+  .top-actions .bl{display:inline !important}
+  .wrap{max-width:none;margin:0;padding:0 28px 40px;grid-template-columns:minmax(380px,1fr) minmax(440px,1.1fr);column-gap:28px}
+  .bar{padding-top:18px}
+  .panel{top:18px;margin-top:18px;max-height:calc(100vh - 36px)}
+}
+
+/* ---------- v4 : sauvegarde par QR code ---------- */
+.qrbox{margin-top:10px;background:#fff;border-radius:10px;padding:4px;max-width:520px}
+.qrbox svg{display:block;width:100%;height:auto}
+
+/* ---------- v4 : thème rétro façon GBA ---------- */
+:root[data-theme="gba"]{
+  --bg:#0d1438; --surface:#263c9c; --raised:#1b2c7c; --ink:#FFFFFF; --muted:#C6D0F6; --line:#6A82DC;
+  --t-l:#FFE27A; --t-l-bg:#5A4610; --t-r:#8DF0B4; --t-r-bg:#145234; --t-b:#C4D4FF; --t-b-bg:#23409A; --t-x:#FFA4A4; --t-x-bg:#6E1F2E;
+  --acc:#F8D048; --acc-ink:#161040; --shadow:0 18px 40px -18px rgba(0,0,0,.85);
+  --win:linear-gradient(180deg,#5272DA 0%,#3352BC 42%,#243C9E 100%); --win-hi:#DCE4FF; --win-edge:#080E38; --inset:rgba(8,14,60,.38);
+  color-scheme:dark;
+}
+:root[data-theme="gba"][data-lord="cai"]{--acc:#F2A14C}
+:root[data-theme="gba"][data-lord="die"]{--acc:#F07C85}
+:root[data-theme="gba"][data-lord="the"]{--acc:#A8D8FF}
+:root[data-theme="gba"][data-lord="led"]{--acc:#F5A3CF}
+:root[data-theme="gba"] body{background-color:var(--bg);background-image:radial-gradient(rgba(140,165,255,.11) 1px,transparent 1.6px);background-size:8px 8px}
+:root[data-theme="gba"] :is(.top,.rows,.panel,.invhead,.where,.track,.offer,details.tips,.recbox,.search,.bar .tabs,.seg3,.lordpill,.stepper,.toast){background:var(--win);border:2px solid var(--win-hi);box-shadow:0 0 0 2px var(--win-edge),inset 0 0 0 1px rgba(8,14,56,.45)}
+:root[data-theme="gba"] :is(.top,.rows,.panel,.invhead,.where,.track,.offer,details.tips,.recbox,.tabs,.seg3,.lordpill,.toast,.lords){text-shadow:1px 1px 0 rgba(6,10,44,.65)}
+:root[data-theme="gba"] .top{border-width:0 0 2px;box-shadow:0 2px 0 var(--win-edge)}
+:root[data-theme="gba"] .top::before{opacity:.18}
+:root[data-theme="gba"] .panel{border-radius:14px}
+:root[data-theme="gba"] .ph{background:#4C6CD4;border-bottom-color:rgba(220,228,255,.35)}
+:root[data-theme="gba"] .rows,:root[data-theme="gba"] .row{border-color:rgba(220,228,255,.28)}
+:root[data-theme="gba"] .row,:root[data-theme="gba"] .inv-row,:root[data-theme="gba"] .trow{border-top-color:rgba(220,228,255,.28)}
+:root[data-theme="gba"] .row:hover{background:rgba(255,255,255,.08)}
+:root[data-theme="gba"] .row[aria-current="true"]{background:rgba(255,255,255,.17)}
+:root[data-theme="gba"] .inv-row.own{background:rgba(255,255,255,.12)}
+:root[data-theme="gba"] :is(.chip,.who-btn,.pk,.tg,.tchip,.stp,.btn,.hf,.town,.lord,.theme-btn,.seg button){background-color:var(--inset)}
+:root[data-theme="gba"] .panel :is(.where,.track,.recbox,.offer){box-shadow:none;border-color:rgba(220,228,255,.55);background:rgba(8,14,60,.22)}
+:root[data-theme="gba"] .lord[aria-pressed="true"],:root[data-theme="gba"] .hf[aria-pressed="true"],:root[data-theme="gba"] .town[aria-pressed="true"],:root[data-theme="gba"] .seg button[aria-pressed="true"],:root[data-theme="gba"] .btn[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);text-shadow:none}
+:root[data-theme="gba"] .bar .tabs button[aria-selected="true"],:root[data-theme="gba"] .seg3 button[aria-selected="true"]{background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(220,228,255,.6)}
+:root[data-theme="gba"] .pill{background:var(--inset)}
+:root[data-theme="gba"] .chip.own{background:color-mix(in srgb,var(--acc) 22%,rgba(8,14,60,.4))}
+:root[data-theme="gba"] :is(.qty,.give,.buy,.mk,.loved,.pill.stock,.conf,.unv){text-shadow:none}
+:root[data-theme="gba"] .toast{color:var(--ink)}
+:root[data-theme="gba"] .toast button{background:var(--acc);color:var(--acc-ink)}
+:root[data-theme="gba"] :is(.disp,.row .nm,.tname .nm,.inv-row .gname .nm,.lord b,.lordpill b,.stepper output,.honor-lbl b,.invhead .sum b,.tabs button,.seg3 button){font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-weight:400;font-variant-ligatures:none;letter-spacing:.02em;font-size-adjust:.52}
+:root[data-theme="gba"] h1{letter-spacing:0}
+:root[data-theme="gba"] :is(.row,.inv-row,.trow){position:relative;padding-left:32px}
+:root[data-theme="gba"] :is(.row,.inv-row,.trow,.side-tabs .tabs button)::before{content:"";position:absolute;left:8px;top:calc(50% - 8px);width:16px;height:16px;background:var(--pi-hand) no-repeat center/100% 100%;image-rendering:pixelated;opacity:0;pointer-events:none}
+:root[data-theme="gba"] .trow::before{top:15px}
+:root[data-theme="gba"] :is(.row:hover,.row:focus-visible,.row[aria-current="true"],.inv-row:hover,.inv-row:focus-within,.trow:hover,.trow:focus-within,.side-tabs .tabs button[aria-selected="true"])::before{opacity:1;animation:fe-bob 1s steps(1,end) infinite}
+:root[data-theme="gba"] .side-tabs .tabs button{position:relative;padding-left:34px}
+:root[data-theme="gba"] .side-tabs .tabs button[aria-selected="true"]{background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(220,228,255,.5)}
+@keyframes fe-bob{0%{transform:translateX(0)}50%{transform:translateX(3px)}}
+@media (min-width:1280px){:root[data-theme="gba"] .top{border-width:0 2px 0 0;box-shadow:2px 0 0 var(--win-edge)}}
+@media (prefers-reduced-motion:reduce){:root[data-theme="gba"] *::before{animation:none !important}}
 </style>
 </head>
 <body>
-<header class="top">
+<div class="app">
+<header class="top" id="top">
   <div class="top-inner">
-    <div class="top-row">
-      <div>
-        <h1 class="disp">Le fil des cadeaux</h1>
-        <p class="sub">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</p>
-      </div>
-      <div class="top-actions"><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="themeBtn" type="button" aria-label="Changer de thème">◐</button></div>
+    <div class="brand">
+      <h1 class="disp">Le fil des cadeaux</h1>
+      <p class="sub">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</p>
     </div>
+    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl"> Installer</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="themeBtn" type="button" aria-label="Changer de thème">◐</button></div>
     <div class="lords" id="lords" role="group" aria-label="Seigneur de la Flamme joué"></div>
+    <div class="ctrl">
+    <button type="button" class="lordpill" id="lordPill" aria-expanded="false" aria-controls="lords"></button>
     <div class="honor">
       <div class="honor-lbl"><b>Honneur</b><small>Renown, de 1 à 10</small></div>
       <div class="stepper">
@@ -421,10 +554,13 @@ small.hint2{display:block;margin-top:6px}
       </div>
       <div class="ticks" id="ticks" aria-hidden="true"></div>
     </div>
+    </div>
+    <nav class="side-tabs" id="sideTabs" aria-label="Rubriques"></nav>
   </div>
 </header>
 
 <main class="wrap">
+  <div class="maincol">
   <div class="bar">
     <div class="tabs" role="tablist">
       <button role="tab" id="tab-chars" data-tab="chars" aria-selected="true" type="button"><span class="lg">Personnages</span><span class="sh">Persos</span></button>
@@ -445,7 +581,9 @@ small.hint2{display:block;margin-top:6px}
       <li><b>Inventaire :</b> renseigne tes cadeaux dans l'onglet Inventaire. Dans la fiche d'un personnage, « À offrir » liste ce que tu possèdes et qui lui plaît ; le bouton Offrir retire 1 de ton stock.</li>
       <li><b>Suivi :</b> dans la fiche, indique ton niveau de soutien actuel, coche la condition (quête, objets, or) puis « Recruté ». Ceux dont le soutien suffit passent en grisé en bas de leur groupe ; ceux qui ont tout passent dans « Prêts à recruter ».</li>
       <li><b>Tournée :</b> elle répartit ton inventaire entre les personnages qui ont encore besoin de soutien (meilleur cadeau d'abord, sans dépasser tes quantités). Valide au fil de l'eau avec « Offert » ou « Autre cadeau », puis « Terminer la tournée » pour passer à la semaine suivante.</li>
-      <li><b>Sauvegarde :</b> le bouton ⇅ en haut exporte toutes tes données sous forme de code, à coller dans une autre version de l'outil (par exemple celle hébergée sur GitHub). Garde ce code dans une note : c'est aussi ta copie de secours.</li>
+      <li><b>Sauvegarde :</b> le bouton ⇅ exporte toutes tes données. Pour passer de l'ordinateur au téléphone, affiche le QR code et scanne-le avec l'appareil photo : l'outil s'ouvre et te propose l'import. Garde aussi le code dans une note : c'est ta copie de secours.</li>
+      <li><b>Application :</b> sur Android et sur ordinateur, le bouton « Installer » en haut ajoute l'outil comme une app, utilisable sans connexion. Sur iPhone, dans Safari : bouton Partager, puis « Sur l'écran d'accueil ». Sur iPhone, l'app installée garde ses propres données : transfère-les avec la Sauvegarde.</li>
+      <li><b>Thème :</b> le bouton de thème passe de clair à sombre, puis à rétro, façon Fire Emblem sur Game Boy Advance.</li>
       <li><b>Où acheter :</b> la plupart des cadeaux se vendent dans les Marchés des villes de la carte. À Dagsion, la Taverne de la ville basse est moins chère que la Galerie marchande, mais leur stock complet n'est pas connu. Dans Cadeaux, « Par ville » te dit quoi acheter là où tu es, et « À ne pas rater » liste les cadeaux de quêtes à date limite.</li>
       <li><b>Réassort :</b> les sources se contredisent (chaque chapitre ou chaque semaine). Le bienfait « Réduction sur les cadeaux » (300 éclats de karma) baisse les prix de 10 %.</li>
       <li><b>Un cadeau par personnage et par semaine.</b> Vise les ⇈ « adore » : deux flèches dorées, soutien doublé.</li>
@@ -459,18 +597,17 @@ small.hint2{display:block;margin-top:6px}
     </ul>
   </details>
 
-  <div class="cols">
-    <section id="listCol" aria-label="Liste"></section>
-    <div class="scrim" id="scrim"></div>
-    <aside class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="pTitle"></aside>
+  <section id="listCol" aria-label="Liste"></section>
+  <footer>
+  Données croisées le 2 octobre 2026 à partir de Raider King (tests en jeu, par niveau de réaction), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (boutiques) et Game8. Guide non officiel : projet de fan non affilié à Nintendo, Intelligent Systems ou Koei Tecmo. Icônes pixel art originales.
+  </footer>
   </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="pTitle"></aside>
 </main>
+</div>
 <datalist id="townlist"></datalist>
 <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo">Annuler</button></div>
-
-<footer>
-  Données croisées le 2 octobre 2026 à partir de Raider King (tests en jeu, par niveau de réaction), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (boutiques) et Game8. Guide non officiel.
-</footer>
 
 
 <script>
@@ -1177,12 +1314,16 @@ if(!S.rec){ // migration de l'ancienne marque « recruté » (globale) vers le S
   store.set('rec', S.rec);
 }
 for(const l of LORD_IDS){ S.rec[l] = S.rec[l] || []; S.cond[l] = S.cond[l] || []; }
+// en-tête compact dès qu'un Seigneur a été choisi une fois
+S.lordChosen = (() => { try { return localStorage.getItem('feweave:lord') !== null; } catch(e) { return true; } })();
+S.picking = false;
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const lordOf = id => LORDS.find(l => l.id === id);
 const lordName = id => lordOf(id).name;
+const pix = (name, cls) => `<i class="pi pi-${name}${cls ? ' ' + cls : ''}" aria-hidden="true"></i>`;
 const TIERS = [
   ['L','Adore','soutien ×2','⇈'],
   ['R','Aime beaucoup','gros gain','↑'],
@@ -1264,7 +1405,13 @@ function renderTop(){
   document.documentElement.setAttribute('data-lord', S.lord);
   $('#lords').innerHTML = LORDS.map(l =>
     `<button type="button" class="lord" data-lord="${l.id}" aria-pressed="${l.id === S.lord}">
-      <span class="em" aria-hidden="true">${l.em}</span><span><b>${l.name}</b><small>${esc(l.army)}</small></span></button>`).join('');
+      ${pix(l.id, 'x2')}<span><b>${l.name}</b><small>${esc(l.army)}</small></span></button>`).join('');
+  const L = lordOf(S.lord), top = $('#top'), pill = $('#lordPill');
+  top.classList.toggle('compact', S.lordChosen);
+  top.classList.toggle('picking', S.picking);
+  pill.innerHTML = `${pix(L.id, 'x2')}<span><b>${L.name}</b><small>${esc(L.army)}</small></span><span class="chev" aria-hidden="true">▾</span>`;
+  pill.setAttribute('aria-expanded', String(S.picking));
+  pill.setAttribute('aria-label', `Seigneur joué : ${L.name}. ${S.picking ? 'Fermer le choix du Seigneur' : 'Changer de Seigneur'}`);
   $('#hVal').textContent = S.honor;
   $('#hMinus').disabled = S.honor <= 1;
   $('#hPlus').disabled = S.honor >= 10;
@@ -1304,7 +1451,7 @@ function charRow(c, st){
   }
   const needGifts = !(st === 'rec' || met);
   const best = needGifts ? bestOwnedTier(c) : null;
-  const stock = best ? ` <span class="pill stock ${best === 'R' ? 'r' : ''}" title="Tu possèdes un cadeau qu'il ou elle ${best === 'L' ? 'adore' : 'aime beaucoup'}">🎁${TIER_MK[best]}</span>` : '';
+  const stock = best ? ` <span class="pill stock ${best === 'R' ? 'r' : ''}" title="Tu possèdes un cadeau qu'il ou elle ${best === 'L' ? 'adore' : 'aime beaucoup'}">${pix('gift')}${TIER_MK[best]}</span>` : '';
   let ds = esc(c.d);
   if(st === 'ready') ds = '<span class="done-c">Tout est bon : recrute-le à Dagsion</span>';
   else if(st === 'ok' || st === 'wait'){
@@ -1387,7 +1534,7 @@ function renderGifts(){
   for(const g in GIFTS) loveCount[g] = rel.filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; }).length;
   const top = Object.keys(GIFTS).filter(g => loveCount[g] >= 8).sort((a, b) => loveCount[b] - loveCount[a]);
   const row = g => `<button type="button" class="row" data-gift="${g}" aria-current="${S.sel && S.sel.k === 'g' && S.sel.id === g}">
-      <span class="who"><span class="nm">${CATS[GIFTS[g][2]][2]} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])} — ${esc(whereShort(g))}</span></span>
+      <span class="who"><span class="nm">${pix(GIFTS[g][2])} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])} — ${esc(whereShort(g))}</span></span>
       <span class="req">${qty(g) ? `<span class="qty" title="Dans ton inventaire">×${qty(g)}</span>` : ''}<span class="loved ${loveCount[g] ? '' : 'zero'}" title="Nombre de personnages qui l'adorent">⇈ ${loveCount[g]}</span></span></button>`;
   let html = '';
   if(!q && top.length){
@@ -1399,7 +1546,7 @@ function renderGifts(){
     const items = Object.keys(GIFTS).filter(g => GIFTS[g][2] === cat && giftMatches(g, q));
     if(!items.length) continue;
     items.sort((a, b) => loveCount[b] - loveCount[a] || GIFTS[a][1].localeCompare(GIFTS[b][1]));
-    html += `<details class="grp" ${q ? 'open' : ''}><summary><h2 class="disp">${CATS[cat][2]} ${esc(CATS[cat][0])}</h2><span class="cnt">${items.length}</span></summary>
+    html += `<details class="grp" ${q ? 'open' : ''}><summary><h2 class="disp">${pix(cat)} ${esc(CATS[cat][0])}</h2><span class="cnt">${items.length}</span></summary>
       <p class="hint">${esc(CATS[cat][1])}</p>
       <div class="rows glist">${items.map(row).join('')}</div></details>`;
   }
@@ -1427,7 +1574,7 @@ function renderInv(){
     any = true;
     items.sort((a, b) => GIFTS[a][1].localeCompare(GIFTS[b][1]));
     const owned = items.reduce((s, g) => s + qty(g), 0);
-    html += `<details class="grp" data-g="inv-${cat}" ${q || S.invOnly || owned || openState['inv-' + cat] ? 'open' : ''}><summary><h2 class="disp">${CATS[cat][2]} ${esc(CATS[cat][0])}</h2><span class="cnt">${owned ? owned + ' en stock' : items.length}</span></summary>
+    html += `<details class="grp" data-g="inv-${cat}" ${q || S.invOnly || owned || openState['inv-' + cat] ? 'open' : ''}><summary><h2 class="disp">${pix(cat)} ${esc(CATS[cat][0])}</h2><span class="cnt">${owned ? owned + ' en stock' : items.length}</span></summary>
       <div class="rows">${items.map(g => `<div class="inv-row ${qty(g) ? 'own' : ''}" data-row="${g}">
         <button type="button" class="gname" data-gift="${g}"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}</span></button>${stepper(g)}</div>`).join('')}</div></details>`;
   }
@@ -1443,14 +1590,14 @@ function chip(tok){
   const unv = u ? '<span class="unv" title="Une seule source, à confirmer">?</span>' : '';
   if(k[0] === '@'){
     const g = GROUPS[k.slice(1)];
-    const ic = CATS[GIFTS[g[2][0]][2]][2];
+    const ic = pix(GIFTS[g[2][0]][2]);
     const own = g[2].filter(x => qty(x));
     const n = own.reduce((s, x) => s + qty(x), 0);
     const title = own.length ? 'Tu as : ' + own.map(x => `${GIFTS[x][1]} ×${qty(x)}`).join(', ') : g[2].map(x => GIFTS[x][1]).join(', ');
     return `<span class="chip ${n ? 'own' : ''}" title="${esc(title)}"><span class="ic" aria-hidden="true">${ic}</span><span><span class="fr">${esc(g[0])}${unv}${n ? `<span class="qty">×${n}</span>` : ''}</span><span class="en">${esc(g[1])}</span></span></span>`;
   }
   const G = GIFTS[k]; const n = qty(k);
-  return `<button type="button" class="chip ${n ? 'own' : ''}" data-gift="${k}"><span class="ic" aria-hidden="true">${CATS[G[2]][2]}</span><span><span class="fr">${esc(G[1])}${unv}${n ? `<span class="qty">×${n}</span>` : ''}</span><span class="en">${esc(G[0])}</span></span></button>`;
+  return `<button type="button" class="chip ${n ? 'own' : ''}" data-gift="${k}"><span class="ic" aria-hidden="true">${pix(G[2])}</span><span><span class="fr">${esc(G[1])}${unv}${n ? `<span class="qty">×${n}</span>` : ''}</span><span class="en">${esc(G[0])}</span></span></button>`;
 }
 
 function recBox(c){
@@ -1508,7 +1655,7 @@ function logBox(c){
   const items = L.slice(-5).reverse().map((e, i) => {
     const d = new Date(e.ts);
     const when = d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
-    return `<li><span>${esc(GIFTS[e.g] ? GIFTS[e.g][1] : e.g)} <small>${lordOf(e.l) ? lordOf(e.l).em : ''} ${when}</small></span>${i === 0 ? `<button type="button" class="linkbtn" data-undo="${esc(c.n)}">Annuler</button>` : ''}</li>`;
+    return `<li><span>${esc(GIFTS[e.g] ? GIFTS[e.g][1] : e.g)} <small>${lordOf(e.l) ? pix(e.l) : ''} ${when}</small></span>${i === 0 ? `<button type="button" class="linkbtn" data-undo="${esc(c.n)}">Annuler</button>` : ''}</li>`;
   }).join('');
   return `<div class="log"><h3>Cadeaux déjà offerts</h3><ul>${items}</ul></div>`;
 }
@@ -1544,7 +1691,7 @@ function allLordsTable(c){
       v = `Soutien ${r[0]}, Honneur ${r[1]}${ex ? ' + ' + esc(ex) : ''}${r[3] ? ' ⚠' : ''}`;
       if(inList(S.rec, l.id, c.n)) v += ' <b>✓ recruté</b>';
     }
-    return `<tr class="${l.id === S.lord ? 'cur' : ''}"><th>${l.em} ${l.name}</th><td>${v}</td></tr>`;
+    return `<tr class="${l.id === S.lord ? 'cur' : ''}"><th>${pix(l.id)} ${l.name}</th><td>${v}</td></tr>`;
   }).join('');
   return `<div class="sect"><h3>Selon le Seigneur</h3><table class="alltbl">${rows}</table></div>`;
 }
@@ -1570,7 +1717,7 @@ function renderGiftPanel(g){
     }</div></div>`;
   }
   if(!anyTier) body += `<p class="nothing">Aucune réaction connue pour ce cadeau. Garde-le comme premier cadeau pour débloquer les repas.</p>`;
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${CATS[G[2]][2]} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(G[2], 'x2')} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
     <div class="pb">${body}<div class="note">Personnages triés selon ta voie : d'abord ceux qui ont encore besoin de soutien.</div></div>`;
 }
 
@@ -1582,6 +1729,7 @@ function openPanel(kind, id){
   S.sel = { k: kind, id };
   const p = $('#panel');
   p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : renderGiftPanel(id);
+  if(kind === 's') prepLink();
   p.scrollTop = 0;
   if(isSheet()){
     lastFocus = lastFocus || document.activeElement;
@@ -1888,11 +2036,11 @@ function whereBlock(g){
   const spots = S.spots[g] || [];
   const conf = w && w.c !== undefined ? CONF[w.c] : ['c-', 'Inconnu'];
   let lines = '';
-  if(w && w.t && w.t.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">🛒</span><div><b>${w.t.length > 1 ? 'Marchés' : 'Marché'}</b><div class="tchips">${w.t.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(t)}</button>`).join('')}</div></div></div>`;
-  if(w && (w.t || []).length) lines += `<div class="wl"><span class="wi" aria-hidden="true">💰</span><div>${w.p ? `Prix : <b>${w.p} or</b>` : 'Prix non documenté'}</div></div>`;
-  if(w && w.r) lines += `<div class="wl"><span class="wi" aria-hidden="true">⭐</span><div><b>Récompense du rang d'Honneur ${w.r}</b></div></div>`;
-  for(const q of (w && w.q) || []) lines += `<div class="wl"><span class="wi" aria-hidden="true">📜</span><div><b>Quête « ${esc(q.n)} »</b><small>${esc(q.i)}. À faire avant le ${q.d}.</small></div></div>`;
-  if(w && w.x) lines += `<div class="wl"><span class="wi" aria-hidden="true">ℹ️</span><div><small>${esc(w.x)}</small></div></div>`;
+  if(w && w.t && w.t.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('shop')}</span><div><b>${w.t.length > 1 ? 'Marchés' : 'Marché'}</b><div class="tchips">${w.t.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(t)}</button>`).join('')}</div></div></div>`;
+  if(w && (w.t || []).length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('coin')}</span><div>${w.p ? `Prix : <b>${w.p} or</b>` : 'Prix non documenté'}</div></div>`;
+  if(w && w.r) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('star')}</span><div><b>Récompense du rang d'Honneur ${w.r}</b></div></div>`;
+  for(const q of (w && w.q) || []) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>Quête « ${esc(q.n)} »</b><small>${esc(q.i)}. À faire avant le ${q.d}.</small></div></div>`;
+  if(w && w.x) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('info')}</span><div><small>${esc(w.x)}</small></div></div>`;
   if(w && w.w) lines += `<div class="wl warn"><span class="wi" aria-hidden="true">⚠</span><div><small>${esc(w.w)}</small></div></div>`;
   if(!w) lines += `<p class="hint2">Aucune source n'indique où le trouver. Si tu le croises en jeu, note-le ci-dessous.</p>`;
   const mine = spots.length ? `<div class="tchips">${spots.map((s, i) => `<span class="tchip mine"><button type="button" class="tlink" data-town="${esc(s)}">${esc(s)}</button><button type="button" class="tdel" data-spotdel="${i}" aria-label="Retirer ${esc(s)}">✕</button></span>`).join('')}</div>` : '';
@@ -1932,7 +2080,7 @@ function renderTownHtml(){
     const w = WHERE[g] || {}; const mine = (S.spots[g] || []).includes(S.town);
     const extra = [w.p ? `${w.p} or` : '', mine ? 'repéré par toi' : ''].filter(Boolean).join(', ');
     return `<div class="inv-row buyrow ${qty(g) ? 'own' : ''}" data-row="${g}">
-      <button type="button" class="gname" data-gift="${g}"><span class="nm">${CATS[GIFTS[g][2]][2]} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}${extra ? ' — ' + esc(extra) : ''}</span></button>
+      <button type="button" class="gname" data-gift="${g}"><span class="nm">${pix(GIFTS[g][2])} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}${extra ? ' — ' + esc(extra) : ''}</span></button>
       <span class="usef">${sc[g].L ? `<span class="loved" title="Personnages qui l'adorent">⇈ ${sc[g].L}</span>` : ''}${sc[g].R ? `<span class="pill good" title="Personnages qui l'aiment beaucoup">↑ ${sc[g].R}</span>` : ''}</span>
       <button type="button" class="buy" data-buy="${g}" aria-label="J'en ai acheté un : ajouter à l'inventaire">+1${qty(g) ? `<small>×${qty(g)}</small>` : ''}</button></div>`;
   };
@@ -2060,13 +2208,18 @@ function renderSavePanel(){
   const code = JSON.stringify(snapshot());
   return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Sauvegarde</h2><p>Transférer tes données vers une autre version de l'outil</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
   <div class="pb">
-    <div class="where"><h3>1. Exporter</h3>
+    <div class="where"><h3>Vers un autre appareil</h3>
+      <p class="hint2">Affiche le QR code, puis scanne-le avec l'appareil photo de ton téléphone : l'outil s'ouvre et te propose l'import. Tu peux aussi copier le lien et te l'envoyer.</p>
+      <div class="acts"><button type="button" class="give" data-qr>Afficher le QR code</button><button type="button" class="btn" data-link-copy>Copier le lien</button></div>
+      <div data-qr-out aria-live="polite"></div>
+    </div>
+    <div class="where"><h3>Exporter le code</h3>
       <p class="hint2">Tout est inclus : inventaire, soutiens, conditions, recrutés, cadeaux offerts, tournées, repérages et réglages.</p>
       <div class="acts"><button type="button" class="give" data-exp-copy>Copier le code</button>${isTopLevel ? '<button type="button" class="btn" data-exp-dl>Télécharger le fichier</button>' : ''}</div>
       <textarea class="code" readonly rows="4" data-exp aria-label="Code de sauvegarde">${esc(code)}</textarea>
       <small class="hint2">Colle ce code dans l'autre version de l'outil, rubrique Sauvegarde. Garde-le aussi dans une note : c'est ta copie de secours.</small>
     </div>
-    <div class="where"><h3>2. Importer</h3>
+    <div class="where"><h3>Importer un code</h3>
       <textarea class="code" rows="4" placeholder="Colle ici le code exporté" data-imp aria-label="Code à importer"></textarea>
       <div class="acts"><label class="btn file">Choisir un fichier<input type="file" accept=".json,application/json,text/plain" data-imp-file hidden></label><button type="button" class="give" data-imp-go>Vérifier le code</button></div>
       <div data-imp-msg aria-live="polite"></div>
@@ -2075,15 +2228,104 @@ function renderSavePanel(){
   </div>`;
 }
 
-function checkImport(text){
+function checkImport(text, viaLink){
   const box = document.querySelector('[data-imp-msg]'); if(!box) return;
   const r = parseImport(text);
   pendingImport = null; importArmed = false;
   if(r.err){ box.innerHTML = `<p class="imp-err">${esc(r.err)}</p>`; return; }
   pendingImport = r.ok;
-  box.innerHTML = `<p class="imp-ok">${importSummary(r.ok)}</p>
+  box.innerHTML = `${viaLink ? '<p class="imp-ok">Données reçues depuis ton autre appareil.</p>' : ''}<p class="imp-ok">${importSummary(r.ok)}</p>
     <p class="hint2">L'import remplace toutes les données de cette version. Elles sont gardées de côté, tu pourras revenir en arrière.</p>
-    <button type="button" class="btn danger" data-imp-confirm>Remplacer mes données</button>`;
+    <div class="acts"><button type="button" class="btn danger" data-imp-confirm>Remplacer mes données</button>${viaLink ? '<button type="button" class="btn" data-imp-copy>Copier le code</button>' : ''}</div>
+    ${viaLink ? '<small class="hint2">Sur iPhone, l\u2019app installée sur l\u2019écran d\u2019accueil garde ses propres données. Pour les y mettre, copie le code, ouvre l\u2019app, puis colle-le dans Sauvegarde.</small>' : ''}`;
+}
+
+/* transfert vers un autre appareil : lien et QR code (données compressées dans l'ancre de l'adresse, jamais envoyées à un serveur) */
+const HOME_URL = 'https://ly-ten.github.io/fe-gift-tactician/';
+const appUrl = () => (/^https?:$/.test(location.protocol) && isTopLevel) ? location.origin + location.pathname : HOME_URL;
+const QR_MAX = 2900; // longueur maximale du lien pour un QR code (version 40, correction L : 2953 octets)
+const b64u = bytes => { let s = ''; for(let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const unb64u = str => { let s = str.replace(/-/g, '+').replace(/_/g, '/'); while(s.length % 4) s += '='; const b = atob(s); const a = new Uint8Array(b.length); for(let i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; };
+const pipeBytes = async (bytes, stream) => new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer());
+async function packCode(o){
+  const bytes = new TextEncoder().encode(JSON.stringify(o));
+  if(typeof CompressionStream === 'function'){ try { return '1' + b64u(await pipeBytes(bytes, new CompressionStream('deflate-raw'))); } catch(e) {} }
+  return '0' + b64u(bytes);
+}
+async function unpackCode(code){
+  const body = unb64u(code.slice(1));
+  const bytes = code[0] === '1' ? await pipeBytes(body, new DecompressionStream('deflate-raw')) : body;
+  return new TextDecoder().decode(bytes);
+}
+async function transferLink(){
+  const snap = snapshot(); const d = snap.data;
+  const trimLog = n => { if(d.log) for(const k in d.log) if(Array.isArray(d.log[k])) d.log[k] = d.log[k].slice(-n); };
+  const steps = [
+    [() => {}, ''],
+    [() => ['open', 'tab', 'hf', 'invOnly', 'giftMode', 'town'].forEach(k => delete d[k]), ''],
+    [() => trimLog(5), 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité aux 5 derniers par personnage.'],
+    [() => trimLog(1), 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité au dernier par personnage.'],
+    [() => { delete d.log; }, 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts n\u2019est pas inclus. Utilise « Copier le lien » pour tout transférer.']
+  ];
+  for(const [step, note] of steps){
+    step();
+    const url = appUrl() + '#import=' + await packCode(snap);
+    if(url.length <= QR_MAX) return { url, note };
+  }
+  return null;
+}
+let qrLib = null;
+function loadQr(){
+  if(window.qrcode) return Promise.resolve(window.qrcode);
+  if(!qrLib) qrLib = new Promise((res, rej) => {
+    const sc = document.createElement('script'); sc.src = 'vendor/qrcode.js';
+    sc.onload = () => window.qrcode ? res(window.qrcode) : rej(new Error('qr'));
+    sc.onerror = () => { qrLib = null; rej(new Error('qr')); };
+    document.head.appendChild(sc);
+  });
+  return qrLib;
+}
+function qrSvg(lib, text){
+  const q = lib(0, 'L'); q.addData(text, 'Byte'); q.make();
+  const n = q.getModuleCount(), m = 4, sz = n + 2 * m; let d = '';
+  for(let y = 0; y < n; y++){ let x = 0; while(x < n){ if(q.isDark(y, x)){ let e = x; while(e < n && q.isDark(y, e)) e++; d += `M${x + m} ${y + m}h${e - x}v1h-${e - x}z`; x = e; } else x++; } }
+  return `<svg viewBox="0 0 ${sz} ${sz}" role="img" aria-label="QR code de transfert de tes données" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"><rect width="${sz}" height="${sz}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+}
+async function showQr(btn){
+  const out = document.querySelector('[data-qr-out]'); if(!out) return;
+  out.innerHTML = '<p class="hint2">Préparation du QR code…</p>';
+  const tooBig = '<p class="imp-err">Trop de données pour un QR code. Utilise « Copier le lien » ou « Copier le code ».</p>';
+  let t = null; try { t = await transferLink(); } catch(e) {}
+  if(!t){ out.innerHTML = tooBig; return; }
+  let lib; try { lib = await loadQr(); } catch(e) { out.innerHTML = '<p class="imp-err">Le générateur de QR code n\u2019a pas pu se charger. Vérifie ta connexion, ou utilise « Copier le lien ».</p>'; return; }
+  let svg; try { svg = qrSvg(lib, t.url); } catch(e) { out.innerHTML = tooBig; return; }
+  if(!document.body.contains(out)) return;
+  out.innerHTML = `<div class="qrbox">${svg}</div>${t.note ? `<p class="hint2">${esc(t.note)}</p>` : ''}<small class="hint2">Le QR code contient tes données de cet instant. Après une modification, affiche-le à nouveau.</small>`;
+  if(btn) btn.textContent = 'Actualiser le QR code';
+}
+let xferLink = null;
+async function prepLink(){ xferLink = null; try { xferLink = appUrl() + '#import=' + await packCode(snapshot()); } catch(e) {} }
+async function copyText(text, okMsg){
+  try { await navigator.clipboard.writeText(text); toast(okMsg); return; } catch(e) {}
+  const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta); ta.select();
+  let ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
+  ta.remove();
+  toast(ok ? okMsg : 'Copie automatique bloquée par le navigateur.');
+}
+async function copyLink(){
+  const link = xferLink || appUrl() + '#import=' + await packCode(snapshot());
+  copyText(link, 'Lien copié. Ouvre-le sur ton autre appareil pour y importer tes données.');
+  prepLink();
+}
+async function importFromHash(){
+  const m = /^#import=([01][A-Za-z0-9_-]+)$/.exec(location.hash); if(!m) return;
+  try { history.replaceState(null, '', location.pathname + location.search); } catch(e) {}
+  let text; try { text = await unpackCode(m[1]); } catch(e) { toast('Ce lien de transfert est illisible ou incomplet.'); return; }
+  openPanel('s');
+  const t = document.querySelector('[data-imp]'); if(t) t.value = text;
+  checkImport(text, true);
+  const box = document.querySelector('[data-imp-msg]'); if(box && box.scrollIntoView) box.scrollIntoView({ block: 'center' });
 }
 
 async function copyCode(){
@@ -2103,6 +2345,9 @@ function downloadCode(){
 }
 
 function saveClick(e){
+  const qb = e.target.closest('[data-qr]'); if(qb){ showQr(qb); return true; }
+  if(e.target.closest('[data-link-copy]')){ copyLink(); return true; }
+  if(e.target.closest('[data-imp-copy]')){ const t = document.querySelector('[data-imp]'); copyText(t ? t.value : '', 'Code copié. Colle-le dans l\u2019app, rubrique Sauvegarde.'); return true; }
   if(e.target.closest('[data-exp-copy]')){ copyCode(); return true; }
   if(e.target.closest('[data-exp-dl]')){ downloadCode(); return true; }
   if(e.target.closest('[data-imp-go]')){ const t = document.querySelector('[data-imp]'); checkImport(t ? t.value : ''); return true; }
@@ -2122,9 +2367,16 @@ function saveClick(e){
 /* ---------- événements ---------- */
 $('#lords').addEventListener('click', e => {
   const b = e.target.closest('[data-lord]'); if(!b) return;
+  const wasPicking = S.picking;
   S.lord = b.dataset.lord; store.set('lord', S.lord); S.pick = null;
+  S.lordChosen = true; S.picking = false;
   if(S.sel && S.sel.k === 'c' && charByName[S.sel.id].lord === S.lord){ S.sel = null; closePanel(); }
   render();
+  if(wasPicking) $('#lordPill').focus();
+});
+$('#lordPill').addEventListener('click', () => {
+  S.picking = !S.picking; renderTop();
+  if(S.picking){ const on = document.querySelector('#lords [aria-pressed="true"]'); if(on) on.focus(); }
 });
 $('#hMinus').addEventListener('click', () => { S.honor = Math.max(1, S.honor - 1); store.set('honor', S.honor); render(); });
 $('#hPlus').addEventListener('click', () => { S.honor = Math.min(10, S.honor + 1); store.set('honor', S.honor); render(); });
@@ -2222,22 +2474,59 @@ $('#panel').addEventListener('change', e => {
   rd.readAsText(f.files[0]);
 });
 $('#scrim').addEventListener('click', closePanel);
-document.addEventListener('keydown', e => { if(e.key === 'Escape' && $('#panel').classList.contains('open')) closePanel(); });
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  if($('#panel').classList.contains('open')){ closePanel(); return; }
+  if(S.picking){ S.picking = false; renderTop(); $('#lordPill').focus(); }
+});
 
-/* thème */
+/* thème : clair, sombre, rétro (GBA) */
+const THEMES = [['light', '☀', 'Clair'], ['dark', '☾', 'Sombre'], ['gba', '▦', 'Rétro']];
+const mqDark = window.matchMedia('(prefers-color-scheme: dark)');
+const themeIdx = () => { const t = S.theme || (mqDark.matches ? 'dark' : 'light'); return Math.max(0, THEMES.findIndex(x => x[0] === t)); };
 function applyTheme(){
   if(S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
-  const dark = S.theme ? S.theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  $('#themeBtn').innerHTML = dark ? '☀<span class="bl"> Clair</span>' : '☾<span class="bl"> Sombre</span>';
-  $('#themeBtn').setAttribute('aria-label', dark ? 'Passer en thème clair' : 'Passer en thème sombre');
+  const i = themeIdx(), cur = THEMES[i], next = THEMES[(i + 1) % THEMES.length];
+  const b = $('#themeBtn');
+  b.innerHTML = `${cur[1]}<span class="bl"> ${cur[2]}</span>`;
+  b.setAttribute('aria-label', `Thème ${cur[2].toLowerCase()}. Passer au thème ${next[2].toLowerCase()}`);
+  b.title = `Passer au thème ${next[2].toLowerCase()}`;
+  const tc = $('#themeColor'); if(tc) tc.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#FBFAFD');
 }
 $('#themeBtn').addEventListener('click', () => {
-  const dark = S.theme ? S.theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  S.theme = dark ? 'light' : 'dark'; store.set('theme', S.theme); applyTheme();
+  S.theme = THEMES[(themeIdx() + 1) % THEMES.length][0]; store.set('theme', S.theme); applyTheme();
 });
+if(mqDark.addEventListener) mqDark.addEventListener('change', () => { if(!S.theme) applyTheme(); });
+
+/* onglets : dans la barre en haut, ou dans la colonne de gauche sur grand écran */
+const mqSide = window.matchMedia('(min-width: 1280px)');
+function placeTabs(){
+  const t = document.querySelector('.tabs');
+  if(mqSide.matches){ if(t.parentElement.id !== 'sideTabs') $('#sideTabs').appendChild(t); }
+  else if(!t.parentElement.classList.contains('bar')) $('.bar').prepend(t);
+}
+if(mqSide.addEventListener) mqSide.addEventListener('change', placeTabs); else if(mqSide.addListener) mqSide.addListener(placeTabs);
+
+/* application installable */
+let installEvt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('#installBtn').hidden = false; });
+$('#installBtn').addEventListener('click', async () => {
+  if(!installEvt) return;
+  installEvt.prompt();
+  try { await installEvt.userChoice; } catch(e) {}
+  installEvt = null; $('#installBtn').hidden = true;
+});
+window.addEventListener('appinstalled', () => { $('#installBtn').hidden = true; toast('Application installée : retrouve-la sur ton écran d\u2019accueil.'); });
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && isTopLevel){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
+}
+
 $('#townlist').innerHTML = KNOWN_TOWNS.map(t => `<option value="${esc(t)}">`).join('');
+placeTabs();
 applyTheme();
 render();
+importFromHash();
+window.addEventListener('hashchange', importFromHash);
 
 </script>
 </body>
