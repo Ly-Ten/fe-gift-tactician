@@ -110,10 +110,10 @@
   const hash = (x, y) => { let h = (x * 374761393 + y * 668265263) ^ 0x27d4eb2d; h = Math.imul(h ^ (h >>> 15), 2246822519); return ((h ^ (h >>> 13)) >>> 0) / 4294967295; };
   function paint(canvas){
     const ctx = canvas.getContext('2d'), img = ctx.createImageData(GW, GH), pal = palette(), c = D.cells, reg = D.regions, ok = reached();
-    const clsAt = (x, y) => (x < 0 || y < 0 || x >= GW || y >= GH) ? 1 : c[y * GW + x] >> 4;
+    const clsAt = (x, y) => { if(x < 0 || y < 0 || x >= GW || y >= GH) return 1; const k = c[y * GW + x] >> 4; return k >= 8 ? k - 8 : k; };
     const regAt = (x, y) => (x < 0 || y < 0 || x >= GW || y >= GH) ? 0 : c[y * GW + x] & 15;
     for(let y = 0; y < GH; y++) for(let x = 0; x < GW; x++){
-      const v = c[y * GW + x], k = v >> 4, r = v & 15, i = (y * GW + x) * 4, h = hash(x, y);
+      const v = c[y * GW + x], k0 = v >> 4, k = k0 >= 8 ? k0 - 8 : k0, r = v & 15, i = (y * GW + x) * 4, h = hash(x, y);
       let col;
       if(k === 0){
         const shore = clsAt(x - 1, y) >= 2 || clsAt(x + 1, y) >= 2 || clsAt(x, y - 1) >= 2 || clsAt(x, y + 1) >= 2;
@@ -156,7 +156,7 @@
   }
 
   // ---------- itinéraires : par le réseau routier pixel de la carte, plus les liaisons relevées ----------
-  const isRoad = v => (v >> 4) === 6 || (v >> 4) === 7;
+  const isRoad = v => (v >> 4) >= 8;
   const snapCache = {};
   function snap(p){
     if(p.id in snapCache) return snapCache[p.id];
@@ -303,28 +303,75 @@
     const pal = paint(viewEl.querySelector('.map-canvas'));
     viewEl.style.background = `rgb(${pal.cloud.join(',')})`;
     viewEl.classList.toggle('mv-dark', pal.label === 'dark');
+    const RC = isRetro() ? (isNight() ? ['#E4DCC2', '#070B26'] : ['#FFF8DE', '#3A2A12']) : (isNight() ? ['#D8CCAA', '#0B0D14'] : ['#FBF3D8', '#4A3622']);
+    viewEl.style.setProperty('--rc', RC[0]); viewEl.style.setProperty('--rk', RC[1]);
+    if(S.mapSel) townLinks(S.mapSel); else hlPaths = [];
     drawRoads();
     buildPins();
     if(needFit || !view) fit(); else apply();
     bind();
   }
+  const smooth = (pts, it = 2) => { for(let n = 0; n < it && pts.length > 2; n++){ const o = [pts[0]]; for(let j = 0; j < pts.length - 1; j++){ const [x1, y1] = pts[j], [x2, y2] = pts[j + 1]; o.push([.75 * x1 + .25 * x2, .75 * y1 + .25 * y2], [.25 * x1 + .75 * x2, .25 * y1 + .75 * y2]); } o.push(pts[pts.length - 1]); pts = o; } return pts; };
+  const dOf = pts => 'M' + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join('L');
   function drawRoads(){
-    const svg = viewEl.querySelector('.map-roads'); let cas = '', top = '';
+    const svg = viewEl.querySelector('.map-roads'), regOk = r => !r || regionOk(D.regions[r - 1].id);
+    const d = { 1: '', 2: '', 3: '' };
+    for(const ln of D.roads.lines){
+      const lv = ln[0]; if(!regOk(ln[1])) continue;
+      let seg = 'M'; for(let j = 2; j < ln.length; j += 2) seg += (j > 2 ? 'L' : '') + (ln[j] / 10) + ' ' + (ln[j + 1] / 10);
+      d[lv] += seg;
+    }
+    let dots1 = '', dots2 = '';
+    for(const [lv, r, x, y] of D.roads.dots){ if(!regOk(r)) continue; const m = `M${x / 10} ${y / 10}h0`; if(lv === 1) dots1 += m; else dots2 += m; }
+    let extra = '';
     for(const [a, b, k] of D.routes){
       const A = P[a], B = P[b];
-      if(!visible(A) || !visible(B) || A.x == null || B.x == null) continue;
+      if(k === 'r' || !visible(A) || !visible(B) || A.x == null || B.x == null) continue;
       if((k === 'c' || k === 'w') && !S.mFast) continue;
-      const ln = `x1="${(A.x * GW).toFixed(1)}" y1="${(A.y * GH).toFixed(1)}" x2="${(B.x * GW).toFixed(1)}" y2="${(B.y * GH).toFixed(1)}"`;
-      if(k === 'r') continue; // les routes sont dessinées en pixels dans le terrain
       const cls = (k === 'd' || k === 'D') ? 'd' : (k === 's' || k === 'S') ? 's' : k;
-      top += `<line ${ln} class="mr-${cls}"/>`;
+      extra += `<line x1="${(A.x * GW).toFixed(1)}" y1="${(A.y * GH).toFixed(1)}" x2="${(B.x * GW).toFixed(1)}" y2="${(B.y * GH).toFixed(1)}" class="mr-${cls}"/>`;
     }
-    let path = '';
-    if(S.route && S.route.pts.length > 1){
-      const pts = S.route.pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-      path = `<polyline points="${pts}" class="mr-pathc"/><polyline points="${pts}" class="mr-path"/>`;
+    let hi = '';
+    const focus = (S.route && S.route.pts.length > 1) || hlPaths.length;
+    for(const pts of hlPaths){ const dd = dOf(pts); hi += `<path d="${dd}" class="mr-hlc"/><path d="${dd}" class="mr-hl"/>`; }
+    if(S.route && S.route.pts.length > 1){ const dd = dOf(smooth(S.route.pts)); hi += `<path d="${dd}" class="mr-pathc"/><path d="${dd}" class="mr-path"/>`; }
+    svg.classList.toggle('focus', !!focus);
+    svg.innerHTML = `<path d="${d[3]}" class="mr-minor"/>`
+      + `<path d="${d[2]}" class="mr-acase"/><path d="${d[1]}" class="mr-mcase"/>`
+      + `<path d="${d[2]}" class="mr-acore"/><path d="${d[1]}" class="mr-mcore"/>`
+      + `<path d="${dots2}" class="mr-adotc"/><path d="${dots2}" class="mr-adot"/><path d="${dots1}" class="mr-dotc"/><path d="${dots1}" class="mr-dot"/>`
+      + extra + hi;
+  }
+  // routes allumées : le réseau autour d'une ville sélectionnée, jusqu'aux villes voisines
+  let hlPaths = [];
+  function townLinks(id){
+    hlPaths = [];
+    const p = P[id]; if(!p || p.k !== 'town' || p.x == null) return;
+    const start = snap(p); if(start < 0) return;
+    const stop = new Set();
+    for(const t of D.places){
+      if(t.k !== 'town' || t.id === id || t.x == null || !visible(t)) continue;
+      const pts = [snap(t), Math.floor(t.y * GH) * GW + Math.floor(t.x * GW)];
+      for(const c of pts){ if(c < 0) continue; const cx = c % GW, cy = (c / GW) | 0;
+        for(let dy = -2; dy <= 2; dy++) for(let dx = -2; dx <= 2; dx++){ const X = cx + dx, Y = cy + dy; if(X >= 0 && Y >= 0 && X < GW && Y < GH) stop.add(Y * GW + X); } }
     }
-    svg.innerHTML = cas + top + path;
+    const depth = new Map([[start, 0]]), q = [start];
+    for(let h = 0; h < q.length; h++){
+      const u = q[h], d = depth.get(u);
+      if((u !== start && stop.has(u)) || d >= 32) continue;
+      const ux = u % GW, uy = (u / GW) | 0;
+      for(let dy = -1; dy <= 1; dy++) for(let dx = -1; dx <= 1; dx++){
+        if(!dx && !dy) continue; const x = ux + dx, y = uy + dy; if(x < 0 || y < 0 || x >= GW || y >= GH) continue;
+        const v = y * GW + x; if(depth.has(v) || !cellOk(v)) continue; depth.set(v, d + 1); q.push(v);
+      }
+    }
+    const inSet = (x, y) => { const cx = Math.floor(x), cy = Math.floor(y); for(let dy = -1; dy <= 1; dy++) for(let dx = -1; dx <= 1; dx++) if(depth.has((cy + dy) * GW + cx + dx)) return true; return false; };
+    for(const ln of D.roads.lines){
+      if(ln[0] !== 1) continue;
+      let hit = 0, tot = 0;
+      for(let j = 2; j < ln.length; j += 2){ tot++; if(inSet(ln[j] / 10, ln[j + 1] / 10)) hit++; }
+      if(tot && hit / tot >= .7){ const pts = []; for(let j = 2; j < ln.length; j += 2) pts.push([ln[j] / 10, ln[j + 1] / 10]); hlPaths.push(pts); }
+    }
   }
   function buildPins(){
     const useful = usefulByPlace(), item = S.mapItem && IDX.get(S.mapItem);
@@ -358,6 +405,7 @@
     if(!view || !stageEl) return;
     clamp();
     stageEl.style.transform = `translate(${view.tx}px,${view.ty}px) scale(${view.s})`;
+    viewEl.style.setProperty('--s', view.s);
     viewEl.classList.toggle('z1', view.s >= view.s0 * 1.5);
     viewEl.classList.toggle('z2', view.s >= view.s0 * 2.2);
     viewEl.classList.toggle('z3', view.s >= view.s0 * 3.4);
@@ -487,7 +535,8 @@
   };
   M.selectPlace = id => {
     S.mapSel = id;
-    if(S.tab === 'map'){ buildPins(); apply(); }
+    townLinks(id);
+    if(S.tab === 'map' && viewEl){ drawRoads(); buildPins(); apply(); }
     lastFocus = null; openPanel('p', id);
   };
 
