@@ -219,6 +219,79 @@ def('lens', grid(set => {
   for(let i = 0; i < 4; i++){ set(10 + i, 10 + i, 'n'); set(11 + i, 10 + i, 'N'); }
 }), { outline:true });
 
+// ---------- lot 3 : sons, anniversaire, armes ----------
+const speaker = set => {
+  for(let y = 6; y <= 9; y++) for(let x = 1; x <= 3; x++) set(x, y, 'h');
+  for(let x = 4; x <= 7; x++){ const h = x - 3; for(let y = 6 - h; y <= 9 + h; y++) set(x, y, x === 7 ? 'g' : 'w'); }
+};
+def('sound', grid(set => {
+  speaker(set);
+  for(let y = 0; y < 16; y++) for(let x = 9; x < 16; x++){
+    const d = Math.hypot(x - 5.5, y - 7.5);
+    if(((d > 3.5 && d < 4.5) || (d > 6 && d < 7)) && Math.abs(y - 7.5) < d * .7) set(x, y, 'b');
+  }
+}), { outline:true });
+def('mute', grid(set => {
+  speaker(set);
+  for(let i = 0; i < 5; i++){ set(10 + i, 5 + i, 'r'); set(14 - i, 5 + i, 'r'); }
+}), { outline:true });
+def('cake', [E16,
+ '.......o........','.......y........','.......w........','.......w........',
+ '...mmmmmmmmmm...','..pmmmmmmmmmmp..','..pppppppppppp..','..pPpppPppppPp..',
+ '..tttttttttttt..','..tttttttttttt..','..rrrrrrrrrrrr..','..tttttttttttt..',
+ '..nnnnnnnnnnnn..',E16,E16], { outline:true });
+// armes : épée, lance, hache, arc, magie noire (grimoire), magie blanche (bâton), poings
+def('w-sword', grid(set => {
+  for(let i = 0; i < 8; i++){ set(14 - i, 1 + i, 'w'); set(14 - i, 2 + i, 'h'); }
+  for(const [x, y] of [[4, 8], [5, 9], [6, 10], [7, 11], [8, 12]]) set(x, y, 'y');
+  set(5, 8, 'Y'); set(7, 10, 'Y');
+  for(const [x, y] of [[5, 11], [4, 12], [3, 13]]) set(x, y, 'n');
+  set(2, 14, 'y');
+}), { outline:true });
+def('w-lance', grid(set => {
+  for(let i = 0; i < 9; i++) set(2 + i, 13 - i, 'n');
+  for(const [x, y, c] of [[14, 1, 'w'], [13, 2, 'w'], [14, 2, 'h'], [12, 3, 'w'], [13, 3, 'h'], [11, 3, 'w'], [12, 4, 'h'], [11, 4, 'w'], [13, 1, 'w'], [10, 5, 'g']]) set(x, y, c);
+  set(9, 6, 'r'); set(8, 6, 'r'); set(9, 7, 'R');
+}), { outline:true });
+def('w-axe', grid(set => {
+  // repère du manche : t le long du manche (vers le haut à droite), u vers le haut à gauche
+  for(let y = 0; y < 16; y++) for(let x = 0; x < 16; x++){
+    const dx = x - 2.5, dy = y - 13.5, t = (dx - dy) / Math.SQRT2, u = (-dx - dy) / Math.SQRT2;
+    if(Math.abs(u) <= .72 && t >= 0 && t <= 15) set(x, y, u > 0 ? 'n' : 'N');
+    else if(u > .72 && u <= 5.2 && Math.abs(t - 10.6) <= 1.3 + u * .5) set(x, y, u > 4.1 ? 'w' : 'h');
+    else if(u < -.72 && u >= -2.4 && Math.abs(t - 10.6) <= .9) set(x, y, 'g');
+  }
+}), { outline:true });
+def('w-bow', grid(set => {
+  for(let y = 1; y <= 14; y++){ const x = Math.round(11.6 - .085 * (y - 7.5) ** 2); set(x, y, 'n'); if(y > 3 && y < 12) set(x + 1, y, 'N'); }
+  for(let y = 1; y <= 14; y++) if(!(y === 7 || y === 8)) set(7, y, 'W');
+  for(let x = 3; x <= 13; x++) set(x, 7, 'h');
+  set(14, 7, 'g'); set(13, 6, 'g'); set(13, 8, 'g');
+  set(3, 6, 'r'); set(4, 6, 'r'); set(3, 8, 'r'); set(4, 8, 'r');
+}), { outline:true });
+def('w-tome', [E16,E16,
+ '...kkkkkkkkkk...','..kVvvvvvvvvvk..','..kVvvvrrvvvvk..','..kVvvrRRrvvvk..','..kVvvrRRrvvvk..',
+ '..kVvvvrrvvvvk..','..kVvvvvvvvvvk..','..kVvvvvvvvvvk..','..kVkkkkkkkkkkk.','..kVwwwwwwwwwWk.',
+ '...kkkkkkkkkkk..',E16,E16,E16]);
+def('w-staff', grid(set => {
+  for(let i = 0; i < 9; i++) set(2 + i, 14 - i, 'n');
+  for(let y = 0; y < 16; y++) for(let x = 0; x < 16; x++){
+    const d = Math.hypot(x - 11.5, y - 3.5);
+    if(d > 1.6 && d <= 3) set(x, y, 'y');
+  }
+  set(11, 3, 'c'); set(12, 3, 'c'); set(11, 4, 'c'); set(12, 4, 'b');
+  set(10, 6, 'Y');
+}), { outline:true });
+def('w-fist', grid(set => {
+  for(let y = 0; y < 16; y++) for(let x = 0; x < 16; x++){
+    const d = Math.hypot((x - 8) / 1.08, y - 6.5);
+    if(d <= 5.1) set(x, y, d > 4.1 && (x > 9 || y > 8) ? 'R' : 'r');
+  }
+  set(5, 4, 'p'); set(6, 3, 'p'); set(5, 5, 'p');
+  for(const [x, y] of [[4, 8], [4, 9], [5, 9], [5, 10]]) set(x, y, 'R');
+  for(let x = 5; x <= 11; x++){ set(x, 12, 'w'); set(x, 13, 'h'); }
+}), { outline:true });
+
 // ---------- sorties ----------
 const path = require('path');
 const zlib = require('zlib');

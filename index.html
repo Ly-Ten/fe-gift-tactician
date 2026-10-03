@@ -513,8 +513,8 @@ small.hint2{display:block;margin-top:6px}
 :root[data-theme^="gba"][data-lord="the"]{--acc:#A8D8FF}
 :root[data-theme^="gba"][data-lord="led"]{--acc:#F5A3CF}
 :root[data-theme^="gba"] :is(body,.bar){background-color:var(--bg);background-image:var(--pat);background-size:var(--pat-size);background-attachment:fixed}
-:root[data-theme^="gba"] :is(.top,.rows,.panel,.invhead,.where,.track,.offer,details.tips,.recbox,.search,.bar .tabs,.seg3,.lordpill,.stepper,.toast){background:var(--win);border:2px solid var(--win-hi);box-shadow:0 0 0 2px var(--win-edge),inset 0 0 0 1px rgba(8,14,56,.45)}
-:root[data-theme^="gba"] :is(.top,.rows,.panel,.invhead,.where,.track,.offer,details.tips,.recbox,.tabs,.seg3,.lordpill,.toast,.lords){text-shadow:1px 1px 0 rgba(6,10,44,.65)}
+:root[data-theme^="gba"] :is(.top,.rows,.dt-wrap,.tip,.bdm,.panel,.invhead,.where,.track,.offer,details.tips,.recbox,.search,.bar .tabs,.seg3,.lordpill,.stepper,.toast){background:var(--win);border:2px solid var(--win-hi);box-shadow:0 0 0 2px var(--win-edge),inset 0 0 0 1px rgba(8,14,56,.45)}
+:root[data-theme^="gba"] :is(.top,.rows,.dt-wrap,.tip,.bdm,.panel,.invhead,.where,.track,.offer,details.tips,.recbox,.tabs,.seg3,.lordpill,.toast,.lords){text-shadow:1px 1px 0 rgba(6,10,44,.65)}
 :root[data-theme^="gba"] .top{border-width:0 0 2px;box-shadow:0 2px 0 var(--win-edge)}
 :root[data-theme^="gba"] .top::before{opacity:.18}
 :root[data-theme^="gba"] .panel{border-radius:14px}
@@ -534,7 +534,7 @@ small.hint2{display:block;margin-top:6px}
 :root[data-theme^="gba"] :is(.search input,.spotadd input,textarea.code)::placeholder{color:rgba(222,230,255,.72)}
 :root[data-theme^="gba"] .toast{color:var(--ink)}
 :root[data-theme^="gba"] .toast button{background:var(--acc);color:var(--acc-ink)}
-:root[data-theme^="gba"] :is(.disp,.row .nm,.tname .nm,.inv-row .gname .nm,.lord b,.lordpill b,.stepper output,.honor-lbl b,.invhead .sum b,.tabs button,.seg3 button){font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-weight:400;font-variant-ligatures:none;letter-spacing:.02em;font-size-adjust:.52}
+:root[data-theme^="gba"] :is(.disp,.row .nm,.tname .nm,.inv-row .gname .nm,.dt .gname .nm,.tip .t,.lord b,.lordpill b,.stepper output,.honor-lbl b,.invhead .sum b,.tabs button,.seg3 button){font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-weight:400;font-variant-ligatures:none;letter-spacing:.02em;font-size-adjust:.52}
 :root[data-theme^="gba"] h1{letter-spacing:0}
 :root[data-theme^="gba"] :is(.row,.inv-row,.trow){position:relative;padding-left:32px}
 :root[data-theme^="gba"] :is(.row,.inv-row,.trow,.side-tabs .tabs button)::before{content:"";position:absolute;left:8px;top:calc(50% - 8px);width:16px;height:16px;background:var(--pi-hand) no-repeat center/100% 100%;image-rendering:pixelated;opacity:0;pointer-events:none}
@@ -577,6 +577,19 @@ small.hint2{display:block;margin-top:6px}
   .top.compact h1{font-size:20px}
   .top.compact .lordpill small{display:none}
   .top.compact .top-actions .bl{display:none}
+}
+/* tablettes : boutons d'en-tête en icônes seules, pour garder l'en-tête sur une ligne */
+@media (min-width:680px) and (max-width:1023px){
+  .top.compact .top-inner{gap:8px 12px}
+  .top.compact .top-actions{gap:4px;flex-wrap:nowrap}
+  .top.compact .top-actions .bl{display:none}
+  .top.compact .top-actions .theme-btn{width:38px;height:38px;padding:0;display:inline-grid;place-items:center}
+}
+@media (min-width:680px) and (max-width:799px){
+  .top.compact h1{font-size:18px}
+  .top.compact .ctrl{gap:8px 10px}
+  .top.compact .top-inner{gap:8px 10px}
+  .top.compact .top-actions .theme-btn{width:36px;height:36px}
 }
 /* écrans peu hauts (pliants et tablettes en paysage) : barre de recherche plus compacte */
 @media (min-width:680px) and (max-height:760px){
@@ -626,7 +639,7 @@ small.hint2{display:block;margin-top:6px}
   --pat:linear-gradient(rgba(120,96,50,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(120,96,50,.10) 1px,transparent 1px); --pat-size:24px 24px;
   color-scheme:light;
 }
-:root[data-theme="gba-day"] :is(.top,.rows,.panel,.invhead,details.tips,.search,.bar .tabs,.seg3,.toast,.hf,.town){--ink:#FFFFFF;--muted:#D8E0FC;--line:#93A8EC;--raised:#2C47AA;--surface:#3A5AC2;--bg:#2A44A4;color:#FFFFFF}
+:root[data-theme="gba-day"] :is(.top,.rows,.dt-wrap,.tip,.bdm,.panel,.invhead,details.tips,.search,.bar .tabs,.seg3,.toast,.hf,.town){--ink:#FFFFFF;--muted:#D8E0FC;--line:#93A8EC;--raised:#2C47AA;--surface:#3A5AC2;--bg:#2A44A4;color:#FFFFFF}
 :root[data-theme="gba-day"] :is(.hf,.town){background:var(--win);border-color:var(--win-edge)}
 :root[data-theme="gba-day"] .hf.me{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
 :root[data-theme="gba-day"] .grp.ready h2{color:#17663F}
@@ -803,7 +816,70 @@ body.map-fs .toast{z-index:60}
 .dash .lp .prog{margin:0}
 .dash .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .grp.dash-m > summary .cnt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* tableaux denses */
+.vseg{grid-template-columns:repeat(2,minmax(0,1fr));margin:0;min-width:170px}
+.dt-wrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:8px 0;overflow-x:auto}
+.dt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dt th{background:var(--raised);text-align:left;font-weight:500;padding:0;white-space:nowrap}
+.dt th button{border:0;background:transparent;font:inherit;color:inherit;padding:9px 10px;width:100%;text-align:inherit;display:inline-flex;align-items:center;gap:5px;cursor:pointer}
+.dt th.num button{justify-content:flex-end}
+.dt th button::after{content:"↕";opacity:.35;font-size:12px}
+.dt th[aria-sort="ascending"] button::after{content:"▲";opacity:1;font-size:10px}
+.dt th[aria-sort="descending"] button::after{content:"▼";opacity:1;font-size:10px}
+.dt th .th{display:block;padding:9px 10px}
+.dt td{padding:4px 10px;border-top:1px solid var(--line);vertical-align:middle}
+.dt tbody tr:hover > td{background:color-mix(in srgb,var(--acc) 7%,transparent)}
+.dt tr.own > td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
+.dt .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dt :is(.gname,.tname){border:0;background:transparent;color:inherit;text-align:left;padding:3px 0;display:flex;align-items:center;gap:8px;min-width:0;width:100%;font:inherit}
+.dt :is(.gname,.tname) .nm{font-weight:600}
+.dt small{display:block;color:var(--muted);font-size:12.5px;line-height:1.2}
+.dt .stp button{width:30px;height:30px;font-size:17px}
+.dt .stp input{width:34px;height:30px;font-size:14.5px}
+.dt .loved{display:inline-flex;padding:3px 7px}
+.dt .muted{color:var(--muted)}
+.dt td.miss{color:var(--t-x);font-weight:700}
+.dt .tact{gap:6px}
+.dt .tact :is(.btn,.give){padding:6px 10px;font-size:13.5px;min-height:0}
+.dt .tgift{gap:8px}
+.dt tr.none .tgift{color:var(--muted)}
+.dt tr.pk-row > td{padding:0 10px 10px}
+.dt .sub{display:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@container main (max-width:620px){.dt .c-wide{display:none}.dt small.sub{display:block}.dt span.sub{display:inline}.dt td{padding:4px 6px}}
+/* anniversaires et armes */
+.pill.bd{display:inline-flex;align-items:center;gap:3px;background:var(--t-r-bg);color:var(--t-r);font-size:12px;padding:3px 7px;margin-left:6px;vertical-align:2px;font-family:"Alegreya Sans",system-ui,sans-serif}
+.pill.bd .pi{width:14px;height:14px}
+.pi.wpn{margin-right:6px;vertical-align:-1px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;color:var(--muted);font-size:14px}
+.meta-i{display:inline-flex;align-items:center;gap:5px}
+.meta b{color:var(--ink)}
+.bdw{cursor:help}
+.bdnote{display:flex;align-items:center;gap:8px;margin:6px 0 4px;font-size:14px;color:var(--t-r);flex-basis:100%;line-height:1.3}
+.bdcal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+.bdm{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--surface)}
+.bdm h3{margin:0 0 6px;font-size:15px;font-weight:600}
+.bdm h3::first-letter{text-transform:uppercase}
+.bdm .who-list{display:flex;flex-wrap:wrap;gap:5px}
+.bdm .who-btn{font-size:13.5px;padding:4px 9px}
+.bdm .who-btn b{font-variant-numeric:tabular-nums;margin-right:2px}
+.bdm .who-btn.dim{opacity:.5}
+.bdm .who-btn.soon{border-color:var(--t-r);background:var(--t-r-bg);color:var(--t-r)}
+/* infobulle d'un cadeau */
+.tip{position:fixed;left:0;top:0;z-index:70;max-width:340px;padding:10px 12px;border-radius:12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow);font-size:14px;line-height:1.35;pointer-events:none}
+.tip .t{display:block;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:17px;line-height:1.15}
+.tip small{color:var(--muted);font-size:13px}
+.tip .tl{margin-top:5px}
+.tip .tl .pi{width:14px;height:14px;vertical-align:-2px;margin-right:5px}
+.tip .need{font-weight:700}
+/* raccourcis clavier */
+.keys{width:100%;border-collapse:collapse;font-size:15px}
+.keys td{padding:8px 4px;border-top:1px solid var(--line);vertical-align:top}
+.keys td:first-child{white-space:nowrap;width:1%;padding-right:16px}
+kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--line);border-bottom-width:3px;border-radius:7px;background:var(--bg);color:var(--ink);font:600 13px/1.5 ui-monospace,Consolas,monospace;text-align:center}
 /* rétro */
+:root[data-theme^="gba"] .dt th{background:rgba(255,255,255,.14)}
+:root[data-theme^="gba"] .dt tbody tr:hover > td{background:rgba(255,255,255,.08)}
 :root[data-theme^="gba"] :is(.townpick,.tpicker,.gdate,.alsofound,.remind){background:var(--win);border:2px solid var(--win-hi);box-shadow:0 0 0 2px var(--win-edge);text-shadow:1px 1px 0 rgba(6,10,44,.65)}
 :root[data-theme^="gba"] :is(.tp-row,.gdate select,.ph .pin){background-color:var(--inset)}
 :root[data-theme^="gba"] .townpick b,:root[data-theme^="gba"] .dash .big{font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-variant-ligatures:none;font-size-adjust:.52;letter-spacing:.02em}
@@ -818,7 +894,7 @@ body.map-fs .toast{z-index:60}
       <h1 class="disp">Le fil des cadeaux</h1>
       <p class="sub">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</p>
     </div>
-    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl"> Installer</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="nightBtn" type="button" role="switch" aria-checked="false" aria-label="Mode nuit"></button><button class="theme-btn" id="retroBtn" type="button" aria-pressed="false" aria-label="Style rétro"></button></div>
+    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl"> Installer</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="nightBtn" type="button" role="switch" aria-checked="false" aria-label="Mode nuit"></button><button class="theme-btn" id="retroBtn" type="button" aria-pressed="false" aria-label="Style rétro"></button><button class="theme-btn" id="soundBtn" type="button" aria-pressed="false" aria-label="Sons de menu"></button></div>
     <div class="lords" id="lords" role="group" aria-label="Seigneur de la Flamme joué"></div>
     <div class="ctrl">
     <button type="button" class="lordpill" id="lordPill" aria-expanded="false" aria-controls="lords"></button>
@@ -861,6 +937,10 @@ body.map-fs .toast{z-index:60}
       <li><b>Tournée :</b> elle répartit ton inventaire entre les personnages qui ont encore besoin de soutien (meilleur cadeau d'abord, sans dépasser tes quantités). Valide au fil de l'eau avec « Offert » ou « Autre cadeau », puis « Terminer la tournée » pour passer à la semaine suivante.</li>
       <li><b>Sauvegarde :</b> le bouton ⇅ exporte toutes tes données. Pour passer de l'ordinateur au téléphone, affiche le QR code et scanne-le avec l'appareil photo : l'outil s'ouvre et te propose l'import. Garde aussi le code dans une note : c'est ta copie de secours.</li>
       <li><b>Application :</b> sur Android et sur ordinateur, le bouton « Installer » en haut ajoute l'outil comme une app, utilisable sans connexion. Sur iPhone, dans Safari : bouton Partager, puis « Sur l'écran d'accueil ». Sur iPhone, l'app installée garde ses propres données : transfère-les avec la Sauvegarde.</li>
+      <li><b>Clavier :</b> sur ordinateur, <kbd>/</kbd> lance la recherche, <kbd>1</kbd> à <kbd>5</kbd> changent d'onglet et les flèches parcourent la liste. <button type="button" class="linkbtn" data-keys>Voir tous les raccourcis</button></li>
+      <li><b>Tableaux :</b> dans l'Inventaire et la Tournée, « Tableau » affiche une vue compacte. Touche l'en-tête d'une colonne pour trier.</li>
+      <li><b>Infobulles :</b> sur ordinateur, survole un cadeau pour voir où l'acheter, son prix et qui l'adore.</li>
+      <li><b>Sons :</b> le bouton Sons, en haut, active de petits bips de menu façon console portable. Ils sont coupés par défaut.</li>
       <li><b>Thème :</b> deux boutons en haut. Le soleil ou la lune passe du jour à la nuit, la petite main active le style rétro, façon Fire Emblem sur Game Boy Advance.</li>
       <li><b>Où acheter :</b> la plupart des cadeaux se vendent dans les Marchés des villes de la carte. À Dagsion, la Taverne de la ville basse est moins chère que la Galerie marchande, mais leur stock complet n'est pas connu. Dans Cadeaux, « Par ville » te dit quoi acheter là où tu es, et « À ne pas rater » liste les cadeaux de quêtes à date limite.</li>
       <li><b>Réassort :</b> les sources se contredisent (chaque chapitre ou chaque semaine). Le bienfait « Réduction sur les cadeaux » (300 éclats de karma) baisse les prix de 10 %.</li>
@@ -870,7 +950,8 @@ body.map-fs .toast{z-index:60}
       <li><b>Date du jeu :</b> indique-la dans Cadeaux, « À ne pas rater », pour voir les jours restants avant chaque quête.</li>
       <li><b>Un cadeau par personnage et par semaine.</b> Vise les ⇈ « adore » : deux flèches dorées, soutien doublé.</li>
       <li><b>Le premier cadeau peut être n'importe quoi de pas cher</b> (taverne de la ville basse) : il débloque les repas à l'auberge.</li>
-      <li><b>Le jour de son anniversaire</b>, un personnage réagit « a beaucoup aimé » même à un cadeau banal.</li>
+      <li><b>Armes :</b> l'icône devant un nom montre son arme de prédilection. La fiche liste toutes ses armes et, quand les sources s'accordent, sa classe de départ. La plupart des recrues commencent Roturier ou Noble, des classes ouvertes à toutes les armes.</li>
+      <li><b>Le jour de son anniversaire</b>, un personnage réagit « a beaucoup aimé » même à un cadeau banal. Le calendrier est dans Cadeaux, « À ne pas rater » ; un gâteau signale les anniversaires de la semaine quand la date du jeu est indiquée.</li>
       <li><b>Valeurs sûres :</b> Récits d'aventure, Portrait de Yu Phas, Panorama de pégases, Portrait au bouclier, Tableau de fleurs et Gemme en pointe de flèche sont adorés par presque tout le monde (sauf Theodora, qui n'aime pas lire, et Nuzzuo pour les Récits d'aventure).</li>
       <li><b>Filtre « Honneur requis » :</b> touche un niveau pour ne voir que les personnages qui demandent exactement cet Honneur. Ton niveau actuel est entouré.</li>
       <li><b>Le soutien est conservé d'une voie à l'autre</b> (il est donc noté une seule fois), l'Honneur, la condition et le recrutement sont propres à chaque Seigneur.</li>
@@ -890,6 +971,7 @@ body.map-fs .toast{z-index:60}
 </div>
 <datalist id="townlist"></datalist>
 <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo">Annuler</button></div>
+<div class="tip" id="tip" aria-hidden="true" hidden></div>
 
 
 <script>
@@ -1443,6 +1525,84 @@ const CHARS = [
 
 
 /*
+  Anniversaires (recherche du 3 octobre 2026) : mois et jour du calendrier du jeu, qui suit les mois de l'année.
+  Chaque date est donnée par au moins deux sources parmi Game8, Fire Emblem Wiki, RaiderKing et Fextralife.
+  Celui de Fianna n'est publié nulle part.
+*/
+const BDAY = { Alexandra: '06-27', Anatolia: '07-07', Benditz: '02-17', Bertrand: '08-16', Bonaventure: '04-08', Buccar: '12-21', Cai: '01-25', Catania: '04-16', Centurio: '08-08', Dadao: '05-04', Dante: '08-22', Diego: '11-04', Dietrich: '09-10', Esmeralda: '06-19', Fabio: '07-30', Gaitz: '08-01', Goliath: '06-21', Guzran: '09-17', Halvin: '11-27', Inyoni: '05-05', Io: '03-21', Jasmine: '11-10', Jester: '09-18', Kiroc: '03-31', Leda: '04-03', Lilian: '08-27', Loretta: '08-23', Ludia: '09-30', Lysander: '03-29', Majide: '03-15', Mikaela: '07-14', Mu: '06-25', Nezha: '07-07', Ninae: '10-21', Noctula: '12-17', Nuzzuo: '04-12', Nydine: '06-04', Olympia: '04-11', Orchel: '02-19', Peppe: '08-30', Peter: '12-02', Seteth: '12-27', 'Sha Lan': '01-20', Simon: '07-22', Sirocco: '10-18', Sofia: '08-09', Talimun: '03-03', Theodora: '02-12', Tialla: '05-17', Tobias: '02-06', Ultand: '04-28', Ursula: '04-05', 'Yang Jie': '11-26', Zarcone: '03-11' };
+const BDAY_NOTE = {
+  Bonaventure: 'Une source donne le 4 avril.',
+  Nuzzuo: 'Une source donne le 23 avril.',
+  Zarcone: 'Une source donne le 29 mars.',
+  Seteth: 'Une source donne le 7 décembre. Le 27 décembre est aussi son anniversaire dans Three Houses.'
+};
+/*
+  Armes de prédilection (recherche du 3 octobre 2026, Fextralife et Game8, arme principale d'abord) :
+  [classe de départ en anglais, en français, armes, fiabilité des armes (2 = deux sources)].
+  La plupart des recrues commencent Roturier ou Noble, des classes ouvertes à toutes les armes, et certaines
+  changent de classe selon le moment du recrutement : la classe n'est donnée que si elle est précise et confirmée.
+  Le jeu ne connaît que la magie noire (grimoire) et la magie blanche (bâton).
+*/
+const CLASS = {
+  Alexandra: ["Wing Soldier", "Soldat ailé", ["lance", "sword"], 2],
+  Anatolia: [null, null, ["fist", "tome"], 2],
+  Benditz: ["Charioteer", "Aurige", ["bow"], 2],
+  Bertrand: [null, null, ["axe", "sword", "fist"], 2],
+  Bonaventure: [null, null, ["sword", "tome", "staff"], 2],
+  Buccar: [null, null, ["axe", "lance"], 2],
+  Cai: [null, null, ["lance", "sword", "staff"], 2],
+  Catania: [null, null, ["sword", "lance"], 2],
+  Centurio: ["Armored Knight", "Combattant cuirassé", ["lance", "axe"], 2],
+  Dadao: [null, null, ["axe"], 2],
+  Dante: [null, null, ["tome", "staff"], 2],
+  Diego: ["Hunter", "Chasseur", ["bow", "sword"], 2],
+  Dietrich: [null, null, ["sword"], 2],
+  Esmeralda: [null, null, ["lance", "axe"], 2],
+  Fabio: [null, null, ["tome"], 2],
+  Fianna: [null, null, ["staff", "tome"], 2],
+  Gaitz: [null, null, ["lance", "axe"], 2],
+  Goliath: [null, null, ["axe"], 2],
+  Guzran: ["Gladiator", "Gladiateur", ["sword", "fist"], 2],
+  Halvin: [null, null, ["bow"], 2],
+  Inyoni: [null, null, ["bow", "axe"], 2],
+  Io: ["Light Cavalry", "Cavalerie légère", ["lance", "axe"], 2],
+  Jasmine: [null, null, ["lance", "axe"], 2],
+  Jester: [null, null, ["sword", "bow"], 2],
+  Kiroc: ["Hunter", "Chasseur", ["bow"], 2],
+  Leda: [null, null, ["bow", "sword", "staff"], 2],
+  Lilian: ["Hunter", "Chasseur", ["bow"], 2],
+  Loretta: ["Wing Soldier", "Soldat ailé", ["sword", "lance"], 2],
+  Ludia: [null, null, ["sword", "lance"], 2],
+  Lysander: ["Ornius Rider", "Cavalier ornius", ["lance", "axe"], 2],
+  Majide: [null, null, ["axe", "fist"], 2],
+  Mikaela: ["Gladiator", "Gladiateur", ["axe", "bow"], 2],
+  Mu: [null, null, ["fist", "axe", "sword", "staff"], 2],
+  Nezha: [null, null, ["sword", "fist"], 2],
+  Ninae: [null, null, ["lance", "staff"], 2],
+  Noctula: [null, null, ["fist", "axe"], 2],
+  Nuzzuo: [null, null, ["bow", "sword"], 2],
+  Nydine: [null, null, ["axe"], 2],
+  Olympia: ["Diviner", "Devin", ["staff", "axe"], 2],
+  Orchel: ["Diviner", "Devin", ["axe", "staff", "tome"], 2],
+  Peppe: [null, null, ["bow", "sword"], 2],
+  Peter: [null, null, ["bow"], 2],
+  Seteth: [null, null, ["lance", "axe"], 2],
+  'Sha Lan': ["Diviner", "Devin", ["staff", "lance"], 2],
+  Simon: [null, null, ["axe", "sword"], 2],
+  Sirocco: [null, null, ["sword", "tome", "staff"], 2],
+  Sofia: [null, null, ["staff", "bow"], 2],
+  Talimun: [null, null, ["sword", "tome"], 2],
+  Theodora: [null, null, ["lance", "staff"], 2],
+  Tialla: [null, null, ["staff", "tome"], 2],
+  Tobias: [null, null, ["axe"], 1],
+  Ultand: ["Diviner", "Devin", ["staff", "lance"], 2],
+  Ursula: [null, null, ["bow", "sword"], 2],
+  'Yang Jie': ["Diviner", "Devin", ["axe", "staff"], 2],
+  Zarcone: ["Gladiator", "Gladiateur", ["axe", "sword"], 2]
+};
+const WPN = { sword: ['w-sword', 'Épée'], lance: ['w-lance', 'Lance'], axe: ['w-axe', 'Hache'], bow: ['w-bow', 'Arc'], tome: ['w-tome', 'Magie noire'], staff: ['w-staff', 'Magie blanche'], fist: ['w-fist', 'Poings'] };
+
+/*
   Où trouver les cadeaux (recherche du 2 octobre 2026).
   t = marchés (villes), p = prix en or, q = quêtes [{n: nom anglais, d: 'JJ/MM', s: 'MM-JJ' pour le tri, i: détail}],
   r = récompense de rang d'Honneur, x = note, w = conflit entre sources,
@@ -1605,6 +1765,10 @@ S.recentTowns = (a => Array.isArray(a) ? a : [])(store.get('recentTowns', []));
 S.townPick = false; S.townQ = '';
 S.gameDate = (d => /^\d\d-\d\d$/.test(d || '') ? d : null)(store.get('gameDate', null));
 if(!store.get('firstUse', null)) store.set('firstUse', Date.now());
+// lot 3
+S.sound = store.get('sound', false) === true;
+S.dense = (o => o && typeof o === 'object' ? o : {})(store.get('dense', {}));
+S.sort = (o => o && typeof o === 'object' ? o : {})(store.get('sort', {}));
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1726,6 +1890,23 @@ const GROUP_DEF = [
 ];
 const openState = store.get('open', {});
 
+/* anniversaires et armes */
+const bdOf = c => BDAY[c.n] || null;
+function bdLeft(c){ const b = bdOf(c); if(!b || !S.gameDate) return null; let d = doy(b) - doy(S.gameDate); if(d < 0) d += 365; return d; }
+const bdSoon = c => { const d = bdLeft(c); return d !== null && d <= 6; };
+const bdWhen = d => d === 0 ? 'aujourd’hui' : d === 1 ? 'demain' : `dans ${d} jours`;
+const bdNum = b => { const [m, d] = b.split('-').map(Number); return `${d}/${m}`; };
+function bdBadge(c){ if(!bdSoon(c)) return ''; const d = bdLeft(c); return `<span class="pill bd" title="Anniversaire ${bdWhen(d)}, le ${fmtGD(bdOf(c))}">${pix('cake')}${d === 0 ? 'Auj.' : 'J-' + d}</span>`; }
+function bdNote(c){ if(!bdSoon(c)) return ''; const d = bdLeft(c); return `<p class="bdnote">${pix('cake')}<span>Anniversaire ${bdWhen(d)}, le ${fmtGD(bdOf(c))} : ce jour-là, même un cadeau banal sera « beaucoup aimé ».</span></p>`; }
+function wIcon(c){ const k = CLASS[c.n]; if(!k) return ''; const w = WPN[k[2][0]]; return `<i class="pi pi-${w[0]} wpn" title="${esc(k[2].map(x => WPN[x][1]).join(', '))}" aria-hidden="true"></i>`; }
+function charMeta(c){
+  const out = [], k = CLASS[c.n], b = bdOf(c);
+  if(k) out.push(`<span class="meta-i" title="${k[0] ? esc(k[0]) + ' · ' : ''}Armes de prédilection${k[3] < 2 ? ', une seule source' : ''}">${k[2].map(x => pix(WPN[x][0])).join('')}${k[1] ? esc(k[1]) + ' · ' : ''}${esc(k[2].map(x => WPN[x][1]).join(', '))}${k[3] < 2 ? ' <span class="unv">?</span>' : ''}</span>`);
+  if(b){ const d = bdLeft(c); out.push(`<span class="meta-i">${pix('cake')}Anniversaire le ${fmtGD(b)}${d !== null && d <= 30 ? ` · <b>${bdWhen(d)}</b>` : ''}${BDAY_NOTE[c.n] ? ` <span class="bdw" title="${esc(BDAY_NOTE[c.n])}" aria-label="${esc(BDAY_NOTE[c.n])}">⚠</span>` : ''}</span>`); }
+  else out.push(`<span class="meta-i">${pix('cake')}Anniversaire inconnu</span>`);
+  return `<p class="meta">${out.join('')}</p>`;
+}
+
 function charRow(c, st){
   const r = reqOf(c);
   const met = supMet(c);
@@ -1749,7 +1930,7 @@ function charRow(c, st){
   }
   const dim = (st === 'ok' || st === 'wait') && met;
   return `<button type="button" class="row ${dim ? 'dim' : ''}" data-char="${esc(c.n)}" aria-current="${S.sel && S.sel.k === 'c' && S.sel.id === c.n}">
-    <span class="who"><span class="nm">${esc(c.n)}${stock}</span><span class="ds">${ds}</span></span>
+    <span class="who"><span class="nm">${wIcon(c)}${esc(c.n)}${stock}${bdBadge(c)}</span><span class="ds">${ds}</span></span>
     <span class="req">${pills}</span></button>`;
 }
 
@@ -1850,6 +2031,62 @@ function renderGifts(){
   setList(giftModeSeg() + html);
 }
 
+/* ---------- tableaux denses, triables par colonne ---------- */
+const denseOn = tab => !!S.dense[tab];
+const viewSeg = tab => `<div class="seg3 vseg" role="tablist" aria-label="Affichage">${[['0', 'Liste'], ['1', 'Tableau']].map(([v, l]) => `<button type="button" role="tab" data-dense="${v}" aria-selected="${denseOn(tab) === (v === '1')}">${l}</button>`).join('')}</div>`;
+const SORT_DEF = { inv: { k: 'name', d: 1 }, tour: { k: 'hon', d: 1 } };
+const SORT_DIR = { love: -1, qty: -1 };
+const sortOf = tab => { const o = S.sort[tab]; return o && o.k ? o : SORT_DEF[tab]; };
+function thSort(tab, key, label, cls = '', aria = ''){
+  const o = sortOf(tab), on = o.k === key;
+  return `<th class="${cls}" aria-sort="${on ? (o.d > 0 ? 'ascending' : 'descending') : 'none'}"><button type="button" data-sort="${key}" data-sort-tab="${tab}"${aria ? ` aria-label="${aria}"` : ''}>${label}</button></th>`;
+}
+const thPlain = (label, cls = '') => `<th class="${cls}"><span class="th">${label}</span></th>`;
+// une valeur null passe toujours en dernier, quel que soit le sens
+const cmpBy = (f, d, name) => (a, b) => {
+  const x = f(a), y = f(b);
+  if(x === null || y === null){ if(x !== y) return x === null ? 1 : -1; }
+  else { const c = typeof x === 'number' ? x - y : String(x).localeCompare(String(y)); if(c) return c * d; }
+  return String(name(a)).localeCompare(String(name(b)));
+};
+function invTable(q){
+  const rel = relevantChars(), love = {};
+  const items = Object.keys(GIFTS).filter(g => giftMatches(g, q) && (!S.invOnly || qty(g)));
+  if(!items.length) return '';
+  for(const g of items) love[g] = rel.filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; }).length;
+  const cats = Object.keys(CATS), o = sortOf('inv'), name = g => GIFTS[g][1];
+  const keys = { name, cat: g => cats.indexOf(GIFTS[g][2]), love: g => love[g], price: g => (WHERE[g] && WHERE[g].p) || null, qty: g => qty(g) };
+  items.sort(cmpBy(keys[o.k] || name, o.d, name));
+  const rows = items.map(g => { const w = WHERE[g] || {};
+    return `<tr class="${qty(g) ? 'own' : ''}" data-row="${g}">
+      <td><button type="button" class="gname" data-gift="${g}">${pix(GIFTS[g][2])}<span><span class="nm">${esc(GIFTS[g][1])}</span><small>${esc(GIFTS[g][0])}<span class="sub"> · ${esc(whereShort(g))}${w.p ? ` · ${w.p} or` : ''}</span></small></span></button></td>
+      <td class="c-wide">${esc(CATS[GIFTS[g][2]][0])}</td>
+      <td class="num">${love[g] ? `<span class="loved">⇈ ${love[g]}</span>` : '<span class="muted">0</span>'}</td>
+      <td class="c-wide">${esc(whereShort(g))}</td>
+      <td class="num c-wide">${w.p ? w.p + ' or' : '<span class="muted">?</span>'}</td>
+      <td class="num">${stepper(g)}</td></tr>`; }).join('');
+  return `<div class="dt-wrap"><table class="dt dt-inv"><thead><tr>${thSort('inv', 'name', 'Cadeau')}${thSort('inv', 'cat', 'Catégorie', 'c-wide')}${thSort('inv', 'love', '⇈', 'num', 'Adoré par')}${thPlain('Où', 'c-wide')}${thSort('inv', 'price', 'Prix', 'num c-wide')}${thSort('inv', 'qty', 'Stock', 'num')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function tourTable(plan){
+  const o = sortOf('tour'), name = p => p.c.n;
+  const keys = { name, sup: p => reqOf(p.c)[0] - supOf(p.c), hon: p => reqOf(p.c)[1], tier: p => p.a ? TIER_RANK[p.a.t] : null };
+  const cmp = cmpBy(keys[o.k] || name, o.d, name);
+  plan.sort((a, b) => isPinned(b.c.n) - isPinned(a.c.n) || cmp(a, b));
+  const rows = plan.map(({ c, a }) => {
+    const r = reqOf(c), open = S.pick === c.n;
+    const gift = a ? `<div class="tgift"><span class="mk ${a.t}" aria-hidden="true">${TIER_MK[a.t]}</span><span><b>${esc(GIFTS[a.g][1])}${a.u ? ' <span class="unv">?</span>' : ''}</b> <span class="qty">×${qty(a.g)}</span></span></div>`
+      : `<div class="tgift"><span class="mk N" aria-hidden="true">·</span><span>Rien de bon en stock</span></div>`;
+    return `<tr class="${a ? '' : 'none'}" data-tc="${esc(c.n)}">
+      <td><button type="button" class="tname" data-char="${esc(c.n)}">${wIcon(c)}<span><span class="nm">${esc(c.n)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small class="sub">${supLine(c)}</small></span></button></td>
+      <td class="num c-wide">${supOf(c)}/${r[0]}</td>
+      <td class="num c-wide ${S.honor >= r[1] ? '' : 'miss'}">${r[1]}</td>
+      <td>${gift}</td>
+      <td><div class="tact">${a ? `<button type="button" class="give" data-tgive="${a.g}">Offert</button>` : ''}<button type="button" class="btn" data-tother aria-expanded="${open}" aria-label="Autre cadeau pour ${esc(c.n)}">Autre</button><button type="button" class="linkbtn" data-tskip aria-label="Pas cette semaine pour ${esc(c.n)}">Passer</button></div></td></tr>
+      ${open ? `<tr class="pk-row" data-tc="${esc(c.n)}"><td colspan="5">${pickerHtml(c)}</td></tr>` : ''}`;
+  }).join('');
+  return `<div class="dt-wrap"><table class="dt dt-tour"><thead><tr>${thSort('tour', 'name', 'Personnage')}${thSort('tour', 'sup', 'Soutien', 'num c-wide', 'Soutien manquant')}${thSort('tour', 'hon', 'Honneur', 'num c-wide')}${thSort('tour', 'tier', 'Cadeau prévu')}${thPlain('<span class="vh">Actions</span>')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
 /* ---------- inventaire ---------- */
 const stepper = g => `<div class="stp" data-g="${g}"><button type="button" data-step="-1" aria-label="Retirer un ${esc(GIFTS[g][1])}">−</button><input type="number" inputmode="numeric" min="0" max="999" value="${qty(g)}" aria-label="Quantité de ${esc(GIFTS[g][1])}"><button type="button" data-step="1" aria-label="Ajouter un ${esc(GIFTS[g][1])}">+</button></div>`;
 let resetArmed = null;
@@ -1861,9 +2098,11 @@ function invSummary(){
 function renderInv(){
   const q = norm(S.q);
   let html = `<div class="invhead"><div class="sum" id="invSum">${invSummary()}</div>
-    <div class="acts"><button type="button" class="btn" id="invOnly" aria-pressed="${S.invOnly}">Seulement ce que j'ai</button>
+    <div class="acts">${viewSeg('inv')}<button type="button" class="btn" id="invOnly" aria-pressed="${S.invOnly}">Seulement ce que j'ai</button>
     <button type="button" class="btn danger" id="invReset">Tout remettre à zéro</button></div></div>`;
   let any = false;
+  if(denseOn('inv')){ const tb = invTable(q); html += tb; any = !!tb; }
+  else
   for(const cat in CATS){
     const items = Object.keys(GIFTS).filter(g => GIFTS[g][2] === cat && giftMatches(g, q) && (!S.invOnly || qty(g)));
     if(!items.length) continue;
@@ -1969,8 +2208,8 @@ function renderCharPanel(c){
   }
   const st = status(c);
   const note = c.note && !(st === 'nr' && !c.lord) ? `<div class="note">${esc(c.note)}</div>` : '';
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p></div><div class="ph-acts">${c.lord === S.lord ? '' : `<button type="button" class="pin" data-pin aria-pressed="${isPinned(c.n)}" aria-label="Épingler ${esc(c.n)} en haut de la liste" title="${isPinned(c.n) ? 'Retirer des épinglés' : 'Épingler en haut de la liste'}">${pix('star')}</button>`}${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
-    <div class="pb" data-for="${esc(c.n)}">${recBox(c)}${trackBox(c)}${offerBox(c)}${favBox(c)}${logBox(c)}
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p>${charMeta(c)}</div><div class="ph-acts">${c.lord === S.lord ? '' : `<button type="button" class="pin" data-pin aria-pressed="${isPinned(c.n)}" aria-label="Épingler ${esc(c.n)} en haut de la liste" title="${isPinned(c.n) ? 'Retirer des épinglés' : 'Épingler en haut de la liste'}">${pix('star')}</button>`}${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+    <div class="pb" data-for="${esc(c.n)}">${bdNote(c)}${recBox(c)}${trackBox(c)}${offerBox(c)}${favBox(c)}${logBox(c)}
       <p class="likes" style="margin-top:16px"><b>D'après sa fiche :</b> ${esc(c.g)}</p>
       ${tiers}${note}${allLordsTable(c)}
     </div>`;
@@ -2025,7 +2264,7 @@ let lastFocus = null;
 function openPanel(kind, id){
   S.sel = { k: kind, id };
   const p = $('#panel');
-  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : kind === 'p' ? MAP.placePanel(id) : renderGiftPanel(id);
+  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : kind === 'k' ? renderKeysPanel() : kind === 'p' ? MAP.placePanel(id) : renderGiftPanel(id);
   if(kind === 's') prepLink();
   p.scrollTop = 0;
   if(isSheet()){
@@ -2056,7 +2295,7 @@ function markCurrent(){
 function refreshPanel(){
   const p = $('#panel');
   if(!S.sel){ if(!p.classList.contains('open')) p.innerHTML = isSheet() ? PH : dashPanel(); return; }
-  if(S.sel.k === 's') return; // ne pas effacer un code en cours de collage
+  if(S.sel.k === 's' || S.sel.k === 'k') return; // ne pas effacer un code en cours de collage
   const st = p.scrollTop;
   p.innerHTML = S.sel.k === 'c' ? renderCharPanel(charByName[S.sel.id]) : S.sel.k === 'p' ? MAP.placePanel(S.sel.id) : renderGiftPanel(S.sel.id);
   p.scrollTop = st;
@@ -2189,12 +2428,12 @@ function tourRow(c, a){
     : `<p class="twish">Rien de bon en stock. À chercher : ${esc(wishlist(c).join(', ') || 'voir sa fiche')}.</p>`;
   const open = S.pick === c.n;
   return `<div class="trow ${a ? '' : 'none'}" data-tc="${esc(c.n)}">
-    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${esc(c.n)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}</span><small>${supLine(c)}</small></button>
+    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${wIcon(c)}${esc(c.n)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small>${supLine(c)}</small></button>
     ${gift}
     <div class="tact">${a ? `<button type="button" class="give" data-tgive="${a.g}">Offert</button>` : ''}
       <button type="button" class="btn" data-tother aria-expanded="${open}">Autre cadeau</button>
       <button type="button" class="linkbtn" data-tskip>Pas cette semaine</button></div>
-    ${open ? pickerHtml(c) : ''}</div>`;
+    ${bdNote(c)}${open ? pickerHtml(c) : ''}</div>`;
 }
 
 function renderTour(){
@@ -2209,13 +2448,18 @@ function renderTour(){
   let html = `<div class="invhead tourhead"><div class="sum"><b>Tournée ${t.n} avec ${lordName(S.lord)}</b>
       <small>${nDone} cadeau${nDone > 1 ? 'x' : ''} fait${nDone > 1 ? 's' : ''} sur ${total} prévu${total > 1 ? 's' : ''}</small>
       <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
-    <div class="acts"><button type="button" class="btn danger" id="tourEnd">Terminer la tournée</button></div></div>`;
+    <div class="acts">${viewSeg('tour')}<button type="button" class="btn danger" id="tourEnd">Terminer la tournée</button></div></div>`;
   if(!invTotal()) html += `<div class="note">Ton inventaire est vide : la tournée ne peut rien te proposer. <button type="button" class="linkbtn" data-goinv>Remplir l'inventaire</button></div>`;
   if(!q) html += shopSection();
   const section = (title, hint, rows, cls = '', open = true) => rows.length ? `<details class="grp tour ${cls}" ${open ? 'open' : ''}><summary><h2 class="disp">${title}</h2><span class="cnt">${rows.length}</span></summary>${hint ? `<p class="hint">${hint}</p>` : ''}<div class="rows trows">${rows.join('')}</div></details>` : '';
+  if(denseOn('tour')){
+    const all = [...withGift, ...without];
+    if(all.length) html += `<details class="grp tour" open><summary><h2 class="disp">À servir cette tournée</h2><span class="cnt">${all.length}</span></summary><p class="hint">Touche l’en-tête d’une colonne pour trier. Les personnages épinglés restent en tête.</p>${tourTable(all)}</details>`;
+  } else {
   html += section('Honneur atteint', 'Les plus proches du recrutement.', withGift.filter(p => status(p.c) === 'ok').map(p => tourRow(p.c, p.a)));
   html += section('Honneur insuffisant', 'Le soutien sera prêt quand l\u2019Honneur suivra.', withGift.filter(p => status(p.c) === 'wait').map(p => tourRow(p.c, p.a)));
   html += section('Rien de bon en stock', 'Ce qu\u2019il faudrait leur trouver. Tu peux quand même noter un autre cadeau.', without.map(p => tourRow(p.c, null)), 'muted', !!q || !withGift.length || without.some(p => p.c.n === S.pick));
+  }
   const doneRows = doneNames.filter(n => !q || norm(n).includes(q)).sort((a, b) => t.done[b].ts - t.done[a].ts).map(n => {
     const d = t.done[n]; const tt = charByName[n] ? tierOf(charByName[n], d.g) : null;
     return `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">✓ ${esc(n)}</span></button>
@@ -2431,7 +2675,27 @@ function renderQuestHtml(){
     <p class="hint">${now === null ? 'Indique la date du jeu ci-dessus pour voir les jours restants et ranger les quêtes passées. ' : ''}Cadeaux rares obtenus par quête, triés par date limite du calendrier du jeu (Partie I, peut varier selon la voie). Les noms de quêtes sont en anglais : aide-toi du personnage et du lieu.</p>
     <div class="rows">${yu}${upcoming.map(row).join('')}</div></details>
     ${past.length ? `<details class="grp" data-g="qpast"><summary><h2 class="disp">Déjà passées</h2><span class="cnt">${past.length}</span></summary><div class="rows">${past.map(row).join('')}</div></details>` : ''}
+    ${bdayHtml()}
     <div class="note">Astuce : les Boîtes cadeaux (boutique d'objets d'Alecto et de Barsk, et récompenses des représentations de Leda) donnent un cadeau au hasard, parfois rare.</div>`;
+}
+
+function bdayHtml(){
+  const mine = new Set(relevantChars().map(c => c.n));
+  const all = CHARS.filter(bdOf);
+  const now = S.gameDate ? doy(S.gameDate) : null;
+  const soon = now === null ? [] : all.filter(c => mine.has(c.n)).map(c => ({ c, d: bdLeft(c) })).filter(x => x.d <= 30).sort((a, b) => a.d - b.d);
+  const row = ({ c, d }) => `<button type="button" class="row qrow" data-char="${esc(c.n)}"><span class="qdate ${d <= 6 ? 'soon' : ''}"><b>${d === 0 ? 'Auj.' : 'J-' + d}</b><small>${bdNum(bdOf(c))}</small></span>
+      <span class="who"><span class="nm">${wIcon(c)}${esc(c.n)}</span><span class="ds">${esc(c.d)}</span></span><span class="req">${pix('cake')}</span></button>`;
+  const months = MONTHS.map((mn, i) => {
+    const list = all.filter(c => +bdOf(c).slice(0, 2) === i + 1).sort((a, b) => bdOf(a).localeCompare(bdOf(b)));
+    if(!list.length) return '';
+    return `<div class="bdm"><h3>${mn}</h3><div class="who-list">${list.map(c => `<button type="button" class="who-btn ${mine.has(c.n) ? '' : 'dim'} ${bdSoon(c) ? 'soon' : ''}" data-char="${esc(c.n)}"><b>${+bdOf(c).slice(3)}</b> ${esc(c.n)}</button>`).join('')}</div></div>`;
+  }).join('');
+  return `<details class="grp" data-g="bday" ${openState.bday === false ? '' : 'open'}><summary><h2 class="disp">${pix('cake')} Anniversaires</h2><span class="cnt">${now === null ? all.length : `${soon.length} dans les 30 jours`}</span></summary>
+    <p class="hint">Le jour de son anniversaire, un personnage réagit au moins « a beaucoup aimé », même à un cadeau qui le laisserait indifférent, et son soutien monte davantage. Le jeu te le rappelle pour tes recrues. Pour les autres, va les trouver à Dagsion ce jour-là.${now === null ? ' Indique la date du jeu ci-dessus pour voir les prochains.' : ''}</p>
+    ${soon.length ? `<div class="rows">${soon.map(row).join('')}</div>` : ''}
+    <div class="bdcal">${months}</div>
+    <p class="hint2">En grisé : pas sur ta voie avec ${lordName(S.lord)}. Dates confirmées par au moins deux sources (Game8, Fire Emblem Wiki, RaiderKing, Fextralife). Celui de Fianna n’est pas connu. ⚠ dans une fiche : une source donne une autre date.</p></details>`;
 }
 
 function whereClick(e){
@@ -2877,9 +3141,17 @@ function dashCards(){
       ? (nq ? `<p class="hint2">Prochaine : <b>${esc(GIFTS[nq.g][1])}</b>, quête « ${esc(nq.q.n)} », ${qLeft === 0 ? 'aujourd’hui' : `dans ${qLeft} jour${qLeft > 1 ? 's' : ''}`}.</p>` : '<p class="hint2">Plus aucune quête à date limite connue.</p>') + `<small class="hint2">Date dans le jeu : ${fmtGD(S.gameDate)}.</small>`
       : '<p class="hint2">Indique la date du jeu pour voir les jours restants avant chaque quête.</p>'}
       <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">${S.gameDate ? 'Voir les quêtes' : 'Indiquer la date'}</button></div></div>
+    <div class="where"><h3>${pix('cake')} Anniversaires</h3>${bdDash()}
+      <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">Voir le calendrier</button></div></div>
     <div class="where"><h3>Sauvegarde</h3><p class="hint2">${last ? `Dernière sauvegarde ${ago(last)}.` : 'Jamais sauvegardé sur cet appareil.'}</p>
       <div class="acts"><button type="button" class="btn" data-open-save>Sauvegarder</button></div></div>
   </div>`;
+}
+function bdDash(){
+  if(!S.gameDate) return '<p class="hint2">Indique la date du jeu pour voir les prochains anniversaires.</p>';
+  const next = relevantChars().filter(bdOf).map(c => ({ c, d: bdLeft(c) })).sort((a, b) => a.d - b.d).slice(0, 4);
+  if(!next.length) return '<p class="hint2">Aucun anniversaire connu.</p>';
+  return `<div class="who-list">${next.map(({ c, d }) => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)} <small>${d === 0 ? 'aujourd’hui' : d === 1 ? 'demain' : `J-${d}, le ${bdNum(bdOf(c))}`}</small></button>`).join('')}</div>`;
 }
 function dashPanel(){
   return `<div class="ph"><div><h2 class="disp" id="pTitle" tabindex="-1">Résumé</h2><p>Avec ${lordName(S.lord)}, Honneur ${S.honor}</p></div></div>
@@ -2904,6 +3176,146 @@ function dashClick(e){
   const gtw = e.target.closest('[data-gotown]'); if(gtw){ goTown(gtw.dataset.gotown); return true; }
   return false;
 }
+
+/* ---------- sons de menu : bips synthétisés, coupés par défaut ---------- */
+const SFX = (() => {
+  let ctx = null;
+  const NOTES = { move: [[1046, .03]], page: [[784, .03], [1046, .045]], select: [[1318, .035], [1760, .05]], back: [[784, .035], [523, .06]], ok: [[1046, .05], [1318, .05], [1568, .05], [2093, .12]] };
+  function play(name){
+    if(!S.sound) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+      ctx = ctx || new AC();
+      if(ctx.state === 'suspended') ctx.resume();
+      let t = ctx.currentTime + .01;
+      for(const [f, d] of NOTES[name] || []){
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'square'; o.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.04, t + .004); g.gain.setValueAtTime(.04, t + d * .7); g.gain.linearRampToValueAtTime(0, t + d);
+        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + d + .01);
+        t += d;
+      }
+    } catch(e) {}
+  }
+  return { play };
+})();
+function renderSoundBtn(){
+  const b = $('#soundBtn'); if(!b) return;
+  b.innerHTML = `${pix(S.sound ? 'sound' : 'mute')}<span class="bl"> Sons</span>`;
+  b.setAttribute('aria-pressed', String(S.sound));
+  b.title = S.sound ? 'Couper les sons de menu' : 'Activer les petits sons de menu';
+}
+const SFX_MAP = [
+  ['[data-give],[data-tgive],[data-tpg],[data-rec]', 'ok'],
+  ['[data-close],[data-dash],.scrim,[data-tcancel],[data-mclear],[data-mrclear]', 'back'],
+  ['[data-tab],[data-gmode],[data-dense],[data-gotab]', 'page'],
+  ['[data-step],#hMinus,#hPlus,[data-buy],summary,[data-sort],[data-mzoom]', 'move']
+];
+document.addEventListener('click', e => {
+  if(!S.sound) return;
+  const t = e.target.closest('button, summary, .scrim'); if(!t || t.id === 'soundBtn' || t.disabled) return;
+  for(const [sel, n] of SFX_MAP) if(t.matches(sel)){ SFX.play(n); return; }
+  SFX.play('select');
+}, true);
+
+/* ---------- raccourcis clavier ---------- */
+const TAB_KEYS = ['chars', 'tour', 'gifts', 'inv', 'map'];
+const isTyping = el => !!el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
+const listItems = () => [...document.querySelectorAll('#listCol :is(.row, .gname, .tname)')].filter(el => el.offsetParent !== null && !el.disabled);
+function focusSearch(){ const q = $('#q'); q.focus(); q.select(); }
+function moveItem(d, open){
+  const items = listItems(); if(!items.length) return;
+  let i = items.indexOf(document.activeElement);
+  if(i < 0 && S.sel) i = items.findIndex(el => (S.sel.k === 'c' && el.dataset.char === S.sel.id) || (S.sel.k === 'g' && el.dataset.gift === S.sel.id));
+  const el = items[i < 0 ? (d > 0 ? 0 : items.length - 1) : Math.max(0, Math.min(items.length - 1, i + d))];
+  const bar = document.querySelector('.bar');
+  el.style.scrollMarginTop = Math.max(0, bar ? bar.getBoundingClientRect().bottom : 0) + 10 + 'px';
+  el.style.scrollMarginBottom = '16px';
+  el.focus({ preventScroll: true }); el.scrollIntoView({ block: 'nearest' });
+  SFX.play('move');
+  if(open) el.click();
+}
+function renderKeysPanel(){
+  const k = x => `<kbd>${x}</kbd>`;
+  const rows = [
+    [`${k('/')} ou ${k('Ctrl')} ${k('K')}`, 'Aller à la recherche'],
+    [`${k('1')} à ${k('5')}`, 'Personnages, Tournée, Cadeaux, Inventaire, Carte'],
+    [`${k('↓')} ${k('↑')}`, 'Parcourir la liste. Depuis la recherche, ↓ descend dans la liste.'],
+    [k('Entrée'), 'Ouvrir la fiche'],
+    [`${k('J')} ${k('K')}`, 'Suivant ou précédent. Depuis une fiche, ouvre directement la fiche suivante.'],
+    [k('Échap'), 'Fermer la fiche, quitter le plein écran de la carte'],
+    [k('N'), 'Mode jour ou nuit'],
+    [k('R'), 'Style rétro'],
+    [k('S'), 'Sons de menu'],
+    [k('F'), 'Carte en plein écran'],
+    [`${k('+')} ${k('−')} ${k('←')} ${k('→')}`, 'Sur la carte : zoomer et se déplacer'],
+    [k('?'), 'Afficher cette aide']
+  ];
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Raccourcis clavier</h2><p>Actifs hors des champs de saisie</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+    <div class="pb"><table class="keys"><tbody>${rows.map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function showKeys(){ lastFocus = document.activeElement; openPanel('k'); }
+document.addEventListener('click', e => { if(e.target.closest('[data-keys]')){ e.preventDefault(); showKeys(); } });
+document.addEventListener('keydown', e => {
+  if(e.defaultPrevented || e.isComposing) return;
+  const k = e.key, t = e.target;
+  if((e.ctrlKey || e.metaKey) && !e.altKey && (k === 'k' || k === 'K')){ e.preventDefault(); focusSearch(); return; }
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+  if(isTyping(t)){ if(t.id === 'q' && k === 'ArrowDown'){ e.preventDefault(); moveItem(1); } return; }
+  // la carte traite déjà ses flèches, + et − (événement marqué defaultPrevented)
+  const inPanel = !!(t.closest && t.closest('#panel'));
+  const dm = /^(Digit|Numpad)([1-5])$/.exec(e.code || '');
+  if(dm){ e.preventDefault(); const b = document.querySelector(`.tabs [data-tab="${TAB_KEYS[+dm[2] - 1]}"]`); if(b) b.click(); return; }
+  if(k === '/'){ e.preventDefault(); focusSearch(); return; }
+  if(k === '?'){ e.preventDefault(); showKeys(); return; }
+  if(k === 'ArrowDown' || k === 'ArrowUp'){ if(inPanel) return; e.preventDefault(); moveItem(k === 'ArrowDown' ? 1 : -1); return; }
+  if(k === 'j' || k === 'k'){ e.preventDefault(); moveItem(k === 'j' ? 1 : -1, inPanel && !isSheet()); return; }
+  if(k === 'n'){ $('#nightBtn').click(); return; }
+  if(k === 'r'){ $('#retroBtn').click(); return; }
+  if(k === 's'){ $('#soundBtn').click(); return; }
+  if(k === 'f' && S.tab === 'map'){ const b = document.querySelector('[data-mfs]'); if(b) b.click(); }
+});
+
+/* ---------- infobulle d'un cadeau, à la souris ---------- */
+const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+let tipTimer = null, tipFor = null, mouseXY = [0, 0];
+function tipHtml(g){
+  const G = GIFTS[g], w = WHERE[g] || {}, towns = townsOf(g), out = [];
+  out.push(`<span class="t">${esc(G[1])}</span><small>${esc(G[0])} · ${esc(CATS[G[2]][0])}</small>`);
+  if(towns.length) out.push(`<div class="tl">${pix('shop')}${esc(towns.slice(0, 5).join(', '))}${towns.length > 5 ? '…' : ''} · ${w.p ? `<b>${w.p} or</b>` : 'prix non documenté'}</div>`);
+  if(w.r) out.push(`<div class="tl">${pix('star')}Récompense du rang d’Honneur ${w.r}</div>`);
+  for(const q of (w.q || []).slice(0, 2)) out.push(`<div class="tl">${pix('scroll')}Quête « ${esc(q.n)} », avant le ${q.d}</div>`);
+  if(!towns.length && !w.r && !(w.q || []).length) out.push(`<div class="tl"><small>Lieu inconnu</small></div>`);
+  const fans = relevantChars().filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; });
+  if(fans.length){
+    const need = fans.filter(c => !supMet(c) && !isRec(c)), rest = fans.filter(c => !need.includes(c));
+    const names = [...need.map(c => `<span class="need">${esc(c.n)}</span>`), ...rest.map(c => esc(c.n))];
+    out.push(`<div class="tl">⇈ Adoré par ${names.slice(0, 10).join(', ')}${names.length > 10 ? ` et ${names.length - 10} autres` : ''}</div>`);
+    if(need.length && rest.length) out.push(`<small>En gras : ceux qui ont encore besoin de soutien.</small>`);
+  } else out.push(`<div class="tl"><small>Personne sur ta voie ne l’adore.</small></div>`);
+  if(qty(g)) out.push(`<div class="tl">En stock : <b>×${qty(g)}</b></div>`);
+  return out.join('');
+}
+function hideTip(){ clearTimeout(tipTimer); tipTimer = null; tipFor = null; const t = $('#tip'); if(t && !t.hidden) t.hidden = true; }
+function showTip(el){
+  const tip = $('#tip'); tip.innerHTML = tipHtml(el.dataset.gift); tip.hidden = false;
+  const r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+  const x = Math.min(Math.max(8, mouseXY[0] - 24), innerWidth - tw - 8);
+  let y = r.bottom + 8; if(y + th > innerHeight - 8) y = Math.max(8, r.top - th - 8);
+  tip.style.transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
+}
+document.addEventListener('mousemove', e => { mouseXY = [e.clientX, e.clientY]; }, { passive: true });
+document.addEventListener('mouseover', e => {
+  if(!canHover.matches) return;
+  const el = e.target.closest && e.target.closest('[data-gift]');
+  if(el === tipFor) return;
+  hideTip();
+  if(!el || !GIFTS[el.dataset.gift]) return;
+  tipFor = el;
+  tipTimer = setTimeout(() => { if(tipFor === el && document.body.contains(el)) showTip(el); }, 380);
+});
+document.addEventListener('mouseout', e => { if(tipFor && !(e.relatedTarget && tipFor.contains(e.relatedTarget)) && e.target.closest && e.target.closest('[data-gift]') === tipFor) hideTip(); });
+for(const ev of ['scroll', 'keydown', 'mousedown', 'wheel', 'blur']) window.addEventListener(ev, hideTip, { passive: true, capture: true });
 
 /* ---------- événements ---------- */
 $('#lords').addEventListener('click', e => {
@@ -2955,6 +3367,15 @@ document.addEventListener('change', e => {
 
 $('#listCol').addEventListener('click', e => {
   if(e.target.closest('.stp')) return;
+  const so = e.target.closest('[data-sort]');
+  if(so){
+    const tab = so.dataset.sortTab, k = so.dataset.sort, o = sortOf(tab);
+    S.sort[tab] = o.k === k ? { k, d: -o.d } : { k, d: SORT_DIR[k] || 1 }; store.set('sort', S.sort);
+    renderList(); const nb = document.querySelector(`[data-sort="${k}"][data-sort-tab="${tab}"]`); if(nb) nb.focus({ preventScroll: true });
+    return;
+  }
+  const dv = e.target.closest('[data-dense]');
+  if(dv){ S.dense[S.tab] = dv.dataset.dense === '1'; store.set('dense', S.dense); renderList(); const nb = document.querySelector(`[data-dense="${dv.dataset.dense}"]`); if(nb) nb.focus({ preventScroll: true }); return; }
   if(dashClick(e)) return;
   if(window.MAP && MAP.click(e)) return;
   if(S.tab === 'tour' && tourClick(e)) return;
@@ -3025,6 +3446,8 @@ $('#panel').addEventListener('keydown', e => {
   e.preventDefault(); if(S.sel && S.sel.k === 'g') addSpot(S.sel.id, i.value);
 });
 $('#saveBtn').addEventListener('click', e => { lastFocus = e.currentTarget; openPanel('s'); });
+$('#soundBtn').addEventListener('click', () => { S.sound = !S.sound; store.set('sound', S.sound); renderSoundBtn(); SFX.play('select'); });
+renderSoundBtn();
 $('#panel').addEventListener('change', e => {
   const f = e.target.closest('[data-imp-file]'); if(!f || !f.files || !f.files[0]) return;
   const rd = new FileReader();
@@ -3034,8 +3457,8 @@ $('#panel').addEventListener('change', e => {
 $('#scrim').addEventListener('click', closePanel);
 document.addEventListener('keydown', e => {
   if(e.key !== 'Escape') return;
-  if($('#panel').classList.contains('open')){ closePanel(); return; }
-  if(document.body.classList.contains('fs-sel')){ document.body.classList.remove('fs-sel'); return; }
+  if($('#panel').classList.contains('open')){ SFX.play('back'); closePanel(); return; }
+  if(document.body.classList.contains('fs-sel')){ SFX.play('back'); document.body.classList.remove('fs-sel'); return; }
   if(S.mFs && window.MAP){ MAP.exitFs(); return; }
   if(S.picking){ S.picking = false; renderTop(); $('#lordPill').focus(); }
 });

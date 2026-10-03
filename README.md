@@ -13,7 +13,9 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 - **Où trouver les cadeaux** : marchés par ville, quêtes à date limite, et tes propres repères.
 - **Liste de courses** : dans la Tournée, le moins d'achats possible pour les personnages qui n'ont rien de bon en stock, regroupés par ville avec le coût total.
 - **Carte du monde** : villes, routes, relais, temples, donjons et points de récolte, de pêche et de minerai. Une fiche par lieu avec ses boutiques et ses récoltes, la recherche de n'importe quel objet, et des itinéraires qui suivent les routes, dont une tournée des courses. Un mode plein écran garde le zoom et la position, avec les filtres et la fiche du lieu par-dessus. Les régions pas encore atteintes restent grisées, sans lieux ni noms, pour éviter les spoilers.
-- **Résumé** : progression du recrutement pour chaque Seigneur, personnages prêts, tournée, courses, prochaine quête à date limite et dernière sauvegarde.
+- **Anniversaires** : la date de chaque personnage dans sa fiche, et un calendrier dans « À ne pas rater ». Ce jour-là, même un cadeau banal est « beaucoup aimé ». Un gâteau signale les anniversaires de la semaine dans la liste et la tournée.
+- **Armes** : une icône de l'arme de prédilection à côté de chaque personnage. La fiche liste toutes ses armes et, quand les sources s'accordent, sa classe de départ.
+- **Résumé** : progression du recrutement pour chaque Seigneur, personnages prêts, tournée, courses, prochaine quête à date limite, prochains anniversaires et dernière sauvegarde.
 
 ## Confort
 
@@ -25,6 +27,10 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 - **Thèmes** : un bouton jour/nuit et un bouton rétro, façon Fire Emblem sur Game Boy Advance.
 - **En-tête toujours visible** : le Seigneur, l'Honneur et les boutons restent en haut pendant le défilement, sur téléphone comme sur tablette.
 - **Recherche** : une seule barre, qui signale aussi les personnages, cadeaux et villes trouvés dans les autres rubriques.
+- **Tableaux** : l'Inventaire et la Tournée s'affichent aussi en tableau compact, triable par colonne.
+- **Infobulles** : sur ordinateur, le survol d'un cadeau montre où l'acheter, son prix et qui l'adore.
+- **Raccourcis clavier** : `/` pour chercher, `1` à `5` pour les onglets, les flèches pour parcourir la liste, `J` et `K` pour passer d'une fiche à l'autre, `?` pour la liste complète.
+- **Sons de menu** : de petits bips façon console portable, synthétisés dans le navigateur et coupés par défaut.
 - **Épingles** : l'étoile d'une fiche place le personnage en haut de la liste et le sert en premier dans la tournée.
 - **Date du jeu** : indiquée dans « À ne pas rater », elle affiche les jours restants avant chaque quête.
 - **Rappel de sauvegarde** au bout d'une semaine sans export.
