@@ -5,6 +5,7 @@
   const M = window.MAP = { ready: false };
   let D = null, P = {}, IDX = null, MKT = {}, GIFT_KEY = {};
   let GW = 224, GH = 184;
+  const HD = 4; let hdKey = null;
   const KIND = {
     town: ['Ville', 'castle'], post: ['Relais de poste', 'horse'], temple: ['Temple', 'temple'], dungeon: ['Donjon', 'cave'],
     gather: ['Récolte', 'seeds'], fish: ['Pêche', 'fish'], ore: ['Minerai', 'pick'], search: ['Fouille', 'lens'],
@@ -32,6 +33,7 @@
   S.spoil = !!store.get('spoil', false);
   S.mUseful = store.get('mUseful', true) !== false;
   S.mFast = !!store.get('mFast', false);
+  S.mNames = store.get('mNames', true) !== false;
   S.mapItem = null; S.mapSel = null; S.route = null; S.mFrom = null; S.mTo = '';
   let view = null, needFit = true, pinsEl = null, stageEl = null, viewEl = null;
 
@@ -247,9 +249,9 @@
     }
     if(!S.regions) html += `<div class="note mfog">${pix('lens')} Seules tes régions de départ sont dévoilées. Coche les régions que tu as atteintes pour afficher leurs lieux. <button type="button" class="linkbtn" data-mregs-open>Choisir mes régions</button></div>`;
     html += `<div class="mapbar"><div class="mk-filters" role="group" aria-label="Types de lieux affichés">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}</div>
-      <div class="mtoggles"><button type="button" class="btn" data-museful aria-pressed="${S.mUseful}" title="Villes où trouver des cadeaux adorés par tes personnages qui ont encore besoin de soutien">⇈ Utile</button><button type="button" class="btn" data-mfast aria-pressed="${S.mFast}" title="Carrosses et Portes des Dieux">Voyage rapide</button></div></div>
+      <div class="mtoggles"><button type="button" class="btn" data-museful aria-pressed="${S.mUseful}" title="Villes où trouver des cadeaux adorés par tes personnages qui ont encore besoin de soutien">⇈ Utile</button><button type="button" class="btn" data-mfast aria-pressed="${S.mFast}" title="Carrosses et Portes des Dieux">Voyage rapide</button><button type="button" class="btn" data-mnames aria-pressed="${S.mNames}" title="Afficher les noms des lieux quand il y a la place">Noms</button></div></div>
       <div class="map-view" tabindex="0" aria-label="Carte du monde. Glisse pour te déplacer, pince ou utilise les boutons pour zoomer.">
-        <div class="map-stage" style="width:${GW}px;height:${GH}px"><canvas class="map-canvas" width="${GW}" height="${GH}" style="width:${GW}px;height:${GH}px"></canvas><svg class="map-roads" viewBox="0 0 ${GW} ${GH}" width="${GW}" height="${GH}" aria-hidden="true"></svg></div>
+        <div class="map-stage" style="width:${GW}px;height:${GH}px"><canvas class="map-canvas" width="${GW}" height="${GH}" style="width:${GW}px;height:${GH}px"></canvas><canvas class="map-canvas-hd" width="${GW * HD}" height="${GH * HD}" style="width:${GW}px;height:${GH}px"></canvas><svg class="map-roads" viewBox="0 0 ${GW} ${GH}" width="${GW}" height="${GH}" aria-hidden="true"></svg></div>
         <div class="map-pins"></div>
         <div class="map-ctrl"><button type="button" data-mzoom="1.6" aria-label="Zoomer">+</button><button type="button" data-mzoom="0.625" aria-label="Dézoomer">−</button><button type="button" data-mfit aria-label="Voir toute la carte">⌂</button></div>
       </div>`;
@@ -396,7 +398,7 @@
   }
   function clamp(){
     const w = viewEl.clientWidth, h = viewEl.clientHeight;
-    view.s = Math.max(view.s0 * .9, Math.min(view.s0 * 8, view.s));
+    view.s = Math.max(view.s0 * .9, Math.min(Math.max(view.s0 * 4, 7), view.s));
     const mw = GW * view.s, mh = GH * view.s;
     view.tx = mw <= w ? (w - mw) / 2 : Math.min(40, Math.max(w - mw - 40, view.tx));
     view.ty = mh <= h ? (h - mh) / 2 : Math.min(40, Math.max(h - mh - 40, view.ty));
@@ -410,6 +412,90 @@
     viewEl.classList.toggle('z2', view.s >= view.s0 * 2.2);
     viewEl.classList.toggle('z3', view.s >= view.s0 * 3.4);
     for(const el of pinsEl.children) el.style.transform = `translate(${(+el.dataset.x * view.s + view.tx).toFixed(1)}px,${(+el.dataset.y * view.s + view.ty).toFixed(1)}px)`;
+    const hd = view.s >= 4.5;
+    if(hd) paintHD();
+    viewEl.classList.toggle('hd', hd);
+    scheduleLabels();
+  }
+  // ---------- relief lissé : chaque classe de terrain est interpolée, la frontière tombe entre les cases ----------
+  function paintHD(){
+    const key = [isNight(), isRetro(), reached().join()].join('|');
+    if(key === hdKey) return; hdKey = key;
+    const cv = viewEl.querySelector('.map-canvas-hd'); if(!cv) return;
+    const pal = palette(), c = D.cells, reg = D.regions, ok = reached(), FW = GW * HD, FH = GH * HD;
+    const base = new Uint8Array(GW * GH);
+    for(let i = 0; i < GW * GH; i++){ const k = c[i] >> 4; base[i] = k >= 8 ? k - 8 : k; }
+    const fine = new Uint8Array(FW * FH), w = new Float32Array(6);
+    for(let Y = 0; Y < FH; Y++){
+      const v = (Y + .5) / HD - .5, j0 = Math.floor(v), fv = v - j0;
+      for(let X = 0; X < FW; X++){
+        const u = (X + .5) / HD - .5, i0 = Math.floor(u), fu = u - i0;
+        w.fill(0);
+        for(let dj = 0; dj <= 1; dj++) for(let di = 0; di <= 1; di++){
+          const x = Math.min(GW - 1, Math.max(0, i0 + di)), y = Math.min(GH - 1, Math.max(0, j0 + dj));
+          w[base[y * GW + x]] += (di ? fu : 1 - fu) * (dj ? fv : 1 - fv);
+        }
+        let b = 0; for(let k = 1; k < 6; k++) if(w[k] > w[b]) b = k;
+        fine[Y * FW + X] = b;
+      }
+    }
+    const ctx = cv.getContext('2d'), img = ctx.createImageData(FW, FH);
+    const at = (X, Y) => (X < 0 || Y < 0 || X >= FW || Y >= FH) ? 1 : fine[Y * FW + X];
+    for(let Y = 0; Y < FH; Y++) for(let X = 0; X < FW; X++){
+      const k = fine[Y * FW + X], cx = Math.min(GW - 1, (X / HD) | 0), cy = Math.min(GH - 1, (Y / HD) | 0), r = c[cy * GW + cx] & 15, h = hash(X, Y), o = (Y * FW + X) * 4;
+      let col;
+      if(k === 0){
+        let shore = false; for(let d = 1; d <= 2 && !shore; d++) shore = at(X - d, Y) >= 2 || at(X + d, Y) >= 2 || at(X, Y - d) >= 2 || at(X, Y + d) >= 2;
+        col = shore ? mix(pal.shore, pal.water, .25) : pal.water;
+      } else if(k === 1){ col = h > .9 ? pal.cloud2 : pal.cloud; }
+      else {
+        col = k === 3 ? mix(pal.land[3], pal.forest2, hash(X >> 1, Y >> 1)) : pal.land[k];
+        const t = (hash(X >> 1, Y >> 1) - .5) * .06; col = col.map(z => Math.max(0, Math.min(255, Math.round(z * (1 + t)))));
+        if(at(X - 1, Y) === 0 || at(X + 1, Y) === 0 || at(X, Y - 1) === 0 || at(X, Y + 1) === 0) col = col.map(z => Math.round(z * pal.coast));
+        if(r && !ok.includes(reg[r - 1].id)){ const g = Math.round(col[0] * .3 + col[1] * .59 + col[2] * .11); col = mix(mix(col, [g, g, g], .75), pal.fog[0], .45); }
+      }
+      img.data[o] = col[0]; img.data[o + 1] = col[1]; img.data[o + 2] = col[2]; img.data[o + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+  // ---------- noms : placés seulement s'ils ne chevauchent ni un autre nom ni une icône ----------
+  let labelRaf = 0;
+  const labelW = {}; let measureCtx = null;
+  function textW(t){
+    if(labelW[t]) return labelW[t];
+    if(!measureCtx){ measureCtx = document.createElement('canvas').getContext('2d'); }
+    measureCtx.font = isRetro() ? '400 14px "Jersey 15", sans-serif' : '600 12px "Alegreya Sans", sans-serif';
+    return labelW[t] = measureCtx.measureText(t).width + 6;
+  }
+  function scheduleLabels(){ if(labelRaf) return; labelRaf = requestAnimationFrame(() => { labelRaf = 0; layoutLabels(); }); }
+  function layoutLabels(){
+    if(!pinsEl || !view) return;
+    const W0 = viewEl.clientWidth, H0 = viewEl.clientHeight, placed = [], pins = [];
+    const imp = new Set(['dagsion', 'grand-aragon', 'megaira', 'ribeira', 'fina', 'kassite']);
+    for(const el of pinsEl.children){
+      el.classList.remove('lv');
+      if(getComputedStyle(el).display === 'none') continue;
+      const x = +el.dataset.x * view.s + view.tx, y = +el.dataset.y * view.s + view.ty;
+      if(x < -40 || y < -40 || x > W0 + 40 || y > H0 + 40) continue;
+      const town = el.classList.contains('k-town'), sz = town && viewEl.classList.contains('z2') ? 24 : 16;
+      placed.push([x - sz / 2, y - sz / 2, x + sz / 2, y + sz / 2, el]);
+      const forced = el.classList.contains('sel') || el.classList.contains('hl') || el.classList.contains('stop');
+      const pr = forced ? 0 : imp.has(el.dataset.place) ? 1 : el.querySelector('.mb') ? 2 : town ? 3 : 4;
+      pins.push({ el, x, y, sz, pr, forced, town });
+    }
+    pins.sort((a, b) => a.pr - b.pr);
+    const z3 = viewEl.classList.contains('z3');
+    const z1 = viewEl.classList.contains('z1'), z2 = viewEl.classList.contains('z2'), pad = z2 ? 4 : 8;
+    for(const p of pins){
+      if(!p.forced && (!S.mNames || (!p.town && !z3))) continue;
+      if(!p.forced && !z1 && p.pr > 2) continue; // vue d'ensemble : villes importantes et utiles seulement
+      const lab = p.el.querySelector('.pl'); if(!lab) continue;
+      const w = textW(lab.textContent), hgt = isRetro() ? 15 : 14;
+      const box = [p.x - w / 2, p.y + p.sz / 2 + .5, p.x + w / 2, p.y + p.sz / 2 + .5 + hgt];
+      const big = [box[0] - pad, box[1] - pad / 2, box[2] + pad, box[3] + pad / 2];
+      if(!p.forced && placed.some(b => b[4] !== p.el && !(big[2] < b[0] || big[0] > b[2] || big[3] < b[1] || big[1] > b[3]))) continue;
+      placed.push(box); p.el.classList.add('lv');
+    }
   }
   function zoomAt(f, cx, cy){
     const s = view.s; view.s = s * f; clamp();
@@ -548,6 +634,7 @@
       S.mapKinds = on ? S.mapKinds.filter(x => !f[1].includes(x)) : [...new Set([...S.mapKinds, ...f[1]])]; store.set('mapKinds', S.mapKinds); M.render(); return true; }
     if(t.closest('[data-mregs-open]')){ openState.mreg = true; store.set('open', openState); M.render(); const d = document.querySelector('[data-g="mreg"]'); if(d) d.scrollIntoView({ block: 'start', behavior: 'smooth' }); return true; }
     if(t.closest('[data-museful]')){ S.mUseful = !S.mUseful; store.set('mUseful', S.mUseful); M.render(); return true; }
+    if(t.closest('[data-mnames]')){ S.mNames = !S.mNames; store.set('mNames', S.mNames); t.closest('[data-mnames]').setAttribute('aria-pressed', S.mNames); layoutLabels(); return true; }
     if(t.closest('[data-mfast]')){ S.mFast = !S.mFast; store.set('mFast', S.mFast); if(S.route) recompute(); M.render(); return true; }
     const z = t.closest('[data-mzoom]'); if(z){ zoomAt(+z.dataset.mzoom, viewEl.clientWidth / 2, viewEl.clientHeight / 2); return true; }
     if(t.closest('[data-mfit]')){ fit(); return true; }

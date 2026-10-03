@@ -1,6 +1,6 @@
 // Service worker du Fil des cadeaux : rend l'outil utilisable sans connexion.
 // Réseau d'abord pour les fichiers du site (les mises à jour s'affichent tout de suite), cache en secours hors ligne.
-const CACHE = 'fil-cadeaux-v5';
+const CACHE = 'fil-cadeaux-v6';
 const CORE = ['./', './index.html', './pixel-art.css', './manifest.webmanifest', './vendor/qrcode.js', './map.js', './data/map.json',
   './icons/icon-192.png', './icons/icon-512.png', './icons/favicon-32.png', './icons/apple-touch-icon.png'];
 
