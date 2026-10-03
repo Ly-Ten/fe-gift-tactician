@@ -190,6 +190,35 @@ def('moon', grid(set => {
   set(4, 6, 'Y'); set(5, 10, 'Y');
 }), { outline:true, after: g => { g[2][13] = 'w'; g[1][13] = 'c'; g[3][13] = 'c'; g[2][12] = 'c'; g[2][14] = 'c'; } });
 
+// ---------- carte ----------
+def('castle', [E8,'.......r','......rr','.r...rRr','rrr..hhh','rRr..hgh','hhh..hhh','hgh.hhhh',
+ 'hhhhhhhh','hhhhhhhh','hhhhhhNN','hhhhhhNN','GGGGGGNN',E8,E8,E8], { mirror:true, outline:true });
+def('temple', [E8,E8,'.......w','.....www','...wwwww','.wwwwwww','hhhhhhhh','.w.w.w.w',
+ '.w.w.w.w','.w.w.w.w','.w.w.w.w','hhhhhhhh','gggggggg',E8,E8,E8], { mirror:true, outline:true });
+def('cave', grid(set => {
+  for(let y = 0; y < 16; y++) for(let x = 0; x < 16; x++){
+    const d = Math.hypot(x - 7.5, (y - 13.5) * 1.15);
+    if(y <= 13 && d <= 7.4) set(x, y, d > 6.2 ? 'G' : (x + y) % 5 === 0 ? 'h' : 'g');
+    if(y <= 13 && Math.hypot(x - 7.5, (y - 13.5) * .95) <= 3.6) set(x, y, 'k');
+  }
+  for(let x = 1; x <= 14; x++) set(x, 14, 'e');
+}), { outline:true });
+def('pick', grid(set => {
+  for(let i = 0; i < 10; i++){ set(2 + i, 13 - i, 'n'); set(3 + i, 13 - i, 'N'); }
+  for(const [x, y] of [[6,3],[7,2],[8,2],[9,2],[10,3],[11,4],[12,5],[13,6],[13,7],[14,8],[5,4],[4,5]]) set(x, y, 'h');
+  for(const [x, y] of [[8,3],[9,3],[10,4],[11,5],[12,6]]) set(x, y, 'g');
+}), { outline:true });
+def('tower', [E8,E8,'...h.h.h','...hhhhh','....hhhh','....hhhh','....hkhh','....hhhh',
+ '....hhhh','....hhhh','...hhhhh','...hhhhN','..GGGGGN','..GGGGGG',E8,E8], { mirror:true, outline:true });
+def('lens', grid(set => {
+  for(let y = 0; y < 16; y++) for(let x = 0; x < 16; x++){
+    const d = Math.hypot(x - 6.5, y - 6.5);
+    if(d <= 5.2) set(x, y, d > 3.9 ? 'h' : 'c');
+  }
+  set(5, 4, 'w'); set(4, 5, 'w');
+  for(let i = 0; i < 4; i++){ set(10 + i, 10 + i, 'n'); set(11 + i, 10 + i, 'N'); }
+}), { outline:true });
+
 // ---------- sorties ----------
 const path = require('path');
 const zlib = require('zlib');

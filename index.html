@@ -632,6 +632,74 @@ small.hint2{display:block;margin-top:6px}
 :root[data-theme="gba-day"] .grp.ready h2{color:#17663F}
 :root[data-theme="gba-day"] .ph{background:#5878DC}
 
+
+/* ---------- carte ---------- */
+.mapbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}
+.mk-filters{display:flex;flex-wrap:wrap;gap:4px}
+.mkf{width:38px;height:38px;padding:0;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:inline-grid;place-items:center}
+.mkf[aria-pressed="true"]{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.mkf[aria-pressed="false"] .pi{filter:grayscale(1);opacity:.4}
+.mtoggles{display:flex;gap:6px;margin-left:auto}
+.map-view{position:relative;overflow:hidden;touch-action:none;border-radius:14px;border:1px solid var(--line);user-select:none;-webkit-user-select:none;cursor:grab;outline-offset:2px}
+.map-view.drag{cursor:grabbing}
+.map-stage{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.map-canvas{position:absolute;left:0;top:0;image-rendering:crisp-edges;image-rendering:pixelated}
+.map-roads{position:absolute;left:0;top:0;overflow:visible}
+.map-roads line,.map-roads polyline{vector-effect:non-scaling-stroke;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mr-case{stroke:rgba(70,48,20,.45);stroke-width:4.5}
+.mr-r{stroke:#f4e6bf;stroke-width:2.2}
+.mr-d{stroke:#f8e3a2;stroke-width:2;stroke-dasharray:4 4}
+.mr-s{stroke:#fff;stroke-width:1.8;stroke-dasharray:2 5;opacity:.85}
+.mr-c{stroke:#d2b4ff;stroke-width:1.8;stroke-dasharray:1 5}
+.mr-w{stroke:#ffd75e;stroke-width:1.8;stroke-dasharray:1 5}
+.mr-pathc{stroke:#fff;stroke-width:8;opacity:.85}
+.mr-path{stroke:var(--acc);stroke-width:4.5}
+.mv-dark .mr-r{stroke:#cdbf98}
+.mv-dark .mr-case{stroke:rgba(0,0,0,.55)}
+.mv-dark .mr-pathc{stroke:#000;opacity:.5}
+.map-pins{position:absolute;inset:0;pointer-events:none}
+.mpin{position:absolute;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;padding:0;border:0;background:transparent;pointer-events:auto;display:grid;place-items:center;cursor:pointer}
+.mpin .pi{width:16px;height:16px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.35))}
+.map-view.z2 .mpin.k-town .pi{width:24px;height:24px}
+.mpin .pl{position:absolute;top:calc(100% - 6px);left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;font-weight:700;line-height:1.1;color:#2b2338;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff,0 0 4px #fff;pointer-events:none;display:none}
+.mv-dark .mpin .pl{color:#fff;text-shadow:0 0 2px #000,0 0 2px #000,0 0 3px #000}
+.map-view.z1 .mpin.k-town .pl,.map-view.z3 .mpin .pl,.mpin.sel .pl,.mpin.hl .pl,.mpin.stop .pl{display:block}
+.mpin.minor{display:none}
+.map-view.z2 .mpin.minor,.mpin.minor.hl,.mpin.minor.sel,.mpin.minor.stop{display:grid}
+.mfog{margin:8px 0;font-size:15px}
+.panel .who-btn{display:inline-flex;align-items:center;gap:6px}
+.panel .who-btn .loved{padding:2px 6px;font-size:12px}
+@media (min-width:1024px){body.tab-map .wrap{grid-template-columns:minmax(0,1.8fr) minmax(320px,1fr)}}
+.mpin.dim{opacity:.3}
+.mpin.sel::before,.mpin.hl::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--acc);background:color-mix(in srgb,var(--acc) 30%,transparent)}
+.mpin.hl::before{animation:mpulse 1.4s ease-in-out infinite}
+@keyframes mpulse{50%{transform:scale(1.25);opacity:.6}}
+@media (prefers-reduced-motion:reduce){.mpin.hl::before{animation:none}}
+.mpin .mb{position:absolute;top:-4px;left:22px;font-size:10.5px;font-weight:700;padding:1px 4px;border-radius:999px;background:var(--t-l-bg);color:var(--t-l);white-space:nowrap;line-height:1.2}
+.mpin .ms{position:absolute;top:-6px;left:-6px;min-width:17px;height:17px;padding:0 3px;border-radius:999px;background:var(--acc);color:var(--acc-ink);font-size:10.5px;font-weight:700;display:grid;place-items:center}
+.map-ctrl{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.map-ctrl button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:20px;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.mres{margin-top:8px}
+.who-btn[aria-pressed="true"]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--bg))}
+.who-btn.dim{opacity:.55}
+.mitem{margin-top:10px}
+.mitem .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
+.mroute{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:flex-end;margin:4px 0 8px}
+.mroute label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted);flex:1 1 140px}
+.mroute select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:42px}
+.mroute .acts{display:flex}
+.mstops{margin:6px 0;padding-left:22px}
+.mstops li{margin:4px 0}
+.mregs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.mregs label,.mspoil{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:15px}
+.mregs input,.mspoil input{width:18px;height:18px;accent-color:var(--acc)}
+.mspoil{margin-top:8px}
+.map-credit{color:var(--muted);font-size:13px;margin:12px 2px 0}
+.mpacts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+:root[data-theme^="gba"] .map-view{border:2px solid var(--win-hi);box-shadow:0 0 0 2px var(--win-edge)}
+:root[data-theme^="gba"] .mpin .pl{font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-weight:400;font-size:14px;letter-spacing:.02em}
+:root[data-theme^="gba"] :is(.mkf,.map-ctrl button,.mroute select,.mregs label,.mspoil){background:var(--win);color:#fff;border-color:var(--win-hi)}
+
 /* ---------- lot 2 ---------- */
 .ph-acts{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0}
 .ph-acts .x{margin-left:0}
@@ -729,6 +797,7 @@ small.hint2{display:block;margin-top:6px}
       <button role="tab" id="tab-tour" data-tab="tour" aria-selected="false" type="button">Tournée<span class="n" id="tourCount" hidden>0</span></button>
       <button role="tab" id="tab-gifts" data-tab="gifts" aria-selected="false" type="button">Cadeaux</button>
       <button role="tab" id="tab-inv" data-tab="inv" aria-selected="false" type="button"><span class="lg">Inventaire</span><span class="sh">Stock</span><span class="n" id="invCount">0</span></button>
+      <button role="tab" id="tab-map" data-tab="map" aria-selected="false" type="button">Carte</button>
     </div>
     <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="Chercher un personnage" autocomplete="off"></label>
     <div class="hfwrap" id="hfwrap">
@@ -748,6 +817,7 @@ small.hint2{display:block;margin-top:6px}
       <li><b>Thème :</b> deux boutons en haut. Le soleil ou la lune passe du jour à la nuit, la petite main active le style rétro, façon Fire Emblem sur Game Boy Advance.</li>
       <li><b>Où acheter :</b> la plupart des cadeaux se vendent dans les Marchés des villes de la carte. À Dagsion, la Taverne de la ville basse est moins chère que la Galerie marchande, mais leur stock complet n'est pas connu. Dans Cadeaux, « Par ville » te dit quoi acheter là où tu es, et « À ne pas rater » liste les cadeaux de quêtes à date limite.</li>
       <li><b>Réassort :</b> les sources se contredisent (chaque chapitre ou chaque semaine). Le bienfait « Réduction sur les cadeaux » (300 éclats de karma) baisse les prix de 10 %.</li>
+      <li><b>Carte :</b> l'onglet Carte montre les villes, les routes et les points de récolte. Coche les régions atteintes pour lever le brouillard sans te spoiler, et tape un objet dans la recherche pour voir où le trouver.</li>
       <li><b>Liste de courses :</b> dans la Tournée, elle indique quoi acheter, et où, pour les personnages qui n'ont rien de bon dans ton stock.</li>
       <li><b>Épingles :</b> l'étoile dans la fiche d'un personnage le place en haut de la liste et le sert en premier dans la tournée.</li>
       <li><b>Date du jeu :</b> indique-la dans Cadeaux, « À ne pas rater », pour voir les jours restants avant chaque quête.</li>
@@ -1471,7 +1541,7 @@ const S = {
   q: '', sel: null
 };
 if(!LORD_IDS.includes(S.lord)) S.lord = 'cai';
-if(!['chars','gifts','inv','tour'].includes(S.tab)) S.tab = 'chars';
+if(!['chars','gifts','inv','tour','map'].includes(S.tab)) S.tab = 'chars';
 S.honor = Math.min(10, Math.max(1, +S.honor || 1));
 if(!S.rec){ // migration de l'ancienne marque « recruté » (globale) vers le Seigneur courant
   S.rec = {}; const old = store.get('done', []);
@@ -1594,7 +1664,7 @@ function renderTabs(){
   $('#invCount').textContent = invTotal();
   const left = planTour().filter(p => p.a).length;
   $('#tourCount').textContent = left; $('#tourCount').hidden = !left;
-  $('#q').placeholder = (S.tab === 'gifts' && S.giftMode === 'town') ? 'Chercher un cadeau dans cette ville' : 'Personnage, cadeau ou ville';
+  $('#q').placeholder = (S.tab === 'gifts' && S.giftMode === 'town') ? 'Chercher un cadeau dans cette ville' : S.tab === 'map' ? 'Objet ou lieu à trouver' : 'Personnage, cadeau ou ville';
 }
 
 /* ---------- liste des personnages ---------- */
@@ -1908,7 +1978,7 @@ let lastFocus = null;
 function openPanel(kind, id){
   S.sel = { k: kind, id };
   const p = $('#panel');
-  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : renderGiftPanel(id);
+  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : kind === 'p' ? MAP.placePanel(id) : renderGiftPanel(id);
   if(kind === 's') prepLink();
   p.scrollTop = 0;
   if(isSheet()){
@@ -1940,13 +2010,16 @@ function refreshPanel(){
   if(!S.sel){ if(!p.classList.contains('open')) p.innerHTML = isSheet() ? PH : dashPanel(); return; }
   if(S.sel.k === 's') return; // ne pas effacer un code en cours de collage
   const st = p.scrollTop;
-  p.innerHTML = S.sel.k === 'c' ? renderCharPanel(charByName[S.sel.id]) : renderGiftPanel(S.sel.id);
+  p.innerHTML = S.sel.k === 'c' ? renderCharPanel(charByName[S.sel.id]) : S.sel.k === 'p' ? MAP.placePanel(S.sel.id) : renderGiftPanel(S.sel.id);
   p.scrollTop = st;
 }
 
 /* ---------- rendu ---------- */
 function renderList(){
-  if(S.tab === 'chars') renderChars(); else if(S.tab === 'gifts') renderGifts(); else if(S.tab === 'tour') renderTour(); else renderInv();
+  document.body.classList.toggle('tab-map', S.tab === 'map');
+  if(S.tab === 'chars') renderChars(); else if(S.tab === 'gifts') renderGifts(); else if(S.tab === 'tour') renderTour();
+  else if(S.tab === 'map'){ if(window.MAP) MAP.render(); else setList('<p class="empty">Chargement de la carte…</p>'); }
+  else renderInv();
   markCurrent();
 }
 function render(){
@@ -2196,6 +2269,7 @@ function townsOf(g){
   const w = WHERE[g] || {};
   const out = [...(S.spots[g] || [])];
   for(const t of w.t || []) if(!out.includes(t)) out.push(t);
+  if(window.MAP && MAP.ready) for(const t of MAP.giftTowns(g)) if(!out.includes(t)) out.push(t);
   return out;
 }
 function whereShort(g){
@@ -2226,7 +2300,11 @@ function whereBlock(g){
   for(const q of (w && w.q) || []) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>Quête « ${esc(q.n)} »</b><small>${esc(q.i)}. À faire avant le ${q.d}.</small></div></div>`;
   if(w && w.x) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('info')}</span><div><small>${esc(w.x)}</small></div></div>`;
   if(w && w.w) lines += `<div class="wl warn"><span class="wi" aria-hidden="true">⚠</span><div><small>${esc(w.w)}</small></div></div>`;
-  if(!w) lines += `<p class="hint2">Aucune source n'indique où le trouver. Si tu le croises en jeu, note-le ci-dessous.</p>`;
+  const mt = window.MAP && MAP.ready ? MAP.giftTowns(g).filter(t => !((w && w.t) || []).includes(t)) : [];
+  if(mt.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>Relevé sur la carte</b><div class="tchips">${mt.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(t)}</button>`).join('')}</div><small>Stocks de marché compilés par des fans pour la carte.</small></div></div>`;
+  if(!w && !mt.length) lines += `<p class="hint2">Aucune source n'indique où le trouver. Si tu le croises en jeu, note-le ci-dessous.</p>`;
+  const mk = window.MAP && MAP.ready ? MAP.giftKey(g) : null;
+  if(mk) lines += `<div class="acts" style="margin-top:8px"><button type="button" class="btn" data-mitem="${esc(mk)}">${pix('lens')} Voir sur la carte</button></div>`;
   const mine = spots.length ? `<div class="tchips">${spots.map((s, i) => `<span class="tchip mine"><button type="button" class="tlink" data-town="${esc(s)}">${esc(s)}</button><button type="button" class="tdel" data-spotdel="${i}" aria-label="Retirer ${esc(s)}">✕</button></span>`).join('')}</div>` : '';
   return `<div class="where"><h3>Où le trouver <span class="conf ${conf[0]}">${conf[1]}</span></h3>${lines}
     <div class="spots"><b>Tes repérages</b>${mine}
@@ -2265,7 +2343,8 @@ function renderTownHtml(){
   gifts.sort((a, b) => sc[b].L - sc[a].L || sc[b].R - sc[a].R || GIFTS[a][1].localeCompare(GIFTS[b][1]));
   const row = g => {
     const w = WHERE[g] || {}; const mine = (S.spots[g] || []).includes(S.town);
-    const extra = [w.p ? `${w.p} or` : '', mine ? 'repéré par toi' : ''].filter(Boolean).join(', ');
+    const viaMap = !mine && !(w.t || []).includes(S.town) && window.MAP && MAP.isMapTown(g, S.town);
+    const extra = [w.p ? `${w.p} or` : '', mine ? 'repéré par toi' : '', viaMap ? 'relevé sur la carte' : ''].filter(Boolean).join(', ');
     return `<div class="inv-row buyrow ${qty(g) ? 'own' : ''}" data-row="${g}">
       <button type="button" class="gname" data-gift="${g}"><span class="nm">${pix(GIFTS[g][2])} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}${extra ? ' — ' + esc(extra) : ''}</span></button>
       <span class="usef">${sc[g].L ? `<span class="loved" title="Personnages qui l'adorent">⇈ ${sc[g].L}</span>` : ''}${sc[g].R ? `<span class="pill good" title="Personnages qui l'aiment beaucoup">↑ ${sc[g].R}</span>` : ''}</span>
@@ -2612,7 +2691,8 @@ function townPickerHtml(towns){
 /* liste de courses : le moins d'achats possible pour ceux qui n'ont rien de bon en stock, regroupés par ville */
 function shoppingPlan(){
   const needers = planTour().filter(p => !p.a).map(p => p.c);
-  const buyable = Object.keys(GIFTS).filter(g => townsOf(g).length);
+  const reach = g => townsOf(g).filter(t => !window.MAP || !MAP.ready || MAP.townReachable(t));
+  const buyable = Object.keys(GIFTS).filter(g => reach(g).length);
   const opts = {};
   for(const c of needers){
     opts[c.n] = {};
@@ -2635,9 +2715,9 @@ function shoppingPlan(){
   const pending = items.slice(), byTown = [];
   while(pending.length){
     const cnt = {};
-    for(const it of pending) for(const t of townsOf(it.g)) cnt[t] = (cnt[t] || 0) + 1;
+    for(const it of pending) for(const t of reach(it.g)) cnt[t] = (cnt[t] || 0) + 1;
     const town = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a] || a.localeCompare(b))[0];
-    const here = pending.filter(it => townsOf(it.g).includes(town));
+    const here = pending.filter(it => reach(it.g).includes(town));
     byTown.push({ town, items: here });
     for(const it of here) pending.splice(pending.indexOf(it), 1);
   }
@@ -2659,7 +2739,7 @@ function shopSection(){
   };
   const towns = sp.byTown.map(({ town, items }) => `<div class="shop-town"><b>${esc(town)}</b><button type="button" class="linkbtn" data-gotown="${esc(town)}">Voir la ville</button></div>${items.map(line).join('')}`).join('');
   return `<details class="grp shop" data-g="shop" ${open ? 'open' : ''}><summary><h2 class="disp">${pix('shop')} Liste de courses</h2><span class="cnt">${sp.count}</span></summary>
-    <p class="hint">Pour ceux qui n'ont rien de bon dans ton stock : le moins d'achats possible, regroupés par ville. Touche +1 quand tu achètes.</p>
+    <p class="hint">Pour ceux qui n'ont rien de bon dans ton stock : le moins d'achats possible, regroupés par ville. Touche +1 quand tu achètes.${window.MAP && MAP.ready ? ' Seules les villes des régions cochées sur la carte sont proposées.' : ''}</p>
     ${sp.items.length ? `<div class="rows">${towns}</div><p class="shop-total">Total connu : <b>${sp.total} or</b>${sp.unknown ? `, plus ${sp.unknown} prix inconnu${sp.unknown > 1 ? 's' : ''}` : ''}.</p>` : ''}
     ${sp.none.length ? `<p class="hint">Aucun cadeau connu en boutique pour : ${esc(sp.none.join(', '))}. Regarde leur fiche.</p>` : ''}</details>`;
 }
@@ -2700,6 +2780,10 @@ function alsoFound(){
   if(!(S.tab === 'gifts' && S.giftMode === 'town')){
     const ts = Object.keys(townIndex()).filter(t => norm(t).includes(q)).sort((a, b) => a.localeCompare(b)).slice(0, 6);
     if(ts.length) parts.push(['Villes', ts.map(t => `<button type="button" class="who-btn" data-gotown="${esc(t)}">${pix('shop')}${esc(t)}</button>`)]);
+  }
+  if(window.MAP && MAP.ready && S.tab !== 'map'){
+    const its = MAP.search(q);
+    if(its.length) parts.push(['Objets sur la carte', its.map(e => `<button type="button" class="who-btn" data-mitem="${esc(e.key)}">${pix('lens')}${esc(e.name)}</button>`)]);
   }
   if(!parts.length) return '';
   return `<div class="alsofound"><h3>Aussi trouvé ailleurs</h3>${parts.map(([h, b]) => `<div class="af"><small>${h}</small><div class="who-list">${b.join('')}</div></div>`).join('')}</div>`;
@@ -2823,6 +2907,7 @@ document.addEventListener('change', e => {
 $('#listCol').addEventListener('click', e => {
   if(e.target.closest('.stp')) return;
   if(dashClick(e)) return;
+  if(window.MAP && MAP.click(e)) return;
   if(S.tab === 'tour' && tourClick(e)) return;
   if(S.tab === 'gifts' && whereClick(e)){ renderTabs(); return; }
   if(e.target.closest('#invOnly')){ S.invOnly = !S.invOnly; store.set('invOnly', S.invOnly); renderInv(); return; }
@@ -2848,6 +2933,7 @@ $('#listCol').addEventListener('input', e => {
   S.townQ = i.value; const r = document.querySelector('[data-townres]'); if(r) r.innerHTML = townPickerHtml(lastTowns);
 });
 $('#listCol').addEventListener('change', e => {
+  if(window.MAP && MAP.ready && MAP.change(e)) return;
   const sel = e.target.closest('[data-gd]'); if(!sel) return;
   const box = sel.closest('.gdate');
   const d = +box.querySelector('[data-gd="d"]').value, m = +box.querySelector('[data-gd="m"]').value;
@@ -2863,6 +2949,7 @@ $('#panel').addEventListener('click', e => {
   if(e.target.closest('[data-close]')){ closePanel(); return; }
   if(e.target.closest('[data-dash]')){ S.sel = null; markCurrent(); refreshPanel(); return; }
   if(e.target.closest('[data-pin]') && S.sel && S.sel.k === 'c'){ togglePin(S.sel.id); return; }
+  if(window.MAP && MAP.ready && MAP.panelClick(e)) return;
   if(S.sel && S.sel.k === 's' && saveClick(e)) return;
   if(dashClick(e)) return;
   const sa = e.target.closest('[data-spotadd]');
@@ -2919,6 +3006,7 @@ function applyTheme(){
   rb.innerHTML = `${pix('hand')}<span class="bl"> Rétro</span>`;
   rb.setAttribute('aria-pressed', String(r));
   rb.title = r ? 'Revenir au style moderne' : 'Passer au style rétro, façon Game Boy Advance';
+  if(S.tab === 'map' && window.MAP && MAP.ready) MAP.render();
   const tc = $('#themeColor'); if(tc) tc.setAttribute('content', (S.theme || '').startsWith('gba') ? '#4262CA' : (getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#FBFAFD'));
 }
 $('#nightBtn').addEventListener('click', () => { S.theme = themeOf(!isNight(), isRetro()); store.set('theme', S.theme); applyTheme(); });
@@ -2966,5 +3054,6 @@ importFromHash();
 window.addEventListener('hashchange', importFromHash);
 
 </script>
+<script src="map.js" defer></script>
 </body>
 </html>

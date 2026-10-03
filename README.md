@@ -12,6 +12,7 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 - **Tournée de la semaine** : répartition automatique de ton inventaire entre les personnages qui ont encore besoin de soutien, meilleur cadeau d'abord.
 - **Où trouver les cadeaux** : marchés par ville, quêtes à date limite, et tes propres repères.
 - **Liste de courses** : dans la Tournée, le moins d'achats possible pour les personnages qui n'ont rien de bon en stock, regroupés par ville avec le coût total.
+- **Carte du monde** : villes, routes, relais, temples, donjons et points de récolte, de pêche et de minerai. Une fiche par lieu avec ses boutiques et ses récoltes, la recherche de n'importe quel objet, et des itinéraires qui suivent les routes, dont une tournée des courses. Les régions pas encore atteintes restent grisées, sans lieux ni noms, pour éviter les spoilers.
 - **Résumé** : progression du recrutement pour chaque Seigneur, personnages prêts, tournée, courses, prochaine quête à date limite et dernière sauvegarde.
 
 ## Confort
@@ -37,10 +38,12 @@ Sur iPhone, l'app installée sur l'écran d'accueil garde ses propres données, 
 
 ## Technique
 
-Site statique, rien à compiler. Les icônes pixel art sont originales et dessinées en code dans `tools/icons.js` ; pour les régénérer : `node tools/icons.js` (produit `pixel-art.css` et `icons/`).
+Site statique, rien à compiler. Les icônes pixel art sont originales et dessinées en code dans `tools/icons.js` ; pour les régénérer : `node tools/icons.js` (produit `pixel-art.css` et `icons/`). Les données de la carte (`data/map.json`) sont produites par `node tools/build-map.js` à partir d'un dossier de recherche local, non publié.
 
 ## Mentions
 
 Projet de fan non officiel, non affilié à Nintendo, Intelligent Systems ou Koei Tecmo. *Fire Emblem* est une marque de Nintendo.
+
+Carte : carte de fan redessinée en pixel art d'après la carte du jeu. Lieux, positions et stocks compilés à partir de Fextralife, IGN, RPG Site, VGC, Game8, Siliconera, Gematsu et NightlyGamingBinge. Aucune image du jeu n'est publiée ; le jeu fait foi.
 
 Générateur de QR code : [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) de Kazuhiko Arase, licence MIT.
