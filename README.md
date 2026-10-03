@@ -14,8 +14,12 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 
 ## Confort
 
-- **Téléphone et ordinateur** : sur grand écran, la page passe en trois colonnes (menu, liste, fiche). Sur téléphone, l'en-tête se réduit à une barre fine une fois le Seigneur choisi.
-- **Thème rétro** : le bouton de thème passe de clair à sombre, puis à un thème façon Fire Emblem sur Game Boy Advance.
+- **Téléphone, tablette, pliant et ordinateur** : la mise en page suit la largeur de l'écran.
+  - Téléphone et pliant replié : une colonne, la fiche s'ouvre par le bas.
+  - Tablette en portrait et pliant déplié : deux volets égaux, liste et fiche, séparés au niveau du pli. L'en-tête tient sur une ligne et reste en haut.
+  - Tablette en paysage et ordinateur : trois colonnes, avec le menu à gauche.
+  - Sur les pliants dont le navigateur signale la charnière, aucun contenu ne passe dessous.
+- **Thèmes** : clair, sombre, rétro jour et rétro nuit, ces deux derniers façon Fire Emblem sur Game Boy Advance.
 - **Application installable** : l'outil s'installe sur l'écran d'accueil et fonctionne sans connexion. Sur Android et sur ordinateur, utilise le bouton « Installer ». Sur iPhone, dans Safari : Partager, puis « Sur l'écran d'accueil ».
 
 ## Tes données

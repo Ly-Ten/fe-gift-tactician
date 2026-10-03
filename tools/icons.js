@@ -180,6 +180,16 @@ def('hand', [E16,E16,E16,
  { outline:true, after: g => { for(const y of [8, 10]) for(let x = 4; x <= 8; x++) g[y][x] = 'h'; g[8][9] = 'k'; g[10][9] = 'k'; } });
 
 
+def('sun', [E8,'.......y','..y....y','...y....','.....yyy','....yyyy','....yyyo','yy.yyyyo',
+ 'yy.yyyyo','....yyyo','....yyoo','.....ooo','...y....','..y....y','.......y',E8], { mirror:true, outline:true });
+def('moon', grid(set => {
+  for(let y = 0; y < 16; y++) for(let x = 0; x < 16; x++){
+    const a = Math.hypot(x - 7.5, y - 8), b = Math.hypot(x - 10.6, y - 5.4);
+    if(a <= 6.2 && b > 5.2) set(x, y, a > 4.6 && y > 8 ? 'Y' : 'y');
+  }
+  set(4, 6, 'Y'); set(5, 10, 'Y');
+}), { outline:true, after: g => { g[2][13] = 'w'; g[1][13] = 'c'; g[3][13] = 'c'; g[2][12] = 'c'; g[2][14] = 'c'; } });
+
 // ---------- sorties ----------
 const path = require('path');
 const zlib = require('zlib');
