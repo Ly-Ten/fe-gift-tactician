@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cadeaux — Fire Emblem: Fortune's Weave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECE8F1; --surface:#FBFAFD; --raised:#E2DCEA; --ink:#1F1A2A; --muted:#5D5570; --line:#D2CADD;
+  --t-l:#946A00; --t-l-bg:#F6E9C4; --t-r:#1D7550; --t-r-bg:#D6EFE2; --t-b:#3A5BA3; --t-b-bg:#DDE5F6; --t-x:#AE353B; --t-x-bg:#F6DADB;
+  --acc:#7A5BA8; --acc-ink:#FFFFFF;
+  --shadow:0 18px 40px -18px rgba(40,25,70,.35);
+  color-scheme:light;
+}
+:root[data-lord="cai"]{--acc:#B5621A}
+:root[data-lord="die"]{--acc:#B0303F}
+:root[data-lord="the"]{--acc:#2B6A9B}
+:root[data-lord="led"]{--acc:#A8417D}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15121D; --surface:#1D1928; --raised:#292337; --ink:#EEE8F5; --muted:#A79FB8; --line:#372F47;
+    --t-l:#EBC45E; --t-l-bg:#3A3018; --t-r:#76C9A1; --t-r-bg:#173328; --t-b:#97AEE6; --t-b-bg:#1D2742; --t-x:#EF7E83; --t-x-bg:#3B1C20;
+    --acc-ink:#15121D; --shadow:0 18px 40px -18px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+  :root:not([data-theme="light"])[data-lord="cai"]{--acc:#F2A14C}
+  :root:not([data-theme="light"])[data-lord="die"]{--acc:#EE6E77}
+  :root:not([data-theme="light"])[data-lord="the"]{--acc:#72B0E3}
+  :root:not([data-theme="light"])[data-lord="led"]{--acc:#E78DBD}
+}
+:root[data-theme="dark"]{
+  --bg:#15121D; --surface:#1D1928; --raised:#292337; --ink:#EEE8F5; --muted:#A79FB8; --line:#372F47;
+  --t-l:#EBC45E; --t-l-bg:#3A3018; --t-r:#76C9A1; --t-r-bg:#173328; --t-b:#97AEE6; --t-b-bg:#1D2742; --t-x:#EF7E83; --t-x-bg:#3B1C20;
+  --acc-ink:#15121D; --shadow:0 18px 40px -18px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+:root[data-theme="dark"][data-lord="cai"]{--acc:#F2A14C}
+:root[data-theme="dark"][data-lord="die"]{--acc:#EE6E77}
+:root[data-theme="dark"][data-lord="the"]{--acc:#72B0E3}
+:root[data-theme="dark"][data-lord="led"]{--acc:#E78DBD}
+
+*,*::before,*::after{box-sizing:border-box}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Alegreya Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.45}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+.disp{font-family:"Marcellus","Iowan Old Style","Palatino Linotype",Georgia,serif;font-weight:400}
+
+/* ---------- header / weave ---------- */
+.top{position:relative;padding:22px 18px 18px;overflow:hidden;border-bottom:1px solid var(--line);background:var(--surface)}
+.top::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:
+    repeating-linear-gradient(90deg, color-mix(in srgb,var(--acc) 22%,transparent) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(0deg, color-mix(in srgb,var(--acc) 14%,transparent) 0 1px, transparent 1px 9px);
+  -webkit-mask-image:linear-gradient(100deg,#000 0%,transparent 65%);mask-image:linear-gradient(100deg,#000 0%,transparent 65%)}
+.top-inner{position:relative;max-width:1180px;margin:0 auto}
+h1{margin:0;font-size:clamp(28px,6.5vw,40px);line-height:1.05;letter-spacing:.01em}
+.sub{margin:6px 0 16px;color:var(--muted);font-size:15px;max-width:60ch}
+
+.lords{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:640px){.lords{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.lord{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);text-align:left;min-height:56px}
+.lord .em{font-size:24px;line-height:1}
+.lord b{display:block;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:18px;line-height:1.1}
+.lord small{display:block;color:var(--muted);font-size:13px;line-height:1.2}
+.lord[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.lord[aria-pressed="true"] small{color:inherit;opacity:.85}
+
+.honor{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+.honor-lbl b{font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:19px;display:block;line-height:1.1}
+.honor-lbl small{color:var(--muted);font-size:13px}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--bg);overflow:hidden}
+.stepper button{width:46px;height:44px;border:0;background:transparent;font-size:24px;line-height:1}
+.stepper button:disabled{opacity:.3;cursor:default}
+.stepper output{min-width:42px;text-align:center;font-family:"Marcellus",Georgia,serif;font-size:26px}
+.ticks{display:flex;gap:3px;flex:1;min-width:120px;max-width:260px}
+.ticks i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.ticks i.on{background:var(--acc)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:14px 14px 40px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 10px;display:flex;flex-direction:column;gap:10px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--raised);border-radius:12px;padding:4px;gap:4px}
+.tabs button{border:0;border-radius:9px;padding:9px 6px;background:transparent;font-weight:500}
+.tabs button[aria-selected="true"]{background:var(--surface);box-shadow:0 1px 0 var(--line)}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 12px}
+.search input{flex:1;border:0;background:transparent;padding:11px 0;outline:none;min-width:0}
+.search span{color:var(--muted)}
+.hfwrap{display:flex;align-items:center;gap:10px;min-width:0}
+.hfwrap[hidden]{display:none}
+.hflbl{font-size:14px;color:var(--muted);white-space:nowrap}
+.hfilter{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0;min-width:0}
+.hfilter::-webkit-scrollbar{display:none}
+.hf{flex-shrink:0;min-width:40px;height:38px;padding:0 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.hf small{font-weight:400;color:var(--muted);font-size:12.5px}
+.hf.me{border-color:var(--acc)}
+.hf[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.hf[aria-pressed="true"] small{color:inherit;opacity:.8}
+.hf:disabled{opacity:.35;cursor:default}
+.cols{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
+#listCol{min-width:0}
+@media (min-width:920px){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}}
+
+details.tips{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 14px;margin:4px 0 6px}
+details.tips summary{padding:11px 0;font-weight:500;cursor:pointer}
+details.tips ul{margin:0 0 12px;padding-left:18px;color:var(--muted);font-size:15px}
+details.tips li{margin:4px 0}
+details.tips li b{color:var(--ink);font-weight:500}
+
+/* ---------- groups / rows ---------- */
+.grp{margin:14px 0 4px}
+.grp > summary{list-style:none;display:flex;align-items:baseline;gap:8px;cursor:pointer;padding:6px 2px}
+.grp > summary::-webkit-details-marker{display:none}
+.grp > summary::before{content:"▸";color:var(--muted);font-size:13px;transition:transform .15s}
+.grp[open] > summary::before{transform:rotate(90deg)}
+.grp h2{margin:0;font-size:20px;line-height:1.2}
+.grp .cnt{color:var(--muted);font-size:14px}
+.grp .hint{margin:0 2px 8px 20px;color:var(--muted);font-size:14px}
+.rows{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border:0;border-top:1px solid var(--line);background:transparent;text-align:left}
+.row:first-child{border-top:0}
+.row:hover{background:color-mix(in srgb,var(--acc) 6%,transparent)}
+.row[aria-current="true"]{background:color-mix(in srgb,var(--acc) 13%,transparent)}
+.row .who{flex:1;min-width:0}
+.row .nm{font-family:"Marcellus",Georgia,serif;font-size:19px;line-height:1.15}
+.row .ds{display:block;color:var(--muted);font-size:14px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .ex{color:var(--acc)}
+.req{display:flex;gap:5px;flex-shrink:0;align-items:center}
+.pill{font-size:13px;line-height:1;padding:6px 8px;border-radius:999px;background:var(--raised);white-space:nowrap}
+.pill.miss{background:transparent;border:1px dashed var(--muted);color:var(--muted)}
+.pill.warn{background:var(--t-l-bg);color:var(--t-l)}
+.empty{padding:22px 16px;color:var(--muted);text-align:center}
+
+/* ---------- detail panel ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px}
+@media (min-width:920px){.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 140px);max-height:calc(100vh - 160px);overflow:auto}}
+.panel-ph{padding:40px 24px;color:var(--muted);text-align:center}
+.panel-ph .disp{display:block;font-size:22px;color:var(--ink);margin-bottom:6px}
+.scrim{display:none}
+@media (max-width:919px){
+  .panel{position:fixed;left:0;right:0;bottom:0;z-index:30;border-radius:20px 20px 0 0;max-height:calc(100% - env(safe-area-inset-top,0px) - 28px);overflow:auto;
+    padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:var(--shadow);transform:translateY(105%);transition:transform .22s ease;visibility:hidden}
+  .panel.open{transform:none;visibility:visible}
+  .scrim{display:block;position:fixed;inset:0;z-index:25;background:rgba(10,6,20,.45);opacity:0;pointer-events:none;transition:opacity .2s}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .panel-ph{display:none}
+}
+@media (prefers-reduced-motion:reduce){.panel,.scrim,.grp>summary::before{transition:none}}
+.ph{position:sticky;top:0;background:var(--surface);padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start;z-index:2}
+.ph .grab{display:none}
+@media (max-width:919px){.ph{padding-top:22px}.ph .grab{display:block;position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:var(--line)}}
+.ph h2{margin:0;font-size:28px;line-height:1.05}
+.ph p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.ph .x{margin-left:auto;flex-shrink:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:20px;line-height:1}
+@media (min-width:920px){.ph .x{display:none}}
+.pb{padding:14px 18px 22px}
+.recbox{border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--acc) 11%,var(--surface));border:1px solid color-mix(in srgb,var(--acc) 35%,transparent);margin-bottom:14px}
+.recbox .t{font-weight:700}
+.recbox .s{color:var(--muted);font-size:15px;margin-top:2px}
+.recbox .w{margin-top:6px;font-size:14px;color:var(--t-l)}
+.likes{font-size:15px;color:var(--muted);margin:0 0 14px}
+.likes b{color:var(--ink);font-weight:500}
+.tier{margin:16px 0 0}
+.tier h3{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:16px;font-weight:700}
+.tier h3 .mk{display:inline-grid;place-items:center;min-width:30px;height:24px;padding:0 6px;border-radius:7px;font-size:14px}
+.tier h3 small{font-weight:400;color:var(--muted);font-size:14px}
+.tier.L .mk{background:var(--t-l-bg);color:var(--t-l)}
+.tier.R .mk{background:var(--t-r-bg);color:var(--t-r)}
+.tier.B .mk{background:var(--t-b-bg);color:var(--t-b)}
+.tier.X .mk{background:var(--t-x-bg);color:var(--t-x)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;gap:8px;align-items:flex-start;padding:7px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line);max-width:100%;text-align:left}
+.tier.L .chip{border-color:color-mix(in srgb,var(--t-l) 45%,transparent)}
+.tier.X .chip{border-color:color-mix(in srgb,var(--t-x) 40%,transparent)}
+.chip .ic{font-size:16px;line-height:1.3}
+.chip .fr{display:block;font-size:15px;line-height:1.25;font-weight:500}
+.chip .en{display:block;font-size:12.5px;line-height:1.25;color:var(--muted)}
+.chip .unv{display:inline-block;margin-left:4px;font-size:11.5px;font-weight:700;color:var(--t-l);border:1px solid currentColor;border-radius:5px;padding:0 4px;vertical-align:1px}
+.nothing{color:var(--muted);font-size:15px;margin:4px 0 0}
+.note{margin-top:16px;padding:10px 12px;border-left:3px solid var(--acc);background:var(--bg);border-radius:0 10px 10px 0;font-size:15px}
+.alltbl{width:100%;border-collapse:collapse;margin-top:6px;font-size:14.5px}
+.alltbl th,.alltbl td{padding:7px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.alltbl th{font-weight:500;white-space:nowrap}
+.alltbl tr.cur th,.alltbl tr.cur td{background:color-mix(in srgb,var(--acc) 10%,transparent)}
+.sect{margin-top:20px}
+.sect > h3{margin:0 0 4px;font-size:16px}
+.toggle{margin-top:18px;width:100%;padding:12px;border-radius:12px;border:1px solid var(--acc);background:transparent;color:var(--ink);font-weight:500}
+.toggle[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink)}
+.who-list{display:flex;flex-wrap:wrap;gap:6px}
+.who-btn{padding:7px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:15px}
+.who-btn small{color:var(--muted);margin-left:4px}
+.who-btn.dim{opacity:.55}
+
+/* gift list */
+.glist .row .nm{font-size:17px}
+.loved{display:flex;align-items:center;gap:4px;font-size:13px;padding:5px 8px;border-radius:999px;background:var(--t-l-bg);color:var(--t-l);white-space:nowrap}
+.loved.zero{background:var(--raised);color:var(--muted)}
+
+footer{max-width:1180px;margin:0 auto;padding:0 18px 30px;color:var(--muted);font-size:14px}
+footer a{color:inherit}
+.theme-btn{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-size:14px;margin-left:auto;white-space:nowrap;flex-shrink:0}
+.top-row{display:flex;align-items:flex-start;gap:12px}
+
+/* ---------- v3 : onglets, inventaire, suivi ---------- */
+.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tabs .sh{display:none}
+@media (max-width:520px){.tabs{display:flex}.tabs button{flex:1 1 auto;font-size:14.5px;padding:9px 6px}.tabs .lg{display:none}.tabs .sh{display:inline}.tabs button .n{margin-left:3px;padding:0 5px;font-size:11.5px}}
+.tabs button{white-space:nowrap;padding:9px 4px;min-width:0;overflow:hidden}
+
+.invhead .acts{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button .n{display:inline-block;margin-left:5px;font-size:12.5px;padding:1px 6px;border-radius:999px;background:var(--raised);color:var(--muted)}
+.tabs button[aria-selected="true"] .n{background:color-mix(in srgb,var(--acc) 20%,transparent);color:var(--ink)}
+
+.row.dim .nm,.row.dim .ds{opacity:.5}
+.row.dim .pill:not(.good){opacity:.6}
+.pill.good{background:var(--t-r-bg);color:var(--t-r)}
+.pill.stock{background:var(--t-l-bg);color:var(--t-l);font-family:"Alegreya Sans",system-ui,sans-serif;font-size:12px;padding:3px 6px;vertical-align:3px;margin-left:4px}
+.pill.stock.r{background:var(--t-r-bg);color:var(--t-r)}
+.row .ds .done-c{color:var(--t-r)}
+.grp.ready .rows{border-color:color-mix(in srgb,var(--t-r) 55%,transparent)}
+.grp.ready h2{color:var(--t-r)}
+@media (max-width:420px){.req .pill{padding:6px 7px;font-size:12.5px}}
+
+/* stepper inventaire */
+.stp{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--bg);flex-shrink:0}
+.stp button{width:38px;height:38px;border:0;background:transparent;font-size:20px;line-height:1;border-radius:999px}
+.stp input{width:42px;height:38px;border:0;background:transparent;text-align:center;font-weight:700;font-size:16px;-moz-appearance:textfield;appearance:textfield;padding:0}
+.stp input::-webkit-outer-spin-button,.stp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.inv-row{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 14px;border-top:1px solid var(--line)}
+.inv-row:first-child{border-top:0}
+.inv-row .gname{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:4px 0}
+.inv-row .gname .nm{font-family:"Marcellus",Georgia,serif;font-size:17px;line-height:1.2;display:block}
+.inv-row .gname .ds{display:block;color:var(--muted);font-size:13.5px;line-height:1.25}
+.inv-row.own{background:color-mix(in srgb,var(--acc) 9%,transparent)}
+.inv-row.own .stp{border-color:var(--acc)}
+.invhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:6px 0 4px}
+.invhead .sum{flex:1;min-width:160px}
+.invhead .sum b{font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:20px;display:block;line-height:1.15}
+.invhead .sum small{color:var(--muted);font-size:14px}
+.btn{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:8px 13px;font-size:14.5px;font-weight:500}
+.btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.btn.danger.armed{background:var(--t-x);border-color:var(--t-x);color:#fff}
+.qty{font-size:12.5px;font-weight:700;padding:3px 7px;border-radius:999px;background:var(--acc);color:var(--acc-ink);white-space:nowrap}
+
+/* chips possédés */
+.chips.has-inv .chip:not(.own){opacity:.62}
+.chip.own{border-width:2px;border-color:var(--acc) !important;background:color-mix(in srgb,var(--acc) 10%,var(--bg));opacity:1}
+.chip .qty{margin-left:6px;vertical-align:1px}
+
+/* suivi */
+.track{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;background:var(--bg)}
+.track h3{margin:0 0 8px;font-size:15px}
+.track .line{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+.track .line:first-of-type{margin-top:0}
+.track .lbl{font-size:14.5px;min-width:88px}
+.track small{color:var(--muted);font-size:13.5px;display:block;margin-top:6px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;border-left:1px solid var(--line);background:var(--surface);min-width:44px;height:38px;font-weight:700}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink)}
+.seg button.met{box-shadow:inset 0 -3px 0 var(--t-r)}
+.tg{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:14.5px;text-align:left}
+.tg .box{width:18px;height:18px;border-radius:5px;border:2px solid var(--muted);display:inline-grid;place-items:center;font-size:12px;line-height:1;flex-shrink:0}
+.tg[aria-pressed="true"]{border-color:var(--t-r);background:var(--t-r-bg)}
+.tg[aria-pressed="true"] .box{background:var(--t-r);border-color:var(--t-r);color:var(--surface)}
+
+/* à offrir */
+.offer{border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);border-radius:14px;padding:12px 12px 6px;margin-bottom:6px}
+.offer h3{margin:0 0 6px;font-size:16px}
+.offer .hint2{color:var(--muted);font-size:14px;margin:0 0 6px}
+.off-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.off-row:first-of-type{border-top:0}
+.off-row .mk{display:inline-grid;place-items:center;min-width:30px;height:24px;border-radius:7px;font-size:14px;flex-shrink:0}
+.off-row .mk.L{background:var(--t-l-bg);color:var(--t-l)}
+.off-row .mk.R{background:var(--t-r-bg);color:var(--t-r)}
+.off-row .mk.B{background:var(--t-b-bg);color:var(--t-b)}
+.off-row .mk.X{background:var(--t-x-bg);color:var(--t-x)}
+.off-row .gn{flex:1;min-width:0}
+.off-row .gn b{display:block;font-weight:500;font-size:15px;line-height:1.2}
+.off-row .gn small{color:var(--muted);font-size:12.5px}
+.give{border:0;border-radius:999px;padding:8px 14px;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:14px;flex-shrink:0}
+.avoid-own{margin:8px 0 6px;font-size:14px;color:var(--t-x)}
+.log{margin-top:16px}
+.log h3{margin:0 0 6px;font-size:15px}
+.log ul{list-style:none;margin:0;padding:0}
+.log li{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:14.5px}
+.log li:first-child{border-top:0}
+.log li span{flex:1;min-width:0}
+.log li small{color:var(--muted)}
+.linkbtn{border:0;background:transparent;color:var(--acc);font-weight:700;font-size:14px;padding:4px 6px;text-decoration:underline;text-underline-offset:3px}
+.who-btn.met{opacity:.5}
+
+/* toast */
+.toast{position:fixed;left:12px;right:12px;margin:0 auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateY(160%);z-index:50;display:flex;align-items:center;gap:12px;
+  max-width:480px;padding:11px 12px 11px 16px;border-radius:14px;background:var(--ink);color:var(--bg);box-shadow:var(--shadow);transition:transform .2s ease;font-size:15px}
+.toast.show{transform:none}
+.toast span{flex:1;min-width:0}
+.toast button{border:0;border-radius:999px;padding:7px 12px;background:var(--bg);color:var(--ink);font-weight:700;flex-shrink:0}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* ---------- tournée ---------- */
+.n[hidden]{display:none !important}
+.prog{height:6px;border-radius:3px;background:var(--line);margin-top:8px;overflow:hidden;max-width:320px}
+.prog i{display:block;height:100%;background:var(--acc);border-radius:3px}
+.trow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 14px;border-top:1px solid var(--line)}
+.trow:first-child{border-top:0}
+.trow .tname{flex:0 0 9rem;min-width:0}
+.trow .tgift{flex:1 1 13rem}
+.trow .tact,.trow .tpick,.trow .twish{flex:1 0 100%}
+.trow.done .tname{flex-basis:9rem}
+.trow.done .tact{flex:0 0 auto;margin-left:auto}
+.tname{border:0;background:transparent;text-align:left;padding:0}
+.tname .nm{font-family:"Marcellus",Georgia,serif;font-size:19px;line-height:1.15;display:block}
+.tname small{color:var(--muted);font-size:13px}
+.tgift{display:flex;align-items:center;gap:10px;min-width:0}
+.tgift .gn,.pk .gn{min-width:0}
+.tgift .gn b,.pk .gn b{display:block;font-weight:500;font-size:15.5px;line-height:1.2}
+.tgift .gn small,.pk .gn small{color:var(--muted);font-size:12.5px}
+.trow .mk,.pk .mk{display:inline-grid;place-items:center;min-width:30px;height:24px;border-radius:7px;font-size:14px;flex-shrink:0}
+.mk.L{background:var(--t-l-bg);color:var(--t-l)} .mk.R{background:var(--t-r-bg);color:var(--t-r)}
+.mk.B{background:var(--t-b-bg);color:var(--t-b)} .mk.X{background:var(--t-x-bg);color:var(--t-x)} .mk.N{background:var(--raised);color:var(--muted)}
+.tact{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.twish{margin:0;color:var(--muted);font-size:14.5px}
+.trow.none .tname .nm{opacity:.8}
+.trow.done .nm{color:var(--t-r)}
+.grp.tour.donegrp .rows{opacity:.85}
+.tpick{border-top:1px dashed var(--line);margin-top:4px;padding-top:10px}
+.tq{margin:0 0 8px;font-weight:500}
+.pklist{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.pk{display:flex;align-items:center;gap:10px;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.pk:hover{border-color:var(--acc)}
+.search.small{margin:4px 0 8px}
+.search.small input{padding:8px 0}
+.tourhead .acts{margin-left:auto}
+
+/* ---------- où trouver ---------- */
+.seg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--raised);border-radius:12px;padding:4px;margin:6px 0 4px}
+.seg3 button{border:0;border-radius:9px;padding:8px 4px;background:transparent;font-size:14.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg3 button[aria-selected="true"]{background:var(--surface);box-shadow:0 1px 0 var(--line)}
+.townhint{margin:10px 2px 8px;font-size:14px;color:var(--muted)}
+.towns{display:flex;flex-wrap:nowrap;gap:6px;margin-bottom:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.towns::-webkit-scrollbar{display:none}
+.town{flex-shrink:0}
+@media (min-width:920px){.towns{flex-wrap:wrap;overflow:visible}}
+.town{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-size:14.5px;display:inline-flex;gap:6px;align-items:center}
+.town small{font-size:12px;color:var(--t-l);font-weight:700}
+.town[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.town[aria-pressed="true"] small{color:inherit}
+.buyrow{flex-wrap:nowrap}
+.usef{display:flex;gap:4px;flex-shrink:0}
+.buy{flex-shrink:0;border:0;border-radius:999px;padding:8px 12px;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:14px;display:inline-flex;gap:4px;align-items:baseline}
+.buy small{font-size:11.5px;opacity:.85}
+.usef .pill,.usef .loved{padding:5px 7px;font-size:12.5px}
+@media (max-width:420px){.buyrow{gap:6px;padding-left:12px;padding-right:8px}}
+.where{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:6px;background:var(--bg)}
+.where h3{margin:0 0 8px;font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.conf{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
+.conf.c2{background:var(--t-r-bg);color:var(--t-r)} .conf.c1{background:var(--t-b-bg);color:var(--t-b)}
+.conf.c0,.conf.c-{background:var(--raised);color:var(--muted)}
+.wl{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-top:1px solid var(--line);font-size:15px}
+.wl:first-of-type{border-top:0}
+.wl .wi{width:22px;text-align:center;flex-shrink:0}
+.wl small{display:block;color:var(--muted);font-size:13.5px;line-height:1.35}
+.wl.warn small{color:var(--t-l)}
+.tchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tchip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:14px}
+.tchip.mine{display:inline-flex;align-items:center;gap:2px;padding:0 4px 0 0;border-color:var(--acc)}
+.tchip.mine .tlink{border:0;background:transparent;padding:5px 4px 5px 11px;font-size:14px}
+.tchip.mine .tdel{border:0;background:transparent;width:26px;height:26px;border-radius:50%;color:var(--muted)}
+.spots{border-top:1px dashed var(--line);margin-top:8px;padding-top:10px;font-size:14.5px}
+.spotadd{display:flex;gap:8px;margin-top:8px}
+.spotadd input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px}
+.whoh{margin:16px 0 0;font-size:16px}
+.favs{margin-top:12px}
+.favs h3{margin:0 0 6px;font-size:15px}
+.fav{display:flex;width:100%;align-items:center;gap:10px;text-align:left;padding:7px 0;border:0;border-top:1px solid var(--line);background:transparent}
+.fav:first-of-type{border-top:0}
+.fav .mk{display:inline-grid;place-items:center;min-width:30px;height:24px;border-radius:7px;font-size:14px;flex-shrink:0}
+.fav .gn b{display:block;font-weight:500;font-size:15px;line-height:1.2}
+.fav .gn small{color:var(--muted);font-size:13px}
+.qrow .qdate{display:flex;flex-direction:column;align-items:center;min-width:46px;flex-shrink:0;padding:4px 6px;border-radius:10px;background:var(--t-l-bg);color:var(--t-l)}
+.qrow .qdate b{font-size:16px;line-height:1.1}
+.qrow .qdate small{font-size:11px}
+.qrow .ds{white-space:normal}
+
+/* ---------- sauvegarde ---------- */
+.top-actions{margin-left:auto;display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.top-actions .theme-btn{margin-left:0}
+textarea.code{width:100%;margin-top:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 10px;font:12.5px/1.35 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical;word-break:break-all}
+.where .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btn.file{cursor:pointer;display:inline-flex;align-items:center}
+.imp-err{color:var(--t-x);font-size:14.5px;margin:10px 0 0}
+.imp-ok{color:var(--t-r);font-size:14.5px;margin:10px 0 4px;font-weight:500}
+small.hint2{display:block;margin-top:6px}
+@media (max-width:520px){.top-actions .bl{display:none}.top-actions .theme-btn{width:40px;height:40px;padding:0;font-size:17px}}
+.hint2{color:var(--muted);font-size:14px;margin:0 0 6px;line-height:1.4}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="top-row">
+      <div>
+        <h1 class="disp">Le fil des cadeaux</h1>
+        <p class="sub">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</p>
+      </div>
+      <div class="top-actions"><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="themeBtn" type="button" aria-label="Changer de thème">◐</button></div>
+    </div>
+    <div class="lords" id="lords" role="group" aria-label="Seigneur de la Flamme joué"></div>
+    <div class="honor">
+      <div class="honor-lbl"><b>Honneur</b><small>Renown, de 1 à 10</small></div>
+      <div class="stepper">
+        <button type="button" id="hMinus" aria-label="Baisser l'honneur">−</button>
+        <output id="hVal" aria-live="polite">1</output>
+        <button type="button" id="hPlus" aria-label="Monter l'honneur">+</button>
+      </div>
+      <div class="ticks" id="ticks" aria-hidden="true"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="bar">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-chars" data-tab="chars" aria-selected="true" type="button"><span class="lg">Personnages</span><span class="sh">Persos</span></button>
+      <button role="tab" id="tab-tour" data-tab="tour" aria-selected="false" type="button">Tournée<span class="n" id="tourCount" hidden>0</span></button>
+      <button role="tab" id="tab-gifts" data-tab="gifts" aria-selected="false" type="button">Cadeaux</button>
+      <button role="tab" id="tab-inv" data-tab="inv" aria-selected="false" type="button"><span class="lg">Inventaire</span><span class="sh">Stock</span><span class="n" id="invCount">0</span></button>
+    </div>
+    <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="Chercher un personnage" autocomplete="off"></label>
+    <div class="hfwrap" id="hfwrap">
+      <span class="hflbl">Honneur requis</span>
+      <div class="hfilter" id="hfilter" role="group" aria-label="Filtrer par Honneur requis"></div>
+    </div>
+  </div>
+
+  <details class="tips">
+    <summary>Bon à savoir</summary>
+    <ul>
+      <li><b>Inventaire :</b> renseigne tes cadeaux dans l'onglet Inventaire. Dans la fiche d'un personnage, « À offrir » liste ce que tu possèdes et qui lui plaît ; le bouton Offrir retire 1 de ton stock.</li>
+      <li><b>Suivi :</b> dans la fiche, indique ton niveau de soutien actuel, coche la condition (quête, objets, or) puis « Recruté ». Ceux dont le soutien suffit passent en grisé en bas de leur groupe ; ceux qui ont tout passent dans « Prêts à recruter ».</li>
+      <li><b>Tournée :</b> elle répartit ton inventaire entre les personnages qui ont encore besoin de soutien (meilleur cadeau d'abord, sans dépasser tes quantités). Valide au fil de l'eau avec « Offert » ou « Autre cadeau », puis « Terminer la tournée » pour passer à la semaine suivante.</li>
+      <li><b>Sauvegarde :</b> le bouton ⇅ en haut exporte toutes tes données sous forme de code, à coller dans une autre version de l'outil (par exemple celle hébergée sur GitHub). Garde ce code dans une note : c'est aussi ta copie de secours.</li>
+      <li><b>Où acheter :</b> la plupart des cadeaux se vendent dans les Marchés des villes de la carte. À Dagsion, la Taverne de la ville basse est moins chère que la Galerie marchande, mais leur stock complet n'est pas connu. Dans Cadeaux, « Par ville » te dit quoi acheter là où tu es, et « À ne pas rater » liste les cadeaux de quêtes à date limite.</li>
+      <li><b>Réassort :</b> les sources se contredisent (chaque chapitre ou chaque semaine). Le bienfait « Réduction sur les cadeaux » (300 éclats de karma) baisse les prix de 10 %.</li>
+      <li><b>Un cadeau par personnage et par semaine.</b> Vise les ⇈ « adore » : deux flèches dorées, soutien doublé.</li>
+      <li><b>Le premier cadeau peut être n'importe quoi de pas cher</b> (taverne de la ville basse) : il débloque les repas à l'auberge.</li>
+      <li><b>Le jour de son anniversaire</b>, un personnage réagit « a beaucoup aimé » même à un cadeau banal.</li>
+      <li><b>Valeurs sûres :</b> Récits d'aventure, Portrait de Yu Phas, Panorama de pégases, Portrait au bouclier, Tableau de fleurs et Gemme en pointe de flèche sont adorés par presque tout le monde (sauf Theodora, qui n'aime pas lire, et Nuzzuo pour les Récits d'aventure).</li>
+      <li><b>Filtre « Honneur requis » :</b> touche un niveau pour ne voir que les personnages qui demandent exactement cet Honneur. Ton niveau actuel est entouré.</li>
+      <li><b>Le soutien est conservé d'une voie à l'autre</b> (il est donc noté une seule fois), l'Honneur, la condition et le recrutement sont propres à chaque Seigneur.</li>
+      <li><b>En cas de doute, le jeu fait foi :</b> les exigences exactes s'affichent dans la fiche du personnage à Dagsion. ⚠ signale des sources qui se contredisent.</li>
+      <li><b>Le badge « ? »</b> marque un cadeau vu dans une seule source. Les noms français sont des traductions proposées ; le nom anglais est toujours affiché dessous.</li>
+    </ul>
+  </details>
+
+  <div class="cols">
+    <section id="listCol" aria-label="Liste"></section>
+    <div class="scrim" id="scrim"></div>
+    <aside class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="pTitle"></aside>
+  </div>
+</main>
+<datalist id="townlist"></datalist>
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo">Annuler</button></div>
+
+<footer>
+  Données croisées le 2 octobre 2026 à partir de Raider King (tests en jeu, par niveau de réaction), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (boutiques) et Game8. Guide non officiel.
+</footer>
+
+
+<script>
+const LORDS = [
+  { id: 'cai', name: 'Cai', em: '🦊', army: 'Vents de Ribeira' },
+  { id: 'die', name: 'Dietrich', em: '🦁', army: 'Maison Lamine' },
+  { id: 'the', name: 'Theodora', em: '🐺', army: 'Fanal de Megaira' },
+  { id: 'led', name: 'Leda', em: '🦅', army: 'Tempête de roses' }
+];
+
+const CATS = {
+  children: ['Laits et cervi', 'Gifts for Children', '🍼'],
+  sweets: ['Sucreries', 'Gifts for Lovers of Sweets', '🍯'],
+  cooking: ['Cuisine', 'Gifts for Cooks', '🍳'],
+  fermented: ['Boissons fermentées', 'Fermented Drinks', '🍶'],
+  coffee: ['Café', 'Coffee', '☕'],
+  tea: ['Thé', 'Tea', '🍵'],
+  vegetables: ['Légumes', 'Vegetables', '🥕'],
+  meat: ['Viande', 'Meat', '🍖'],
+  fish: ['Pêche et poisson', 'Fish / Fishing', '🎣'],
+  books: ['Livres', 'Books', '📚'],
+  training: ['Entraînement', 'Training', '🏋️'],
+  crafting: ['Artisanat', 'Crafting', '✂️'],
+  weapons: ['Armes', 'Weapons', '⚔️'],
+  martial: ['Médailles', 'Martial Achievements', '🎖️'],
+  fashion: ['Mode et bijoux', 'Fashion', '💍'],
+  boardgames: ['Jeux de plateau', 'Board Games', '♟️'],
+  flowers: ['Fleurs', 'Flowers', '💐'],
+  horse: ['Soins des chevaux', 'Horse Care', '🐴'],
+  archery: ['Tir à l\u2019arc', 'Archery', '🏹'],
+  paintings: ['Peintures', 'Paintings', '🖼️'],
+  figurines: ['Figurines', 'Figurines', '🗿'],
+  spiritual: ['Divination et magie', 'Spirituality', '🔮'],
+  travel: ['Voyage', 'Travel', '🎒'],
+  seeds: ['Graines', 'Seeds / Agriculture', '🌱']
+};
+
+// id: [nom anglais, nom français proposé, catégorie]
+const GIFTS = {
+  yarc_milk: ['Yarc Milk', 'Lait de yarc', 'children'],
+  jamel_milk: ['Jamel Milk', 'Lait de jamel', 'children'],
+  weak_cervi: ['Weak Cervi', 'Cervi léger', 'children'],
+  strong_cervi: ['Strong Cervi', 'Cervi fort', 'children'],
+  dried_cervi: ['Mature Dried Cervi', 'Cervi séché vieilli', 'children'],
+  honey_milk: ['Honey Milk', 'Lait au miel', 'sweets'],
+  ginji_cervi: ['Ginji Cervi', 'Cervi au ginji', 'sweets'],
+  white_cervi: ['Pure-White Cervi', 'Cervi blanc immaculé', 'sweets'],
+  simple_pastries: ['Simple Pastries', 'Pâtisseries simples', 'sweets'],
+  mellow_pastries: ['Mellow Pastries', 'Pâtisseries fondantes', 'sweets'],
+  fragrant_pastries: ['Fragrant Pastries', 'Pâtisseries parfumées', 'sweets'],
+  honey_pastries: ['Honey Pastries', 'Pâtisseries au miel', 'sweets'],
+  coffee_pastries: ['Coffee Pastries', 'Pâtisseries au café', 'sweets'],
+  saraminian_sweets: ['Saraminian Sweets', 'Douceurs de Saramis', 'sweets'],
+  candy_crystals: ['Candy Crystals', 'Cristaux de sucre', 'sweets'],
+  pastry_cookbook: ['Pastry Cookbook', 'Livre de pâtisserie', 'sweets'],
+  garum: ['Garum', 'Garum', 'cooking'],
+  smooth_garum: ['Smooth Garum', 'Garum onctueux', 'cooking'],
+  conc_garum: ['Concentrated Garum', 'Garum concentré', 'cooking'],
+  alecto_garum: ['Alecto Garum', 'Garum d\u2019Alecto', 'cooking'],
+  niiza_garum: ['Niiza Garum', 'Garum de Niiza', 'cooking'],
+  rancid_garum: ['Rancid Garum', 'Garum rance', 'cooking'],
+  legendary_garum: ['Legendary Garum', 'Garum légendaire', 'cooking'],
+  outdoor_cooking: ['Outdoor Cooking Set', 'Kit de cuisine nomade', 'cooking'],
+  strong_seasoning: ['Strong Seasoning', 'Assaisonnement relevé', 'cooking'],
+  home_recipe: ['Home-Recipe Book', 'Livre de recettes familiales', 'cooking'],
+  herbal_recipe: ['Herbal Recipe Guide', 'Guide des recettes aux herbes', 'cooking'],
+  village_recipes: ['Village Recipes', 'Recettes villageoises', 'cooking'],
+  dual_fish_knives: ['Dual Fish Knives', 'Paire de couteaux à poisson', 'cooking'],
+  rare_spices: ['Rare Spices', 'Épices rares', 'cooking'],
+  young_ghosh: ['Young Ghosh', 'Ghosh jeune', 'fermented'],
+  mature_ghosh: ['Mature Ghosh', 'Ghosh vieilli', 'fermented'],
+  sun_ghosh: ['Sun Ghosh', 'Ghosh solaire', 'fermented'],
+  energizing_ghosh: ['Energizing Ghosh', 'Ghosh revigorant', 'fermented'],
+  rustic_ghosh: ['Rustic Ghosh', 'Ghosh rustique', 'fermented'],
+  jade_ghosh: ['Jade Ghosh', 'Ghosh de jade', 'fermented'],
+  secret_ghosh: ['Secret Ghosh', 'Ghosh secret', 'fermented'],
+  southern_ghosh: ['Southern Ghosh', 'Ghosh du Sud', 'fermented'],
+  volcano_ghosh: ['Volcano Ghosh', 'Ghosh volcanique', 'fermented'],
+  crimson_ghosh: ['Crimson Ghosh', 'Ghosh pourpre', 'fermented'],
+  special_medicine: ['Special \u201cMedicine\u201d', '\u00ab\u00a0Remède\u00a0\u00bb spécial', 'fermented'],
+  young_shosh: ['Young Shosh', 'Shosh jeune', 'fermented'],
+  mature_shosh: ['Mature Shosh', 'Shosh vieilli', 'fermented'],
+  light_shosh: ['Light Shosh', 'Shosh léger', 'fermented'],
+  blue_shosh: ['Blue Shosh', 'Shosh bleu', 'fermented'],
+  aromatic_shosh: ['Aromatic Shosh', 'Shosh aromatique', 'fermented'],
+  common_coffee: ['Common Coffee', 'Café ordinaire', 'coffee'],
+  select_coffee: ['Select Coffee', 'Café de choix', 'coffee'],
+  southern_coffee: ['Southern Coffee', 'Café du Sud', 'coffee'],
+  orgus_coffee: ['Orgus Coffee', 'Café d\u2019Orgus', 'coffee'],
+  solomon_coffee: ['Solomon Coffee', 'Café de Solomon', 'coffee'],
+  eastern_tea: ['Eastern Tea Leaves', 'Feuilles de thé de l\u2019Est', 'tea'],
+  morfis_tea: ['Morfis Tea', 'Thé de Morfis', 'tea'],
+  fodlan_tea: ['Fódlan Tea', 'Thé de Fódlan', 'tea'],
+  pickled_veg: ['Pickled Vegetables', 'Légumes marinés', 'vegetables'],
+  pickled_bulbs: ['Pickled Bulbs', 'Bulbes marinés', 'vegetables'],
+  potted_veg: ['Potted Vegetables', 'Légumes en pot', 'vegetables'],
+  meaty_delicacy: ['Meaty Delicacy', 'Délice carné', 'meat'],
+  fish_guts: ['Brined Fish Guts', 'Entrailles de poisson en saumure', 'fish'],
+  fish_eyeball: ['Huge Fish Eyeball', 'Œil de poisson géant', 'fish'],
+  fishing_rod: ['Flexible Fishing Rod', 'Canne à pêche souple', 'fish'],
+  fishhook: ['Sharp Fishhook', 'Hameçon acéré', 'fish'],
+  everyday_scenes: ['Everyday Scenes', 'Scènes du quotidien', 'books'],
+  works_dante: ['The Works of Dante', 'Œuvres de Dante', 'books'],
+  knights_suitors: ['The Knight\u2019s Suitors', 'Les Prétendants du chevalier', 'books'],
+  traders_handbook: ['Trader\u2019s Handbook', 'Manuel du marchand', 'books'],
+  thick_tome: ['Thick Foreign Tome', 'Épais grimoire étranger', 'books'],
+  tales_arena: ['Tales of the Arena', 'Récits de l\u2019arène', 'books'],
+  poems_greats: ['Poems of the Greats', 'Poèmes des grands maîtres', 'books'],
+  school_scandal: ['School Scandal', 'Scandale à l\u2019école', 'books'],
+  tome_away: ['Tome from Away', 'Tome venu d\u2019ailleurs', 'books'],
+  morfis_almanac: ['Morfis Almanac', 'Almanach de Morfis', 'books'],
+  tales_adventure: ['Tales of Adventure', 'Récits d\u2019aventure', 'books'],
+  history_master: ['History of a Master (ou Tales of a Master)', 'Histoire d\u2019un maître', 'books'],
+  eastern_love_story: ['Eastern Love Story', 'Romance de l\u2019Est', 'books'],
+  strategy_manuscript: ['Strategy Manuscript', 'Manuscrit de stratégie', 'training'],
+  training_weights: ['Training Weights', 'Poids d\u2019entraînement', 'training'],
+  training_pillar: ['Training Pillar', 'Poteau d\u2019entraînement', 'training'],
+  training_bracelet: ['Training Bracelet', 'Bracelet d\u2019entraînement', 'training'],
+  crafting_knives: ['Crafting Knives', 'Couteaux d\u2019artisan', 'crafting'],
+  pastels: ['Pack of Pastels', 'Boîte de pastels', 'crafting'],
+  sharp_dagger: ['Sharp Dagger', 'Dague affûtée', 'weapons'],
+  rugged_blade: ['Rugged Blade', 'Lame robuste', 'weapons'],
+  ceremonial_spear: ['Ceremonial Spear', 'Lance de cérémonie', 'weapons'],
+  antique_medal: ['Antique Medal', 'Médaille antique', 'martial'],
+  imitation_medal: ['Imitation Medal', 'Médaille factice', 'martial'],
+  sewing_kit: ['Full Sewing Kit', 'Nécessaire de couture complet', 'fashion'],
+  skin_balm: ['Skin Balm', 'Baume pour la peau', 'fashion'],
+  black_silk: ['Eastern Black Silk', 'Soie noire de l\u2019Est', 'fashion'],
+  exquisite_ring: ['Exquisite Ring', 'Bague raffinée', 'fashion'],
+  gaudy_bangle: ['Gaudy Bangle', 'Bracelet tape-à-l\u2019œil', 'fashion'],
+  red_hair_clip: ['Red Hair Clip', 'Barrette rouge', 'fashion'],
+  eastern_earrings: ['Eastern Earrings', 'Boucles d\u2019oreilles de l\u2019Est', 'fashion'],
+  arrowhead_gem: ['Arrowhead Gem', 'Gemme en pointe de flèche', 'fashion'],
+  ahm_lu_cloth: ['Ahm Lu Cloth', 'Étoffe d\u2019Ahm Lu', 'fashion'],
+  bg_tactics: ['Board-Game Tactics', 'Tactiques de jeu de plateau', 'boardgames'],
+  spirit_bg: ['Spirit Board Game', 'Jeu de plateau des esprits', 'boardgames'],
+  ebony_bg: ['Ebony Board Game', 'Jeu de plateau en ébène', 'boardgames'],
+  eastern_bg: ['Eastern Board Game', 'Jeu de plateau de l\u2019Est', 'boardgames'],
+  red_roses: ['Red-Rose Bouquet', 'Bouquet de roses rouges', 'flowers'],
+  blue_roses: ['Blue-Rose Bouquet', 'Bouquet de roses bleues', 'flowers'],
+  mane_ornament: ['Mane Ornament', 'Ornement de crinière', 'horse'],
+  grooming_kit: ['Horse-Grooming Kit', 'Kit de pansage', 'horse'],
+  beard_grass: ['Dagda Beard Grass', 'Herbe-barbe de Dagda', 'horse'],
+  decorative_arrows: ['Decorative Arrows', 'Flèches décoratives', 'archery'],
+  joint_gloves: ['Joint-Relief Gloves', 'Gants soulage-articulations', 'archery'],
+  bow_kit: ['Bow Maintenance Kit (ou Bow Repair Kit)', 'Kit d\u2019entretien d\u2019arc', 'archery'],
+  wing_fletching: ['Wing Fletching', 'Empennage en plumes', 'archery'],
+  pegasus_panorama: ['Pegasus Panorama (ou Pegasus Painting)', 'Panorama de pégases', 'paintings'],
+  shield_portrait: ['Shield Portrait', 'Portrait au bouclier', 'paintings'],
+  flower_painting: ['Flower Painting', 'Tableau de fleurs', 'paintings'],
+  yu_phas: ['Portrait of Yu Phas', 'Portrait de Yu Phas', 'paintings'],
+  kitten_figurine: ['Kitten Figurine', 'Figurine de chaton', 'figurines'],
+  protection_figurine: ['Protection Figurine', 'Figurine protectrice', 'figurines'],
+  bull_panther: ['Crimson Bull / Jade Panther Figure', 'Figurine Taureau pourpre / Panthère de jade', 'figurines'],
+  bagua_set: ['Bagua Divination Set', 'Kit de divination bagua', 'spiritual'],
+  magic_set: ['Magic-Trick Set', 'Kit de tours de magie', 'spiritual'],
+  rucksack: ['Sturdy Rucksack', 'Sac à dos solide', 'travel'],
+  southern_seeds: ['Rare Southern Seeds', 'Graines rares du Sud', 'seeds'],
+  odd_seeds: ['Odd Vegetable Seeds', 'Graines de légumes insolites', 'seeds']
+};
+
+const byCat = c => Object.keys(GIFTS).filter(k => GIFTS[k][2] === c);
+const GHOSH = ['young_ghosh','mature_ghosh','sun_ghosh','energizing_ghosh','rustic_ghosh','jade_ghosh','secret_ghosh','southern_ghosh','volcano_ghosh','crimson_ghosh'];
+const SHOSH = ['young_shosh','mature_shosh','light_shosh','blue_shosh','aromatic_shosh'];
+const GARUM = ['garum','smooth_garum','conc_garum','alecto_garum','niiza_garum'];
+const PASTRIES = ['simple_pastries','mellow_pastries','fragrant_pastries','honey_pastries','coffee_pastries'];
+const CERVI = ['weak_cervi','strong_cervi','ginji_cervi','white_cervi','dried_cervi'];
+
+// Groupes : [libellé FR, libellé EN, liste d'objets]
+const GROUPS = {
+  coffee: ['Tous les cafés', 'Any coffee', byCat('coffee')],
+  ghosh: ['Tous les ghosh', 'Any Ghosh', GHOSH],
+  shosh: ['Tous les shosh', 'Any Shosh', SHOSH],
+  fermented: ['Toutes les boissons fermentées', 'Any fermented drink', byCat('fermented')],
+  garum: ['Tous les garums (hors rance)', 'Any Garum', GARUM],
+  pastries: ['Toutes les pâtisseries', 'Any pastries', PASTRIES],
+  cervi: ['Tous les cervi', 'Any Cervi', CERVI],
+  milk: ['Tous les laits', 'Any milk', ['yarc_milk','jamel_milk','honey_milk']],
+  sweets: ['Toutes les sucreries', 'Sweets', byCat('sweets')],
+  cooking: ['Tous les objets de cuisine', 'Cooking gifts', byCat('cooking').filter(g => g !== 'rancid_garum' && g !== 'legendary_garum')],
+  recipes: ['Tous les livres de recettes', 'Recipe books', ['home_recipe','herbal_recipe','village_recipes','pastry_cookbook']],
+  tea: ['Tous les thés', 'Any tea', byCat('tea')],
+  vegetables: ['Tous les légumes', 'Vegetables', byCat('vegetables')],
+  fish: ['Tous les objets de pêche', 'Fishing gifts', byCat('fish')],
+  books: ['Tous les livres', 'Books', byCat('books')],
+  training: ['Tous les objets d\u2019entraînement', 'Training gifts', byCat('training')],
+  weapons: ['Toutes les armes', 'Weapons', byCat('weapons')],
+  martial: ['Toutes les médailles', 'Military medals', byCat('martial')],
+  fashion: ['Tous les objets de mode', 'Fashion gifts', byCat('fashion')],
+  boardgames: ['Tous les jeux de plateau', 'Board games', byCat('boardgames')],
+  flowers: ['Tous les bouquets', 'Flowers', byCat('flowers')],
+  horse: ['Tous les soins des chevaux', 'Horse care', byCat('horse')],
+  archery: ['Tous les objets de tir à l\u2019arc', 'Archery gifts', byCat('archery')],
+  paintings: ['Toutes les peintures', 'Paintings', byCat('paintings')],
+  seeds: ['Toutes les graines', 'Seeds', byCat('seeds')],
+  crafting: ['Tout l\u2019artisanat', 'Crafting', byCat('crafting')]
+};
+
+/*
+  Personnages.
+  L = adore (double flèche, soutien ×2) ; R = aime beaucoup ; B = aime bien ; X = à éviter
+  '?' en fin de jeton = une seule source, à confirmer. '@x' = groupe d'objets.
+  req : 'A' = rejoint automatiquement ; absent = pas recrutable sur cette voie ;
+        [soutien, honneur, condition propre à la voie, avertissement]
+*/
+const CHARS = [
+{ n:'Alexandra', d:'Chevalière pégase', g:'ses parents, son pégase Bucéphale, les hommes vertueux, parler d\u2019amour ; l\u2019entraînement',
+  L:['pegasus_panorama','shield_portrait','flower_painting','yu_phas','tales_adventure','dual_fish_knives','ceremonial_spear','decorative_arrows','black_silk','ahm_lu_cloth','blue_roses','red_hair_clip','arrowhead_gem','eastern_earrings','strategy_manuscript'],
+  R:['@horse','garum','niiza_garum','crimson_ghosh','outdoor_cooking','strong_seasoning','home_recipe','herbal_recipe','kitten_figurine','protection_figurine','bull_panther','rucksack','sharp_dagger','joint_gloves','skin_balm','exquisite_ring'],
+  B:['pastels','southern_ghosh','volcano_ghosh','special_medicine','aromatic_shosh','morfis_tea','fishhook','bagua_set','works_dante','crafting_knives','spirit_bg','knights_suitors?','eastern_love_story?'],
+  X:['rancid_garum'],
+  req:{cai:[2,7], die:[3,8], the:[3,10,null,'D\u2019autres sources donnent Soutien 1 et Honneur 6 avec Theodora.'], led:[3,10]},
+  note:'Arrive à Dagsion vers le 29/5.' },
+
+{ n:'Anatolia', d:'Médiatrice, arts martiaux', nr:true, g:'la divination par hexagrammes, les objets ronds ; la méditation, les arts martiaux',
+  L:['strategy_manuscript','rugged_blade','morfis_almanac','history_master','tales_adventure'],
+  R:['bagua_set','eastern_tea','magic_set','protection_figurine','flower_painting','black_silk','arrowhead_gem','tome_away','ceremonial_spear'],
+  B:['@books','@fashion','secret_ghosh','southern_ghosh','orgus_coffee','home_recipe','pegasus_panorama','ebony_bg'],
+  X:[],
+  note:'Non recrutable en Partie I. Rejoint l\u2019armée en Partie III si tu as terminé son paralogue.' },
+
+{ n:'Benditz', d:'Vétéran des chars', g:'les tactiques du Grand Auguste, les jeunes prometteurs ; faire la leçon aux jeunes, la lecture',
+  L:['rancid_garum','arrowhead_gem','yu_phas','blue_roses','black_silk','decorative_arrows','red_hair_clip','eastern_earrings?','eastern_tea?','strategy_manuscript?','tales_adventure?'],
+  R:['eastern_love_story','coffee_pastries','crimson_ghosh','common_coffee','select_coffee','southern_coffee','flower_painting','spirit_bg','exquisite_ring','ceremonial_spear','ahm_lu_cloth','joint_gloves'],
+  B:['@boardgames','@weapons','@martial','southern_ghosh','volcano_ghosh','special_medicine','aromatic_shosh','home_recipe','herbal_recipe','morfis_tea','shield_portrait','pegasus_panorama','fishhook','rucksack','pastels'],
+  X:[],
+  req:{cai:[3,9], die:[2,7], the:[1,8], led:[3,7]},
+  note:'Arrive à Dagsion vers le 11/4.' },
+
+{ n:'Bertrand', d:'Guerrier en quête de liberté', nr:true, g:'la forge, les viandes salées, le garum, les armes bien faites ; jeux de plateau, lecture. Déteste les plats épicés.',
+  L:[], R:['@garum'], B:['meaty_delicacy','@weapons','@boardgames','@books'], X:['strong_seasoning?'],
+  note:'Non recrutable en Partie I. On ne peut lui offrir des cadeaux qu\u2019avec Cai (Acte 1). Rejoint en invité en Partie II, puis en Partie III si son paralogue est fait.' },
+
+{ n:'Bonaventure', d:'Stratège de Saramis', g:'le savoir, les sages, découvrir d\u2019autres pays ; la cuisine, réciter de la poésie',
+  L:['dual_fish_knives','poems_greats','school_scandal','strategy_manuscript','tome_away','morfis_almanac','crimson_ghosh','volcano_ghosh'],
+  R:['@books','@garum','@fermented','@coffee','home_recipe','pastry_cookbook','rare_spices','herbal_recipe','eastern_tea','protection_figurine','magic_set','rugged_blade'],
+  B:['southern_seeds','fishhook'], X:[],
+  req:{the:'A'} },
+
+{ n:'Buccar', d:'Gardien vétéran', g:'la loyauté, l\u2019entraînement, l\u2019alcool, le bonheur de Leda ; la cuisine, guider les jeunes',
+  L:['rancid_garum','volcano_ghosh','special_medicine','crimson_ghosh','yu_phas','shield_portrait','pegasus_panorama','dual_fish_knives?'],
+  R:['rare_spices','village_recipes','@ghosh','@shosh','garum','niiza_garum','flower_painting','arrowhead_gem'],
+  B:['pastels','@training','@martial'], X:[],
+  req:{die:[3,8], the:[3,8], led:'A'}, ex:'Paralogue de Leda terminé' },
+
+{ n:'Cai', d:'Seigneur de la Flamme', lord:'cai', g:'l\u2019entraînement physique, attraper des animaux ; la pêche, la lance',
+  L:['rancid_garum','yu_phas','pegasus_panorama'],
+  R:['flower_painting','arrowhead_gem','crimson_ghosh','fishhook'],
+  B:['shield_portrait','pastels','red_hair_clip','@horse','@training','@weapons','meaty_delicacy'], X:[] },
+
+{ n:'Catania', d:'Mercenaire d\u2019élite', g:'les objets, les gens et les repas d\u2019exception ; s\u2019informer, se faire un nom',
+  L:['flower_painting','pegasus_panorama','yu_phas','arrowhead_gem','red_hair_clip','blue_roses','ahm_lu_cloth','black_silk','decorative_arrows','tales_adventure','eastern_earrings?','eastern_tea?'],
+  R:['gaudy_bangle','common_coffee','select_coffee','southern_coffee','coffee_pastries','crimson_ghosh','pastels','exquisite_ring','spirit_bg','skin_balm','ceremonial_spear','sharp_dagger','crafting_knives','@horse','bull_panther','kitten_figurine'],
+  B:['special_medicine','dual_fish_knives','shield_portrait','joint_gloves','works_dante','bagua_set'],
+  X:['rancid_garum'],
+  req:{cai:[3,10], die:[1,8], the:[3,7], led:'A'},
+  note:'Aime tout ce qui est rare (objets avec l\u2019icône scintillante).' },
+
+{ n:'Centurio', d:'Vétéran en armure lourde', nr:true, g:'servir le temple d\u2019Aurora, patrouiller ; jeux de plateau, étudier',
+  L:['rancid_garum','shield_portrait','pegasus_panorama','yu_phas'],
+  R:['@coffee','@training'], B:['@martial','bagua_set','@boardgames'], X:[],
+  note:'Non recrutable en Partie I. Rejoint en Partie III après la quête « Rescue Centurio ».' },
+
+{ n:'Dadao', d:'Combattant robuste', g:'les femmes (surtout Anatolia), les machines, la bonne chère, se battre ; bricoler',
+  L:['poems_greats','strategy_manuscript','tales_adventure','yu_phas','rugged_blade'],
+  R:['@cervi','saraminian_sweets','crimson_ghosh','arrowhead_gem','flower_painting','bg_tactics','black_silk'],
+  B:['@milk','@pastries','pastry_cookbook','potted_veg?','fish_eyeball?'], X:[],
+  req:{cai:[3,7], die:[3,10], the:[2,5], led:[2,5]}, ex:'2× Kothar Gar (poisson)' },
+
+{ n:'Dante', d:'Mage et femme de lettres', g:'elle-même, écrire vite, les sujets dramatiques ; observer les gens',
+  L:['rancid_garum','poems_greats','tales_adventure','decorative_arrows','ahm_lu_cloth','flower_painting','yu_phas','magic_set'],
+  R:['crimson_ghosh','coffee_pastries','@coffee','@books','home_recipe','herbal_recipe','bull_panther','crafting_knives','sharp_dagger','ceremonial_spear','black_silk','arrowhead_gem','pastels'],
+  B:['southern_ghosh','volcano_ghosh','morfis_tea','rucksack','bagua_set','skin_balm','exquisite_ring','spirit_bg','blue_roses','red_hair_clip','pegasus_panorama','shield_portrait','dual_fish_knives','joint_gloves','grooming_kit'],
+  X:[],
+  req:{cai:[3,10], die:[2,8], the:[3,6], led:[3,10]}, ex:'8 000 or' },
+
+{ n:'Diego', d:'Guerrier des forêts', g:'marcher en forêt, les plantes médicinales, Orchel ; la flûte',
+  L:['decorative_arrows','yu_phas','tales_adventure','shield_portrait','history_master','rugged_blade','ceremonial_spear'],
+  R:['crimson_ghosh','protection_figurine','flower_painting','candy_crystals','eastern_tea','bow_kit','eastern_bg'],
+  B:['@archery','@books','@boardgames','aromatic_shosh','orgus_coffee','meaty_delicacy','fish_guts','fish_eyeball','southern_seeds','rucksack','pegasus_panorama','dual_fish_knives'],
+  X:[],
+  req:{cai:[3,10], die:[3,9], the:[2,8], led:[3,8]}, ex:'Paralogue d\u2019Orchel terminé' },
+
+{ n:'Dietrich', d:'Seigneur de la Flamme', lord:'die', g:'la beauté, les chats, les sucreries, sa petite sœur ; affronter les forts, méditer',
+  L:['pegasus_panorama','ebony_bg','rugged_blade','strategy_manuscript','red_roses?'],
+  R:['honey_milk','ginji_cervi','honey_pastries','simple_pastries','mellow_pastries','fragrant_pastries','saraminian_sweets','pastry_cookbook','protection_figurine','flower_painting','arrowhead_gem','bg_tactics','black_silk','training_weights','training_pillar'],
+  B:['eastern_earrings','poems_greats','@paintings'],
+  X:['@coffee'],
+  note:'Les pâtisseries au café ne lui font pas d\u2019effet.' },
+
+{ n:'Esmeralda', d:'Guerrière au trident', g:'les beaux hommes, lancer son trident, son matériel de pêche ; la pêche, sculpter des poupées',
+  L:['eastern_earrings','tales_adventure','flower_painting','arrowhead_gem','black_silk','dual_fish_knives'],
+  R:['@pastries','saraminian_sweets','yu_phas','red_hair_clip','blue_roses','exquisite_ring','ahm_lu_cloth','skin_balm','ceremonial_spear','tome_away'],
+  B:['volcano_ghosh','@fish','kitten_figurine','@sweets'], X:[],
+  req:{cai:[3,7], die:'A', the:[3,9], led:[3,6]}, ex:'Quête de recrutement' },
+
+{ n:'Fabio', d:'Missionnaire, magie noire', g:'la souffrance, les sentiments oubliés, disséquer la beauté ; le dessin',
+  L:['southern_seeds','flower_painting','pegasus_panorama','tales_adventure','volcano_ghosh'],
+  R:['morfis_almanac','@ghosh','@coffee','black_silk','rugged_blade','eastern_tea','tome_away'],
+  B:['works_dante','strategy_manuscript','ebony_bg','home_recipe'], X:[],
+  req:{die:'A', led:[3,9,null,'Une autre source donne Soutien 2 et Honneur 7 avec Leda.']}, ex:'Paralogue de Dietrich terminé' },
+
+{ n:'Fianna', d:'Clerc à l\u2019air sombre', g:'la poésie, les plats épicés, le café ; prier, le théâtre. Déteste les sucreries.',
+  L:['flower_painting','yu_phas','volcano_ghosh','arrowhead_gem','blue_roses','black_silk','eastern_tea','morfis_almanac','eastern_earrings','southern_seeds'],
+  R:['crimson_ghosh','rare_spices','strong_seasoning','@coffee','tome_away'],
+  B:['@books','@tea','shield_portrait','pegasus_panorama'],
+  X:['@sweets'],
+  req:{cai:[3,8], die:[3,7], the:[3,9,null,'Honneur 5 ou 9 selon les sources (inversé entre Theodora et Leda).'], led:[3,9,null,'Honneur 5 ou 9 selon les sources (inversé entre Theodora et Leda).']}, ex:'3 000 or' },
+
+{ n:'Gaitz', d:'Épéiste de l\u2019Est', g:'le thé de Sai, les chevaux, les duels, la calligraphie ; préparer le thé',
+  L:['rancid_garum','school_scandal','tome_away','morfis_almanac','tales_adventure','rugged_blade','ceremonial_spear','decorative_arrows','black_silk','ahm_lu_cloth','ebony_bg','eastern_bg','pegasus_panorama','shield_portrait','flower_painting','yu_phas'],
+  R:['@coffee','@horse','coffee_pastries','crimson_ghosh','home_recipe','herbal_recipe','protection_figurine','rucksack','bull_panther','works_dante','knights_suitors','thick_tome','crafting_knives','sharp_dagger','training_weights','training_pillar','joint_gloves','bg_tactics','spirit_bg','arrowhead_gem','pastels'],
+  B:['@tea','jade_ghosh','southern_ghosh','volcano_ghosh','special_medicine','aromatic_shosh','southern_seeds','fishhook','bagua_set','dual_fish_knives','imitation_medal','skin_balm','exquisite_ring','blue_roses','red_hair_clip'],
+  X:[],
+  req:{die:[3,10]}, ex:'Paralogue de Bertrand terminé, puis attendre le chapitre 12' },
+
+{ n:'Goliath', d:'Géant en armure', g:'tout casser, la nourriture, les animaux, fumer la viande ; s\u2019entraîner',
+  L:['rancid_garum','volcano_ghosh','crimson_ghosh','special_medicine','strategy_manuscript','tales_adventure?'],
+  R:['@ghosh','@shosh','protection_figurine'],
+  B:['orgus_coffee','southern_seeds','home_recipe','herbal_recipe','morfis_tea','fodlan_tea','@boardgames'], X:[],
+  req:{cai:[3,7], die:[3,6], the:[3,9], led:[3,10]}, ex:'3× Viande de géant (Giant\u2019s Meat)',
+  note:'Les cafés ordinaires le laissent plutôt indifférent.' },
+
+{ n:'Guzran', d:'Mercenaire vantard', g:'l\u2019alcool, les femmes, les gens intéressants ; se vanter',
+  L:['strategy_manuscript','tales_adventure','volcano_ghosh','crimson_ghosh','shield_portrait'],
+  R:['@ghosh'], B:['@shosh','@coffee?','eastern_tea?','wing_fletching?','strong_seasoning?'], X:[],
+  req:{cai:'A', die:[3,8], the:[3,8], led:[1,3]} },
+
+{ n:'Halvin', d:'Archer et saltimbanque', g:'cultiver des légumes, faire les boutiques, les spectacles de rue ; les tours de magie',
+  L:['red_hair_clip','flower_painting','blue_roses','black_silk?','eastern_earrings?'],
+  R:['southern_seeds','magic_set','potted_veg','@cervi','simple_pastries','mellow_pastries','fragrant_pastries','pastels','skin_balm'],
+  B:['@vegetables','gaudy_bangle','garum'], X:[],
+  req:{cai:[3,9], die:[3,9], the:[3,7], led:[3,7]}, ex:'10× Dattes (Dates)' },
+
+{ n:'Inyoni', d:'Experte à l\u2019arc', g:'sa famille, la chasse, la ferme, l\u2019entretien de l\u2019arc ; le tir, la frugalité',
+  L:['strategy_manuscript','tales_adventure','arrowhead_gem','shield_portrait'],
+  R:['@archery','crimson_ghosh','eastern_tea','protection_figurine','fishing_rod','eastern_bg'],
+  B:['@fish','southern_seeds','morfis_tea','rare_spices'], X:[],
+  req:{cai:[3,8,'6 000 or'], die:[3,8,'6 000 or'], the:[1,9,'4 000 or'], led:[1,7,'3 000 or']},
+  note:'Arrive à Dagsion vers le 10/7.' },
+
+{ n:'Io', d:'Jeune cavalier mercenaire', g:'la chevalerie, la discipline, son cheval Rocinan ; soigner sa monture',
+  L:['yu_phas','shield_portrait','pegasus_panorama','ceremonial_spear'],
+  R:['common_coffee','@horse','flower_painting','arrowhead_gem','training_weights'],
+  B:['@training'], X:[],
+  req:{cai:[3,10,'4 000 or'], die:[2,3,'800 or'], the:[3,10,'4 000 or'], led:[1,6,'1 500 or']} },
+
+{ n:'Jasmine', d:'Cheffe mercenaire', g:'les souvenirs de son époux, ses mercenaires, s\u2019enrichir ; compter l\u2019argent',
+  L:['strategy_manuscript','rugged_blade','pegasus_panorama'],
+  R:['crimson_ghosh','dual_fish_knives','outdoor_cooking','rare_spices','@milk','@cervi','@pastries','saraminian_sweets','pastry_cookbook','training_weights','training_pillar','flower_painting','arrowhead_gem','imitation_medal','tome_away','protection_figurine'],
+  B:['@cooking','@boardgames?','jade_ghosh','eastern_earrings','orgus_coffee'], X:[],
+  req:{cai:[1,8,'2 000 or'], die:[3,9,'5 000 or'], the:[3,8,'5 000 or'], led:[2,4,'500 or']},
+  note:'Arrive à Dagsion vers le 8/5.' },
+
+{ n:'Jester', d:'Épéiste maquillé', g:'le Démon à crinière blanche, lire la peur chez l\u2019adversaire',
+  L:['legendary_garum','yu_phas','arrowhead_gem'],
+  R:['crimson_ghosh','dual_fish_knives','spirit_bg','@garum','outdoor_cooking','strong_seasoning','home_recipe','pastry_cookbook','rare_spices','herbal_recipe'],
+  B:['@fashion','crafting_knives','jade_ghosh','secret_ghosh','southern_ghosh','volcano_ghosh','aromatic_shosh','@coffee','fish_eyeball','honey_pastries?','saraminian_sweets?'], X:[],
+  req:{cai:[3,10], die:[3,6], the:[3,9], led:[3,10]}, ex:'3 quêtes à faire pour lui' },
+
+{ n:'Kiroc', d:'Pirate sans navire', g:'le vol, la mer, les navires, les sous-fifres obéissants',
+  L:['arrowhead_gem','crimson_ghosh?','volcano_ghosh?'],
+  R:['select_coffee','southern_coffee'], B:['@fashion','@flowers'], X:[],
+  req:{cai:[3,8,'8× Eau pure (Pure Water)'], die:[1,4,'3× Eau pure (Pure Water)'], the:[3,10,'8× Eau pure (Pure Water)'], led:[1,4,'3× Eau pure (Pure Water)']},
+  note:'Arrive à Dagsion vers le 4/5.' },
+
+{ n:'Leda', d:'Seigneur de la Flamme', lord:'led', g:'ses parents, les chants de son pays, les pierres précieuses, les applaudissements. Déteste cuisiner.',
+  L:['black_silk','eastern_earrings','tales_adventure','volcano_ghosh','crimson_ghosh','flower_painting','yu_phas','arrowhead_gem'],
+  R:['@ghosh'], B:['@fashion','@paintings'], X:['rancid_garum'],
+  note:'Évite les objets de cuisine : elle déteste cuisiner.' },
+
+{ n:'Lilian', d:'Archère précise', g:'les pièces d\u2019or, les pierres précieuses, les hommes mûrs ; la frugalité, la chasse',
+  L:['eastern_earrings','eastern_tea','poems_greats','strategy_manuscript','tales_adventure'],
+  R:['blue_roses'], B:['@fashion','@flowers'], X:[],
+  req:{cai:[2,8], die:[2,8], the:'A', led:[2,7]}, ex:'5 000 or' },
+
+{ n:'Loretta', d:'Bretteuse agile', g:'les gens fiables, les sucreries, ses amis ; l\u2019épée, la pêche',
+  L:['yu_phas','shield_portrait','ceremonial_spear','rugged_blade'],
+  R:['honey_pastries','white_cervi','pastry_cookbook','saraminian_sweets','flower_painting','arrowhead_gem','black_silk','crimson_ghosh'],
+  B:['@pastries','@sweets','blue_roses','ebony_bg','decorative_arrows','pegasus_panorama'],
+  X:['rancid_garum'],
+  req:{cai:[3,7], die:[3,9], the:[3,5], led:[3,5]}, ex:'3× Épée de fer' },
+
+{ n:'Ludia', d:'Lame gracieuse', g:'écrire des histoires, l\u2019art, parler d\u2019amour ; les romans d\u2019aventure, le shopping',
+  L:['eastern_love_story','black_silk','tales_adventure','pegasus_panorama','flower_painting','yu_phas','red_hair_clip','eastern_earrings?','eastern_tea?','strategy_manuscript?'],
+  R:[], B:['@books','@coffee','@paintings','aromatic_shosh'], X:[],
+  req:{cai:[3,9], die:[3,9], the:[3,7], led:[3,7]}, ex:'Quête de recrutement' },
+
+{ n:'Lysander', d:'Chevalier rapide', g:'contempler le ciel, dîner avec des femmes ; tailler des bâtons de jet, les longues chevauchées. Déteste le café.',
+  L:['flower_painting','shield_portrait','yu_phas','ceremonial_spear','pegasus_panorama'],
+  R:['beard_grass','eastern_tea','grooming_kit','wing_fletching'],
+  B:['imitation_medal','@training','@weapons','garum?'],
+  X:['@coffee'],
+  req:{cai:[3,8], die:[3,6], the:'A', led:[3,7]}, ex:'5× Lance de fer (3 selon une source)' },
+
+{ n:'Majide', d:'Brute à la hache', g:'l\u2019alcool, les femmes, la bagarre, être fort',
+  L:['crimson_ghosh','dual_fish_knives','arrowhead_gem?'],
+  R:['@ghosh'], B:['@fermented'], X:[],
+  req:{cai:[2,5], die:[3,8], the:[3,8], led:[3,9]}, ex:'Répondre à sa question (3 fois)' },
+
+{ n:'Mikaela', d:'Soldate au corps à corps', g:'faire du sport, s\u2019occuper des autres ; cuisiner, pâtisser, préparer le café',
+  L:['rugged_blade','strategy_manuscript','tales_adventure?'],
+  R:['@ghosh','@coffee','training_weights','training_pillar','arrowhead_gem','tome_away','home_recipe','flower_painting'],
+  B:['works_dante','tales_arena','eastern_earrings','rucksack','@cooking'], X:[],
+  req:{cai:[3,5], die:'A', the:[3,8], led:[3,6]}, ex:'3 000 or' },
+
+{ n:'Mu', d:'Combattante prometteuse', g:'inventer des remèdes, ses parents, les sucreries ; les élixirs, le sport. Déteste les plats épicés.',
+  L:['candy_crystals','tales_adventure'],
+  R:['yarc_milk','jamel_milk','@cervi','saraminian_sweets','arrowhead_gem','orgus_coffee','morfis_almanac'],
+  B:['@pastries','@coffee','pegasus_panorama','shield_portrait','southern_seeds'],
+  X:['strong_seasoning?'],
+  req:{cai:[3,9], die:[3,7], the:[3,9], led:'A'}, ex:'3× Glirmosa' },
+
+{ n:'Nezha', d:'Jeune épéiste', g:'le sport, la justice, se battre, bien manger ; manger beaucoup',
+  L:['yu_phas','shield_portrait','arrowhead_gem','strategy_manuscript','tales_adventure','decorative_arrows','ceremonial_spear'],
+  R:['flower_painting','joint_gloves'],
+  B:['@vegetables','@boardgames','pegasus_panorama','imitation_medal','red_hair_clip','rucksack?','training_bracelet?','eastern_tea?'], X:[],
+  req:{cai:[3,6], die:[3,10], the:[2,6], led:[3,9]}, ex:'3× Viande de ver des sables (Sandworm Meat)' },
+
+{ n:'Ninae', d:'Vulkan du temple', g:'les gens à plaindre, parler aux esprits, son collier, le ciel ; rêvasser',
+  L:['tales_adventure','yu_phas','black_silk','poems_greats','strategy_manuscript'],
+  R:['flower_painting','arrowhead_gem','ahm_lu_cloth','morfis_almanac','tome_away','eastern_tea?'],
+  B:['@flowers','@paintings','red_hair_clip','exquisite_ring','ebony_bg','spirit_bg','decorative_arrows','school_scandal','thick_tome'], X:[],
+  req:{cai:[3,6], die:[3,8], the:[3,6], led:[3,6]}, ex:'1× Poisson du paradis (Paradise Fish)' },
+
+{ n:'Noctula', d:'Pugiliste', g:'la ville et ses habitants, la bagarre ; visiter la ville, s\u2019entraîner',
+  L:['strategy_manuscript','tales_adventure','history_master','shield_portrait','ceremonial_spear'],
+  R:['@training','crimson_ghosh','eastern_tea','protection_figurine','arrowhead_gem','morfis_almanac','antique_medal','tome_away','sharp_dagger'],
+  B:['southern_seeds','volcano_ghosh','tales_arena','poems_greats'], X:[],
+  req:{cai:[1,4], die:[1,6], the:[1,3], led:[3,8]} },
+
+{ n:'Nuzzuo', d:'Guerrier de la forêt', g:'la tradition, l\u2019honneur, la puissance ; parler aux esprits de la forêt',
+  L:['arrowhead_gem','southern_seeds','odd_seeds','strategy_manuscript','dual_fish_knives','rugged_blade','ceremonial_spear','pegasus_panorama'],
+  R:['training_bracelet','outdoor_cooking','@coffee','@garum','coffee_pastries','candy_crystals','crimson_ghosh','pickled_veg','potted_veg','strong_seasoning','rare_spices','herbal_recipe','eastern_tea','kitten_figurine','protection_figurine','bow_kit','crafting_knives','sharp_dagger','flower_painting','black_silk'],
+  B:['@vegetables','volcano_ghosh','meaty_delicacy','fish_guts','home_recipe','village_recipes','morfis_tea'],
+  X:['tales_adventure'],
+  req:{cai:[2,6,'3× Arc de fer'], die:[1,9,'2× Arc de fer'], the:[1,6,'3× Arc de fer'], led:[3,9,'3× Arc de fer']},
+  note:'Arrive à Dagsion vers le 1/7. Exception : il n\u2019aime pas les Récits d\u2019aventure, adorés par presque tout le monde.' },
+
+{ n:'Nydine', d:'Mercenaire sur ornius', g:'faire son devoir, soigner les ornius ; progresser au combat, la lecture',
+  L:['pegasus_panorama','strategy_manuscript','rugged_blade','tales_adventure'],
+  R:['saraminian_sweets','arrowhead_gem','black_silk','training_weights','joint_gloves','tome_away','grooming_kit','kitten_figurine'],
+  B:['@books','@archery','ebony_bg'],
+  X:['mane_ornament'],
+  req:{cai:[1,6,'2× Hache de bronze'], die:[2,5,'2× Hache de bronze'], the:[3,5,'3× Hache de fer'], led:[3,10,'3× Hache de fer']},
+  note:'Pas d\u2019ornement de crinière : elle monte un ornius, pas un cheval.' },
+
+{ n:'Olympia', d:'Chanteuse et prêtresse', g:'le chant, la danse, la musique, attirer l\u2019attention. Déteste la cuisine et l\u2019artisanat.',
+  L:['flower_painting','yu_phas','tales_adventure','shield_portrait','pegasus_panorama','red_hair_clip','arrowhead_gem','eastern_earrings','eastern_tea'],
+  R:['orgus_coffee','exquisite_ring'],
+  B:['@boardgames','@flowers','@paintings','skin_balm','gaudy_bangle','@coffee?'],
+  X:['@cooking?','@crafting?'],
+  req:{cai:[3,8], die:[3,6], the:[3,9], led:'A'}, ex:'Quêtes de recrutement' },
+
+{ n:'Orchel', d:'Jeune femme mystérieuse', nr:true, g:'les animaux, la musique, le ménage, la cuisine ; les plantes, la lecture',
+  L:['blue_roses','shield_portrait','flower_painting','yu_phas'],
+  R:['outdoor_cooking','home_recipe','saraminian_sweets'],
+  B:['exquisite_ring','@seeds','@books','rare_spices','@paintings'], X:[],
+  note:'Non recrutable en Partie I. Rejoint en Partie III si son paralogue est terminé.' },
+
+{ n:'Peppe', d:'Chasseur noble', g:'les esprits, le soleil, sa patrie ; la chasse, observer les citadins',
+  L:['rancid_garum','yu_phas','shield_portrait','pegasus_panorama'],
+  R:['crimson_ghosh','bg_tactics','outdoor_cooking','protection_figurine','rucksack'],
+  B:['@coffee','@boardgames','@fish'], X:[],
+  req:{cai:[1,9], die:[3,8], the:[2,7]}, ex:'Paralogue de Bertrand terminé' },
+
+{ n:'Peter', d:'Archer d\u2019élite', g:'la cuisine de sa mère, les fruits ginji ; manger, regarder les nuages',
+  L:['arrowhead_gem?'],
+  R:['eastern_tea','kitten_figurine','wing_fletching','yarc_milk'],
+  B:['@cervi','@sweets','meaty_delicacy','beard_grass?'], X:[],
+  req:{cai:'A', die:[3,8], the:[3,7], led:[3,10]}, ex:'Quête de recrutement' },
+
+{ n:'Seteth', d:'Voyageur de Fódlan', g:'les enseignements de Seiros, la pêche, sa fille ; écrire des fables, enseigner',
+  L:['tales_adventure','yu_phas','morfis_almanac','poems_greats','strategy_manuscript'],
+  R:['black_silk','ceremonial_spear','crimson_ghosh','orgus_coffee','flower_painting','fishing_rod','fishhook'],
+  B:['@fish','@coffee','@recipes','shield_portrait'], X:[],
+  req:{cai:[3,6], the:[3,6], led:[3,10]}, ex:'Quête de recrutement' },
+
+{ n:'Sha Lan', d:'Magie spirituelle et soins', g:'la bonne chère, les boissons, la vie sociale ; veiller sur Anatolia',
+  L:['special_medicine','yu_phas'],
+  R:['ceremonial_spear?'], B:['@tea','@cooking','pastry_cookbook'], X:[],
+  req:{die:[3,10], led:[3,8]}, ex:'Paralogue d\u2019Anatolia + répondre : Saramis, Da Mina, navire échoué (Grounded Ship)' },
+
+{ n:'Simon', d:'Combattant acharné', g:'les combats à mort, la cuisine de son pays ; sculpter, faire des conserves',
+  L:['rancid_garum','yu_phas','shield_portrait'],
+  R:['crimson_ghosh','dual_fish_knives','protection_figurine','flower_painting','arrowhead_gem','joint_gloves','pickled_bulbs'],
+  B:['@vegetables','exquisite_ring','ebony_bg','eastern_bg'], X:[],
+  req:{cai:[3,8], die:[3,7], the:[3,7], led:[3,6]}, ex:'Pile ou face : choisis Pile (Tails)' },
+
+{ n:'Sirocco', d:'Barde polyvalent', g:'la déesse Kalla, toutes les femmes, la poésie ; la lecture, les portraits',
+  L:['yu_phas','flower_painting','shield_portrait','arrowhead_gem','tales_adventure','volcano_ghosh','crimson_ghosh','eastern_earrings','history_master'],
+  R:['@ghosh','eastern_love_story','young_shosh','bull_panther','pastels','gaudy_bangle','eastern_bg'],
+  B:['@books','@paintings','@shosh','orgus_coffee','southern_seeds'], X:[],
+  req:{cai:[3,9], die:[3,9], the:[1,5], led:'A'}, ex:'Quête de recrutement' },
+
+{ n:'Sofia', d:'Prêtresse soigneuse', g:'la bonne nourriture, le moment où le plat arrive (et disparaît)',
+  L:['candy_crystals','southern_seeds','odd_seeds','blue_roses','flower_painting','dual_fish_knives','volcano_ghosh','tales_adventure'],
+  R:['@milk','@cervi','@pastries','saraminian_sweets','@garum','crimson_ghosh','@coffee','pickled_veg','meaty_delicacy','outdoor_cooking','eastern_tea'],
+  B:['@cooking'], X:[],
+  req:{cai:[3,9], die:[3,9], the:'A', led:[3,7]} },
+
+{ n:'Talimun', d:'Grand marchand', nr:true, g:'l\u2019argent, l\u2019aventure, la cannelle, flirter',
+  L:['volcano_ghosh'], R:['@ghosh','ceremonial_spear'],
+  B:['exquisite_ring','@boardgames','@coffee','@paintings','@books'], X:[],
+  note:'Non recrutable en Partie I. Rejoint en Partie III si son paralogue est terminé.' },
+
+{ n:'Theodora', d:'Seigneur de la Flamme', lord:'the', g:'le combat, Yu Phas, voir son peuple prospérer ; la chasse, l\u2019entraînement',
+  L:['pegasus_panorama','yu_phas'],
+  R:['beard_grass','grooming_kit','black_silk','eastern_tea','arrowhead_gem','rugged_blade','flower_painting'],
+  B:['southern_ghosh','ebony_bg','imitation_medal','rucksack','@coffee','@fashion','@cooking','training_weights?','training_pillar?'],
+  X:['strategy_manuscript','@books'],
+  note:'Pas de lecture : même le Manuscrit de stratégie la laisse froide.' },
+
+{ n:'Tialla', d:'Génie tactique', g:'les bibliothèques, les potins amoureux, la solitude, son grand-père ; lire, jeux de plateau',
+  L:['ebony_bg','eastern_bg','morfis_tea','tales_adventure','dual_fish_knives','blue_roses','flower_painting','yu_phas','tome_away','morfis_almanac'],
+  R:['jamel_milk','@cervi','spirit_bg','bg_tactics','@garum','pickled_bulbs','potted_veg','outdoor_cooking','strong_seasoning','home_recipe','herbal_recipe','protection_figurine','works_dante','knights_suitors','thick_tome','ceremonial_spear','skin_balm','black_silk','ahm_lu_cloth','arrowhead_gem'],
+  B:['@books','fishhook','rucksack','bagua_set','grooming_kit','crafting_knives','sharp_dagger','joint_gloves','decorative_arrows','exquisite_ring','red_hair_clip','pastels','pegasus_panorama','shield_portrait'],
+  X:['coffee_pastries','rancid_garum','@ghosh','special_medicine'],
+  req:{cai:'A', die:[3,9], the:[3,10], led:[3,8]}, ex:'Paralogue de Cai terminé + 3 000 or' },
+
+{ n:'Tobias', d:'Cœur-de-Lion de Saramis', g:'boire, se battre, chanter ; la chasse, camper seul',
+  L:['strategy_manuscript','tales_adventure','volcano_ghosh'], R:['@fermented'], B:[], X:[],
+  req:{the:'A'} },
+
+{ n:'Ultand', d:'Soigneuse combative', g:'s\u2019occuper des autres, sa famille, le ménage, les histoires d\u2019amour ; économiser, les marchés',
+  L:['rancid_garum','tales_adventure','dual_fish_knives','blue_roses','yu_phas'],
+  R:['eastern_love_story','pastry_cookbook','crimson_ghosh','outdoor_cooking','@garum','strong_seasoning','home_recipe','herbal_recipe','knights_suitors','tome_away','morfis_almanac','rugged_blade','ceremonial_spear','skin_balm','black_silk','ahm_lu_cloth','eastern_bg','exquisite_ring','arrowhead_gem','flower_painting'],
+  B:['@books','@cooking','@tea','jade_ghosh','southern_ghosh','volcano_ghosh','aromatic_shosh','special_medicine','orgus_coffee','southern_seeds','pegasus_panorama','shield_portrait','red_hair_clip','decorative_arrows','spirit_bg','ebony_bg'],
+  X:[],
+  req:{cai:'A', die:[3,5], the:[3,6], led:[3,8]}, ex:'Quête de recrutement',
+  note:'Avec Cai, elle rejoint automatiquement au chapitre 6.' },
+
+{ n:'Ursula', d:'Gérante de comptoir marchand', g:'la poésie, les animaux, les fleurs d\u2019ombre, compter l\u2019argent ; lire, dessiner',
+  L:['shield_portrait','flower_painting','pegasus_panorama','yu_phas'],
+  R:['eastern_love_story','kitten_figurine','mane_ornament','pastels','coffee_pastries','@coffee','arrowhead_gem','black_silk','ahm_lu_cloth'],
+  B:['@boardgames','@books','@flowers','@paintings'], X:[],
+  req:{cai:[3,10], die:[3,7], the:[3,9]}, ex:'Paralogue de Talimun + répondre « Oui » 3 fois' },
+
+{ n:'Yang Jie', d:'Moine guerrier', g:'l\u2019alcool, les contes anciens, les longs voyages ; collectionner les liqueurs',
+  L:['eastern_tea','poems_greats','strategy_manuscript','tales_adventure','volcano_ghosh'],
+  R:['@ghosh'], B:['@fermented','@books','common_coffee?'], X:[],
+  req:{cai:[2,3], die:'A', the:[3,9], led:[3,8,null,'Une source le dit non recrutable avec Leda.']},
+  ex:'Répondre : fromage, lune, pommes de terre (Cheese, Moon, Potatoes)' },
+
+{ n:'Zarcone', d:'Bandit à la hache', g:'l\u2019argent, la violence, les légumes, boire entre amis. Déteste le café.',
+  L:['eastern_tea'], R:['pickled_veg','potted_veg'],
+  B:['@vegetables','eastern_earrings','gaudy_bangle','strategy_manuscript','tales_adventure','wing_fletching'],
+  X:['@coffee'],
+  req:{cai:[3,8], die:[3,7], the:[1,4], led:[2,5]}, ex:'Négocier sa prime (descend jusqu\u2019à 10 or)' }
+];
+
+
+/*
+  Où trouver les cadeaux (recherche du 2 octobre 2026).
+  t = marchés (villes), p = prix en or, q = quêtes [{n: nom anglais, d: 'JJ/MM', s: 'MM-JJ' pour le tri, i: détail}],
+  r = récompense de rang d'Honneur, x = note, w = conflit entre sources,
+  c = fiabilité : 2 = confirmé (2 sources ou plus), 1 = une seule source, 0 = simple indice.
+  Cadeau absent = aucune source connue.
+*/
+const DAG_T = 'Dagsion (Taverne)';
+const WHERE = {
+  jamel_milk: { t:['Daimon','Twalinn','Osiris'], c:1 },
+  weak_cervi: { t:['Orens','Raivo'], c:1, x:'La Taverne de Dagsion vendrait aussi des cervi.' },
+  strong_cervi: { t:['Orens','Raivo'], c:1, x:'La Taverne de Dagsion vendrait aussi des cervi.' },
+  honey_milk: { t:['Regia'], c:1 },
+  ginji_cervi: { t:['Ribeira (colporteur)'], p:150, c:1 },
+  white_cervi: { t:['Osiris'], c:1 },
+  simple_pastries: { t:['Orens','Benetnasch'], c:1 },
+  mellow_pastries: { t:['Orens'], c:1 },
+  fragrant_pastries: { t:['Mons','Orens'], c:1 },
+  honey_pastries: { t:['Regia'], c:1 },
+  coffee_pastries: { t:['Megaira'], c:1 },
+  saraminian_sweets: { t:['Megaira'], c:2, x:'Stock illimité à Megaira.',
+    q:[{ n:'The Divine Sovereign\u2019s Secret', d:'27/11', s:'11-27', i:'Prêtre, rues de la ville' }] },
+  candy_crystals: { c:1, x:'Pas vendu en boutique.',
+    q:[{ n:'Can\u2019t Stay Home', d:'24/10', s:'10-24', i:'Garçon du quartier des divertissements ; trouver un acheteur à Ribeira' }] },
+  pastry_cookbook: { t:['Regia'], c:1 },
+  garum: { t:[DAG_T], p:45, c:2 },
+  smooth_garum: { t:['Raivo'], p:90, c:2 },
+  conc_garum: { t:['Pandora'], c:1 },
+  alecto_garum: { t:['Alecto'], p:270, c:2 },
+  niiza_garum: { t:['Niiza'], c:1 },
+  rancid_garum: { t:['Benetnasch'], c:1 },
+  outdoor_cooking: { t:['Mahon','Grand Aragon'], c:2 },
+  strong_seasoning: { t:['Callianeira'], c:1 },
+  home_recipe: { t:['Raivo'], c:1 },
+  herbal_recipe: { t:['Raivo','Megaira'], c:1 },
+  village_recipes: { t:['Yaaman','Aguino'], c:1 },
+  dual_fish_knives: { t:['Niiza'], c:1 },
+  rare_spices: { t:['Callianeira','Shama'], c:1 },
+  young_ghosh: { t:['Mons','Barsk'], c:1 },
+  mature_ghosh: { t:['Mahon','Barsk'], c:1 },
+  sun_ghosh: { t:['Callianeira'], c:1 },
+  energizing_ghosh: { t:['Benetnasch','Megaira'], c:1 },
+  rustic_ghosh: { t:['Daimon'], c:1 },
+  jade_ghosh: { t:['Callianeira','Whill'], c:1 },
+  secret_ghosh: { t:['Yaaman','Callianeira'], c:1 },
+  southern_ghosh: { t:['Callianeira','Megaira'], c:1 },
+  volcano_ghosh: { t:['Da Mina','Mahon','Barsk'], c:2 },
+  crimson_ghosh: { t:['Barsk','Grand Aragon'], c:2,
+    q:[{ n:'Missing Customer', d:'3/11', s:'11-03', i:'Serveuse de la taverne ; parler à Gaston à Fina' }] },
+  special_medicine: { t:['Benetnasch'], c:1 },
+  young_shosh: { t:['Niiza'], c:1 },
+  mature_shosh: { t:['Alecto','Niiza'], p:135, c:1 },
+  light_shosh: { t:['Mons','Niiza'], c:1 },
+  aromatic_shosh: { t:['Alecto'], c:1 },
+  common_coffee: { t:['Regia','Megaira','Shama'], c:2, x:'Aussi vu chez un marchand de Dagsion.' },
+  select_coffee: { t:[DAG_T,'Shama','Megaira'], p:90, c:1, w:'Megaira n\u2019est cité que par une source.' },
+  orgus_coffee: { t:['Whill'], c:1 },
+  solomon_coffee: { t:['Shama'], c:1 },
+  eastern_tea: { t:['Callianeira'], c:1 },
+  fodlan_tea: { t:['Pandora'], c:1, w:'Une autre source le place à Megaira.',
+    q:[{ n:'Energy Nuts', d:'1/9', s:'09-01', i:'Domestique, rues de la ville ; livrer des Enrietto' }] },
+  pickled_veg: { t:['Daimon','Zoste'], c:1 },
+  pickled_bulbs: { t:['Aguino'], c:2,
+    q:[{ n:'A Taste from Home', d:'1/9', s:'09-01', i:'Habitant de la ville basse ; livrer du Jyoppa d\u2019Aguino' }] },
+  potted_veg: { t:['Regia'], c:1 },
+  meaty_delicacy: { t:['Zoste'], c:1 },
+  fish_eyeball: { t:['Alecto'], c:1 },
+  fishing_rod: { t:['Raivo'], c:1 },
+  fishhook: { t:['Raivo','Niiza'], c:1 },
+  works_dante: { t:['Mons','Mahon'], c:1 },
+  knights_suitors: { t:['Mons'], c:1 },
+  traders_handbook: { t:['Alecto'], c:1 },
+  thick_tome: { t:['Mahon'], c:1 },
+  tales_arena: { t:['Grand Aragon'], c:1 },
+  poems_greats: { t:['Raivo'], c:1 },
+  school_scandal: { t:['Mons'], c:1 },
+  tome_away: { t:['Pandora'], c:1 },
+  morfis_almanac: { t:['Pandora'], c:2,
+    q:[{ n:'The Hunter for Gisco\u2019s Treasure', d:'24/10', s:'10-24', i:'Chasse au trésor de Gisco' }] },
+  tales_adventure: { t:['Alecto'], p:270, c:2 },
+  history_master: { t:['Twalinn'], c:1 },
+  strategy_manuscript: { c:0, x:'Un site de fans l\u2019indique à Mahon, Mons ou Ribeira, mais les listes de ces boutiques ne le confirment pas.' },
+  training_weights: { t:['Breston'], c:1 },
+  training_pillar: { t:['Breston'], c:1 },
+  crafting_knives: { t:['Da Mina'], c:1 },
+  pastels: { t:['Regia'], c:1 },
+  sharp_dagger: { t:['Da Mina','Mahon'], c:1 },
+  rugged_blade: { t:['Whill'], c:1 },
+  ceremonial_spear: { t:['Da Mina','Grand Aragon'], c:1 },
+  antique_medal: { t:['Zoste'], c:1 },
+  imitation_medal: { t:['Whill'], c:1 },
+  skin_balm: { t:['Barsk'], c:1 },
+  black_silk: { c:1, x:'Un site de fans le dit en vente à Callianeira et Breston (non confirmé).',
+    q:[{ n:'Something a God Eats', d:'6/11', s:'11-06', i:'Fidèle près du temple de Jurah ; livrer du Rahlan de Pandora' }] },
+  exquisite_ring: { t:['Callianeira'], c:1 },
+  red_hair_clip: { t:['Shama'], c:1 },
+  eastern_earrings: { t:['Callianeira'], c:2 },
+  arrowhead_gem: { t:['Breston'], c:2 },
+  bg_tactics: { t:['Breston'], c:1 },
+  spirit_bg: { t:['Niiza'], c:2 },
+  ebony_bg: { t:['Pandora'], c:2 },
+  blue_roses: { t:['Mahon'], c:1 },
+  mane_ornament: { t:['Grand Aragon'], c:2,
+    q:[{ n:'Knowing More About Him', d:'7/5', s:'05-07', i:'Femme inquiète, place de l\u2019Arène (chapitre 4)' }] },
+  grooming_kit: { t:['Aguino','Grand Aragon'], c:2 },
+  beard_grass: { t:['Orens'], c:2 },
+  joint_gloves: { t:['Breston'], c:2 },
+  bow_kit: { t:['Zoste'], c:2 },
+  wing_fletching: { c:0, x:'Indice : les objets de tir à l\u2019arc se trouvent à Zoste, Breston et Ribeira.' },
+  pegasus_panorama: { t:['Mons'], c:2 },
+  shield_portrait: { t:['Megaira'], c:2 },
+  flower_painting: { c:1, x:'Pas vendu en boutique.',
+    q:[{ n:'The Divine Sovereign\u2019s Secret', d:'27/11', s:'11-27', i:'Prêtre, rues de la ville' }] },
+  yu_phas: { r:12, c:2, x:'Pas vendu en boutique : un seul exemplaire par voie en Partie I.' },
+  kitten_figurine: { t:['Orens','Osiris'], c:1 },
+  protection_figurine: { t:['Niiza'], c:1 },
+  bull_panther: { t:['Grand Aragon'], c:1, x:'Grand Aragon vend la Panthère de jade ; lieu du Taureau pourpre inconnu.' },
+  bagua_set: { t:['Osiris'], c:2 },
+  magic_set: { t:['Regia'], c:1 },
+  rucksack: { t:['Breston'], c:1 },
+  odd_seeds: { t:['Zoste'], c:1 },
+  yarc_milk: { c:0, x:'Probablement à la Taverne de Dagsion (boisson bon marché), non confirmé.' }
+};
+const KNOWN_TOWNS = [...new Set([DAG_T, 'Dagsion (Galerie marchande)', 'Fina', ...Object.values(WHERE).flatMap(w => w.t || [])])].sort((a, b) => a.localeCompare(b));
+
+/* ---------- stockage ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('feweave:'+k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('feweave:'+k, JSON.stringify(v)); }catch(e){} }
+};
+const LORD_IDS = LORDS.map(l => l.id);
+const S = {
+  lord: store.get('lord', 'cai'),
+  honor: store.get('honor', 1),
+  tab: store.get('tab', 'chars'),
+  hf: store.get('hf', null),
+  theme: store.get('theme', null),
+  inv: store.get('inv', {}),          // { idCadeau: quantité }
+  sup: store.get('sup', {}),          // { nom: 1..3 } soutien actuel (commun aux voies)
+  cond: store.get('cond', {}),        // { seigneur: [noms] } condition faite
+  rec: store.get('rec', null),        // { seigneur: [noms] } recrutés
+  log: store.get('log', {}),          // { nom: [{g, ts, l}] }
+  invOnly: store.get('invOnly', false),
+  q: '', sel: null
+};
+if(!LORD_IDS.includes(S.lord)) S.lord = 'cai';
+if(!['chars','gifts','inv','tour'].includes(S.tab)) S.tab = 'chars';
+S.honor = Math.min(10, Math.max(1, +S.honor || 1));
+if(!S.rec){ // migration de l'ancienne marque « recruté » (globale) vers le Seigneur courant
+  S.rec = {}; const old = store.get('done', []);
+  if(old.length) S.rec[S.lord] = old;
+  store.set('rec', S.rec);
+}
+for(const l of LORD_IDS){ S.rec[l] = S.rec[l] || []; S.cond[l] = S.cond[l] || []; }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const lordOf = id => LORDS.find(l => l.id === id);
+const lordName = id => lordOf(id).name;
+const TIERS = [
+  ['L','Adore','soutien ×2','⇈'],
+  ['R','Aime beaucoup','gros gain','↑'],
+  ['B','Aime bien','gain moyen','↗'],
+  ['X','À éviter','aucun gain','✕']
+];
+const TIER_MK = Object.fromEntries(TIERS.map(t => [t[0], t[3]]));
+const TIER_RANK = { L:0, R:1, B:2, X:3 };
+const charByName = Object.fromEntries(CHARS.map(c => [c.n, c]));
+
+/* ---------- inventaire ---------- */
+const qty = g => S.inv[g] || 0;
+const invTotal = () => Object.values(S.inv).reduce((a, b) => a + b, 0);
+const invKinds = () => Object.keys(S.inv).filter(g => S.inv[g] > 0).length;
+function setQty(g, n){
+  n = Math.max(0, Math.min(999, Math.floor(+n || 0)));
+  if(n) S.inv[g] = n; else delete S.inv[g];
+  store.set('inv', S.inv);
+}
+
+/* ---------- suivi du recrutement ---------- */
+const inList = (obj, l, n) => obj[l].includes(n);
+function toggleIn(obj, key, l, n){
+  const a = obj[l]; const i = a.indexOf(n);
+  if(i >= 0) a.splice(i, 1); else a.push(n);
+  store.set(key, obj);
+}
+const supOf = c => S.sup[c.n] || 0;
+function reqOf(c, lord){ return c.req && c.req[lord || S.lord]; }
+function extraOf(c, lord){ const r = reqOf(c, lord); if(Array.isArray(r) && r[2]) return r[2]; return c.ex || ''; }
+function supMet(c, lord){ const r = reqOf(c, lord); return Array.isArray(r) && supOf(c) >= r[0]; }
+const hasCond = c => !!extraOf(c);
+const condDone = c => inList(S.cond, S.lord, c.n);
+const isRec = c => inList(S.rec, S.lord, c.n);
+
+function status(c){
+  if(c.lord === S.lord) return 'self';
+  if(c.nr || c.lord) return 'nr';
+  const r = reqOf(c);
+  if(r === 'A') return 'auto';
+  if(!r) return 'na';
+  if(isRec(c)) return 'rec';
+  const hOk = S.honor >= r[1];
+  if(hOk && supMet(c) && (!hasCond(c) || condDone(c))) return 'ready';
+  return hOk ? 'ok' : 'wait';
+}
+
+function tierOf(c, gid){
+  for(const [t] of TIERS){
+    for(const tok of c[t] || []){
+      const u = tok.endsWith('?'); const k = u ? tok.slice(0,-1) : tok;
+      if(k === gid) return { t, u };
+    }
+  }
+  for(const [t] of TIERS){
+    for(const tok of c[t] || []){
+      const u = tok.endsWith('?'); const k = u ? tok.slice(0,-1) : tok;
+      if(k[0] === '@' && GROUPS[k.slice(1)] && GROUPS[k.slice(1)][2].includes(gid)) return { t, u, via: k.slice(1) };
+    }
+  }
+  return null;
+}
+// cadeaux possédés classés pour un personnage
+function ownedFor(c){
+  const out = [];
+  for(const g in S.inv){ if(!S.inv[g]) continue; const t = tierOf(c, g); if(t) out.push({ g, ...t }); }
+  out.sort((a, b) => TIER_RANK[a.t] - TIER_RANK[b.t] || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
+  return out;
+}
+function bestOwnedTier(c){
+  let best = null;
+  for(const g in S.inv){ if(!S.inv[g]) continue; const t = tierOf(c, g);
+    if(t && (t.t === 'L' || t.t === 'R') && (!best || TIER_RANK[t.t] < TIER_RANK[best])) best = t.t; }
+  return best;
+}
+
+/* ---------- haut de page ---------- */
+function renderTop(){
+  document.documentElement.setAttribute('data-lord', S.lord);
+  $('#lords').innerHTML = LORDS.map(l =>
+    `<button type="button" class="lord" data-lord="${l.id}" aria-pressed="${l.id === S.lord}">
+      <span class="em" aria-hidden="true">${l.em}</span><span><b>${l.name}</b><small>${esc(l.army)}</small></span></button>`).join('');
+  $('#hVal').textContent = S.honor;
+  $('#hMinus').disabled = S.honor <= 1;
+  $('#hPlus').disabled = S.honor >= 10;
+  $('#ticks').innerHTML = Array.from({length:10}, (_, i) => `<i class="${i < S.honor ? 'on' : ''}"></i>`).join('');
+}
+function renderTabs(){
+  for(const b of document.querySelectorAll('[data-tab]')) b.setAttribute('aria-selected', b.dataset.tab === S.tab);
+  $('#invCount').textContent = invTotal();
+  const left = planTour().filter(p => p.a).length;
+  $('#tourCount').textContent = left; $('#tourCount').hidden = !left;
+  $('#q').placeholder = (S.tab === 'chars' || S.tab === 'tour') ? 'Chercher un personnage' : (S.tab === 'gifts' && S.giftMode === 'town') ? 'Chercher un cadeau dans cette ville' : 'Chercher un cadeau (français ou anglais)';
+}
+
+/* ---------- liste des personnages ---------- */
+const GROUP_DEF = [
+  ['ready', 'Prêts à recruter', 'Soutien, Honneur et condition sont bons : va leur parler à Dagsion.', true],
+  ['ok', 'Honneur atteint', 'Il reste le soutien ou la condition. Ceux dont le soutien suffit déjà sont en bas, en grisé.', true],
+  ['wait', 'Honneur insuffisant', 'Commence les cadeaux dès maintenant. Soutien déjà suffisant : en bas, en grisé.', true],
+  ['auto', 'Déjà dans ton armée', 'Rejoignent automatiquement. Les cadeaux restent utiles pour les bonus de soutien en combat.', false],
+  ['rec', 'Recrutés', 'Ceux que tu as marqués comme recrutés avec ce Seigneur.', false],
+  ['nr', 'Non recrutables', 'Autres Seigneurs et personnages qui rejoignent plus tard selon l\u2019histoire.', false],
+  ['na', 'Pas sur cette voie', 'Impossible à recruter avec ce Seigneur.', false]
+];
+const openState = store.get('open', {});
+
+function charRow(c, st){
+  const r = reqOf(c);
+  const met = supMet(c);
+  let pills = '';
+  if(Array.isArray(r)){
+    const have = supOf(c);
+    pills += met
+      ? `<span class="pill good">Soutien ✓</span>`
+      : `<span class="pill">Soutien ${have ? have + '/' : ''}${r[0]}</span>`;
+    pills += `<span class="pill ${S.honor >= r[1] ? '' : 'miss'}">Honneur ${r[1]}</span>`;
+    if(r[3]) pills += `<span class="pill warn" title="Sources contradictoires">⚠</span>`;
+  }
+  const needGifts = !(st === 'rec' || met);
+  const best = needGifts ? bestOwnedTier(c) : null;
+  const stock = best ? ` <span class="pill stock ${best === 'R' ? 'r' : ''}" title="Tu possèdes un cadeau qu'il ou elle ${best === 'L' ? 'adore' : 'aime beaucoup'}">🎁${TIER_MK[best]}</span>` : '';
+  let ds = esc(c.d);
+  if(st === 'ready') ds = '<span class="done-c">Tout est bon : recrute-le à Dagsion</span>';
+  else if(st === 'ok' || st === 'wait'){
+    const ex = extraOf(c);
+    if(ex) ds = condDone(c) ? `<span class="done-c">✓ Condition faite</span>` : `<span class="ex">+ ${esc(ex)}</span>`;
+  }
+  const dim = (st === 'ok' || st === 'wait') && met;
+  return `<button type="button" class="row ${dim ? 'dim' : ''}" data-char="${esc(c.n)}" aria-current="${S.sel && S.sel.k === 'c' && S.sel.id === c.n}">
+    <span class="who"><span class="nm">${esc(c.n)}${stock}</span><span class="ds">${ds}</span></span>
+    <span class="req">${pills}</span></button>`;
+}
+
+function renderChars(){
+  const q = norm(S.q);
+  const buckets = {};
+  for(const c of CHARS){
+    const st = status(c);
+    if(st === 'self') continue;
+    if(q && !norm(c.n).includes(q)) continue;
+    if(S.hf){ const r = reqOf(c); if(!Array.isArray(r) || r[1] !== S.hf) continue; }
+    (buckets[st] = buckets[st] || []).push(c);
+  }
+  const base = (a, b) => reqOf(a)[0] - reqOf(b)[0] || reqOf(a)[1] - reqOf(b)[1] || a.n.localeCompare(b.n);
+  const sorter = {
+    ok: (a, b) => supMet(a) - supMet(b) || base(a, b),
+    wait: (a, b) => supMet(a) - supMet(b) || reqOf(a)[1] - reqOf(b)[1] || reqOf(a)[0] - reqOf(b)[0] || a.n.localeCompare(b.n)
+  };
+  let html = '';
+  for(const [id, title, hint, defOpen] of GROUP_DEF){
+    const list = buckets[id];
+    if(!list || !list.length) continue;
+    list.sort(sorter[id] || ((a, b) => a.n.localeCompare(b.n)));
+    const open = (q || S.hf || id === 'ready') ? true : (openState[id] !== undefined ? openState[id] : defOpen);
+    html += `<details class="grp ${id}" data-g="${id}" ${open ? 'open' : ''}>
+      <summary><h2 class="disp">${title}</h2><span class="cnt">${list.length}</span></summary>
+      <p class="hint">${hint}</p>
+      <div class="rows">${list.map(c => charRow(c, id)).join('')}</div></details>`;
+  }
+  if(!html) html = S.hf && !q
+    ? `<p class="empty">Aucun personnage ne demande Honneur ${S.hf} avec ${lordName(S.lord)}. Choisis un autre niveau ou « Tous ».</p>`
+    : `<p class="empty">Aucun personnage ne correspond${q ? ` à « ${esc(S.q)} »` : ''}${S.hf ? ` avec Honneur ${S.hf}` : ''}. Vérifie l'orthographe ou retire un filtre.</p>`;
+  $('#listCol').innerHTML = html;
+}
+
+function renderHonorFilter(){
+  const wrap = $('#hfwrap');
+  wrap.hidden = S.tab !== 'chars';
+  if(wrap.hidden) return;
+  const count = {};
+  for(const c of CHARS){
+    if(status(c) === 'self') continue;
+    const r = reqOf(c); if(Array.isArray(r)) count[r[1]] = (count[r[1]] || 0) + 1;
+  }
+  if(S.hf && !count[S.hf]) S.hf = null;
+  let h = `<button type="button" class="hf" data-hf="" aria-pressed="${!S.hf}">Tous</button>`;
+  for(let i = 1; i <= 10; i++){
+    const n = count[i] || 0;
+    h += `<button type="button" class="hf ${i === S.honor ? 'me' : ''}" data-hf="${i}" aria-pressed="${S.hf === i}" ${n ? '' : 'disabled'} aria-label="Honneur ${i}, ${n} personnage${n > 1 ? 's' : ''}${i === S.honor ? ', ton niveau actuel' : ''}">${i}<small>${n}</small></button>`;
+  }
+  $('#hfilter').innerHTML = h;
+}
+
+/* ---------- liste des cadeaux ---------- */
+function relevantChars(){ return CHARS.filter(c => { const st = status(c); return st !== 'self' && st !== 'na'; }); }
+function giftMatches(g, q){ return !q || norm(GIFTS[g][0]).includes(q) || norm(GIFTS[g][1]).includes(q); }
+function renderGifts(){
+  if(S.giftMode === 'town'){
+    const prev = document.querySelector('.towns'); const sl = prev ? prev.scrollLeft : null;
+    $('#listCol').innerHTML = giftModeSeg() + renderTownHtml();
+    const strip = document.querySelector('.towns'); const on = document.querySelector('.town[aria-pressed="true"]');
+    if(strip && sl !== null) strip.scrollLeft = sl;
+    if(strip && on){ const r = on.getBoundingClientRect(), sr = strip.getBoundingClientRect();
+      if(r.left < sr.left || r.right > sr.right) strip.scrollLeft += r.left - sr.left - 40; }
+    return;
+  }
+  if(S.giftMode === 'quest'){ $('#listCol').innerHTML = giftModeSeg() + renderQuestHtml(); return; }
+  const q = norm(S.q);
+  const rel = relevantChars();
+  const loveCount = {};
+  for(const g in GIFTS) loveCount[g] = rel.filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; }).length;
+  const top = Object.keys(GIFTS).filter(g => loveCount[g] >= 8).sort((a, b) => loveCount[b] - loveCount[a]);
+  const row = g => `<button type="button" class="row" data-gift="${g}" aria-current="${S.sel && S.sel.k === 'g' && S.sel.id === g}">
+      <span class="who"><span class="nm">${CATS[GIFTS[g][2]][2]} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])} — ${esc(whereShort(g))}</span></span>
+      <span class="req">${qty(g) ? `<span class="qty" title="Dans ton inventaire">×${qty(g)}</span>` : ''}<span class="loved ${loveCount[g] ? '' : 'zero'}" title="Nombre de personnages qui l'adorent">⇈ ${loveCount[g]}</span></span></button>`;
+  let html = '';
+  if(!q && top.length){
+    html += `<details class="grp" open><summary><h2 class="disp">Valeurs sûres</h2><span class="cnt">${top.length}</span></summary>
+      <p class="hint">Adorés par au moins 8 personnages accessibles avec ${lordName(S.lord)}. Le chiffre ⇈ compte les « adore ».</p>
+      <div class="rows glist">${top.map(row).join('')}</div></details>`;
+  }
+  for(const cat in CATS){
+    const items = Object.keys(GIFTS).filter(g => GIFTS[g][2] === cat && giftMatches(g, q));
+    if(!items.length) continue;
+    items.sort((a, b) => loveCount[b] - loveCount[a] || GIFTS[a][1].localeCompare(GIFTS[b][1]));
+    html += `<details class="grp" ${q ? 'open' : ''}><summary><h2 class="disp">${CATS[cat][2]} ${esc(CATS[cat][0])}</h2><span class="cnt">${items.length}</span></summary>
+      <p class="hint">${esc(CATS[cat][1])}</p>
+      <div class="rows glist">${items.map(row).join('')}</div></details>`;
+  }
+  if(!html) html = `<p class="empty">Aucun cadeau ne correspond à « ${esc(S.q)} ». Essaie le nom anglais ou un mot plus court.</p>`;
+  $('#listCol').innerHTML = giftModeSeg() + html;
+}
+
+/* ---------- inventaire ---------- */
+const stepper = g => `<div class="stp" data-g="${g}"><button type="button" data-step="-1" aria-label="Retirer un ${esc(GIFTS[g][1])}">−</button><input type="number" inputmode="numeric" min="0" max="999" value="${qty(g)}" aria-label="Quantité de ${esc(GIFTS[g][1])}"><button type="button" data-step="1" aria-label="Ajouter un ${esc(GIFTS[g][1])}">+</button></div>`;
+let resetArmed = null;
+function invSummary(){
+  const t = invTotal(), k = invKinds();
+  return t ? `<b>${t} cadeau${t > 1 ? 'x' : ''} en stock</b><small>${k} sorte${k > 1 ? 's' : ''} différente${k > 1 ? 's' : ''}</small>`
+           : `<b>Inventaire vide</b><small>Ouvre une catégorie, puis ajoute tes cadeaux avec + ou tape la quantité.</small>`;
+}
+function renderInv(){
+  const q = norm(S.q);
+  let html = `<div class="invhead"><div class="sum" id="invSum">${invSummary()}</div>
+    <div class="acts"><button type="button" class="btn" id="invOnly" aria-pressed="${S.invOnly}">Seulement ce que j'ai</button>
+    <button type="button" class="btn danger" id="invReset">Tout remettre à zéro</button></div></div>`;
+  let any = false;
+  for(const cat in CATS){
+    const items = Object.keys(GIFTS).filter(g => GIFTS[g][2] === cat && giftMatches(g, q) && (!S.invOnly || qty(g)));
+    if(!items.length) continue;
+    any = true;
+    items.sort((a, b) => GIFTS[a][1].localeCompare(GIFTS[b][1]));
+    const owned = items.reduce((s, g) => s + qty(g), 0);
+    html += `<details class="grp" data-g="inv-${cat}" ${q || S.invOnly || owned || openState['inv-' + cat] ? 'open' : ''}><summary><h2 class="disp">${CATS[cat][2]} ${esc(CATS[cat][0])}</h2><span class="cnt">${owned ? owned + ' en stock' : items.length}</span></summary>
+      <div class="rows">${items.map(g => `<div class="inv-row ${qty(g) ? 'own' : ''}" data-row="${g}">
+        <button type="button" class="gname" data-gift="${g}"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}</span></button>${stepper(g)}</div>`).join('')}</div></details>`;
+  }
+  if(!any) html += S.invOnly && !invTotal()
+    ? `<p class="empty">Ton inventaire est vide. Désactive « Seulement ce que j'ai » puis ajoute tes cadeaux avec +.</p>`
+    : `<p class="empty">Aucun cadeau ne correspond${q ? ` à « ${esc(S.q)} »` : ''}. Essaie le nom anglais ou retire le filtre.</p>`;
+  $('#listCol').innerHTML = html;
+}
+
+/* ---------- fiche personnage ---------- */
+function chip(tok){
+  const u = tok.endsWith('?'); const k = u ? tok.slice(0,-1) : tok;
+  const unv = u ? '<span class="unv" title="Une seule source, à confirmer">?</span>' : '';
+  if(k[0] === '@'){
+    const g = GROUPS[k.slice(1)];
+    const ic = CATS[GIFTS[g[2][0]][2]][2];
+    const own = g[2].filter(x => qty(x));
+    const n = own.reduce((s, x) => s + qty(x), 0);
+    const title = own.length ? 'Tu as : ' + own.map(x => `${GIFTS[x][1]} ×${qty(x)}`).join(', ') : g[2].map(x => GIFTS[x][1]).join(', ');
+    return `<span class="chip ${n ? 'own' : ''}" title="${esc(title)}"><span class="ic" aria-hidden="true">${ic}</span><span><span class="fr">${esc(g[0])}${unv}${n ? `<span class="qty">×${n}</span>` : ''}</span><span class="en">${esc(g[1])}</span></span></span>`;
+  }
+  const G = GIFTS[k]; const n = qty(k);
+  return `<button type="button" class="chip ${n ? 'own' : ''}" data-gift="${k}"><span class="ic" aria-hidden="true">${CATS[G[2]][2]}</span><span><span class="fr">${esc(G[1])}${unv}${n ? `<span class="qty">×${n}</span>` : ''}</span><span class="en">${esc(G[0])}</span></span></button>`;
+}
+
+function recBox(c){
+  const st = status(c);
+  if(st === 'nr') return `<div class="recbox"><div class="t">${c.lord ? 'Seigneur de la Flamme' : 'Non recrutable en Partie I'}</div><div class="s">${c.lord ? 'Les Seigneurs ne se recrutent pas entre eux, mais le soutien compte.' : esc(c.note || '')}</div></div>`;
+  if(st === 'na') return `<div class="recbox"><div class="t">Pas recrutable avec ${lordName(S.lord)}</div><div class="s">Regarde le tableau plus bas pour les autres voies.</div></div>`;
+  if(st === 'auto') return `<div class="recbox"><div class="t">Rejoint automatiquement ${lordName(S.lord)}</div><div class="s">Rien à faire pour le recruter : les cadeaux servent au soutien en combat.</div></div>`;
+  const r = reqOf(c); const ex = extraOf(c);
+  let line;
+  if(st === 'rec') line = 'Marqué comme recruté avec ' + lordName(S.lord) + '.';
+  else if(st === 'ready') line = 'Tout est bon : va lui parler à Dagsion pour le recruter.';
+  else {
+    const miss = [];
+    if(S.honor < r[1]) { const m = r[1] - S.honor; miss.push(`${m} niveau${m > 1 ? 'x' : ''} d'Honneur`); }
+    if(!supMet(c)) miss.push(supOf(c) ? `du soutien (${supOf(c)}/${r[0]})` : `du soutien (niveau ${r[0]})`);
+    if(ex && !condDone(c)) miss.push(`la condition : ${esc(ex)}`);
+    line = 'Il manque ' + miss.join(', ') + '.';
+  }
+  return `<div class="recbox"><div class="t">Avec ${lordName(S.lord)} : Soutien ${r[0]} et Honneur ${r[1]}${ex ? ' + ' + esc(ex) : ''}</div><div class="s">${line}</div>${r[3] ? `<div class="w">⚠ ${esc(r[3])}</div>` : ''}</div>`;
+}
+
+function trackBox(c){
+  const st = status(c);
+  if(!['ok','wait','ready','rec'].includes(st)) return '';
+  const r = reqOf(c); const have = supOf(c); const ex = extraOf(c);
+  const seg = [1,2,3].map(i => `<button type="button" data-sup="${i}" aria-pressed="${have === i}" class="${i >= r[0] ? 'met' : ''}" aria-label="Soutien ${i}${i >= r[0] ? ' (suffisant)' : ''}">${i}</button>`).join('');
+  return `<div class="track"><h3>Ton suivi</h3>
+    <div class="line"><span class="lbl">Soutien actuel</span><div class="seg" role="group" aria-label="Niveau de soutien actuel">${seg}</div></div>
+    <small>Requis : ${r[0]} avec ${lordName(S.lord)} (trait vert = suffisant). Touche à nouveau pour effacer.</small>
+    <div class="line" style="margin-top:10px">
+      ${ex ? `<button type="button" class="tg" data-cond aria-pressed="${condDone(c)}"><span class="box" aria-hidden="true">${condDone(c) ? '✓' : ''}</span>Condition faite : ${esc(ex)}</button>` : ''}
+      <button type="button" class="tg" data-rec aria-pressed="${isRec(c)}"><span class="box" aria-hidden="true">${isRec(c) ? '✓' : ''}</span>Recruté</button>
+    </div></div>`;
+}
+
+function offerBox(c){
+  const st = status(c);
+  const owned = ownedFor(c);
+  const good = owned.filter(o => o.t !== 'X');
+  const bad = owned.filter(o => o.t === 'X');
+  let inner;
+  if(!invTotal()) inner = `<p class="hint2">Renseigne tes cadeaux dans l'onglet Inventaire : ceux qui lui plaisent apparaîtront ici.</p>`;
+  else if(!good.length) inner = `<p class="hint2">Rien dans ton inventaire ne lui fait vraiment plaisir.</p>`;
+  else inner = good.map(o => `<div class="off-row"><span class="mk ${o.t}" aria-hidden="true">${TIER_MK[o.t]}</span>
+      <span class="gn"><b>${esc(GIFTS[o.g][1])}${o.u ? ' <span class="unv">?</span>' : ''} <span class="qty" title="Dans ton inventaire">×${qty(o.g)}</span></b><small>${esc(GIFTS[o.g][0])}</small></span>
+      <button type="button" class="give" data-give="${o.g}">Offrir</button></div>`).join('');
+  const avoid = bad.length ? `<p class="avoid-own">✕ À ne pas lui donner : ${bad.map(o => esc(GIFTS[o.g][1])).join(', ')}</p>` : '';
+  const metNote = (st === 'ok' || st === 'wait' || st === 'ready') && supMet(c) ? `<p class="hint2">Son soutien suffit déjà pour le recrutement : garde tes meilleurs cadeaux pour les autres.</p>` : '';
+  return `<div class="offer"><h3>À offrir depuis ton inventaire</h3>${metNote}${inner}${avoid}</div>`;
+}
+
+function logBox(c){
+  const L = S.log[c.n] || [];
+  if(!L.length) return '';
+  const items = L.slice(-5).reverse().map((e, i) => {
+    const d = new Date(e.ts);
+    const when = d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+    return `<li><span>${esc(GIFTS[e.g] ? GIFTS[e.g][1] : e.g)} <small>${lordOf(e.l) ? lordOf(e.l).em : ''} ${when}</small></span>${i === 0 ? `<button type="button" class="linkbtn" data-undo="${esc(c.n)}">Annuler</button>` : ''}</li>`;
+  }).join('');
+  return `<div class="log"><h3>Cadeaux déjà offerts</h3><ul>${items}</ul></div>`;
+}
+
+function renderCharPanel(c){
+  const hasInv = invTotal() > 0;
+  let tiers = '';
+  for(const [t, lbl, sub, mk] of TIERS){
+    const list = c[t] || [];
+    if(!list.length){
+      if(t === 'L') tiers += `<div class="tier L"><h3><span class="mk">${mk}</span>${lbl}</h3><p class="nothing">Aucun cadeau « adoré » confirmé pour l'instant : vise la ligne suivante.</p></div>`;
+      continue;
+    }
+    tiers += `<div class="tier ${t}"><h3><span class="mk" aria-hidden="true">${mk}</span>${lbl} <small>${sub}</small></h3><div class="chips ${hasInv && t !== 'X' ? 'has-inv' : ''}">${list.map(chip).join('')}</div></div>`;
+  }
+  const st = status(c);
+  const note = c.note && !(st === 'nr' && !c.lord) ? `<div class="note">${esc(c.note)}</div>` : '';
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+    <div class="pb" data-for="${esc(c.n)}">${recBox(c)}${trackBox(c)}${offerBox(c)}${favBox(c)}${logBox(c)}
+      <p class="likes" style="margin-top:16px"><b>D'après sa fiche :</b> ${esc(c.g)}</p>
+      ${tiers}${note}${allLordsTable(c)}
+    </div>`;
+}
+
+function allLordsTable(c){
+  if(c.nr || c.lord) return '';
+  const rows = LORDS.map(l => {
+    const r = reqOf(c, l.id); let v;
+    if(r === 'A') v = 'Rejoint automatiquement';
+    else if(!r) v = 'Non recrutable';
+    else {
+      const ex = extraOf(c, l.id);
+      v = `Soutien ${r[0]}, Honneur ${r[1]}${ex ? ' + ' + esc(ex) : ''}${r[3] ? ' ⚠' : ''}`;
+      if(inList(S.rec, l.id, c.n)) v += ' <b>✓ recruté</b>';
+    }
+    return `<tr class="${l.id === S.lord ? 'cur' : ''}"><th>${l.em} ${l.name}</th><td>${v}</td></tr>`;
+  }).join('');
+  return `<div class="sect"><h3>Selon le Seigneur</h3><table class="alltbl">${rows}</table></div>`;
+}
+
+/* ---------- fiche cadeau ---------- */
+function renderGiftPanel(g){
+  const G = GIFTS[g];
+  const rel = CHARS.filter(c => status(c) !== 'self');
+  let body = `<div class="track"><div class="line"><span class="lbl">Dans ton inventaire</span>${stepper(g)}</div></div>${whereBlock(g)}<h3 class="whoh">Qui l'apprécie</h3>`;
+  let anyTier = false;
+  const order = { ready:0, ok:1, wait:2, auto:3, rec:4, nr:5, na:6 };
+  for(const [t, lbl, sub, mk] of TIERS){
+    const who = [];
+    for(const c of rel){ const r = tierOf(c, g); if(r && r.t === t) who.push({ c, r }); }
+    if(!who.length) continue;
+    anyTier = true;
+    who.sort((a, b) => order[status(a.c)] - order[status(b.c)] || (supMet(a.c) - supMet(b.c)) || a.c.n.localeCompare(b.c.n));
+    body += `<div class="tier ${t}"><h3><span class="mk" aria-hidden="true">${mk}</span>${lbl} <small>${sub}</small></h3><div class="who-list">${
+      who.map(({ c, r }) => { const st = status(c);
+        const met = (st === 'ok' || st === 'wait' || st === 'ready') && supMet(c);
+        const tag = st === 'na' ? 'pas sur ta voie' : st === 'auto' ? 'dans ton armée' : st === 'nr' ? 'non recrutable' : st === 'rec' ? 'recruté' : met ? 'soutien ✓' : '';
+        return `<button type="button" class="who-btn ${st === 'na' ? 'dim' : ''} ${met || st === 'rec' ? 'met' : ''}" data-char="${esc(c.n)}">${esc(c.n)}${r.u ? ' <span class="unv">?</span>' : ''}${tag ? `<small>${tag}</small>` : ''}</button>`; }).join('')
+    }</div></div>`;
+  }
+  if(!anyTier) body += `<p class="nothing">Aucune réaction connue pour ce cadeau. Garde-le comme premier cadeau pour débloquer les repas.</p>`;
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${CATS[G[2]][2]} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+    <div class="pb">${body}<div class="note">Personnages triés selon ta voie : d'abord ceux qui ont encore besoin de soutien.</div></div>`;
+}
+
+/* ---------- panneau ---------- */
+const PH = '<div class="panel-ph"><span class="disp">Choisis un personnage</span>Sa liste de cadeaux, ce que tu peux lui offrir et ses conditions de recrutement s\u2019afficheront ici.</div>';
+const isSheet = () => window.matchMedia('(max-width: 919px)').matches;
+let lastFocus = null;
+function openPanel(kind, id){
+  S.sel = { k: kind, id };
+  const p = $('#panel');
+  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : renderGiftPanel(id);
+  p.scrollTop = 0;
+  if(isSheet()){
+    lastFocus = lastFocus || document.activeElement;
+    p.classList.add('open'); $('#scrim').classList.add('open');
+    p.setAttribute('aria-modal', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  const t = $('#pTitle'); if(t) t.focus({ preventScroll: true });
+  markCurrent();
+}
+function closePanel(){
+  const p = $('#panel');
+  p.classList.remove('open'); $('#scrim').classList.remove('open');
+  p.setAttribute('aria-modal', 'false');
+  document.body.style.overflow = '';
+  if(lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  lastFocus = null;
+  if(isSheet()){ S.sel = null; markCurrent(); }
+}
+function markCurrent(){
+  document.querySelectorAll('#listCol .row').forEach(b => {
+    const on = S.sel && ((S.sel.k === 'c' && b.dataset.char === S.sel.id) || (S.sel.k === 'g' && b.dataset.gift === S.sel.id));
+    b.setAttribute('aria-current', on ? 'true' : 'false');
+  });
+}
+function refreshPanel(){
+  const p = $('#panel');
+  if(!S.sel){ if(!p.classList.contains('open')) p.innerHTML = PH; return; }
+  if(S.sel.k === 's') return; // ne pas effacer un code en cours de collage
+  const st = p.scrollTop;
+  p.innerHTML = S.sel.k === 'c' ? renderCharPanel(charByName[S.sel.id]) : renderGiftPanel(S.sel.id);
+  p.scrollTop = st;
+}
+
+/* ---------- rendu ---------- */
+function renderList(){
+  if(S.tab === 'chars') renderChars(); else if(S.tab === 'gifts') renderGifts(); else if(S.tab === 'tour') renderTour(); else renderInv();
+  markCurrent();
+}
+function render(){
+  renderTop(); renderTabs(); renderHonorFilter(); renderList(); refreshPanel();
+}
+
+/* mise à jour légère après un changement de quantité */
+function afterQty(g, opts = {}){
+  $('#invCount').textContent = invTotal();
+  document.querySelectorAll(`.stp[data-g="${g}"] input`).forEach(i => { if(document.activeElement !== i || opts.force) i.value = qty(g); });
+  document.querySelectorAll(`[data-row="${g}"]`).forEach(r => r.classList.toggle('own', !!qty(g)));
+  const sum = $('#invSum'); if(sum) sum.innerHTML = invSummary();
+  document.querySelectorAll(`[data-row="${g}"]`).forEach(r => {
+    const grp = r.closest('.grp'); if(!grp) return;
+    const n = [...grp.querySelectorAll('[data-row]')].reduce((a, x) => a + qty(x.dataset.row), 0);
+    grp.querySelector('.cnt').textContent = n ? n + ' en stock' : grp.querySelectorAll('[data-row]').length;
+  });
+  if(S.tab === 'chars' || S.tab === 'gifts') renderList();
+  const tc = $('#tourCount'); if(tc){ const left = planTour().filter(p => p.a).length; tc.textContent = left; tc.hidden = !left; }
+  if(S.sel && S.sel.k === 'c') refreshPanel();
+}
+
+/* ---------- toast ---------- */
+let toastTimer = null, toastUndo = null;
+function toast(msg, undo){
+  $('#toastMsg').textContent = msg;
+  toastUndo = undo || null;
+  $('#toastUndo').hidden = !undo;
+  $('#toast').classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { $('#toast').classList.remove('show'); toastUndo = null; }, 5000);
+}
+$('#toastUndo').addEventListener('click', () => { if(toastUndo) toastUndo(); $('#toast').classList.remove('show'); toastUndo = null; });
+
+/* ---------- actions ---------- */
+
+/* ---------- tournée de la semaine ---------- */
+S.tours = store.get('tours', {});
+S.pick = null; // personnage dont le sélecteur « autre cadeau » est ouvert
+function T(lord){
+  const l = lord || S.lord;
+  const t = S.tours[l] || (S.tours[l] = { n: 1, done: {}, skip: [] });
+  t.done = t.done || {}; t.skip = t.skip || [];
+  return t;
+}
+const saveTours = () => store.set('tours', S.tours);
+
+function tourCandidates(){
+  const t = T();
+  return CHARS.filter(c => {
+    const st = status(c);
+    return (st === 'ok' || st === 'wait') && !supMet(c) && !t.done[c.n] && !t.skip.includes(c.n);
+  });
+}
+
+// Répartit l'inventaire : meilleur niveau d'abord, les plus contraints servis en premier,
+// et parmi les cadeaux possibles celui que les autres réclament le moins.
+function planTour(){
+  const cands = tourCandidates();
+  const stock = {}; for(const g in S.inv) if(S.inv[g] > 0) stock[g] = S.inv[g];
+  const tierCache = {};
+  const tierFor = (c, g) => { const k = c.n + '|' + g; if(!(k in tierCache)) tierCache[k] = tierOf(c, g); return tierCache[k]; };
+  const assigned = {};
+  const prio = c => status(c) === 'ok' ? 0 : 1;
+  for(const tier of ['L', 'R', 'B']){
+    const opts = c => Object.keys(stock).filter(g => stock[g] > 0 && (tierFor(c, g) || {}).t === tier);
+    const remaining = cands.filter(c => !assigned[c.n]);
+    const nOpt = Object.fromEntries(remaining.map(c => [c.n, opts(c).length]));
+    remaining.sort((a, b) => prio(a) - prio(b) || nOpt[a.n] - nOpt[b.n] || a.n.localeCompare(b.n));
+    for(const c of remaining){
+      const o = opts(c); if(!o.length) continue;
+      const demand = g => remaining.filter(x => x !== c && !assigned[x.n] && (tierFor(x, g) || {}).t === tier).length;
+      o.sort((x, y) => (tierFor(c, x).u ? 1 : 0) - (tierFor(c, y).u ? 1 : 0) || demand(x) - demand(y) || GIFTS[x][1].localeCompare(GIFTS[y][1]));
+      const g = o[0]; stock[g]--;
+      assigned[c.n] = { g, t: tier, u: tierFor(c, g).u };
+    }
+  }
+  return cands.map(c => ({ c, a: assigned[c.n] || null }));
+}
+
+function wishlist(c){
+  const out = [];
+  for(const tok of [...(c.L || []), ...(c.R || [])]){
+    if(out.length >= 3) break;
+    if(tok.endsWith('?')) continue;
+    out.push(tok[0] === '@' ? GROUPS[tok.slice(1)][0].toLowerCase() : `${GIFTS[tok][1]} (${whereShort(tok)})`);
+  }
+  return out;
+}
+
+function supLine(c){
+  const r = reqOf(c); const have = supOf(c);
+  return `Soutien ${have ? have + '/' : ''}${r[0]}, Honneur ${r[1]}`;
+}
+
+function pickerHtml(c){
+  const owned = [];
+  for(const g in S.inv){ if(!S.inv[g]) continue; const t = tierOf(c, g); owned.push({ g, t: t ? t.t : null }); }
+  owned.sort((a, b) => (a.t ? TIER_RANK[a.t] : 2.5) - (b.t ? TIER_RANK[b.t] : 2.5) || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
+  const btn = (g, t, inStock) => `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t || 'N'}" aria-hidden="true">${t ? TIER_MK[t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}${inStock ? ` <span class="qty">×${qty(g)}</span>` : ''}</b><small>${esc(GIFTS[g][0])}${t ? '' : ', réaction inconnue'}</small></span></button>`;
+  return `<div class="tpick"><p class="tq">Qu'as-tu offert à ${esc(c.n)} ?</p>
+    ${owned.length ? `<div class="pklist">${owned.map(o => btn(o.g, o.t, true)).join('')}</div>` : `<p class="hint2">Ton inventaire est vide : cherche le cadeau ci-dessous.</p>`}
+    <label class="search small"><span aria-hidden="true">⌕</span><input class="tps" type="search" placeholder="Un cadeau hors inventaire ?" autocomplete="off"></label>
+    <div class="pklist" data-tpres></div>
+    <button type="button" class="linkbtn" data-tcancel>Fermer</button></div>`;
+}
+function pickerSearch(c, q){
+  q = norm(q.trim()); if(q.length < 2) return '';
+  const res = Object.keys(GIFTS).filter(g => !qty(g) && giftMatches(g, q)).slice(0, 12);
+  if(!res.length) return `<p class="hint2">Aucun cadeau ne correspond.</p>`;
+  return res.map(g => { const t = tierOf(c, g); return `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t ? t.t : 'N'}" aria-hidden="true">${t ? TIER_MK[t.t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}</b><small>${esc(GIFTS[g][0])}, pas dans ton inventaire</small></span></button>`; }).join('');
+}
+
+function tourRow(c, a){
+  const gift = a
+    ? `<div class="tgift"><span class="mk ${a.t}" aria-hidden="true">${TIER_MK[a.t]}</span><span class="gn"><b>${esc(GIFTS[a.g][1])}${a.u ? ' <span class="unv">?</span>' : ''} <span class="qty">×${qty(a.g)}</span></b><small>${esc(GIFTS[a.g][0])}</small></span></div>`
+    : `<p class="twish">Rien de bon en stock. À chercher : ${esc(wishlist(c).join(', ') || 'voir sa fiche')}.</p>`;
+  const open = S.pick === c.n;
+  return `<div class="trow ${a ? '' : 'none'}" data-tc="${esc(c.n)}">
+    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${esc(c.n)}</span><small>${supLine(c)}</small></button>
+    ${gift}
+    <div class="tact">${a ? `<button type="button" class="give" data-tgive="${a.g}">Offert</button>` : ''}
+      <button type="button" class="btn" data-tother aria-expanded="${open}">Autre cadeau</button>
+      <button type="button" class="linkbtn" data-tskip>Pas cette semaine</button></div>
+    ${open ? pickerHtml(c) : ''}</div>`;
+}
+
+function renderTour(){
+  const t = T();
+  const q = norm(S.q);
+  const plan = planTour().filter(p => !q || norm(p.c.n).includes(q));
+  const withGift = plan.filter(p => p.a), without = plan.filter(p => !p.a);
+  const doneNames = Object.keys(t.done);
+  const nDone = doneNames.length, total = nDone + planTour().filter(p => p.a).length;
+  const pct = total ? Math.round(nDone / total * 100) : 0;
+  let html = `<div class="invhead tourhead"><div class="sum"><b>Tournée ${t.n} avec ${lordName(S.lord)}</b>
+      <small>${nDone} cadeau${nDone > 1 ? 'x' : ''} fait${nDone > 1 ? 's' : ''} sur ${total} prévu${total > 1 ? 's' : ''}</small>
+      <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
+    <div class="acts"><button type="button" class="btn danger" id="tourEnd">Terminer la tournée</button></div></div>`;
+  if(!invTotal()) html += `<div class="note">Ton inventaire est vide : la tournée ne peut rien te proposer. <button type="button" class="linkbtn" data-goinv>Remplir l'inventaire</button></div>`;
+  const section = (title, hint, rows, cls = '', open = true) => rows.length ? `<details class="grp tour ${cls}" ${open ? 'open' : ''}><summary><h2 class="disp">${title}</h2><span class="cnt">${rows.length}</span></summary>${hint ? `<p class="hint">${hint}</p>` : ''}<div class="rows trows">${rows.join('')}</div></details>` : '';
+  html += section('Honneur atteint', 'Les plus proches du recrutement.', withGift.filter(p => status(p.c) === 'ok').map(p => tourRow(p.c, p.a)));
+  html += section('Honneur insuffisant', 'Le soutien sera prêt quand l\u2019Honneur suivra.', withGift.filter(p => status(p.c) === 'wait').map(p => tourRow(p.c, p.a)));
+  html += section('Rien de bon en stock', 'Ce qu\u2019il faudrait leur trouver. Tu peux quand même noter un autre cadeau.', without.map(p => tourRow(p.c, null)), 'muted', !!q || !withGift.length || without.some(p => p.c.n === S.pick));
+  const doneRows = doneNames.filter(n => !q || norm(n).includes(q)).sort((a, b) => t.done[b].ts - t.done[a].ts).map(n => {
+    const d = t.done[n]; const tt = charByName[n] ? tierOf(charByName[n], d.g) : null;
+    return `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">✓ ${esc(n)}</span></button>
+      <div class="tgift"><span class="mk ${tt ? tt.t : 'N'}" aria-hidden="true">${tt ? TIER_MK[tt.t] : '·'}</span><span class="gn"><b>${esc(GIFTS[d.g] ? GIFTS[d.g][1] : d.g)}</b><small>${d.inv === false ? 'hors inventaire' : 'retiré de l\u2019inventaire'}</small></span></div>
+      <div class="tact"><button type="button" class="linkbtn" data-tundo="${esc(n)}">Annuler</button></div></div>`;
+  });
+  html += section('Faits cette tournée', '', doneRows, 'donegrp');
+  const sk = t.skip.filter(n => !q || norm(n).includes(q)).map(n => `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">${esc(n)}</span></button><div class="tact"><button type="button" class="linkbtn" data-tunskip="${esc(n)}">Remettre dans la tournée</button></div></div>`);
+  html += section('Mis de côté', '', sk, 'donegrp');
+  if(!plan.length && !nDone && !t.skip.length) html += `<p class="empty">Personne n'a besoin de soutien avec ${lordName(S.lord)} pour l'instant. Note ton soutien actuel dans les fiches pour affiner la tournée.</p>`;
+  $('#listCol').innerHTML = html;
+}
+
+function recordGift(name, g){
+  const fromInv = qty(g) > 0;
+  if(fromInv) setQty(g, qty(g) - 1);
+  const ts = Date.now();
+  (S.log[name] = S.log[name] || []).push({ g, ts, l: S.lord, inv: fromInv });
+  if(S.log[name].length > 30) S.log[name] = S.log[name].slice(-30);
+  store.set('log', S.log);
+  T().done[name] = { g, ts, inv: fromInv }; saveTours();
+  if(S.pick === name) S.pick = null;
+  afterQty(g);
+  if(S.tab === 'tour') renderList();
+  refreshPanel();
+  toast(`${GIFTS[g][1]} offert à ${name}.` + (fromInv ? ` Il t'en reste ${qty(g)}.` : ''), () => undoGift(name));
+}
+function undoGift(name){
+  const L = S.log[name]; if(!L || !L.length) return;
+  const e = L.pop(); store.set('log', S.log);
+  if(e.inv !== false){ setQty(e.g, qty(e.g) + 1); }
+  const tl = T(e.l || S.lord);
+  if(tl.done[name] && tl.done[name].ts === e.ts){ delete tl.done[name]; saveTours(); }
+  afterQty(e.g);
+  if(S.tab === 'tour') renderList();
+  refreshPanel();
+  toast(`Annulé : ${GIFTS[e.g] ? GIFTS[e.g][1] : e.g}${e.inv !== false ? ' remis dans l\u2019inventaire' : ' retiré de la tournée'}.`);
+}
+function undoTourEntry(name){
+  const t = T(); const d = t.done[name]; if(!d) return;
+  const L = S.log[name] || [];
+  const i = L.findIndex(e => e.ts === d.ts);
+  if(i === L.length - 1 && i >= 0){ undoGift(name); return; }
+  if(i >= 0){ L.splice(i, 1); store.set('log', S.log); }
+  if(d.inv !== false) setQty(d.g, qty(d.g) + 1);
+  delete t.done[name]; saveTours();
+  afterQty(d.g); renderList(); refreshPanel();
+  toast(`Annulé : ${GIFTS[d.g] ? GIFTS[d.g][1] : d.g} pour ${name}.`);
+}
+let tourEndArmed = null;
+function endTour(btn){
+  if(!tourEndArmed){
+    btn.textContent = 'Confirmer : terminer'; btn.classList.add('armed');
+    tourEndArmed = setTimeout(() => { tourEndArmed = null; btn.textContent = 'Terminer la tournée'; btn.classList.remove('armed'); }, 4000);
+    return;
+  }
+  clearTimeout(tourEndArmed); tourEndArmed = null;
+  const t = T(); const backup = JSON.parse(JSON.stringify(t));
+  const n = Object.keys(t.done).length;
+  S.tours[S.lord] = { n: t.n + 1, done: {}, skip: [] }; saveTours();
+  S.pick = null; renderTabs(); renderList();
+  toast(`Tournée ${backup.n} terminée (${n} cadeau${n > 1 ? 'x' : ''}). La tournée ${backup.n + 1} est prête.`, () => { S.tours[S.lord] = backup; saveTours(); renderTabs(); renderList(); });
+}
+
+function tourClick(e){
+  const row = e.target.closest('[data-tc]');
+  const name = row ? row.dataset.tc : null;
+  if(e.target.closest('#tourEnd')){ endTour(e.target.closest('#tourEnd')); return true; }
+  if(e.target.closest('[data-goinv]')){ S.tab = 'inv'; store.set('tab', S.tab); S.q = ''; $('#q').value = ''; renderTabs(); renderHonorFilter(); renderList(); return true; }
+  const gv = e.target.closest('[data-tgive]'); if(gv && name){ recordGift(name, gv.dataset.tgive); return true; }
+  if(e.target.closest('[data-tother]') && name){ S.pick = S.pick === name ? null : name; renderList();
+    const r2 = [...document.querySelectorAll('[data-tc]')].find(r => r.dataset.tc === name);
+    const pk = r2 && r2.querySelector('.tpick'); if(pk && pk.scrollIntoView) pk.scrollIntoView({ block: 'nearest' }); return true; }
+  if(e.target.closest('[data-tcancel]')){ S.pick = null; renderList(); return true; }
+  const pk = e.target.closest('[data-tpg]'); if(pk && name){ recordGift(name, pk.dataset.tpg); return true; }
+  if(e.target.closest('[data-tskip]') && name){
+    T().skip.push(name); saveTours(); if(S.pick === name) S.pick = null; renderTabs(); renderList();
+    toast(`${name} mis de côté pour cette tournée.`, () => { const s = T().skip; const i = s.indexOf(name); if(i >= 0) s.splice(i, 1); saveTours(); renderTabs(); renderList(); });
+    return true;
+  }
+  const us = e.target.closest('[data-tunskip]'); if(us){ const s = T().skip; const i = s.indexOf(us.dataset.tunskip); if(i >= 0) s.splice(i, 1); saveTours(); renderTabs(); renderList(); return true; }
+  const ud = e.target.closest('[data-tundo]'); if(ud){ undoTourEntry(ud.dataset.tundo); return true; }
+  return false;
+}
+
+
+/* ---------- où trouver les cadeaux ---------- */
+S.giftMode = store.get('giftMode', 'cat');
+if(!['cat','town','quest'].includes(S.giftMode)) S.giftMode = 'cat';
+S.town = store.get('town', null);
+S.spots = store.get('spots', {});   // { idCadeau: [lieux notés par l'utilisateur] }
+const CONF = { 2: ['c2', '✓ Confirmé'], 1: ['c1', '1 source'], 0: ['c0', 'Indice'] };
+
+function canonTown(s){
+  const n = norm(s.trim());
+  return KNOWN_TOWNS.find(t => norm(t) === n) || s.trim();
+}
+function townsOf(g){
+  const w = WHERE[g] || {};
+  const out = [...(S.spots[g] || [])];
+  for(const t of w.t || []) if(!out.includes(t)) out.push(t);
+  return out;
+}
+function whereShort(g){
+  const w = WHERE[g];
+  const ts = townsOf(g);
+  if(ts.length) return ts.slice(0, 2).join(', ') + (ts.length > 2 ? '…' : '');
+  if(w && w.r) return `Honneur ${w.r}`;
+  if(w && w.q && w.q.length) return `quête, avant le ${w.q[0].d}`;
+  return w ? 'lieu incertain' : 'lieu inconnu';
+}
+function needingChars(){
+  return CHARS.filter(c => { const st = status(c); return (st === 'ok' || st === 'wait') && !supMet(c); });
+}
+function townIndex(){
+  const idx = {};
+  for(const g in GIFTS) for(const t of townsOf(g)) (idx[t] = idx[t] || new Set()).add(g);
+  return idx;
+}
+
+function whereBlock(g){
+  const w = WHERE[g];
+  const spots = S.spots[g] || [];
+  const conf = w && w.c !== undefined ? CONF[w.c] : ['c-', 'Inconnu'];
+  let lines = '';
+  if(w && w.t && w.t.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">🛒</span><div><b>${w.t.length > 1 ? 'Marchés' : 'Marché'}</b><div class="tchips">${w.t.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(t)}</button>`).join('')}</div></div></div>`;
+  if(w && (w.t || []).length) lines += `<div class="wl"><span class="wi" aria-hidden="true">💰</span><div>${w.p ? `Prix : <b>${w.p} or</b>` : 'Prix non documenté'}</div></div>`;
+  if(w && w.r) lines += `<div class="wl"><span class="wi" aria-hidden="true">⭐</span><div><b>Récompense du rang d'Honneur ${w.r}</b></div></div>`;
+  for(const q of (w && w.q) || []) lines += `<div class="wl"><span class="wi" aria-hidden="true">📜</span><div><b>Quête « ${esc(q.n)} »</b><small>${esc(q.i)}. À faire avant le ${q.d}.</small></div></div>`;
+  if(w && w.x) lines += `<div class="wl"><span class="wi" aria-hidden="true">ℹ️</span><div><small>${esc(w.x)}</small></div></div>`;
+  if(w && w.w) lines += `<div class="wl warn"><span class="wi" aria-hidden="true">⚠</span><div><small>${esc(w.w)}</small></div></div>`;
+  if(!w) lines += `<p class="hint2">Aucune source n'indique où le trouver. Si tu le croises en jeu, note-le ci-dessous.</p>`;
+  const mine = spots.length ? `<div class="tchips">${spots.map((s, i) => `<span class="tchip mine"><button type="button" class="tlink" data-town="${esc(s)}">${esc(s)}</button><button type="button" class="tdel" data-spotdel="${i}" aria-label="Retirer ${esc(s)}">✕</button></span>`).join('')}</div>` : '';
+  return `<div class="where"><h3>Où le trouver <span class="conf ${conf[0]}">${conf[1]}</span></h3>${lines}
+    <div class="spots"><b>Tes repérages</b>${mine}
+      <div class="spotadd"><input type="text" list="townlist" placeholder="Ex. Galerie de Dagsion" aria-label="Lieu où tu l'as vu" data-spotin><button type="button" class="btn" data-spotadd="${g}">Je l'ai vu ici</button></div></div></div>`;
+}
+
+function favBox(c){
+  const favs = (c.L || []).filter(t => t[0] !== '@').map(t => ({ g: t.replace(/\?$/, ''), u: t.endsWith('?') }));
+  if(!favs.length) return '';
+  favs.sort((a, b) => a.u - b.u);
+  return `<div class="favs"><h3>Ses favoris : où les trouver</h3>${favs.slice(0, 8).map(f =>
+    `<button type="button" class="fav" data-gift="${f.g}"><span class="mk L" aria-hidden="true">⇈</span><span class="gn"><b>${esc(GIFTS[f.g][1])}${qty(f.g) ? ` <span class="qty">×${qty(f.g)}</span>` : ''}</b><small>${esc(whereShort(f.g))}</small></span></button>`).join('')}</div>`;
+}
+
+function giftModeSeg(){
+  const m = [['cat', 'Catégories'], ['town', 'Par ville'], ['quest', 'À ne pas rater']];
+  return `<div class="seg3" role="tablist" aria-label="Affichage des cadeaux">${m.map(([id, l]) => `<button type="button" role="tab" data-gmode="${id}" aria-selected="${S.giftMode === id}">${l}</button>`).join('')}</div>`;
+}
+
+function renderTownHtml(){
+  const q = norm(S.q);
+  const need = needingChars();
+  const idx = townIndex();
+  const score = g => { let L = 0, R = 0; for(const c of need){ const t = tierOf(c, g); if(t && t.t === 'L') L++; else if(t && t.t === 'R') R++; } return { L, R }; };
+  const sc = {}; for(const g in GIFTS) sc[g] = score(g);
+  const towns = Object.keys(idx).map(t => ({ t, n: [...idx[t]].filter(g => sc[g].L).length }));
+  towns.sort((a, b) => b.n - a.n || a.t.localeCompare(b.t));
+  if(!S.town || !idx[S.town]) S.town = towns.length ? towns[0].t : null;
+  let html = `<p class="hint townhint">Choisis la ville où tu es : les cadeaux sont classés selon tes personnages qui ont encore besoin de soutien avec ${lordName(S.lord)}. Le chiffre ⇈ d'une ville = cadeaux utiles qu'on y trouve.</p>
+    <div class="towns" role="group" aria-label="Villes">${towns.map(({ t, n }) => `<button type="button" class="town" data-town="${esc(t)}" aria-pressed="${t === S.town}">${esc(t)}${n ? `<small>⇈${n}</small>` : ''}</button>`).join('')}</div>`;
+  if(!S.town) return html + `<p class="empty">Aucune ville connue.</p>`;
+  const gifts = [...idx[S.town]].filter(g => giftMatches(g, q));
+  gifts.sort((a, b) => sc[b].L - sc[a].L || sc[b].R - sc[a].R || GIFTS[a][1].localeCompare(GIFTS[b][1]));
+  const row = g => {
+    const w = WHERE[g] || {}; const mine = (S.spots[g] || []).includes(S.town);
+    const extra = [w.p ? `${w.p} or` : '', mine ? 'repéré par toi' : ''].filter(Boolean).join(', ');
+    return `<div class="inv-row buyrow ${qty(g) ? 'own' : ''}" data-row="${g}">
+      <button type="button" class="gname" data-gift="${g}"><span class="nm">${CATS[GIFTS[g][2]][2]} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}${extra ? ' — ' + esc(extra) : ''}</span></button>
+      <span class="usef">${sc[g].L ? `<span class="loved" title="Personnages qui l'adorent">⇈ ${sc[g].L}</span>` : ''}${sc[g].R ? `<span class="pill good" title="Personnages qui l'aiment beaucoup">↑ ${sc[g].R}</span>` : ''}</span>
+      <button type="button" class="buy" data-buy="${g}" aria-label="J'en ai acheté un : ajouter à l'inventaire">+1${qty(g) ? `<small>×${qty(g)}</small>` : ''}</button></div>`;
+  };
+  const useful = gifts.filter(g => sc[g].L || sc[g].R), rest = gifts.filter(g => !sc[g].L && !sc[g].R);
+  const isDag = S.town.startsWith('Dagsion');
+  html += `<details class="grp" open><summary><h2 class="disp">${esc(S.town)}</h2><span class="cnt">${useful.length} utile${useful.length > 1 ? 's' : ''}</span></summary>
+    <p class="hint">${isDag ? 'Le stock complet des marchands de Dagsion n\u2019a pas été publié : complète avec tes repérages.' : 'Marché de la ville. Lieux issus surtout d\u2019une seule source : vérifie en jeu.'} Touche +1 quand tu achètes, ça remplit ton inventaire.</p>
+    ${useful.length ? `<div class="rows">${useful.map(row).join('')}</div>` : `<p class="empty">Rien ici ne sert à tes personnages qui ont encore besoin de soutien.</p>`}</details>`;
+  if(rest.length) html += `<details class="grp"><summary><h2 class="disp">Personne n'en a besoin</h2><span class="cnt">${rest.length}</span></summary><div class="rows">${rest.map(row).join('')}</div></details>`;
+  return html;
+}
+
+function renderQuestHtml(){
+  const need = needingChars();
+  const loved = g => need.filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; }).length;
+  const items = [];
+  for(const g in WHERE) for(const q of WHERE[g].q || []) items.push({ g, q });
+  items.sort((a, b) => a.q.s.localeCompare(b.q.s) || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
+  const row = ({ g, q }) => `<button type="button" class="row qrow" data-gift="${g}">
+      <span class="qdate"><b>${q.d}</b><small>limite</small></span>
+      <span class="who"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">Quête « ${esc(q.n)} » : ${esc(q.i)}</span></span>
+      <span class="req">${loved(g) ? `<span class="loved">⇈ ${loved(g)}</span>` : ''}</span></button>`;
+  const yu = `<button type="button" class="row qrow" data-gift="yu_phas"><span class="qdate"><b>12</b><small>Honneur</small></span>
+      <span class="who"><span class="nm">${esc(GIFTS.yu_phas[1])}</span><span class="ds">Récompense du rang d'Honneur 12, un seul exemplaire par voie</span></span>
+      <span class="req">${loved('yu_phas') ? `<span class="loved">⇈ ${loved('yu_phas')}</span>` : ''}</span></button>`;
+  return `<details class="grp" open><summary><h2 class="disp">À ne pas rater</h2><span class="cnt">${items.length + 1}</span></summary>
+    <p class="hint">Cadeaux rares obtenus par quête, triés par date limite du calendrier du jeu (Partie I, peut varier selon la voie). Les noms de quêtes sont en anglais : aide-toi du personnage et du lieu.</p>
+    <div class="rows">${yu}${items.map(row).join('')}</div></details>
+    <div class="note">Astuce : les Boîtes cadeaux (boutique d'objets d'Alecto et de Barsk, et récompenses des représentations de Leda) donnent un cadeau au hasard, parfois rare.</div>`;
+}
+
+function whereClick(e){
+  const gm = e.target.closest('[data-gmode]');
+  if(gm){ S.giftMode = gm.dataset.gmode; store.set('giftMode', S.giftMode); renderList(); return true; }
+  const bt = e.target.closest('[data-buy]');
+  if(bt){
+    const g = bt.dataset.buy; setQty(g, qty(g) + 1); afterQty(g);
+    toast(`${GIFTS[g][1]} ajouté à ton inventaire (×${qty(g)}).`, () => { setQty(g, qty(g) - 1); afterQty(g); });
+    return true;
+  }
+  const tw = e.target.closest('.town[data-town]');
+  if(tw){ S.town = tw.dataset.town; store.set('town', S.town); renderList(); return true; }
+  return false;
+}
+function goTown(t){
+  S.tab = 'gifts'; S.giftMode = 'town'; S.town = t; S.q = ''; $('#q').value = '';
+  store.set('tab', S.tab); store.set('giftMode', S.giftMode); store.set('town', S.town);
+  if(isSheet()) closePanel();
+  renderTabs(); renderHonorFilter(); renderList();
+  window.scrollTo({ top: $('.bar').getBoundingClientRect().top + window.scrollY - 8 });
+}
+function addSpot(g, val){
+  const t = canonTown(val || ''); if(!t) return;
+  const a = S.spots[g] = S.spots[g] || [];
+  if(!a.includes(t)) a.push(t);
+  store.set('spots', S.spots); refreshPanel();
+  if(S.tab === 'gifts') renderList();
+  toast(`Noté : ${GIFTS[g][1]} à ${t}.`);
+}
+function delSpot(g, i){
+  const a = S.spots[g] || []; a.splice(i, 1);
+  if(!a.length) delete S.spots[g];
+  store.set('spots', S.spots); refreshPanel();
+  if(S.tab === 'gifts') renderList();
+}
+
+
+/* ---------- sauvegarde : export / import ---------- */
+const APP_ID = 'fe-weave-cadeaux';
+const BACKUP_KEY = 'feweave-backup';
+const isTopLevel = (() => { try { return window.self === window.top; } catch(e) { return false; } })();
+let pendingImport = null, importArmed = false;
+
+function snapshot(){
+  const data = {};
+  try {
+    for(let i = 0; i < localStorage.length; i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith('feweave:')){ try { data[k.slice(8)] = JSON.parse(localStorage.getItem(k)); } catch(e) {} }
+    }
+  } catch(e) {}
+  return { app: APP_ID, v: 1, date: new Date().toISOString(), data };
+}
+function parseImport(text){
+  let o;
+  try { o = JSON.parse(String(text || '').trim()); } catch(e) { return { err: 'Ce texte n\u2019est pas un code de sauvegarde valide. Vérifie que tu as tout copié, du premier { au dernier }.' }; }
+  if(!o || o.app !== APP_ID || typeof o.data !== 'object' || !o.data) return { err: 'Ce code ne vient pas de cet outil.' };
+  return { ok: o };
+}
+function importSummary(o){
+  const d = o.data || {};
+  const inv = Object.values(d.inv || {}).reduce((a, b) => a + (+b || 0), 0);
+  const sup = Object.keys(d.sup || {}).length;
+  const rec = Object.values(d.rec || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
+  const gifts = Object.values(d.log || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
+  const spots = Object.values(d.spots || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
+  const lord = d.lord && LORDS.find(l => l.id === d.lord);
+  const when = o.date ? new Date(o.date).toLocaleString('fr-FR', { day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }) : 'date inconnue';
+  return `Sauvegarde du ${esc(when)}${lord ? `, avec ${lord.name}` : ''}${d.honor ? `, Honneur ${+d.honor}` : ''} : ${inv} cadeau${inv > 1 ? 'x' : ''} en stock, ${sup} soutien${sup > 1 ? 's' : ''} noté${sup > 1 ? 's' : ''}, ${rec} recrutement${rec > 1 ? 's' : ''}, ${gifts} cadeau${gifts > 1 ? 'x' : ''} offert${gifts > 1 ? 's' : ''}, ${spots} repérage${spots > 1 ? 's' : ''}.`;
+}
+function writeAll(data){
+  const keys = [];
+  for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if(k && k.startsWith('feweave:')) keys.push(k); }
+  keys.forEach(k => localStorage.removeItem(k));
+  for(const k in data) localStorage.setItem('feweave:' + k, JSON.stringify(data[k]));
+}
+function applyImport(o){
+  try {
+    localStorage.setItem(BACKUP_KEY, JSON.stringify(snapshot()));
+    writeAll(o.data);
+    location.reload();
+  } catch(e) { toast('Import impossible : le navigateur refuse l\u2019enregistrement.'); }
+}
+function restoreBackup(){
+  try {
+    const b = JSON.parse(localStorage.getItem(BACKUP_KEY));
+    writeAll(b.data);
+    localStorage.removeItem(BACKUP_KEY);
+    location.reload();
+  } catch(e) { toast('Impossible de restaurer la sauvegarde précédente.'); }
+}
+function hasBackup(){ try { return !!localStorage.getItem(BACKUP_KEY); } catch(e) { return false; } }
+
+function renderSavePanel(){
+  const code = JSON.stringify(snapshot());
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Sauvegarde</h2><p>Transférer tes données vers une autre version de l'outil</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+  <div class="pb">
+    <div class="where"><h3>1. Exporter</h3>
+      <p class="hint2">Tout est inclus : inventaire, soutiens, conditions, recrutés, cadeaux offerts, tournées, repérages et réglages.</p>
+      <div class="acts"><button type="button" class="give" data-exp-copy>Copier le code</button>${isTopLevel ? '<button type="button" class="btn" data-exp-dl>Télécharger le fichier</button>' : ''}</div>
+      <textarea class="code" readonly rows="4" data-exp aria-label="Code de sauvegarde">${esc(code)}</textarea>
+      <small class="hint2">Colle ce code dans l'autre version de l'outil, rubrique Sauvegarde. Garde-le aussi dans une note : c'est ta copie de secours.</small>
+    </div>
+    <div class="where"><h3>2. Importer</h3>
+      <textarea class="code" rows="4" placeholder="Colle ici le code exporté" data-imp aria-label="Code à importer"></textarea>
+      <div class="acts"><label class="btn file">Choisir un fichier<input type="file" accept=".json,application/json,text/plain" data-imp-file hidden></label><button type="button" class="give" data-imp-go>Vérifier le code</button></div>
+      <div data-imp-msg aria-live="polite"></div>
+    </div>
+    ${hasBackup() ? `<div class="where"><h3>Annuler le dernier import</h3><p class="hint2">Tes données d'avant le dernier import ont été gardées de côté.</p><button type="button" class="btn" data-imp-undo>Revenir à mes données d'avant</button></div>` : ''}
+  </div>`;
+}
+
+function checkImport(text){
+  const box = document.querySelector('[data-imp-msg]'); if(!box) return;
+  const r = parseImport(text);
+  pendingImport = null; importArmed = false;
+  if(r.err){ box.innerHTML = `<p class="imp-err">${esc(r.err)}</p>`; return; }
+  pendingImport = r.ok;
+  box.innerHTML = `<p class="imp-ok">${importSummary(r.ok)}</p>
+    <p class="hint2">L'import remplace toutes les données de cette version. Elles sont gardées de côté, tu pourras revenir en arrière.</p>
+    <button type="button" class="btn danger" data-imp-confirm>Remplacer mes données</button>`;
+}
+
+async function copyCode(){
+  const ta = document.querySelector('[data-exp]'); if(!ta) return;
+  try { await navigator.clipboard.writeText(ta.value); toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } catch(e) {}
+  try { ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); if(document.execCommand('copy')){ toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } } catch(e) {}
+  ta.focus(); ta.select();
+  toast('Copie automatique bloquée : le code est sélectionné, copie-le à la main.');
+}
+function downloadCode(){
+  const blob = new Blob([JSON.stringify(snapshot(), null, 1)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `fil-des-cadeaux-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+function saveClick(e){
+  if(e.target.closest('[data-exp-copy]')){ copyCode(); return true; }
+  if(e.target.closest('[data-exp-dl]')){ downloadCode(); return true; }
+  if(e.target.closest('[data-imp-go]')){ const t = document.querySelector('[data-imp]'); checkImport(t ? t.value : ''); return true; }
+  const cf = e.target.closest('[data-imp-confirm]');
+  if(cf && pendingImport){
+    if(!importArmed){ importArmed = true; cf.textContent = 'Confirmer : remplacer'; cf.classList.add('armed'); return true; }
+    applyImport(pendingImport); return true;
+  }
+  const un = e.target.closest('[data-imp-undo]');
+  if(un){
+    if(un.dataset.armed){ restoreBackup(); return true; }
+    un.dataset.armed = '1'; un.textContent = 'Confirmer : revenir en arrière'; un.classList.add('danger', 'armed'); return true;
+  }
+  return false;
+}
+
+/* ---------- événements ---------- */
+$('#lords').addEventListener('click', e => {
+  const b = e.target.closest('[data-lord]'); if(!b) return;
+  S.lord = b.dataset.lord; store.set('lord', S.lord); S.pick = null;
+  if(S.sel && S.sel.k === 'c' && charByName[S.sel.id].lord === S.lord){ S.sel = null; closePanel(); }
+  render();
+});
+$('#hMinus').addEventListener('click', () => { S.honor = Math.max(1, S.honor - 1); store.set('honor', S.honor); render(); });
+$('#hPlus').addEventListener('click', () => { S.honor = Math.min(10, S.honor + 1); store.set('honor', S.honor); render(); });
+document.querySelector('.tabs').addEventListener('click', e => {
+  const b = e.target.closest('[data-tab]'); if(!b || b.dataset.tab === S.tab) return;
+  S.tab = b.dataset.tab; S.q = ''; $('#q').value = ''; store.set('tab', S.tab); S.pick = null;
+  renderTabs(); renderHonorFilter(); renderList();
+});
+$('#q').addEventListener('input', e => { S.q = e.target.value; renderList(); });
+$('#listCol').addEventListener('input', e => {
+  const i = e.target.closest('.tps'); if(!i) return;
+  const row = i.closest('[data-tc]'); const res = row && row.querySelector('[data-tpres]');
+  if(res) res.innerHTML = pickerSearch(charByName[row.dataset.tc], i.value);
+});
+$('#hfilter').addEventListener('click', e => {
+  const b = e.target.closest('[data-hf]'); if(!b || b.disabled) return;
+  const v = b.dataset.hf ? +b.dataset.hf : null;
+  S.hf = (v && S.hf === v) ? null : v; store.set('hf', S.hf);
+  renderHonorFilter(); renderChars(); markCurrent();
+});
+
+// steppers (liste d'inventaire et fiche cadeau)
+document.addEventListener('click', e => {
+  const s = e.target.closest('[data-step]'); if(!s) return;
+  const g = s.closest('.stp').dataset.g;
+  setQty(g, qty(g) + (+s.dataset.step));
+  afterQty(g, { force: true });
+});
+document.addEventListener('change', e => {
+  const i = e.target.closest('.stp input'); if(!i) return;
+  const g = i.closest('.stp').dataset.g;
+  setQty(g, i.value);
+  afterQty(g, { force: true });
+});
+
+$('#listCol').addEventListener('click', e => {
+  if(e.target.closest('.stp')) return;
+  if(S.tab === 'tour' && tourClick(e)) return;
+  if(S.tab === 'gifts' && whereClick(e)){ renderTabs(); return; }
+  if(e.target.closest('#invOnly')){ S.invOnly = !S.invOnly; store.set('invOnly', S.invOnly); renderInv(); return; }
+  const rb = e.target.closest('#invReset');
+  if(rb){
+    if(!invTotal()) return;
+    if(resetArmed){
+      clearTimeout(resetArmed); resetArmed = null;
+      const backup = { ...S.inv };
+      S.inv = {}; store.set('inv', S.inv); render();
+      toast('Inventaire remis à zéro.', () => { S.inv = backup; store.set('inv', S.inv); render(); });
+    } else {
+      rb.textContent = 'Confirmer la remise à zéro'; rb.classList.add('armed');
+      resetArmed = setTimeout(() => { resetArmed = null; rb.textContent = 'Tout remettre à zéro'; rb.classList.remove('armed'); }, 4000);
+    }
+    return;
+  }
+  const c = e.target.closest('[data-char]'); if(c){ lastFocus = c; openPanel('c', c.dataset.char); return; }
+  const g = e.target.closest('[data-gift]'); if(g){ lastFocus = g; openPanel('g', g.dataset.gift); }
+});
+$('#listCol').addEventListener('toggle', e => {
+  const d = e.target; if(!d.dataset || !d.dataset.g || S.q || S.hf) return;
+  openState[d.dataset.g] = d.open; store.set('open', openState);
+}, true);
+
+$('#panel').addEventListener('click', e => {
+  if(e.target.closest('.stp')) return;
+  if(e.target.closest('[data-close]')){ closePanel(); return; }
+  if(S.sel && S.sel.k === 's' && saveClick(e)) return;
+  const sa = e.target.closest('[data-spotadd]');
+  if(sa){ const inp = sa.parentElement.querySelector('[data-spotin]'); addSpot(sa.dataset.spotadd, inp ? inp.value : ''); return; }
+  const sd = e.target.closest('[data-spotdel]'); if(sd && S.sel && S.sel.k === 'g'){ delSpot(S.sel.id, +sd.dataset.spotdel); return; }
+  const tw = e.target.closest('[data-town]'); if(tw){ goTown(tw.dataset.town); return; }
+  const pb = e.target.closest('[data-for]');
+  const c = pb ? charByName[pb.dataset.for] : null;
+  const give = e.target.closest('[data-give]'); if(give && c){ recordGift(c.n, give.dataset.give); return; }
+  const und = e.target.closest('[data-undo]'); if(und){ undoGift(und.dataset.undo); return; }
+  const sup = e.target.closest('[data-sup]');
+  if(sup && c){
+    const v = +sup.dataset.sup;
+    if(S.sup[c.n] === v) delete S.sup[c.n]; else S.sup[c.n] = v;
+    store.set('sup', S.sup); renderHonorFilter(); renderList(); refreshPanel(); return;
+  }
+  if(e.target.closest('[data-cond]') && c){ toggleIn(S.cond, 'cond', S.lord, c.n); renderList(); refreshPanel(); return; }
+  if(e.target.closest('[data-rec]') && c){ toggleIn(S.rec, 'rec', S.lord, c.n); renderList(); refreshPanel(); return; }
+  const ch = e.target.closest('[data-char]'); if(ch){ openPanel('c', ch.dataset.char); return; }
+  const g = e.target.closest('[data-gift]'); if(g){ openPanel('g', g.dataset.gift); }
+});
+$('#panel').addEventListener('keydown', e => {
+  const i = e.target.closest('[data-spotin]'); if(!i || e.key !== 'Enter') return;
+  e.preventDefault(); if(S.sel && S.sel.k === 'g') addSpot(S.sel.id, i.value);
+});
+$('#saveBtn').addEventListener('click', e => { lastFocus = e.currentTarget; openPanel('s'); });
+$('#panel').addEventListener('change', e => {
+  const f = e.target.closest('[data-imp-file]'); if(!f || !f.files || !f.files[0]) return;
+  const rd = new FileReader();
+  rd.onload = () => { const t = document.querySelector('[data-imp]'); if(t) t.value = rd.result; checkImport(rd.result); };
+  rd.readAsText(f.files[0]);
+});
+$('#scrim').addEventListener('click', closePanel);
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && $('#panel').classList.contains('open')) closePanel(); });
+
+/* thème */
+function applyTheme(){
+  if(S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
+  const dark = S.theme ? S.theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  $('#themeBtn').innerHTML = dark ? '☀<span class="bl"> Clair</span>' : '☾<span class="bl"> Sombre</span>';
+  $('#themeBtn').setAttribute('aria-label', dark ? 'Passer en thème clair' : 'Passer en thème sombre');
+}
+$('#themeBtn').addEventListener('click', () => {
+  const dark = S.theme ? S.theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  S.theme = dark ? 'light' : 'dark'; store.set('theme', S.theme); applyTheme();
+});
+$('#townlist').innerHTML = KNOWN_TOWNS.map(t => `<option value="${esc(t)}">`).join('');
+applyTheme();
+render();
+
+</script>
+</body>
+</html>
