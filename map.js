@@ -34,6 +34,7 @@
   S.mUseful = store.get('mUseful', true) !== false;
   S.mFast = !!store.get('mFast', false);
   S.mNames = store.get('mNames', true) !== false;
+  S.mFs = false; let fsApi = false, keep = null;
   S.mapItem = null; S.mapSel = null; S.route = null; S.mFrom = null; S.mTo = '';
   let view = null, needFit = true, pinsEl = null, stageEl = null, viewEl = null;
 
@@ -250,10 +251,11 @@
     if(!S.regions) html += `<div class="note mfog">${pix('lens')} Seules tes régions de départ sont dévoilées. Coche les régions que tu as atteintes pour afficher leurs lieux. <button type="button" class="linkbtn" data-mregs-open>Choisir mes régions</button></div>`;
     html += `<div class="mapbar"><div class="mk-filters" role="group" aria-label="Types de lieux affichés">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}</div>
       <div class="mtoggles"><button type="button" class="btn" data-museful aria-pressed="${S.mUseful}" title="Villes où trouver des cadeaux adorés par tes personnages qui ont encore besoin de soutien">⇈ Utile</button><button type="button" class="btn" data-mfast aria-pressed="${S.mFast}" title="Carrosses et Portes des Dieux">Voyage rapide</button><button type="button" class="btn" data-mnames aria-pressed="${S.mNames}" title="Afficher les noms des lieux quand il y a la place">Noms</button></div></div>
-      <div class="map-view" tabindex="0" aria-label="Carte du monde. Glisse pour te déplacer, pince ou utilise les boutons pour zoomer.">
+      <div class="map-view${S.mFs ? ' fs' : ''}" tabindex="0" aria-label="Carte du monde. Glisse pour te déplacer, pince ou utilise les boutons pour zoomer.">
+        ${S.mFs ? `<div class="map-fsbar" role="group" aria-label="Types de lieux affichés">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}<button type="button" class="btn" data-mnames aria-pressed="${S.mNames}">Noms</button></div>` : ''}
         <div class="map-stage" style="width:${GW}px;height:${GH}px"><canvas class="map-canvas" width="${GW}" height="${GH}" style="width:${GW}px;height:${GH}px"></canvas><canvas class="map-canvas-hd" width="${GW * HD}" height="${GH * HD}" style="width:${GW}px;height:${GH}px"></canvas><svg class="map-roads" viewBox="0 0 ${GW} ${GH}" width="${GW}" height="${GH}" aria-hidden="true"></svg></div>
         <div class="map-pins"></div>
-        <div class="map-ctrl"><button type="button" data-mzoom="1.6" aria-label="Zoomer">+</button><button type="button" data-mzoom="0.625" aria-label="Dézoomer">−</button><button type="button" data-mfit aria-label="Voir toute la carte">⌂</button></div>
+        <div class="map-ctrl"><button type="button" data-mzoom="1.6" aria-label="Zoomer">+</button><button type="button" data-mzoom="0.625" aria-label="Dézoomer">−</button><button type="button" data-mfit aria-label="Voir toute la carte">⌂</button><button type="button" data-mfs aria-pressed="${S.mFs}" aria-label="${S.mFs ? 'Quitter le plein écran' : 'Plein écran'}" title="${S.mFs ? 'Quitter le plein écran' : 'Plein écran'}">${S.mFs ? '✕' : '⛶'}</button></div>
       </div>`;
     // objet sélectionné
     if(S.mapItem && IDX.get(S.mapItem)){
@@ -301,7 +303,7 @@
     stageEl = viewEl.querySelector('.map-stage'); pinsEl = viewEl.querySelector('.map-pins');
     const stack = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--top-h')) || 0) + (document.querySelector('.bar') ? document.querySelector('.bar').offsetHeight : 0);
     const avail = window.innerHeight - stack - 24, ideal = Math.round(viewEl.clientWidth * GH / GW);
-    viewEl.style.height = Math.max(260, Math.min(ideal, Math.round(isSheet() ? avail * .8 : avail - 30))) + 'px';
+    viewEl.style.height = S.mFs ? '' : Math.max(260, Math.min(ideal, Math.round(isSheet() ? avail * .8 : avail - 30))) + 'px';
     const pal = paint(viewEl.querySelector('.map-canvas'));
     viewEl.style.background = `rgb(${pal.cloud.join(',')})`;
     viewEl.classList.toggle('mv-dark', pal.label === 'dark');
@@ -310,7 +312,12 @@
     if(S.mapSel) townLinks(S.mapSel); else hlPaths = [];
     drawRoads();
     buildPins();
-    if(needFit || !view) fit(); else apply();
+    if(keep && view && keep.ratio > 1.05){ // même lieu au centre, même échelle (bornée au nouveau cadre)
+      const w = viewEl.clientWidth, h = viewEl.clientHeight, s0 = Math.min(w / GW, h / GH);
+      view.s0 = s0; view.s = Math.max(s0 * .9, Math.min(Math.max(s0 * 4, 7), keep.s));
+      view.tx = w / 2 - keep.cx * view.s; view.ty = h / 2 - keep.cy * view.s;
+      keep = null; needFit = false; apply();
+    } else if(keep || needFit || !view){ keep = null; fit(); } else apply();
     bind();
   }
   const smooth = (pts, it = 2) => { for(let n = 0; n < it && pts.length > 2; n++){ const o = [pts[0]]; for(let j = 0; j < pts.length - 1; j++){ const [x1, y1] = pts[j], [x2, y2] = pts[j + 1]; o.push([.75 * x1 + .25 * x2, .75 * y1 + .25 * y2], [.25 * x1 + .75 * x2, .25 * y1 + .75 * y2]); } o.push(pts[pts.length - 1]); pts = o; } return pts; };
@@ -397,7 +404,7 @@
     needFit = false; apply();
   }
   function clamp(){
-    const w = viewEl.clientWidth, h = viewEl.clientHeight;
+    const w = viewEl.clientWidth, h = viewEl.clientHeight; view.w = w; view.h = h;
     view.s = Math.max(view.s0 * .9, Math.min(Math.max(view.s0 * 4, 7), view.s));
     const mw = GW * view.s, mh = GH * view.s;
     view.tx = mw <= w ? (w - mw) / 2 : Math.min(40, Math.max(w - mw - 40, view.tx));
@@ -567,7 +574,25 @@
       e.preventDefault();
     });
   }
-  window.addEventListener('resize', () => { if(S.tab === 'map' && M.ready && viewEl && document.body.contains(viewEl)){ needFit = true; mount(); } });
+  const remember = () => { if(view && viewEl){ const w = view.w || viewEl.clientWidth, h = view.h || viewEl.clientHeight; keep = { cx: (w / 2 - view.tx) / view.s, cy: (h / 2 - view.ty) / view.s, ratio: view.s / view.s0, s: view.s }; } };
+  window.addEventListener('resize', () => { if(S.tab === 'map' && M.ready && viewEl && document.body.contains(viewEl)){ remember(); mount(); } });
+  // ---------- plein écran ----------
+  function setFs(on, rr = true){
+    if(S.mFs === on) return;
+    remember();
+    S.mFs = on;
+    document.body.classList.toggle('map-fs', on);
+    if(!on) document.body.classList.remove('fs-sel');
+    if(on){
+      const el = document.documentElement;
+      if(el.requestFullscreen && !document.fullscreenElement){ el.requestFullscreen().then(() => { fsApi = true; }).catch(() => {}); }
+    } else if(fsApi && document.fullscreenElement && document.exitFullscreen){ fsApi = false; document.exitFullscreen().catch(() => {}); }
+    if(!rr) return;
+    M.render();
+    const v = document.querySelector('.map-view'); if(v) v.focus({ preventScroll: true });
+  }
+  M.exitFs = rr => setFs(false, rr !== false);
+  document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement && fsApi){ fsApi = false; if(S.mFs) setFs(false); } });
 
   // ---------- fiche d'un lieu ----------
   M.placePanel = id => {
@@ -620,6 +645,7 @@
     return null;
   };
   M.selectPlace = id => {
+    if(S.mFs) document.body.classList.add('fs-sel');
     S.mapSel = id;
     townLinks(id);
     if(S.tab === 'map' && viewEl){ drawRoads(); buildPins(); apply(); }
@@ -634,6 +660,7 @@
       S.mapKinds = on ? S.mapKinds.filter(x => !f[1].includes(x)) : [...new Set([...S.mapKinds, ...f[1]])]; store.set('mapKinds', S.mapKinds); M.render(); return true; }
     if(t.closest('[data-mregs-open]')){ openState.mreg = true; store.set('open', openState); M.render(); const d = document.querySelector('[data-g="mreg"]'); if(d) d.scrollIntoView({ block: 'start', behavior: 'smooth' }); return true; }
     if(t.closest('[data-museful]')){ S.mUseful = !S.mUseful; store.set('mUseful', S.mUseful); M.render(); return true; }
+    if(t.closest('[data-mfs]')){ setFs(!S.mFs); return true; }
     if(t.closest('[data-mnames]')){ S.mNames = !S.mNames; store.set('mNames', S.mNames); t.closest('[data-mnames]').setAttribute('aria-pressed', S.mNames); layoutLabels(); return true; }
     if(t.closest('[data-mfast]')){ S.mFast = !S.mFast; store.set('mFast', S.mFast); if(S.route) recompute(); M.render(); return true; }
     const z = t.closest('[data-mzoom]'); if(z){ zoomAt(+z.dataset.mzoom, viewEl.clientWidth / 2, viewEl.clientHeight / 2); return true; }

@@ -12,7 +12,7 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 - **Tournée de la semaine** : répartition automatique de ton inventaire entre les personnages qui ont encore besoin de soutien, meilleur cadeau d'abord.
 - **Où trouver les cadeaux** : marchés par ville, quêtes à date limite, et tes propres repères.
 - **Liste de courses** : dans la Tournée, le moins d'achats possible pour les personnages qui n'ont rien de bon en stock, regroupés par ville avec le coût total.
-- **Carte du monde** : villes, routes, relais, temples, donjons et points de récolte, de pêche et de minerai. Une fiche par lieu avec ses boutiques et ses récoltes, la recherche de n'importe quel objet, et des itinéraires qui suivent les routes, dont une tournée des courses. Les régions pas encore atteintes restent grisées, sans lieux ni noms, pour éviter les spoilers.
+- **Carte du monde** : villes, routes, relais, temples, donjons et points de récolte, de pêche et de minerai. Une fiche par lieu avec ses boutiques et ses récoltes, la recherche de n'importe quel objet, et des itinéraires qui suivent les routes, dont une tournée des courses. Un mode plein écran garde le zoom et la position, avec les filtres et la fiche du lieu par-dessus. Les régions pas encore atteintes restent grisées, sans lieux ni noms, pour éviter les spoilers.
 - **Résumé** : progression du recrutement pour chaque Seigneur, personnages prêts, tournée, courses, prochaine quête à date limite et dernière sauvegarde.
 
 ## Confort

@@ -672,6 +672,23 @@ small.hint2{display:block;margin-top:6px}
 .mpin.minor{display:none}
 .map-view.z2 .mpin.minor,.mpin.minor.hl,.mpin.minor.sel,.mpin.minor.stop{display:grid}
 .mfog{margin:8px 0;font-size:15px}
+/* plein écran de la carte */
+body.map-fs .map-view.fs{position:fixed;inset:0;z-index:28;height:auto !important;border-radius:0;border:0;box-shadow:none}
+body.map-fs{overflow:hidden}
+body.map-fs .maincol{container-type:normal}
+body.map-fs .scrim{z-index:29}
+.map-view.fs .map-ctrl{top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 8px)}
+.map-fsbar{position:absolute;left:calc(env(safe-area-inset-left,0px) + 8px);top:calc(env(safe-area-inset-top,0px) + 8px);right:60px;display:flex;flex-wrap:wrap;gap:4px;z-index:2;pointer-events:none}
+.map-fsbar > *{pointer-events:auto;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.map-fsbar .btn[aria-pressed="false"]{background:var(--surface)}
+.map-ctrl [data-mfs]{font-size:18px}
+body.map-fs .toast{z-index:60}
+@media (min-width:680px){
+  body.map-fs .panel{display:none}
+  body.map-fs.fs-sel .panel{display:block;position:fixed;right:12px;top:12px;bottom:12px;left:auto;width:min(420px,42vw);max-height:none;margin:0;z-index:31;box-shadow:var(--shadow)}
+  body.map-fs.fs-sel .map-view.fs .map-ctrl{right:calc(min(420px,42vw) + 24px)}
+  body.map-fs .ph .x{display:inline-grid}
+}
 /* routes vectorisées : trois niveaux, largeur constante quel que soit le zoom */
 .map-roads path{vector-effect:non-scaling-stroke;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .map-roads .mr-mcase{stroke:var(--rk);stroke-width:calc(2.8px / var(--s,1))}
@@ -2028,6 +2045,7 @@ function closePanel(){
   if(lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   lastFocus = null;
   if(isSheet()){ S.sel = null; markCurrent(); }
+  document.body.classList.remove('fs-sel');
 }
 function markCurrent(){
   document.querySelectorAll('#listCol .row').forEach(b => {
@@ -2047,6 +2065,7 @@ function refreshPanel(){
 /* ---------- rendu ---------- */
 function renderList(){
   document.body.classList.toggle('tab-map', S.tab === 'map');
+  if(S.tab !== 'map' && S.mFs && window.MAP) MAP.exitFs(false);
   if(S.tab === 'chars') renderChars(); else if(S.tab === 'gifts') renderGifts(); else if(S.tab === 'tour') renderTour();
   else if(S.tab === 'map'){ if(window.MAP) MAP.render(); else setList('<p class="empty">Chargement de la carte…</p>'); }
   else renderInv();
@@ -3016,6 +3035,8 @@ $('#scrim').addEventListener('click', closePanel);
 document.addEventListener('keydown', e => {
   if(e.key !== 'Escape') return;
   if($('#panel').classList.contains('open')){ closePanel(); return; }
+  if(document.body.classList.contains('fs-sel')){ document.body.classList.remove('fs-sel'); return; }
+  if(S.mFs && window.MAP){ MAP.exitFs(); return; }
   if(S.picking){ S.picking = false; renderTop(); $('#lordPill').focus(); }
 });
 
