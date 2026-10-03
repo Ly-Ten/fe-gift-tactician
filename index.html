@@ -956,7 +956,7 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
       <li><b>Filtre « Honneur requis » :</b> touche un niveau pour ne voir que les personnages qui demandent exactement cet Honneur. Ton niveau actuel est entouré.</li>
       <li><b>Le soutien est conservé d'une voie à l'autre</b> (il est donc noté une seule fois), l'Honneur, la condition et le recrutement sont propres à chaque Seigneur.</li>
       <li><b>En cas de doute, le jeu fait foi :</b> les exigences exactes s'affichent dans la fiche du personnage à Dagsion. ⚠ signale des sources qui se contredisent.</li>
-      <li><b>Le badge « ? »</b> marque un cadeau vu dans une seule source. Les noms français sont des traductions proposées ; le nom anglais est toujours affiché dessous.</li>
+      <li><b>Le badge « ? »</b> marque un cadeau vu dans une seule source. Les noms français relevés dans le jeu sont les noms officiels ; les autres sont des traductions proposées. Le nom anglais est toujours affiché dessous.</li>
     </ul>
   </details>
 
@@ -1012,54 +1012,54 @@ const CATS = {
 // id: [nom anglais, nom français proposé, catégorie]
 const GIFTS = {
   yarc_milk: ['Yarc Milk', 'Lait de yarc', 'children'],
-  jamel_milk: ['Jamel Milk', 'Lait de jamel', 'children'],
+  jamel_milk: ['Jamel Milk', 'Lait de gromadaire', 'children'],
   weak_cervi: ['Weak Cervi', 'Cervi léger', 'children'],
   strong_cervi: ['Strong Cervi', 'Cervi fort', 'children'],
-  dried_cervi: ['Mature Dried Cervi', 'Cervi séché vieilli', 'children'],
+  dried_cervi: ['Mature Dried Cervi', 'Cervi caillé', 'children'],
   honey_milk: ['Honey Milk', 'Lait au miel', 'sweets'],
   ginji_cervi: ['Ginji Cervi', 'Cervi au ginji', 'sweets'],
   white_cervi: ['Pure-White Cervi', 'Cervi blanc immaculé', 'sweets'],
-  simple_pastries: ['Simple Pastries', 'Pâtisseries simples', 'sweets'],
-  mellow_pastries: ['Mellow Pastries', 'Pâtisseries fondantes', 'sweets'],
-  fragrant_pastries: ['Fragrant Pastries', 'Pâtisseries parfumées', 'sweets'],
+  simple_pastries: ['Simple Pastries', 'Biscuits classiques', 'sweets'],
+  mellow_pastries: ['Mellow Pastries', 'Biscuits moelleux', 'sweets'],
+  fragrant_pastries: ['Fragrant Pastries', 'Biscuits parfumés', 'sweets'],
   honey_pastries: ['Honey Pastries', 'Pâtisseries au miel', 'sweets'],
-  coffee_pastries: ['Coffee Pastries', 'Pâtisseries au café', 'sweets'],
-  saraminian_sweets: ['Saraminian Sweets', 'Douceurs de Saramis', 'sweets'],
+  coffee_pastries: ['Coffee Pastries', 'Biscuits au café', 'sweets'],
+  saraminian_sweets: ['Saraminian Sweets', 'Biscuits saramiens', 'sweets'],
   candy_crystals: ['Candy Crystals', 'Cristaux de sucre', 'sweets'],
-  pastry_cookbook: ['Pastry Cookbook', 'Livre de pâtisserie', 'sweets'],
+  pastry_cookbook: ['Pastry Cookbook', 'Recettes de desserts', 'sweets'],
   garum: ['Garum', 'Garum', 'cooking'],
   smooth_garum: ['Smooth Garum', 'Garum onctueux', 'cooking'],
   conc_garum: ['Concentrated Garum', 'Garum concentré', 'cooking'],
   alecto_garum: ['Alecto Garum', 'Garum d\u2019Alecto', 'cooking'],
   niiza_garum: ['Niiza Garum', 'Garum de Niiza', 'cooking'],
-  rancid_garum: ['Rancid Garum', 'Garum rance', 'cooking'],
+  rancid_garum: ['Rancid Garum', 'Garum puant', 'cooking'],
   legendary_garum: ['Legendary Garum', 'Garum légendaire', 'cooking'],
-  outdoor_cooking: ['Outdoor Cooking Set', 'Kit de cuisine nomade', 'cooking'],
+  outdoor_cooking: ['Outdoor Cooking Set', 'Ménagère d\u2019extérieur', 'cooking'],
   strong_seasoning: ['Strong Seasoning', 'Assaisonnement relevé', 'cooking'],
-  home_recipe: ['Home-Recipe Book', 'Livre de recettes familiales', 'cooking'],
-  herbal_recipe: ['Herbal Recipe Guide', 'Guide des recettes aux herbes', 'cooking'],
+  home_recipe: ['Home-Recipe Book', 'Livre de recettes', 'cooking'],
+  herbal_recipe: ['Herbal Recipe Guide', 'Recettes botaniques', 'cooking'],
   village_recipes: ['Village Recipes', 'Recettes villageoises', 'cooking'],
   dual_fish_knives: ['Dual Fish Knives', 'Paire de couteaux à poisson', 'cooking'],
   rare_spices: ['Rare Spices', 'Épices rares', 'cooking'],
-  young_ghosh: ['Young Ghosh', 'Ghosh jeune', 'fermented'],
-  mature_ghosh: ['Mature Ghosh', 'Ghosh vieilli', 'fermented'],
+  young_ghosh: ['Young Ghosh', 'Ghosh nouveau', 'fermented'],
+  mature_ghosh: ['Mature Ghosh', 'Ghosh de garde', 'fermented'],
   sun_ghosh: ['Sun Ghosh', 'Ghosh solaire', 'fermented'],
-  energizing_ghosh: ['Energizing Ghosh', 'Ghosh revigorant', 'fermented'],
-  rustic_ghosh: ['Rustic Ghosh', 'Ghosh rustique', 'fermented'],
+  energizing_ghosh: ['Energizing Ghosh', 'Ghosh tonifiant', 'fermented'],
+  rustic_ghosh: ['Rustic Ghosh', 'Ghosh de terroir', 'fermented'],
   jade_ghosh: ['Jade Ghosh', 'Ghosh de jade', 'fermented'],
   secret_ghosh: ['Secret Ghosh', 'Ghosh secret', 'fermented'],
-  southern_ghosh: ['Southern Ghosh', 'Ghosh du Sud', 'fermented'],
+  southern_ghosh: ['Southern Ghosh', 'Ghosh du sud', 'fermented'],
   volcano_ghosh: ['Volcano Ghosh', 'Ghosh volcanique', 'fermented'],
-  crimson_ghosh: ['Crimson Ghosh', 'Ghosh pourpre', 'fermented'],
-  special_medicine: ['Special \u201cMedicine\u201d', '\u00ab\u00a0Remède\u00a0\u00bb spécial', 'fermented'],
-  young_shosh: ['Young Shosh', 'Shosh jeune', 'fermented'],
-  mature_shosh: ['Mature Shosh', 'Shosh vieilli', 'fermented'],
+  crimson_ghosh: ['Crimson Ghosh', 'Ghosh rubis', 'fermented'],
+  special_medicine: ['Special \u201cMedicine\u201d', 'Boisson \u00ab\u00a0curative\u00a0\u00bb', 'fermented'],
+  young_shosh: ['Young Shosh', 'Shosh nouveau', 'fermented'],
+  mature_shosh: ['Mature Shosh', 'Shosh de garde', 'fermented'],
   light_shosh: ['Light Shosh', 'Shosh léger', 'fermented'],
-  blue_shosh: ['Blue Shosh', 'Shosh bleu', 'fermented'],
+  blue_shosh: ['Blue Shosh', 'Shosh azur', 'fermented'],
   aromatic_shosh: ['Aromatic Shosh', 'Shosh aromatique', 'fermented'],
-  common_coffee: ['Common Coffee', 'Café ordinaire', 'coffee'],
-  select_coffee: ['Select Coffee', 'Café de choix', 'coffee'],
-  southern_coffee: ['Southern Coffee', 'Café du Sud', 'coffee'],
+  common_coffee: ['Common Coffee', 'Café standard', 'coffee'],
+  select_coffee: ['Select Coffee', 'Café d\u2019exception', 'coffee'],
+  southern_coffee: ['Southern Coffee', 'Café du sud', 'coffee'],
   orgus_coffee: ['Orgus Coffee', 'Café d\u2019Orgus', 'coffee'],
   solomon_coffee: ['Solomon Coffee', 'Café de Solomon', 'coffee'],
   eastern_tea: ['Eastern Tea Leaves', 'Feuilles de thé de l\u2019Est', 'tea'],
@@ -1072,11 +1072,11 @@ const GIFTS = {
   fish_guts: ['Brined Fish Guts', 'Entrailles de poisson en saumure', 'fish'],
   fish_eyeball: ['Huge Fish Eyeball', 'Œil de poisson géant', 'fish'],
   fishing_rod: ['Flexible Fishing Rod', 'Canne à pêche souple', 'fish'],
-  fishhook: ['Sharp Fishhook', 'Hameçon acéré', 'fish'],
+  fishhook: ['Sharp Fishhook', 'Hameçon aiguisé', 'fish'],
   everyday_scenes: ['Everyday Scenes', 'Scènes du quotidien', 'books'],
-  works_dante: ['The Works of Dante', 'Œuvres de Dante', 'books'],
+  works_dante: ['The Works of Dante', 'Anthologie de Dante', 'books'],
   knights_suitors: ['The Knight\u2019s Suitors', 'Les Prétendants du chevalier', 'books'],
-  traders_handbook: ['Trader\u2019s Handbook', 'Manuel du marchand', 'books'],
+  traders_handbook: ['Trader\u2019s Handbook', 'Manuel du négociant', 'books'],
   thick_tome: ['Thick Foreign Tome', 'Épais grimoire étranger', 'books'],
   tales_arena: ['Tales of the Arena', 'Récits de l\u2019arène', 'books'],
   poems_greats: ['Poems of the Greats', 'Poèmes des grands maîtres', 'books'],
@@ -1089,7 +1089,7 @@ const GIFTS = {
   strategy_manuscript: ['Strategy Manuscript', 'Manuscrit de stratégie', 'training'],
   training_weights: ['Training Weights', 'Poids d\u2019entraînement', 'training'],
   training_pillar: ['Training Pillar', 'Poteau d\u2019entraînement', 'training'],
-  training_bracelet: ['Training Bracelet', 'Bracelet d\u2019entraînement', 'training'],
+  training_bracelet: ['Training Bracelet', 'Bracelet d\u2019exercice', 'training'],
   crafting_knives: ['Crafting Knives', 'Couteaux d\u2019artisan', 'crafting'],
   pastels: ['Pack of Pastels', 'Boîte de pastels', 'crafting'],
   sharp_dagger: ['Sharp Dagger', 'Dague affûtée', 'weapons'],
@@ -1097,7 +1097,7 @@ const GIFTS = {
   ceremonial_spear: ['Ceremonial Spear', 'Lance de cérémonie', 'weapons'],
   antique_medal: ['Antique Medal', 'Médaille antique', 'martial'],
   imitation_medal: ['Imitation Medal', 'Médaille factice', 'martial'],
-  sewing_kit: ['Full Sewing Kit', 'Nécessaire de couture complet', 'fashion'],
+  sewing_kit: ['Full Sewing Kit', 'Nécessaire de couture', 'fashion'],
   skin_balm: ['Skin Balm', 'Baume pour la peau', 'fashion'],
   black_silk: ['Eastern Black Silk', 'Soie noire de l\u2019Est', 'fashion'],
   exquisite_ring: ['Exquisite Ring', 'Bague raffinée', 'fashion'],
@@ -1112,9 +1112,9 @@ const GIFTS = {
   eastern_bg: ['Eastern Board Game', 'Jeu de plateau de l\u2019Est', 'boardgames'],
   red_roses: ['Red-Rose Bouquet', 'Bouquet de roses rouges', 'flowers'],
   blue_roses: ['Blue-Rose Bouquet', 'Bouquet de roses bleues', 'flowers'],
-  mane_ornament: ['Mane Ornament', 'Ornement de crinière', 'horse'],
-  grooming_kit: ['Horse-Grooming Kit', 'Kit de pansage', 'horse'],
-  beard_grass: ['Dagda Beard Grass', 'Herbe-barbe de Dagda', 'horse'],
+  mane_ornament: ['Mane Ornament', 'Bijou de crinière', 'horse'],
+  grooming_kit: ['Horse-Grooming Kit', 'Kit de soin équestre', 'horse'],
+  beard_grass: ['Dagda Beard Grass', 'Graminée dagdanienne', 'horse'],
   decorative_arrows: ['Decorative Arrows', 'Flèches décoratives', 'archery'],
   joint_gloves: ['Joint-Relief Gloves', 'Gants soulage-articulations', 'archery'],
   bow_kit: ['Bow Maintenance Kit (ou Bow Repair Kit)', 'Kit d\u2019entretien d\u2019arc', 'archery'],
@@ -1123,10 +1123,11 @@ const GIFTS = {
   shield_portrait: ['Shield Portrait', 'Portrait au bouclier', 'paintings'],
   flower_painting: ['Flower Painting', 'Tableau de fleurs', 'paintings'],
   yu_phas: ['Portrait of Yu Phas', 'Portrait de Yu Phas', 'paintings'],
-  kitten_figurine: ['Kitten Figurine', 'Figurine de chaton', 'figurines'],
+  kitten_figurine: ['Kitten Figurine', 'Figurine de chat', 'figurines'],
   protection_figurine: ['Protection Figurine', 'Figurine protectrice', 'figurines'],
-  bull_panther: ['Crimson Bull / Jade Panther Figure', 'Figurine Taureau pourpre / Panthère de jade', 'figurines'],
-  bagua_set: ['Bagua Divination Set', 'Kit de divination bagua', 'spiritual'],
+  crimson_bull: ['Crimson Bull Figure', 'Taureau de rubis', 'figurines'],
+  jade_panther: ['Jade Panther Figure', 'Fauve d\u2019émeraude', 'figurines'],
+  bagua_set: ['Bagua Divination Set', 'Luopan', 'spiritual'],
   magic_set: ['Magic-Trick Set', 'Kit de tours de magie', 'spiritual'],
   rucksack: ['Sturdy Rucksack', 'Sac à dos solide', 'travel'],
   southern_seeds: ['Rare Southern Seeds', 'Graines rares du Sud', 'seeds'],
@@ -1180,7 +1181,7 @@ const GROUPS = {
 const CHARS = [
 { n:'Alexandra', d:'Chevalière pégase', g:'ses parents, son pégase Bucéphale, les hommes vertueux, parler d\u2019amour ; l\u2019entraînement',
   L:['pegasus_panorama','shield_portrait','flower_painting','yu_phas','tales_adventure','dual_fish_knives','ceremonial_spear','decorative_arrows','black_silk','ahm_lu_cloth','blue_roses','red_hair_clip','arrowhead_gem','eastern_earrings','strategy_manuscript'],
-  R:['@horse','garum','niiza_garum','crimson_ghosh','outdoor_cooking','strong_seasoning','home_recipe','herbal_recipe','kitten_figurine','protection_figurine','bull_panther','rucksack','sharp_dagger','joint_gloves','skin_balm','exquisite_ring'],
+  R:['@horse','garum','niiza_garum','crimson_ghosh','outdoor_cooking','strong_seasoning','home_recipe','herbal_recipe','kitten_figurine','protection_figurine','crimson_bull?','jade_panther?','rucksack','sharp_dagger','joint_gloves','skin_balm','exquisite_ring'],
   B:['pastels','southern_ghosh','volcano_ghosh','special_medicine','aromatic_shosh','morfis_tea','fishhook','bagua_set','works_dante','crafting_knives','spirit_bg','knights_suitors?','eastern_love_story?'],
   X:['rancid_garum'],
   req:{cai:[2,7], die:[3,8], the:[3,10,null,'D\u2019autres sources donnent Soutien 1 et Honneur 6 avec Theodora.'], led:[3,10]},
@@ -1224,7 +1225,7 @@ const CHARS = [
 
 { n:'Catania', d:'Mercenaire d\u2019élite', g:'les objets, les gens et les repas d\u2019exception ; s\u2019informer, se faire un nom',
   L:['flower_painting','pegasus_panorama','yu_phas','arrowhead_gem','red_hair_clip','blue_roses','ahm_lu_cloth','black_silk','decorative_arrows','tales_adventure','eastern_earrings?','eastern_tea?'],
-  R:['gaudy_bangle','common_coffee','select_coffee','southern_coffee','coffee_pastries','crimson_ghosh','pastels','exquisite_ring','spirit_bg','skin_balm','ceremonial_spear','sharp_dagger','crafting_knives','@horse','bull_panther','kitten_figurine'],
+  R:['gaudy_bangle','common_coffee','select_coffee','southern_coffee','coffee_pastries','crimson_ghosh','pastels','exquisite_ring','spirit_bg','skin_balm','ceremonial_spear','sharp_dagger','crafting_knives','@horse','crimson_bull?','jade_panther?','kitten_figurine'],
   B:['special_medicine','dual_fish_knives','shield_portrait','joint_gloves','works_dante','bagua_set'],
   X:['rancid_garum'],
   req:{cai:[3,10], die:[1,8], the:[3,7], led:'A'},
@@ -1243,7 +1244,7 @@ const CHARS = [
 
 { n:'Dante', d:'Mage et femme de lettres', g:'elle-même, écrire vite, les sujets dramatiques ; observer les gens',
   L:['rancid_garum','poems_greats','tales_adventure','decorative_arrows','ahm_lu_cloth','flower_painting','yu_phas','magic_set'],
-  R:['crimson_ghosh','coffee_pastries','@coffee','@books','home_recipe','herbal_recipe','bull_panther','crafting_knives','sharp_dagger','ceremonial_spear','black_silk','arrowhead_gem','pastels'],
+  R:['crimson_ghosh','coffee_pastries','@coffee','@books','home_recipe','herbal_recipe','crimson_bull?','jade_panther?','crafting_knives','sharp_dagger','ceremonial_spear','black_silk','arrowhead_gem','pastels'],
   B:['southern_ghosh','volcano_ghosh','morfis_tea','rucksack','bagua_set','skin_balm','exquisite_ring','spirit_bg','blue_roses','red_hair_clip','pegasus_panorama','shield_portrait','dual_fish_knives','joint_gloves','grooming_kit'],
   X:[],
   req:{cai:[3,10], die:[2,8], the:[3,6], led:[3,10]}, ex:'8 000 or' },
@@ -1283,7 +1284,7 @@ const CHARS = [
 
 { n:'Gaitz', d:'Épéiste de l\u2019Est', g:'le thé de Sai, les chevaux, les duels, la calligraphie ; préparer le thé',
   L:['rancid_garum','school_scandal','tome_away','morfis_almanac','tales_adventure','rugged_blade','ceremonial_spear','decorative_arrows','black_silk','ahm_lu_cloth','ebony_bg','eastern_bg','pegasus_panorama','shield_portrait','flower_painting','yu_phas'],
-  R:['@coffee','@horse','coffee_pastries','crimson_ghosh','home_recipe','herbal_recipe','protection_figurine','rucksack','bull_panther','works_dante','knights_suitors','thick_tome','crafting_knives','sharp_dagger','training_weights','training_pillar','joint_gloves','bg_tactics','spirit_bg','arrowhead_gem','pastels'],
+  R:['@coffee','@horse','coffee_pastries','crimson_ghosh','home_recipe','herbal_recipe','protection_figurine','rucksack','crimson_bull?','jade_panther?','works_dante','knights_suitors','thick_tome','crafting_knives','sharp_dagger','training_weights','training_pillar','joint_gloves','bg_tactics','spirit_bg','arrowhead_gem','pastels'],
   B:['@tea','jade_ghosh','southern_ghosh','volcano_ghosh','special_medicine','aromatic_shosh','southern_seeds','fishhook','bagua_set','dual_fish_knives','imitation_medal','skin_balm','exquisite_ring','blue_roses','red_hair_clip'],
   X:[],
   req:{die:[3,10]}, ex:'Paralogue de Bertrand terminé, puis attendre le chapitre 12' },
@@ -1463,7 +1464,7 @@ const CHARS = [
 
 { n:'Sirocco', d:'Barde polyvalent', g:'la déesse Kalla, toutes les femmes, la poésie ; la lecture, les portraits',
   L:['yu_phas','flower_painting','shield_portrait','arrowhead_gem','tales_adventure','volcano_ghosh','crimson_ghosh','eastern_earrings','history_master'],
-  R:['@ghosh','eastern_love_story','young_shosh','bull_panther','pastels','gaudy_bangle','eastern_bg'],
+  R:['@ghosh','eastern_love_story','young_shosh','crimson_bull?','jade_panther?','pastels','gaudy_bangle','eastern_bg'],
   B:['@books','@paintings','@shosh','orgus_coffee','southern_seeds'], X:[],
   req:{cai:[3,9], die:[3,9], the:[1,5], led:'A'}, ex:'Quête de recrutement' },
 
@@ -1718,7 +1719,7 @@ const WHERE = {
   yu_phas: { r:12, c:2, x:'Pas vendu en boutique : un seul exemplaire par voie en Partie I.' },
   kitten_figurine: { t:['Orens','Osiris'], c:1 },
   protection_figurine: { t:['Niiza'], c:1 },
-  bull_panther: { t:['Grand Aragon'], c:1, x:'Grand Aragon vend la Panthère de jade ; lieu du Taureau pourpre inconnu.' },
+  jade_panther: { t:['Grand Aragon'], c:1 },
   bagua_set: { t:['Osiris'], c:2 },
   magic_set: { t:['Regia'], c:1 },
   rucksack: { t:['Breston'], c:1 },
@@ -1733,6 +1734,22 @@ const store = {
   set(k, v){ try{ localStorage.setItem('feweave:'+k, JSON.stringify(v)); }catch(e){} }
 };
 const LORD_IDS = LORDS.map(l => l.id);
+// cadeaux renommés ou scindés : les données enregistrées (et les anciens exports, importés puis rechargés) suivent
+(function migrateGifts(){
+  const REN = { bull_panther: 'crimson_bull' };
+  try {
+    const inv = store.get('inv', null);
+    if(inv && Object.keys(REN).some(o => o in inv)){ for(const o in REN) if(o in inv){ inv[REN[o]] = (inv[REN[o]] || 0) + inv[o]; delete inv[o]; } store.set('inv', inv); }
+    const sp = store.get('spots', null);
+    if(sp && Object.keys(REN).some(o => o in sp)){ for(const o in REN) if(o in sp){ sp[REN[o]] = [...new Set([...(sp[REN[o]] || []), ...sp[o]])]; delete sp[o]; } store.set('spots', sp); }
+    const lg = store.get('log', null); let ch = false;
+    if(lg) for(const n in lg) for(const e of lg[n] || []) if(e && REN[e.g]){ e.g = REN[e.g]; ch = true; }
+    if(ch) store.set('log', lg);
+    const tr = store.get('tours', null); ch = false;
+    if(tr) for(const l in tr) for(const n in (tr[l] && tr[l].done) || {}){ const d = tr[l].done[n]; if(d && REN[d.g]){ d.g = REN[d.g]; ch = true; } }
+    if(ch) store.set('tours', tr);
+  } catch(e) {}
+})();
 const S = {
   lord: store.get('lord', 'cai'),
   honor: store.get('honor', 1),

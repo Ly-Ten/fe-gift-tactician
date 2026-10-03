@@ -49,8 +49,8 @@
   // ---------- objets : index et correspondance avec les cadeaux ----------
   const normItem = n => String(n).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’‘]/g, "'")
     .replace(/[^a-z' ]/g, ' ').replace(/\s+/g, ' ').trim().split(' ').map(w => w.length > 3 ? w.replace(/s$/, '') : w).join(' ');
-  const ALIAS = { 'crimson ghost': 'crimson_ghosh', 'divination bagua': 'bagua_set', 'ebony game board': 'ebony_bg', 'jade panther figure': 'bull_panther',
-    'crimson bull figure': 'bull_panther', 'bow repair kit': 'bow_kit', 'fodlan tea': 'fodlan_tea', 'strong seasoning': 'strong_seasoning' };
+  const ALIAS = { 'crimson ghost': 'crimson_ghosh', 'divination bagua': 'bagua_set', 'ebony game board': 'ebony_bg', 'jade panther figure': 'jade_panther',
+    'crimson bull figure': 'crimson_bull', 'bow repair kit': 'bow_kit', 'fodlan tea': 'fodlan_tea', 'strong seasoning': 'strong_seasoning' };
   function giftKeys(){
     const out = {};
     for(const g in GIFTS){
