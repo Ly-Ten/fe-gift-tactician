@@ -34,7 +34,14 @@ function kindOf(t){
 const SPOIL_NAMES = ['Palace of Sand', 'Diadem Temple', 'Fort Zanbar', 'Kunlun', 'Fezzan Gate', 'Isle of Sorrows', 'Bran Plains', "Zenzele's Paradise", 'Temple of Balor'];
 
 // ---------- objets ----------
-const clean = it => String(it).replace(/\s*x\s*\d+\s*$/i, '').replace(/\s+/g, ' ').trim();
+// fautes des données de fans, corrigées d'après le jeu
+const ITEM_FIX = { 'Southern Ghost': 'Southern Ghosh', 'Volcano Ghost': 'Volcano Ghosh', 'Crimson Ghost': 'Crimson Ghosh', 'Strong Seasonings': 'Strong Seasoning', 'Electra Map': 'Elektra Map', 'Bronze Again': 'Bronze Axe' };
+const clean = it => { const s = String(it).replace(/\s*x\s*\d+\s*$/i, '').replace(/\s+/g, ' ').trim(); return ITEM_FIX[s] || s; };
+// stocks relevés en jeu : ils remplacent ceux des sources de fans
+const SHOP_SEEN = {
+  // marché de Callianeira, capture de Jean du 3 octobre 2026, dans l'ordre du jeu
+  'callianeira-port': { m: ['Sun Ghosh', 'Jade Ghosh', 'Secret Ghosh', 'Southern Ghosh', 'Strong Seasoning', 'Rare Spices', 'Eastern Tea Leaves', 'Eastern Black Silk', 'Exquisite Ring', 'Eastern Earrings', 'Elektra Map'] }
+};
 const okItem = it => it && !/^tbc$/i.test(it) && !/contents unknown/i.test(it) && !it.endsWith(':') && it.length < 60;
 const tableByName = {};
 for(const reg in TABLES) for(const e of TABLES[reg]) tableByName[e.name.toLowerCase()] = e;
@@ -70,6 +77,7 @@ for(const l of R.locations){
     const list = [...new Set((l.shops[key] || []).map(clean).filter(okItem))];
     if(list.length) sh[k] = list;
   }
+  Object.assign(sh, SHOP_SEEN[l.id] || {});
   if(Object.keys(sh).length) p.sh = sh;
   const { items, lvl } = placeItems(l);
   if(items.length) p.it = items;
