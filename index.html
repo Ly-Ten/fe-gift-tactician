@@ -560,9 +560,11 @@ small.hint2{display:block;margin-top:6px}
   .buyrow{gap:6px;padding-left:12px;padding-right:8px}
 }
 /* en-tête sur une seule ligne quand la place le permet, et qui reste en haut : la fiche et la barre se calent dessous */
+@media (max-width:1023px){
+  .top.compact{position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+  .bar{top:calc(env(safe-area-inset-top,0px) + var(--top-h,0px))}
+}
 @media (min-width:680px) and (max-width:1023px){
-  .top.compact{position:sticky;top:0;z-index:20}
-  .bar{top:var(--top-h,0px)}
   .panel{top:calc(var(--top-h,0px) + 12px);max-height:calc(100vh - var(--top-h,0px) - 24px);max-height:calc(100dvh - var(--top-h,0px) - 24px)}
   .top.compact .top-inner{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
   .top.compact .brand{flex:0 0 auto}
@@ -593,6 +595,30 @@ small.hint2{display:block;margin-top:6px}
     column-gap:calc(env(viewport-segment-left 1 0, 50vw) - env(viewport-segment-right 0 0, 50vw) + 24px)}
 }
 
+
+/* ---------- v6 : en-tête fixe et resserré sur téléphone ---------- */
+@media (max-width:679px){
+  .top.compact{padding:8px 12px 9px}
+  .top.compact .brand{display:flex;align-items:center;min-width:0}
+  .top.compact h1{font-size:clamp(17px,5.2vw,21px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top.compact .top-actions{gap:5px;flex-wrap:nowrap}
+  .top.compact .top-actions .theme-btn{width:36px;height:36px;padding:0;display:inline-grid;place-items:center}
+  .top.compact .ctrl{margin-top:6px;gap:8px 12px;flex-wrap:nowrap;justify-content:space-between}
+  .top.compact .lordpill{min-height:42px;padding:4px 10px 4px 6px;flex-shrink:0}
+  .top.compact .honor{flex-wrap:nowrap;gap:10px;justify-content:flex-end}
+  .top.compact .stepper button{width:38px;height:38px}
+  .top.compact .stepper output{min-width:34px;font-size:22px}
+  .bar{padding:6px 0 8px;gap:7px}
+  .bar .tabs button{padding:7px 4px}
+  .search input{padding:8px 0}
+  .hf{height:34px}
+}
+@media (max-width:359px){.top.compact .honor-lbl{display:none}}
+/* interrupteurs de thème */
+.theme-btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+:root[data-theme^="gba"] .theme-btn[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);text-shadow:none}
+.theme-btn .pi{vertical-align:-3px}
+
 /* ---------- v5 : rétro jour ---------- */
 :root[data-theme="gba-day"]{
   --bg:#ECE4CB; --surface:#F8F3E2; --raised:#DED3B2; --ink:#2B2338; --muted:#6B5D44; --line:#CDBF97;
@@ -605,6 +631,68 @@ small.hint2{display:block;margin-top:6px}
 :root[data-theme="gba-day"] .hf.me{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
 :root[data-theme="gba-day"] .grp.ready h2{color:#17663F}
 :root[data-theme="gba-day"] .ph{background:#5878DC}
+
+/* ---------- lot 2 ---------- */
+.ph-acts{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ph-acts .x{margin-left:0}
+.ph .back{display:none}
+@media (min-width:680px){.ph .back{display:inline-flex}}
+.ph .pin{width:40px;height:40px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--bg);display:inline-grid;place-items:center}
+.ph .pin[aria-pressed="false"] .pi{filter:grayscale(1);opacity:.45}
+.ph .pin[aria-pressed="true"]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 16%,var(--bg))}
+.pi.pinmark{margin-left:6px;vertical-align:1px}
+/* choix de la ville */
+.townpick{display:flex;align-items:center;gap:10px;width:100%;min-height:54px;margin:10px 0 8px;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);text-align:left}
+.townpick .tl{flex:1;min-width:0}
+.townpick b{display:block;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:19px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.townpick small{display:block;color:var(--muted);font-size:13px}
+.townpick .chev{color:var(--muted);transition:transform .15s}
+.townpick[aria-expanded="true"]{border-color:var(--acc)}
+.townpick[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.tpicker{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px 12px 12px;margin:0 0 10px}
+.tpicker .search{margin:0}
+.tpicker h3{margin:12px 0 6px;font-size:14px;color:var(--muted);font-weight:500}
+.tp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.tp-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);text-align:left;font-size:15px}
+.tp-row[aria-current="true"]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--bg))}
+.tp-row .loved{flex-shrink:0}
+@media (prefers-reduced-motion:reduce){.townpick .chev{transition:none}}
+/* liste de courses */
+.shop-town{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--acc) 8%,transparent)}
+.shop-town:first-child{border-top:0}
+.shop-town b{flex:1;min-width:0;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:18px}
+.shop-total{margin:8px 2px 0;font-size:15px}
+/* date dans le jeu */
+.gdate{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px;margin:8px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.gdate b{font-weight:500;margin-right:auto}
+.gdate select{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-height:38px}
+.qrow .qdate.soon{background:var(--t-x-bg);color:var(--t-x)}
+.qrow .qdate.past{background:var(--raised);color:var(--muted)}
+/* recherche : résultats dans les autres rubriques */
+.alsofound{border:1px dashed var(--line);border-radius:12px;padding:8px 12px 10px;margin:4px 0 10px}
+.alsofound h3{margin:0;font-size:14px;color:var(--muted);font-weight:500}
+.alsofound .af{margin-top:6px}
+.alsofound .af small{display:block;color:var(--muted);font-size:12.5px;margin-bottom:4px}
+.alsofound .who-btn{display:inline-flex;align-items:center;gap:6px}
+/* rappel de sauvegarde */
+.remind{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px;margin:4px 0 10px;border-radius:12px;background:var(--t-l-bg);border:1px solid color-mix(in srgb,var(--t-l) 40%,transparent)}
+.remind span{flex:1 1 200px;min-width:0;font-size:15px}
+/* résumé */
+.dash{display:grid;gap:10px}
+.dash .where{margin:0}
+.dash-m .where{background:var(--surface)}
+.dash .big{font-family:"Marcellus",Georgia,serif;font-size:22px;line-height:1.1}
+.dash .prog{max-width:none}
+.dash .lps{display:grid;gap:6px;margin-top:10px}
+.dash .lp{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;font-size:14px}
+.dash .lp .prog{margin:0}
+.dash .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.grp.dash-m > summary .cnt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* rétro */
+:root[data-theme^="gba"] :is(.townpick,.tpicker,.gdate,.alsofound,.remind){background:var(--win);border:2px solid var(--win-hi);box-shadow:0 0 0 2px var(--win-edge);text-shadow:1px 1px 0 rgba(6,10,44,.65)}
+:root[data-theme^="gba"] :is(.tp-row,.gdate select,.ph .pin){background-color:var(--inset)}
+:root[data-theme^="gba"] .townpick b,:root[data-theme^="gba"] .dash .big{font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-variant-ligatures:none;font-size-adjust:.52;letter-spacing:.02em}
+:root[data-theme="gba-day"] :is(.townpick,.tpicker,.gdate,.alsofound,.remind,.where){--ink:#FFFFFF;--muted:#D8E0FC;--line:#93A8EC;--raised:#2C47AA;--surface:#3A5AC2;--bg:#2A44A4;color:#FFFFFF}
 </style>
 </head>
 <body>
@@ -615,7 +703,7 @@ small.hint2{display:block;margin-top:6px}
       <h1 class="disp">Le fil des cadeaux</h1>
       <p class="sub">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</p>
     </div>
-    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl"> Installer</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="themeBtn" type="button" aria-label="Changer de thème">◐</button></div>
+    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl"> Installer</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="nightBtn" type="button" role="switch" aria-checked="false" aria-label="Mode nuit"></button><button class="theme-btn" id="retroBtn" type="button" aria-pressed="false" aria-label="Style rétro"></button></div>
     <div class="lords" id="lords" role="group" aria-label="Seigneur de la Flamme joué"></div>
     <div class="ctrl">
     <button type="button" class="lordpill" id="lordPill" aria-expanded="false" aria-controls="lords"></button>
@@ -657,9 +745,12 @@ small.hint2{display:block;margin-top:6px}
       <li><b>Tournée :</b> elle répartit ton inventaire entre les personnages qui ont encore besoin de soutien (meilleur cadeau d'abord, sans dépasser tes quantités). Valide au fil de l'eau avec « Offert » ou « Autre cadeau », puis « Terminer la tournée » pour passer à la semaine suivante.</li>
       <li><b>Sauvegarde :</b> le bouton ⇅ exporte toutes tes données. Pour passer de l'ordinateur au téléphone, affiche le QR code et scanne-le avec l'appareil photo : l'outil s'ouvre et te propose l'import. Garde aussi le code dans une note : c'est ta copie de secours.</li>
       <li><b>Application :</b> sur Android et sur ordinateur, le bouton « Installer » en haut ajoute l'outil comme une app, utilisable sans connexion. Sur iPhone, dans Safari : bouton Partager, puis « Sur l'écran d'accueil ». Sur iPhone, l'app installée garde ses propres données : transfère-les avec la Sauvegarde.</li>
-      <li><b>Thème :</b> le bouton de thème passe de clair à sombre, puis à rétro jour et rétro nuit, façon Fire Emblem sur Game Boy Advance.</li>
+      <li><b>Thème :</b> deux boutons en haut. Le soleil ou la lune passe du jour à la nuit, la petite main active le style rétro, façon Fire Emblem sur Game Boy Advance.</li>
       <li><b>Où acheter :</b> la plupart des cadeaux se vendent dans les Marchés des villes de la carte. À Dagsion, la Taverne de la ville basse est moins chère que la Galerie marchande, mais leur stock complet n'est pas connu. Dans Cadeaux, « Par ville » te dit quoi acheter là où tu es, et « À ne pas rater » liste les cadeaux de quêtes à date limite.</li>
       <li><b>Réassort :</b> les sources se contredisent (chaque chapitre ou chaque semaine). Le bienfait « Réduction sur les cadeaux » (300 éclats de karma) baisse les prix de 10 %.</li>
+      <li><b>Liste de courses :</b> dans la Tournée, elle indique quoi acheter, et où, pour les personnages qui n'ont rien de bon dans ton stock.</li>
+      <li><b>Épingles :</b> l'étoile dans la fiche d'un personnage le place en haut de la liste et le sert en premier dans la tournée.</li>
+      <li><b>Date du jeu :</b> indique-la dans Cadeaux, « À ne pas rater », pour voir les jours restants avant chaque quête.</li>
       <li><b>Un cadeau par personnage et par semaine.</b> Vise les ⇈ « adore » : deux flèches dorées, soutien doublé.</li>
       <li><b>Le premier cadeau peut être n'importe quoi de pas cher</b> (taverne de la ville basse) : il débloque les repas à l'auberge.</li>
       <li><b>Le jour de son anniversaire</b>, un personnage réagit « a beaucoup aimé » même à un cadeau banal.</li>
@@ -1391,6 +1482,12 @@ for(const l of LORD_IDS){ S.rec[l] = S.rec[l] || []; S.cond[l] = S.cond[l] || []
 // en-tête compact dès qu'un Seigneur a été choisi une fois
 S.lordChosen = (() => { try { return localStorage.getItem('feweave:lord') !== null; } catch(e) { return true; } })();
 S.picking = false;
+// lot 2
+S.pins = (a => Array.isArray(a) ? a : [])(store.get('pins', []));
+S.recentTowns = (a => Array.isArray(a) ? a : [])(store.get('recentTowns', []));
+S.townPick = false; S.townQ = '';
+S.gameDate = (d => /^\d\d-\d\d$/.test(d || '') ? d : null)(store.get('gameDate', null));
+if(!store.get('firstUse', null)) store.set('firstUse', Date.now());
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1479,7 +1576,7 @@ function renderTop(){
   document.documentElement.setAttribute('data-lord', S.lord);
   $('#lords').innerHTML = LORDS.map(l =>
     `<button type="button" class="lord" data-lord="${l.id}" aria-pressed="${l.id === S.lord}">
-      ${pix(l.id, 'x2')}<span><b>${l.name}</b><small>${esc(l.army)}</small></span></button>`).join('');
+      ${pix(l.id, 'x2')}<span><b>${l.name}</b><small>${esc(l.army)} · ${(p => `<span title="${p.rec} recrutés sur ${p.tot}">${p.rec}/${p.tot}</span>`)(lordProgress(l.id))}</small></span></button>`).join('');
   const L = lordOf(S.lord), top = $('#top'), pill = $('#lordPill');
   top.classList.toggle('compact', S.lordChosen);
   top.classList.toggle('picking', S.picking);
@@ -1497,7 +1594,7 @@ function renderTabs(){
   $('#invCount').textContent = invTotal();
   const left = planTour().filter(p => p.a).length;
   $('#tourCount').textContent = left; $('#tourCount').hidden = !left;
-  $('#q').placeholder = (S.tab === 'chars' || S.tab === 'tour') ? 'Chercher un personnage' : (S.tab === 'gifts' && S.giftMode === 'town') ? 'Chercher un cadeau dans cette ville' : 'Chercher un cadeau (français ou anglais)';
+  $('#q').placeholder = (S.tab === 'gifts' && S.giftMode === 'town') ? 'Chercher un cadeau dans cette ville' : 'Personnage, cadeau ou ville';
 }
 
 /* ---------- liste des personnages ---------- */
@@ -1541,12 +1638,13 @@ function charRow(c, st){
 
 function renderChars(){
   const q = norm(S.q);
-  const buckets = {};
+  const buckets = {}, pinned = [];
   for(const c of CHARS){
     const st = status(c);
     if(st === 'self') continue;
     if(q && !norm(c.n).includes(q)) continue;
     if(S.hf){ const r = reqOf(c); if(!Array.isArray(r) || r[1] !== S.hf) continue; }
+    if(isPinned(c.n)){ pinned.push(c); continue; }
     (buckets[st] = buckets[st] || []).push(c);
   }
   const base = (a, b) => reqOf(a)[0] - reqOf(b)[0] || reqOf(a)[1] - reqOf(b)[1] || a.n.localeCompare(b.n);
@@ -1555,6 +1653,12 @@ function renderChars(){
     wait: (a, b) => supMet(a) - supMet(b) || reqOf(a)[1] - reqOf(b)[1] || reqOf(a)[0] - reqOf(b)[0] || a.n.localeCompare(b.n)
   };
   let html = '';
+  if(pinned.length){
+    pinned.sort((a, b) => S.pins.indexOf(a.n) - S.pins.indexOf(b.n));
+    html += `<details class="grp pins" data-g="pins" open><summary><h2 class="disp">${pix('star')} Épinglés</h2><span class="cnt">${pinned.length}</span></summary>
+      <p class="hint">Tes priorités, quel que soit leur état. L'étoile de leur fiche les retire d'ici.</p>
+      <div class="rows">${pinned.map(c => charRow(c, status(c))).join('')}</div></details>`;
+  }
   for(const [id, title, hint, defOpen] of GROUP_DEF){
     const list = buckets[id];
     if(!list || !list.length) continue;
@@ -1568,7 +1672,7 @@ function renderChars(){
   if(!html) html = S.hf && !q
     ? `<p class="empty">Aucun personnage ne demande Honneur ${S.hf} avec ${lordName(S.lord)}. Choisis un autre niveau ou « Tous ».</p>`
     : `<p class="empty">Aucun personnage ne correspond${q ? ` à « ${esc(S.q)} »` : ''}${S.hf ? ` avec Honneur ${S.hf}` : ''}. Vérifie l'orthographe ou retire un filtre.</p>`;
-  $('#listCol').innerHTML = html;
+  setList(((!q && !S.hf && isSheet()) ? dashMobile() : '') + html);
 }
 
 function renderHonorFilter(){
@@ -1595,14 +1699,14 @@ function giftMatches(g, q){ return !q || norm(GIFTS[g][0]).includes(q) || norm(G
 function renderGifts(){
   if(S.giftMode === 'town'){
     const prev = document.querySelector('.towns'); const sl = prev ? prev.scrollLeft : null;
-    $('#listCol').innerHTML = giftModeSeg() + renderTownHtml();
+    setList(giftModeSeg() + renderTownHtml());
     const strip = document.querySelector('.towns'); const on = document.querySelector('.town[aria-pressed="true"]');
     if(strip && sl !== null) strip.scrollLeft = sl;
     if(strip && on){ const r = on.getBoundingClientRect(), sr = strip.getBoundingClientRect();
       if(r.left < sr.left || r.right > sr.right) strip.scrollLeft += r.left - sr.left - 40; }
     return;
   }
-  if(S.giftMode === 'quest'){ $('#listCol').innerHTML = giftModeSeg() + renderQuestHtml(); return; }
+  if(S.giftMode === 'quest'){ setList(giftModeSeg() + renderQuestHtml()); return; }
   const q = norm(S.q);
   const rel = relevantChars();
   const loveCount = {};
@@ -1626,7 +1730,7 @@ function renderGifts(){
       <div class="rows glist">${items.map(row).join('')}</div></details>`;
   }
   if(!html) html = `<p class="empty">Aucun cadeau ne correspond à « ${esc(S.q)} ». Essaie le nom anglais ou un mot plus court.</p>`;
-  $('#listCol').innerHTML = giftModeSeg() + html;
+  setList(giftModeSeg() + html);
 }
 
 /* ---------- inventaire ---------- */
@@ -1656,7 +1760,7 @@ function renderInv(){
   if(!any) html += S.invOnly && !invTotal()
     ? `<p class="empty">Ton inventaire est vide. Désactive « Seulement ce que j'ai » puis ajoute tes cadeaux avec +.</p>`
     : `<p class="empty">Aucun cadeau ne correspond${q ? ` à « ${esc(S.q)} »` : ''}. Essaie le nom anglais ou retire le filtre.</p>`;
-  $('#listCol').innerHTML = html;
+  setList(html);
 }
 
 /* ---------- fiche personnage ---------- */
@@ -1748,7 +1852,7 @@ function renderCharPanel(c){
   }
   const st = status(c);
   const note = c.note && !(st === 'nr' && !c.lord) ? `<div class="note">${esc(c.note)}</div>` : '';
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p></div><div class="ph-acts">${c.lord === S.lord ? '' : `<button type="button" class="pin" data-pin aria-pressed="${isPinned(c.n)}" aria-label="Épingler ${esc(c.n)} en haut de la liste" title="${isPinned(c.n) ? 'Retirer des épinglés' : 'Épingler en haut de la liste'}">${pix('star')}</button>`}${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
     <div class="pb" data-for="${esc(c.n)}">${recBox(c)}${trackBox(c)}${offerBox(c)}${favBox(c)}${logBox(c)}
       <p class="likes" style="margin-top:16px"><b>D'après sa fiche :</b> ${esc(c.g)}</p>
       ${tiers}${note}${allLordsTable(c)}
@@ -1792,12 +1896,13 @@ function renderGiftPanel(g){
     }</div></div>`;
   }
   if(!anyTier) body += `<p class="nothing">Aucune réaction connue pour ce cadeau. Garde-le comme premier cadeau pour débloquer les repas.</p>`;
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(G[2], 'x2')} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(G[2], 'x2')} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
     <div class="pb">${body}<div class="note">Personnages triés selon ta voie : d'abord ceux qui ont encore besoin de soutien.</div></div>`;
 }
 
 /* ---------- panneau ---------- */
 const PH = '<div class="panel-ph"><span class="disp">Choisis un personnage</span>Sa liste de cadeaux, ce que tu peux lui offrir et ses conditions de recrutement s\u2019afficheront ici.</div>';
+const BACK_BTN = '<button type="button" class="btn back" data-dash title="Revenir au résumé">Résumé</button>';
 const isSheet = () => window.matchMedia('(max-width: 679px)').matches;
 let lastFocus = null;
 function openPanel(kind, id){
@@ -1832,7 +1937,7 @@ function markCurrent(){
 }
 function refreshPanel(){
   const p = $('#panel');
-  if(!S.sel){ if(!p.classList.contains('open')) p.innerHTML = PH; return; }
+  if(!S.sel){ if(!p.classList.contains('open')) p.innerHTML = isSheet() ? PH : dashPanel(); return; }
   if(S.sel.k === 's') return; // ne pas effacer un code en cours de collage
   const st = p.scrollTop;
   p.innerHTML = S.sel.k === 'c' ? renderCharPanel(charByName[S.sel.id]) : renderGiftPanel(S.sel.id);
@@ -1862,6 +1967,7 @@ function afterQty(g, opts = {}){
   if(S.tab === 'chars' || S.tab === 'gifts') renderList();
   const tc = $('#tourCount'); if(tc){ const left = planTour().filter(p => p.a).length; tc.textContent = left; tc.hidden = !left; }
   if(S.sel && S.sel.k === 'c') refreshPanel();
+  if(!S.sel) refreshPanel();
 }
 
 /* ---------- toast ---------- */
@@ -1905,7 +2011,7 @@ function planTour(){
   const tierCache = {};
   const tierFor = (c, g) => { const k = c.n + '|' + g; if(!(k in tierCache)) tierCache[k] = tierOf(c, g); return tierCache[k]; };
   const assigned = {};
-  const prio = c => status(c) === 'ok' ? 0 : 1;
+  const prio = c => (isPinned(c.n) ? -2 : 0) + (status(c) === 'ok' ? 0 : 1);
   for(const tier of ['L', 'R', 'B']){
     const opts = c => Object.keys(stock).filter(g => stock[g] > 0 && (tierFor(c, g) || {}).t === tier);
     const remaining = cands.filter(c => !assigned[c.n]);
@@ -1961,7 +2067,7 @@ function tourRow(c, a){
     : `<p class="twish">Rien de bon en stock. À chercher : ${esc(wishlist(c).join(', ') || 'voir sa fiche')}.</p>`;
   const open = S.pick === c.n;
   return `<div class="trow ${a ? '' : 'none'}" data-tc="${esc(c.n)}">
-    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${esc(c.n)}</span><small>${supLine(c)}</small></button>
+    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${esc(c.n)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}</span><small>${supLine(c)}</small></button>
     ${gift}
     <div class="tact">${a ? `<button type="button" class="give" data-tgive="${a.g}">Offert</button>` : ''}
       <button type="button" class="btn" data-tother aria-expanded="${open}">Autre cadeau</button>
@@ -1973,7 +2079,8 @@ function renderTour(){
   const t = T();
   const q = norm(S.q);
   const plan = planTour().filter(p => !q || norm(p.c.n).includes(q));
-  const withGift = plan.filter(p => p.a), without = plan.filter(p => !p.a);
+  const pinFirst = (a, b) => isPinned(b.c.n) - isPinned(a.c.n);
+  const withGift = plan.filter(p => p.a).sort(pinFirst), without = plan.filter(p => !p.a).sort(pinFirst);
   const doneNames = Object.keys(t.done);
   const nDone = doneNames.length, total = nDone + planTour().filter(p => p.a).length;
   const pct = total ? Math.round(nDone / total * 100) : 0;
@@ -1982,6 +2089,7 @@ function renderTour(){
       <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
     <div class="acts"><button type="button" class="btn danger" id="tourEnd">Terminer la tournée</button></div></div>`;
   if(!invTotal()) html += `<div class="note">Ton inventaire est vide : la tournée ne peut rien te proposer. <button type="button" class="linkbtn" data-goinv>Remplir l'inventaire</button></div>`;
+  if(!q) html += shopSection();
   const section = (title, hint, rows, cls = '', open = true) => rows.length ? `<details class="grp tour ${cls}" ${open ? 'open' : ''}><summary><h2 class="disp">${title}</h2><span class="cnt">${rows.length}</span></summary>${hint ? `<p class="hint">${hint}</p>` : ''}<div class="rows trows">${rows.join('')}</div></details>` : '';
   html += section('Honneur atteint', 'Les plus proches du recrutement.', withGift.filter(p => status(p.c) === 'ok').map(p => tourRow(p.c, p.a)));
   html += section('Honneur insuffisant', 'Le soutien sera prêt quand l\u2019Honneur suivra.', withGift.filter(p => status(p.c) === 'wait').map(p => tourRow(p.c, p.a)));
@@ -1996,7 +2104,7 @@ function renderTour(){
   const sk = t.skip.filter(n => !q || norm(n).includes(q)).map(n => `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">${esc(n)}</span></button><div class="tact"><button type="button" class="linkbtn" data-tunskip="${esc(n)}">Remettre dans la tournée</button></div></div>`);
   html += section('Mis de côté', '', sk, 'donegrp');
   if(!plan.length && !nDone && !t.skip.length) html += `<p class="empty">Personne n'a besoin de soutien avec ${lordName(S.lord)} pour l'instant. Note ton soutien actuel dans les fiches pour affiner la tournée.</p>`;
-  $('#listCol').innerHTML = html;
+  setList(html);
 }
 
 function recordGift(name, g){
@@ -2054,6 +2162,7 @@ function tourClick(e){
   const row = e.target.closest('[data-tc]');
   const name = row ? row.dataset.tc : null;
   if(e.target.closest('#tourEnd')){ endTour(e.target.closest('#tourEnd')); return true; }
+  const bt = e.target.closest('[data-buy]'); if(bt){ buyOne(bt.dataset.buy); renderList(); return true; }
   if(e.target.closest('[data-goinv]')){ S.tab = 'inv'; store.set('tab', S.tab); S.q = ''; $('#q').value = ''; renderTabs(); renderHonorFilter(); renderList(); return true; }
   const gv = e.target.closest('[data-tgive]'); if(gv && name){ recordGift(name, gv.dataset.tgive); return true; }
   if(e.target.closest('[data-tother]') && name){ S.pick = S.pick === name ? null : name; renderList();
@@ -2146,8 +2255,11 @@ function renderTownHtml(){
   const towns = Object.keys(idx).map(t => ({ t, n: [...idx[t]].filter(g => sc[g].L).length }));
   towns.sort((a, b) => b.n - a.n || a.t.localeCompare(b.t));
   if(!S.town || !idx[S.town]) S.town = towns.length ? towns[0].t : null;
-  let html = `<p class="hint townhint">Choisis la ville où tu es : les cadeaux sont classés selon tes personnages qui ont encore besoin de soutien avec ${lordName(S.lord)}. Le chiffre ⇈ d'une ville = cadeaux utiles qu'on y trouve.</p>
-    <div class="towns" role="group" aria-label="Villes">${towns.map(({ t, n }) => `<button type="button" class="town" data-town="${esc(t)}" aria-pressed="${t === S.town}">${esc(t)}${n ? `<small>⇈${n}</small>` : ''}</button>`).join('')}</div>`;
+  lastTowns = towns;
+  const cur = towns.find(x => x.t === S.town);
+  let html = `<button type="button" class="townpick" data-townpick aria-expanded="${S.townPick}">${pix('shop')}<span class="tl"><small>Ville où tu es</small><b>${esc(S.town || 'Choisir une ville')}</b></span>${cur && cur.n ? `<span class="loved" title="Cadeaux adorés par tes personnages qu'on trouve ici">⇈ ${cur.n}</span>` : ''}<span class="chev" aria-hidden="true">▾</span></button>`;
+  if(S.townPick) return html + `<div class="tpicker"><label class="search small"><span aria-hidden="true">⌕</span><input type="search" data-townq placeholder="Chercher une ville" value="${esc(S.townQ)}" autocomplete="off"></label><div data-townres>${townPickerHtml(towns)}</div></div>
+    <p class="hint townhint">Le chiffre ⇈ compte les cadeaux qu'on trouve dans la ville et qu'adorent tes personnages qui ont encore besoin de soutien avec ${lordName(S.lord)}.</p>`;
   if(!S.town) return html + `<p class="empty">Aucune ville connue.</p>`;
   const gifts = [...idx[S.town]].filter(g => giftMatches(g, q));
   gifts.sort((a, b) => sc[b].L - sc[a].L || sc[b].R - sc[a].R || GIFTS[a][1].localeCompare(GIFTS[b][1]));
@@ -2171,19 +2283,26 @@ function renderTownHtml(){
 function renderQuestHtml(){
   const need = needingChars();
   const loved = g => need.filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; }).length;
-  const items = [];
-  for(const g in WHERE) for(const q of WHERE[g].q || []) items.push({ g, q });
-  items.sort((a, b) => a.q.s.localeCompare(b.q.s) || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
-  const row = ({ g, q }) => `<button type="button" class="row qrow" data-gift="${g}">
-      <span class="qdate"><b>${q.d}</b><small>limite</small></span>
+  const now = S.gameDate ? doy(S.gameDate) : null;
+  const items = questsAll();
+  const row = ({ g, q }) => {
+    const left = now === null ? null : doy(q.s) - now;
+    const badge = left === null ? `<span class="qdate"><b>${q.d}</b><small>limite</small></span>`
+      : left < 0 ? `<span class="qdate past"><b>${q.d}</b><small>passée</small></span>`
+      : `<span class="qdate ${left <= 7 ? 'soon' : ''}"><b>${left === 0 ? 'Auj.' : 'J-' + left}</b><small>${q.d}</small></span>`;
+    return `<button type="button" class="row qrow" data-gift="${g}">${badge}
       <span class="who"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">Quête « ${esc(q.n)} » : ${esc(q.i)}</span></span>
       <span class="req">${loved(g) ? `<span class="loved">⇈ ${loved(g)}</span>` : ''}</span></button>`;
+  };
+  const upcoming = now === null ? items : items.filter(x => doy(x.q.s) >= now);
+  const past = now === null ? [] : items.filter(x => doy(x.q.s) < now);
   const yu = `<button type="button" class="row qrow" data-gift="yu_phas"><span class="qdate"><b>12</b><small>Honneur</small></span>
       <span class="who"><span class="nm">${esc(GIFTS.yu_phas[1])}</span><span class="ds">Récompense du rang d'Honneur 12, un seul exemplaire par voie</span></span>
       <span class="req">${loved('yu_phas') ? `<span class="loved">⇈ ${loved('yu_phas')}</span>` : ''}</span></button>`;
-  return `<details class="grp" open><summary><h2 class="disp">À ne pas rater</h2><span class="cnt">${items.length + 1}</span></summary>
-    <p class="hint">Cadeaux rares obtenus par quête, triés par date limite du calendrier du jeu (Partie I, peut varier selon la voie). Les noms de quêtes sont en anglais : aide-toi du personnage et du lieu.</p>
-    <div class="rows">${yu}${items.map(row).join('')}</div></details>
+  return gdateHtml() + `<details class="grp" open><summary><h2 class="disp">À ne pas rater</h2><span class="cnt">${upcoming.length + 1}</span></summary>
+    <p class="hint">${now === null ? 'Indique la date du jeu ci-dessus pour voir les jours restants et ranger les quêtes passées. ' : ''}Cadeaux rares obtenus par quête, triés par date limite du calendrier du jeu (Partie I, peut varier selon la voie). Les noms de quêtes sont en anglais : aide-toi du personnage et du lieu.</p>
+    <div class="rows">${yu}${upcoming.map(row).join('')}</div></details>
+    ${past.length ? `<details class="grp" data-g="qpast"><summary><h2 class="disp">Déjà passées</h2><span class="cnt">${past.length}</span></summary><div class="rows">${past.map(row).join('')}</div></details>` : ''}
     <div class="note">Astuce : les Boîtes cadeaux (boutique d'objets d'Alecto et de Barsk, et récompenses des représentations de Leda) donnent un cadeau au hasard, parfois rare.</div>`;
 }
 
@@ -2192,20 +2311,28 @@ function whereClick(e){
   if(gm){ S.giftMode = gm.dataset.gmode; store.set('giftMode', S.giftMode); renderList(); return true; }
   const bt = e.target.closest('[data-buy]');
   if(bt){
-    const g = bt.dataset.buy; setQty(g, qty(g) + 1); afterQty(g);
-    toast(`${GIFTS[g][1]} ajouté à ton inventaire (×${qty(g)}).`, () => { setQty(g, qty(g) - 1); afterQty(g); });
+    buyOne(bt.dataset.buy);
     return true;
   }
-  const tw = e.target.closest('.town[data-town]');
-  if(tw){ S.town = tw.dataset.town; store.set('town', S.town); renderList(); return true; }
+  if(e.target.closest('[data-townpick]')){
+    S.townPick = !S.townPick; S.townQ = ''; renderList();
+    if(S.townPick && window.matchMedia('(pointer: fine)').matches){ const i = document.querySelector('[data-townq]'); if(i) i.focus(); }
+    return true;
+  }
+  const tw = e.target.closest('.tp-row[data-town]');
+  if(tw){ S.town = tw.dataset.town; store.set('town', S.town); addRecentTown(S.town); S.townPick = false; S.townQ = ''; renderList(); return true; }
+  if(e.target.closest('[data-gd7]') && S.gameDate){ setGameDate(fromDoy(doy(S.gameDate) + 7)); return true; }
+  if(e.target.closest('[data-gdclear]')){ setGameDate(null); return true; }
   return false;
 }
 function goTown(t){
   S.tab = 'gifts'; S.giftMode = 'town'; S.town = t; S.q = ''; $('#q').value = '';
+  addRecentTown(t); S.townPick = false; S.townQ = '';
   store.set('tab', S.tab); store.set('giftMode', S.giftMode); store.set('town', S.town);
   if(isSheet()) closePanel();
   renderTabs(); renderHonorFilter(); renderList();
-  window.scrollTo({ top: $('.bar').getBoundingClientRect().top + window.scrollY - 8 });
+  const stack = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--top-h')) || 0) + $('.bar').offsetHeight;
+  window.scrollTo({ top: Math.max(0, $('#listCol').getBoundingClientRect().top + window.scrollY - stack - 8) });
 }
 function addSpot(g, val){
   const t = canonTown(val || ''); if(!t) return;
@@ -2281,7 +2408,7 @@ function hasBackup(){ try { return !!localStorage.getItem(BACKUP_KEY); } catch(e
 
 function renderSavePanel(){
   const code = JSON.stringify(snapshot());
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Sauvegarde</h2><p>Transférer tes données vers une autre version de l'outil</p></div><button type="button" class="x" data-close aria-label="Fermer">✕</button></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Sauvegarde</h2><p>Transférer tes données vers une autre version de l'outil</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
   <div class="pb">
     <div class="where"><h3>Vers un autre appareil</h3>
       <p class="hint2">Affiche le QR code, puis scanne-le avec l'appareil photo de ton téléphone : l'outil s'ouvre et te propose l'import. Tu peux aussi copier le lien et te l'envoyer.</p>
@@ -2337,7 +2464,7 @@ async function transferLink(){
   const trimLog = n => { if(d.log) for(const k in d.log) if(Array.isArray(d.log[k])) d.log[k] = d.log[k].slice(-n); };
   const steps = [
     [() => {}, ''],
-    [() => ['open', 'tab', 'hf', 'invOnly', 'giftMode', 'town'].forEach(k => delete d[k]), ''],
+    [() => ['open', 'tab', 'hf', 'invOnly', 'giftMode', 'town', 'recentTowns', 'remindSnooze'].forEach(k => delete d[k]), ''],
     [() => trimLog(5), 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité aux 5 derniers par personnage.'],
     [() => trimLog(1), 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité au dernier par personnage.'],
     [() => { delete d.log; }, 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts n\u2019est pas inclus. Utilise « Copier le lien » pour tout transférer.']
@@ -2375,6 +2502,7 @@ async function showQr(btn){
   let lib; try { lib = await loadQr(); } catch(e) { out.innerHTML = '<p class="imp-err">Le générateur de QR code n\u2019a pas pu se charger. Vérifie ta connexion, ou utilise « Copier le lien ».</p>'; return; }
   let svg; try { svg = qrSvg(lib, t.url); } catch(e) { out.innerHTML = tooBig; return; }
   if(!document.body.contains(out)) return;
+  markExport();
   out.innerHTML = `<div class="qrbox">${svg}</div>${t.note ? `<p class="hint2">${esc(t.note)}</p>` : ''}<small class="hint2">Le QR code contient tes données de cet instant. Après une modification, affiche-le à nouveau.</small>`;
   if(btn) btn.textContent = 'Actualiser le QR code';
 }
@@ -2391,6 +2519,7 @@ async function copyText(text, okMsg){
 async function copyLink(){
   const link = xferLink || appUrl() + '#import=' + await packCode(snapshot());
   copyText(link, 'Lien copié. Ouvre-le sur ton autre appareil pour y importer tes données.');
+  markExport();
   prepLink();
 }
 async function importFromHash(){
@@ -2405,8 +2534,8 @@ async function importFromHash(){
 
 async function copyCode(){
   const ta = document.querySelector('[data-exp]'); if(!ta) return;
-  try { await navigator.clipboard.writeText(ta.value); toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } catch(e) {}
-  try { ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); if(document.execCommand('copy')){ toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } } catch(e) {}
+  try { await navigator.clipboard.writeText(ta.value); markExport(); toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } catch(e) {}
+  try { ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); if(document.execCommand('copy')){ markExport(); toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } } catch(e) {}
   ta.focus(); ta.select();
   toast('Copie automatique bloquée : le code est sélectionné, copie-le à la main.');
 }
@@ -2417,6 +2546,7 @@ function downloadCode(){
   a.download = `fil-des-cadeaux-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  markExport();
 }
 
 function saveClick(e){
@@ -2436,6 +2566,209 @@ function saveClick(e){
     if(un.dataset.armed){ restoreBackup(); return true; }
     un.dataset.armed = '1'; un.textContent = 'Confirmer : revenir en arrière'; un.classList.add('danger', 'armed'); return true;
   }
+  return false;
+}
+
+/* ---------- lot 2 : épingles, progression, villes, courses, date du jeu, recherche, rappel, résumé ---------- */
+const DAY = 864e5;
+const isPinned = n => S.pins.includes(n);
+function togglePin(n){
+  const i = S.pins.indexOf(n);
+  if(i >= 0) S.pins.splice(i, 1); else S.pins.push(n);
+  store.set('pins', S.pins); renderList(); refreshPanel();
+  toast(i >= 0 ? `${n} n’est plus épinglé.` : `${n} est épinglé en haut de la liste.`);
+}
+function lordProgress(l){
+  let tot = 0, rec = 0;
+  for(const c of CHARS){
+    if(c.lord || c.nr || !Array.isArray(reqOf(c, l))) continue;
+    tot++; if(inList(S.rec, l, c.n)) rec++;
+  }
+  return { tot, rec };
+}
+function buyOne(g){
+  setQty(g, qty(g) + 1); afterQty(g);
+  toast(`${GIFTS[g][1]} ajouté à ton inventaire (×${qty(g)}).`, () => { setQty(g, qty(g) - 1); afterQty(g); if(S.tab === 'tour') renderList(); });
+}
+
+/* choix de la ville */
+let lastTowns = [];
+function addRecentTown(t){ S.recentTowns = [t, ...S.recentTowns.filter(x => x !== t)].slice(0, 4); store.set('recentTowns', S.recentTowns); }
+function townPickerHtml(towns){
+  const q = norm(S.townQ.trim());
+  const row = ({ t, n }) => `<button type="button" class="tp-row" data-town="${esc(t)}" aria-current="${t === S.town}"><span>${esc(t)}</span>${n ? `<span class="loved">⇈ ${n}</span>` : ''}</button>`;
+  const byName = towns.slice().sort((a, b) => a.t.localeCompare(b.t));
+  if(q){
+    const hits = byName.filter(x => norm(x.t).includes(q));
+    return hits.length ? `<div class="tp-grid">${hits.map(row).join('')}</div>` : '<p class="hint2" style="margin-top:10px">Aucune ville ne correspond.</p>';
+  }
+  const useful = towns.filter(x => x.n).slice(0, 6);
+  const recent = S.recentTowns.map(t => towns.find(x => x.t === t)).filter(Boolean);
+  return (useful.length ? `<h3>Les plus utiles cette semaine</h3><div class="tp-grid">${useful.map(row).join('')}</div>` : '')
+    + (recent.length ? `<h3>Récentes</h3><div class="tp-grid">${recent.map(row).join('')}</div>` : '')
+    + `<h3>Toutes les villes</h3><div class="tp-grid">${byName.map(row).join('')}</div>`;
+}
+
+/* liste de courses : le moins d'achats possible pour ceux qui n'ont rien de bon en stock, regroupés par ville */
+function shoppingPlan(){
+  const needers = planTour().filter(p => !p.a).map(p => p.c);
+  const buyable = Object.keys(GIFTS).filter(g => townsOf(g).length);
+  const opts = {};
+  for(const c of needers){
+    opts[c.n] = {};
+    for(const g of buyable){ const t = tierOf(c, g); if(t && !t.u && (t.t === 'L' || t.t === 'R')) opts[c.n][g] = t.t; }
+  }
+  const left = new Set(needers.filter(c => Object.keys(opts[c.n]).length).map(c => c.n));
+  const priceOf = g => (WHERE[g] && WHERE[g].p) || Infinity;
+  const items = [];
+  while(left.size){
+    let best = null;
+    for(const g of buyable){
+      let sc = 0; const who = [];
+      for(const n of left){ const t = opts[n][g]; if(t){ sc += t === 'L' ? 3 : 1; who.push({ n, t }); } }
+      if(who.length && (!best || sc > best.sc || (sc === best.sc && priceOf(g) < priceOf(best.g)))) best = { g, sc, who };
+    }
+    if(!best) break;
+    best.who.forEach(w => left.delete(w.n));
+    items.push({ g: best.g, who: best.who, price: (WHERE[best.g] && WHERE[best.g].p) || null });
+  }
+  const pending = items.slice(), byTown = [];
+  while(pending.length){
+    const cnt = {};
+    for(const it of pending) for(const t of townsOf(it.g)) cnt[t] = (cnt[t] || 0) + 1;
+    const town = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a] || a.localeCompare(b))[0];
+    const here = pending.filter(it => townsOf(it.g).includes(town));
+    byTown.push({ town, items: here });
+    for(const it of here) pending.splice(pending.indexOf(it), 1);
+  }
+  const total = items.reduce((sum, it) => sum + (it.price ? it.price * it.who.length : 0), 0);
+  return { byTown, items, total, unknown: items.filter(it => !it.price).length,
+    count: items.reduce((sum, it) => sum + it.who.length, 0), none: needers.filter(c => !Object.keys(opts[c.n]).length).map(c => c.n) };
+}
+function shopSection(){
+  const sp = shoppingPlan();
+  if(!sp.items.length && !sp.none.length) return '';
+  const open = openState.shop !== undefined ? openState.shop : true;
+  const line = it => {
+    const L = it.who.filter(w => w.t === 'L').map(w => w.n), R = it.who.filter(w => w.t === 'R').map(w => w.n);
+    const whoTxt = [L.length ? `⇈ ${L.join(', ')}` : '', R.length ? `↑ ${R.join(', ')}` : ''].filter(Boolean).join(' · ');
+    const n = it.who.length;
+    return `<div class="inv-row buyrow ${qty(it.g) ? 'own' : ''}" data-row="${it.g}">
+      <button type="button" class="gname" data-gift="${it.g}"><span class="nm">${pix(GIFTS[it.g][2])} ${esc(GIFTS[it.g][1])}${n > 1 ? ` <span class="qty">×${n}</span>` : ''}</span><span class="ds">${esc(whoTxt)}${it.price ? ` — ${it.price} or${n > 1 ? ' pièce' : ''}` : ''}</span></button>
+      <button type="button" class="buy" data-buy="${it.g}" aria-label="J'en ai acheté un : ajouter à l'inventaire">+1</button></div>`;
+  };
+  const towns = sp.byTown.map(({ town, items }) => `<div class="shop-town"><b>${esc(town)}</b><button type="button" class="linkbtn" data-gotown="${esc(town)}">Voir la ville</button></div>${items.map(line).join('')}`).join('');
+  return `<details class="grp shop" data-g="shop" ${open ? 'open' : ''}><summary><h2 class="disp">${pix('shop')} Liste de courses</h2><span class="cnt">${sp.count}</span></summary>
+    <p class="hint">Pour ceux qui n'ont rien de bon dans ton stock : le moins d'achats possible, regroupés par ville. Touche +1 quand tu achètes.</p>
+    ${sp.items.length ? `<div class="rows">${towns}</div><p class="shop-total">Total connu : <b>${sp.total} or</b>${sp.unknown ? `, plus ${sp.unknown} prix inconnu${sp.unknown > 1 ? 's' : ''}` : ''}.</p>` : ''}
+    ${sp.none.length ? `<p class="hint">Aucun cadeau connu en boutique pour : ${esc(sp.none.join(', '))}. Regarde leur fiche.</p>` : ''}</details>`;
+}
+
+/* date dans le jeu (mois-jour, calendrier sans année bissextile) */
+const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const MDAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const doy = s => { const [m, d] = s.split('-').map(Number); return MDAYS.slice(0, m - 1).reduce((a, b) => a + b, 0) + d; };
+const fromDoy = n => { n = Math.max(1, Math.min(365, n)); let m = 0; while(n > MDAYS[m]){ n -= MDAYS[m]; m++; } return String(m + 1).padStart(2, '0') + '-' + String(n).padStart(2, '0'); };
+const fmtGD = s => { const [m, d] = s.split('-').map(Number); return `${d} ${MONTHS[m - 1]}`; };
+function setGameDate(v){ S.gameDate = v; store.set('gameDate', v); renderList(); refreshPanel(); }
+function questsAll(){
+  const items = [];
+  for(const g in WHERE) for(const q of WHERE[g].q || []) items.push({ g, q });
+  return items.sort((a, b) => a.q.s.localeCompare(b.q.s) || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
+}
+function nextQuest(){ if(!S.gameDate) return null; const now = doy(S.gameDate); return questsAll().find(x => doy(x.q.s) >= now) || null; }
+function gdateHtml(){
+  const [m, d] = S.gameDate ? S.gameDate.split('-').map(Number) : [0, 0];
+  return `<div class="gdate"><b>${pix('scroll')} Date dans le jeu</b>
+    <select data-gd="d" aria-label="Jour dans le jeu"><option value="">jour</option>${Array.from({ length: 31 }, (_, i) => `<option value="${i + 1}" ${d === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select>
+    <select data-gd="m" aria-label="Mois dans le jeu"><option value="">mois</option>${MONTHS.map((n, i) => `<option value="${i + 1}" ${m === i + 1 ? 'selected' : ''}>${n}</option>`).join('')}</select>
+    ${S.gameDate ? '<button type="button" class="btn" data-gd7>+7 jours</button><button type="button" class="linkbtn" data-gdclear>Effacer</button>' : ''}</div>`;
+}
+
+/* recherche : ce que la barre trouve dans les autres rubriques */
+function alsoFound(){
+  const q = norm(S.q.trim()); if(q.length < 2) return '';
+  const parts = [];
+  if(S.tab !== 'chars' && S.tab !== 'tour'){
+    const cs = CHARS.filter(c => status(c) !== 'self' && norm(c.n).includes(q)).slice(0, 6);
+    if(cs.length) parts.push(['Personnages', cs.map(c => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)}</button>`)]);
+  }
+  if(S.tab !== 'gifts' && S.tab !== 'inv'){
+    const gs = Object.keys(GIFTS).filter(g => giftMatches(g, q)).slice(0, 6);
+    if(gs.length) parts.push(['Cadeaux', gs.map(g => `<button type="button" class="who-btn" data-gift="${g}">${pix(GIFTS[g][2])}${esc(GIFTS[g][1])}</button>`)]);
+  }
+  if(!(S.tab === 'gifts' && S.giftMode === 'town')){
+    const ts = Object.keys(townIndex()).filter(t => norm(t).includes(q)).sort((a, b) => a.localeCompare(b)).slice(0, 6);
+    if(ts.length) parts.push(['Villes', ts.map(t => `<button type="button" class="who-btn" data-gotown="${esc(t)}">${pix('shop')}${esc(t)}</button>`)]);
+  }
+  if(!parts.length) return '';
+  return `<div class="alsofound"><h3>Aussi trouvé ailleurs</h3>${parts.map(([h, b]) => `<div class="af"><small>${h}</small><div class="who-list">${b.join('')}</div></div>`).join('')}</div>`;
+}
+
+/* rappel de sauvegarde */
+function markExport(){ store.set('lastExport', Date.now()); store.set('remindSnooze', 0); if(S.tab) renderList(); }
+function exportDue(){
+  const has = invTotal() > 0 || Object.keys(S.sup).length > 0 || LORD_IDS.some(l => S.rec[l].length);
+  if(!has || Date.now() < (store.get('remindSnooze', 0) || 0)) return null;
+  const last = store.get('lastExport', null), ref = last || store.get('firstUse', Date.now());
+  const days = Math.floor((Date.now() - ref) / DAY);
+  return days >= 7 ? { days, never: !last } : null;
+}
+function remindHtml(){
+  const d = exportDue(); if(!d) return '';
+  return `<div class="remind">${pix('scroll')}<span>${d.never ? 'Tu n’as encore jamais sauvegardé tes données.' : `Dernière sauvegarde il y a ${d.days} jours.`} Exporte-les pour ne rien perdre.</span><button type="button" class="give" data-remind-save>Sauvegarder</button><button type="button" class="linkbtn" data-remind-later>Plus tard</button></div>`;
+}
+const ago = ts => { const d = Math.floor((Date.now() - ts) / DAY); return d <= 0 ? 'aujourd’hui' : d === 1 ? 'hier' : `il y a ${d} jours`; };
+
+/* résumé */
+function dashCards(){
+  const L = lordOf(S.lord), pr = lordProgress(S.lord);
+  const pct = pr.tot ? Math.round(pr.rec / pr.tot * 100) : 0;
+  const ready = CHARS.filter(c => status(c) === 'ready');
+  const t = T(), nDone = Object.keys(t.done).length, totalT = nDone + planTour().filter(p => p.a).length;
+  const pctT = totalT ? Math.round(nDone / totalT * 100) : 0;
+  const sp = shoppingPlan(), nq = nextQuest(), last = store.get('lastExport', null);
+  const qLeft = nq ? doy(nq.q.s) - doy(S.gameDate) : 0;
+  const others = LORDS.filter(l => l.id !== S.lord).map(l => { const p = lordProgress(l.id);
+    return `<div class="lp">${pix(l.id)}<div class="prog"><i style="width:${p.tot ? Math.round(p.rec / p.tot * 100) : 0}%"></i></div><small>${p.rec}/${p.tot}</small></div>`; }).join('');
+  return `<div class="dash">
+    <div class="where"><h3>${pix(L.id)} Progression avec ${L.name}</h3><div class="big">${pr.rec} recruté${pr.rec > 1 ? 's' : ''} sur ${pr.tot}</div>
+      <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+      <div class="lps" aria-label="Autres Seigneurs">${others}</div></div>
+    <div class="where"><h3>Prêts à recruter</h3>${ready.length ? `<div class="who-list">${ready.map(c => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)}</button>`).join('')}</div><small class="hint2">Va leur parler à Dagsion.</small>` : '<p class="hint2">Personne pour l’instant.</p>'}</div>
+    <div class="where"><h3>Tournée ${t.n}</h3><div class="big">${nDone} cadeau${nDone > 1 ? 'x' : ''} sur ${totalT}</div><div class="prog"><i style="width:${pctT}%"></i></div>
+      <div class="acts"><button type="button" class="btn" data-gotab="tour">Ouvrir la tournée</button></div></div>
+    <div class="where"><h3>${pix('shop')} Courses</h3>${sp.count ? `<p class="hint2">${sp.count} achat${sp.count > 1 ? 's' : ''} conseillé${sp.count > 1 ? 's' : ''}, d'abord à <b>${esc(sp.byTown[0].town)}</b>${sp.total ? `, environ ${sp.total} or` : ''}.</p>
+      <div class="acts"><button type="button" class="btn" data-gotab="tour">Voir la liste de courses</button></div>` : '<p class="hint2">Rien à acheter pour la tournée en cours.</p>'}</div>
+    <div class="where"><h3>${pix('scroll')} Quêtes à date limite</h3>${S.gameDate
+      ? (nq ? `<p class="hint2">Prochaine : <b>${esc(GIFTS[nq.g][1])}</b>, quête « ${esc(nq.q.n)} », ${qLeft === 0 ? 'aujourd’hui' : `dans ${qLeft} jour${qLeft > 1 ? 's' : ''}`}.</p>` : '<p class="hint2">Plus aucune quête à date limite connue.</p>') + `<small class="hint2">Date dans le jeu : ${fmtGD(S.gameDate)}.</small>`
+      : '<p class="hint2">Indique la date du jeu pour voir les jours restants avant chaque quête.</p>'}
+      <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">${S.gameDate ? 'Voir les quêtes' : 'Indiquer la date'}</button></div></div>
+    <div class="where"><h3>Sauvegarde</h3><p class="hint2">${last ? `Dernière sauvegarde ${ago(last)}.` : 'Jamais sauvegardé sur cet appareil.'}</p>
+      <div class="acts"><button type="button" class="btn" data-open-save>Sauvegarder</button></div></div>
+  </div>`;
+}
+function dashPanel(){
+  return `<div class="ph"><div><h2 class="disp" id="pTitle" tabindex="-1">Résumé</h2><p>Avec ${lordName(S.lord)}, Honneur ${S.honor}</p></div></div>
+    <div class="pb">${dashCards()}<p class="hint2" style="margin-top:12px">Touche un personnage ou un cadeau pour afficher sa fiche ici.</p></div>`;
+}
+function dashMobile(){
+  const pr = lordProgress(S.lord), nr = CHARS.filter(c => status(c) === 'ready').length;
+  return `<details class="grp dash-m" data-g="dash" ${openState.dash === true ? 'open' : ''}><summary><h2 class="disp">Résumé</h2><span class="cnt">${pr.rec}/${pr.tot} recrutés${nr ? ` · ${nr} prêt${nr > 1 ? 's' : ''}` : ''}</span></summary>${dashCards()}</details>`;
+}
+function setList(html){ $('#listCol').innerHTML = remindHtml() + alsoFound() + html; }
+function goTab(tab, gmode){
+  S.tab = tab; S.q = ''; $('#q').value = ''; S.pick = null; store.set('tab', S.tab);
+  if(gmode){ S.giftMode = gmode; store.set('giftMode', gmode); }
+  if(tab === 'tour'){ openState.shop = true; store.set('open', openState); }
+  if(isSheet()) closePanel();
+  renderTabs(); renderHonorFilter(); renderList(); window.scrollTo({ top: 0 });
+}
+function dashClick(e){
+  const gt = e.target.closest('[data-gotab]'); if(gt){ goTab(gt.dataset.gotab, gt.dataset.gmodeGo); return true; }
+  if(e.target.closest('[data-open-save]') || e.target.closest('[data-remind-save]')){ lastFocus = null; openPanel('s'); return true; }
+  if(e.target.closest('[data-remind-later]')){ store.set('remindSnooze', Date.now() + 3 * DAY); renderList(); return true; }
+  const gtw = e.target.closest('[data-gotown]'); if(gtw){ goTown(gtw.dataset.gotown); return true; }
   return false;
 }
 
@@ -2489,6 +2822,7 @@ document.addEventListener('change', e => {
 
 $('#listCol').addEventListener('click', e => {
   if(e.target.closest('.stp')) return;
+  if(dashClick(e)) return;
   if(S.tab === 'tour' && tourClick(e)) return;
   if(S.tab === 'gifts' && whereClick(e)){ renderTabs(); return; }
   if(e.target.closest('#invOnly')){ S.invOnly = !S.invOnly; store.set('invOnly', S.invOnly); renderInv(); return; }
@@ -2509,6 +2843,16 @@ $('#listCol').addEventListener('click', e => {
   const c = e.target.closest('[data-char]'); if(c){ lastFocus = c; openPanel('c', c.dataset.char); return; }
   const g = e.target.closest('[data-gift]'); if(g){ lastFocus = g; openPanel('g', g.dataset.gift); }
 });
+$('#listCol').addEventListener('input', e => {
+  const i = e.target.closest('[data-townq]'); if(!i) return;
+  S.townQ = i.value; const r = document.querySelector('[data-townres]'); if(r) r.innerHTML = townPickerHtml(lastTowns);
+});
+$('#listCol').addEventListener('change', e => {
+  const sel = e.target.closest('[data-gd]'); if(!sel) return;
+  const box = sel.closest('.gdate');
+  const d = +box.querySelector('[data-gd="d"]').value, m = +box.querySelector('[data-gd="m"]').value;
+  if(d && m) setGameDate(String(m).padStart(2, '0') + '-' + String(Math.min(d, MDAYS[m - 1])).padStart(2, '0'));
+});
 $('#listCol').addEventListener('toggle', e => {
   const d = e.target; if(!d.dataset || !d.dataset.g || S.q || S.hf) return;
   openState[d.dataset.g] = d.open; store.set('open', openState);
@@ -2517,7 +2861,10 @@ $('#listCol').addEventListener('toggle', e => {
 $('#panel').addEventListener('click', e => {
   if(e.target.closest('.stp')) return;
   if(e.target.closest('[data-close]')){ closePanel(); return; }
+  if(e.target.closest('[data-dash]')){ S.sel = null; markCurrent(); refreshPanel(); return; }
+  if(e.target.closest('[data-pin]') && S.sel && S.sel.k === 'c'){ togglePin(S.sel.id); return; }
   if(S.sel && S.sel.k === 's' && saveClick(e)) return;
+  if(dashClick(e)) return;
   const sa = e.target.closest('[data-spotadd]');
   if(sa){ const inp = sa.parentElement.querySelector('[data-spotin]'); addSpot(sa.dataset.spotadd, inp ? inp.value : ''); return; }
   const sd = e.target.closest('[data-spotdel]'); if(sd && S.sel && S.sel.k === 'g'){ delSpot(S.sel.id, +sd.dataset.spotdel); return; }
@@ -2555,26 +2902,31 @@ document.addEventListener('keydown', e => {
   if(S.picking){ S.picking = false; renderTop(); $('#lordPill').focus(); }
 });
 
-/* thème : clair, sombre, rétro jour, rétro nuit (façon GBA) */
-const THEMES = [['light', '☀', 'Clair'], ['dark', '☾', 'Sombre'], ['gba-day', pix('sun'), 'Rétro jour'], ['gba', pix('moon'), 'Rétro nuit']];
+/* thème : deux interrupteurs indépendants, jour/nuit et style rétro (façon GBA).
+   Valeurs enregistrées : light, dark, gba-day (rétro jour), gba (rétro nuit) ; sans choix, le jour/nuit suit l'appareil. */
 const mqDark = window.matchMedia('(prefers-color-scheme: dark)');
-const themeIdx = () => { const t = S.theme || (mqDark.matches ? 'dark' : 'light'); return Math.max(0, THEMES.findIndex(x => x[0] === t)); };
+const isRetro = () => (S.theme || '').startsWith('gba');
+const isNight = () => S.theme ? (S.theme === 'dark' || S.theme === 'gba') : mqDark.matches;
+const themeOf = (night, retro) => retro ? (night ? 'gba' : 'gba-day') : (night ? 'dark' : 'light');
 function applyTheme(){
   if(S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
-  const i = themeIdx(), cur = THEMES[i], next = THEMES[(i + 1) % THEMES.length];
-  const b = $('#themeBtn');
-  b.innerHTML = `${cur[1]}<span class="bl"> ${cur[2]}</span>`;
-  b.setAttribute('aria-label', `Thème ${cur[2].toLowerCase()}. Passer au thème ${next[2].toLowerCase()}`);
-  b.title = `Passer au thème ${next[2].toLowerCase()}`;
+  const n = isNight(), r = isRetro();
+  const nb = $('#nightBtn');
+  nb.innerHTML = `${pix(n ? 'moon' : 'sun')}<span class="bl"> ${n ? 'Nuit' : 'Jour'}</span>`;
+  nb.setAttribute('aria-checked', String(n));
+  nb.title = n ? 'Passer en mode jour' : 'Passer en mode nuit';
+  const rb = $('#retroBtn');
+  rb.innerHTML = `${pix('hand')}<span class="bl"> Rétro</span>`;
+  rb.setAttribute('aria-pressed', String(r));
+  rb.title = r ? 'Revenir au style moderne' : 'Passer au style rétro, façon Game Boy Advance';
   const tc = $('#themeColor'); if(tc) tc.setAttribute('content', (S.theme || '').startsWith('gba') ? '#4262CA' : (getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#FBFAFD'));
 }
-$('#themeBtn').addEventListener('click', () => {
-  S.theme = THEMES[(themeIdx() + 1) % THEMES.length][0]; store.set('theme', S.theme); applyTheme();
-});
+$('#nightBtn').addEventListener('click', () => { S.theme = themeOf(!isNight(), isRetro()); store.set('theme', S.theme); applyTheme(); });
+$('#retroBtn').addEventListener('click', () => { S.theme = themeOf(isNight(), !isRetro()); store.set('theme', S.theme); applyTheme(); });
 if(mqDark.addEventListener) mqDark.addEventListener('change', () => { if(!S.theme) applyTheme(); });
 
-/* tablettes : l'en-tête compact reste en haut, sa hauteur sert à caler la barre et la fiche */
-const mqTablet = window.matchMedia('(min-width: 680px) and (max-width: 1023px)');
+/* téléphones et tablettes : l'en-tête compact reste en haut, sa hauteur sert à caler la barre et la fiche */
+const mqTablet = window.matchMedia('(max-width: 1023px)');
 function syncTopH(){
   const t = $('#top');
   const h = mqTablet.matches && t.classList.contains('compact') ? Math.ceil(t.getBoundingClientRect().height) : 0;

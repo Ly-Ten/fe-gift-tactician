@@ -11,6 +11,8 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 - **Inventaire** : tes cadeaux en stock, avec les quantités.
 - **Tournée de la semaine** : répartition automatique de ton inventaire entre les personnages qui ont encore besoin de soutien, meilleur cadeau d'abord.
 - **Où trouver les cadeaux** : marchés par ville, quêtes à date limite, et tes propres repères.
+- **Liste de courses** : dans la Tournée, le moins d'achats possible pour les personnages qui n'ont rien de bon en stock, regroupés par ville avec le coût total.
+- **Résumé** : progression du recrutement pour chaque Seigneur, personnages prêts, tournée, courses, prochaine quête à date limite et dernière sauvegarde.
 
 ## Confort
 
@@ -19,7 +21,12 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
   - Tablette en portrait et pliant déplié : deux volets égaux, liste et fiche, séparés au niveau du pli. L'en-tête tient sur une ligne et reste en haut.
   - Tablette en paysage et ordinateur : trois colonnes, avec le menu à gauche.
   - Sur les pliants dont le navigateur signale la charnière, aucun contenu ne passe dessous.
-- **Thèmes** : clair, sombre, rétro jour et rétro nuit, ces deux derniers façon Fire Emblem sur Game Boy Advance.
+- **Thèmes** : un bouton jour/nuit et un bouton rétro, façon Fire Emblem sur Game Boy Advance.
+- **En-tête toujours visible** : le Seigneur, l'Honneur et les boutons restent en haut pendant le défilement, sur téléphone comme sur tablette.
+- **Recherche** : une seule barre, qui signale aussi les personnages, cadeaux et villes trouvés dans les autres rubriques.
+- **Épingles** : l'étoile d'une fiche place le personnage en haut de la liste et le sert en premier dans la tournée.
+- **Date du jeu** : indiquée dans « À ne pas rater », elle affiche les jours restants avant chaque quête.
+- **Rappel de sauvegarde** au bout d'une semaine sans export.
 - **Application installable** : l'outil s'installe sur l'écran d'accueil et fonctionne sans connexion. Sur Android et sur ordinateur, utilise le bouton « Installer ». Sur iPhone, dans Safari : Partager, puis « Sur l'écran d'accueil ».
 
 ## Tes données
