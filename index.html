@@ -6,10 +6,24 @@
 <title>Cadeaux — Fire Emblem: Fortune's Weave</title>
 <meta name="description" content="Guide des cadeaux et du recrutement pour Fire Emblem: Fortune's Weave : goûts de chaque personnage, inventaire, tournée de la semaine. Projet de fan non officiel.">
 <meta name="theme-color" content="#FBFAFD" id="themeColor">
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="manifest.webmanifest" id="manifest">
+<script>
+// langue choisie avant le premier affichage : ?lang=, sinon le dernier choix, sinon celle de l'appareil
+(function(){
+  var l = null;
+  try { l = new URLSearchParams(location.search).get('lang'); if(l === 'fr' || l === 'en') localStorage.setItem('feweave:lang', JSON.stringify(l)); else l = JSON.parse(localStorage.getItem('feweave:lang')); } catch(e) {}
+  if(l !== 'fr' && l !== 'en') l = /^fr/i.test(navigator.language || '') ? 'fr' : 'en';
+  document.documentElement.lang = l;
+  if(l === 'en'){
+    document.title = "Fortune's Gifts — Fire Emblem: Fortune's Weave";
+    document.querySelector('meta[name="description"]').content = "Gift and recruitment guide for Fire Emblem: Fortune's Weave: what each character likes, your inventory, the weekly gift round. Unofficial fan project.";
+    document.getElementById('manifest').href = 'manifest-en.webmanifest';
+  }
+})();
+</script>
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-title" content="Fil des cadeaux">
+<meta name="apple-mobile-web-app-title" content="Fil des cadeaux" id="appTitle">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -539,6 +553,9 @@ small.hint2{display:block;margin-top:6px}
 :root[data-theme^="gba"] .chip.own{background:color-mix(in srgb,var(--acc) 22%,rgba(8,14,60,.4))}
 :root[data-theme^="gba"] :is(.qty,.give,.buy,.mk,.loved,.pill.stock,.conf,.unv){text-shadow:none}
 :root[data-theme^="gba"] :is(.search input,.spotadd input,textarea.code,.repf textarea,.repf input)::placeholder{color:rgba(222,230,255,.72)}
+/* deux langues : les textes fixes existent dans les deux, on cache l'autre */
+html[lang="en"] [data-l="fr"],html[lang="fr"] [data-l="en"]{display:none !important}
+#langBtn{font-weight:700;font-size:14px;letter-spacing:.04em}
 /* signaler une erreur */
 .repline{margin:18px 0 0;font-size:14px;color:var(--muted)}
 .repline .linkbtn,.repfoot .linkbtn{font-size:inherit;padding:2px 2px}
@@ -915,15 +932,15 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
 <header class="top" id="top">
   <div class="top-inner">
     <div class="brand">
-      <h1 class="disp">Le fil des cadeaux</h1>
-      <p class="sub">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</p>
+      <h1 class="disp"><span data-l="fr">Le fil des cadeaux</span><span data-l="en">Fortune's Gifts</span></h1>
+      <p class="sub"><span data-l="fr">Fire Emblem: Fortune's Weave — qui recruter avec ton Seigneur, et quoi offrir à chacun.</span><span data-l="en">Fire Emblem: Fortune's Weave — who to recruit with your Lord, and what to give each of them.</span></p>
     </div>
-    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl"> Installer</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl"> Sauvegarde</span></button><button class="theme-btn" id="nightBtn" type="button" role="switch" aria-checked="false" aria-label="Mode nuit"></button><button class="theme-btn" id="retroBtn" type="button" aria-pressed="false" aria-label="Style rétro"></button><button class="theme-btn" id="soundBtn" type="button" aria-pressed="false" aria-label="Sons de menu"></button></div>
+    <div class="top-actions"><button class="theme-btn" id="installBtn" type="button" hidden aria-label="Installer l'application sur cet appareil">⤓<span class="bl" data-l="fr"> Installer</span><span class="bl" data-l="en"> Install</span></button><button class="theme-btn" id="saveBtn" type="button" aria-label="Sauvegarde : exporter ou importer tes données">⇅<span class="bl" data-l="fr"> Sauvegarde</span><span class="bl" data-l="en"> Backup</span></button><button class="theme-btn" id="nightBtn" type="button" role="switch" aria-checked="false" aria-label="Mode nuit"></button><button class="theme-btn" id="retroBtn" type="button" aria-pressed="false" aria-label="Style rétro"></button><button class="theme-btn" id="soundBtn" type="button" aria-pressed="false" aria-label="Sons de menu"></button><button class="theme-btn" id="langBtn" type="button"></button></div>
     <div class="lords" id="lords" role="group" aria-label="Seigneur de la Flamme joué"></div>
     <div class="ctrl">
     <button type="button" class="lordpill" id="lordPill" aria-expanded="false" aria-controls="lords"></button>
     <div class="honor">
-      <div class="honor-lbl"><b>Honneur</b><small>Renown, de 1 à 10</small></div>
+      <div class="honor-lbl"><b><span data-l="fr">Honneur</span><span data-l="en">Renown</span></b><small><span data-l="fr">Renown, de 1 à 10</span><span data-l="en">From 1 to 10</span></small></div>
       <div class="stepper">
         <button type="button" id="hMinus" aria-label="Baisser l'honneur">−</button>
         <output id="hVal" aria-live="polite">1</output>
@@ -940,22 +957,22 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
   <div class="maincol">
   <div class="bar">
     <div class="tabs" role="tablist">
-      <button role="tab" id="tab-chars" data-tab="chars" aria-selected="true" type="button"><span class="lg">Personnages</span><span class="sh">Persos</span></button>
-      <button role="tab" id="tab-tour" data-tab="tour" aria-selected="false" type="button">Tournée<span class="n" id="tourCount" hidden>0</span></button>
-      <button role="tab" id="tab-gifts" data-tab="gifts" aria-selected="false" type="button">Cadeaux</button>
-      <button role="tab" id="tab-inv" data-tab="inv" aria-selected="false" type="button"><span class="lg">Inventaire</span><span class="sh">Stock</span><span class="n" id="invCount">0</span></button>
-      <button role="tab" id="tab-map" data-tab="map" aria-selected="false" type="button">Carte</button>
+      <button role="tab" id="tab-chars" data-tab="chars" aria-selected="true" type="button"><span class="lg"><span data-l="fr">Personnages</span><span data-l="en">Characters</span></span><span class="sh"><span data-l="fr">Persos</span><span data-l="en">Units</span></span></button>
+      <button role="tab" id="tab-tour" data-tab="tour" aria-selected="false" type="button"><span data-l="fr">Tournée</span><span data-l="en">Weekly</span><span class="n" id="tourCount" hidden>0</span></button>
+      <button role="tab" id="tab-gifts" data-tab="gifts" aria-selected="false" type="button"><span data-l="fr">Cadeaux</span><span data-l="en">Gifts</span></button>
+      <button role="tab" id="tab-inv" data-tab="inv" aria-selected="false" type="button"><span class="lg"><span data-l="fr">Inventaire</span><span data-l="en">Inventory</span></span><span class="sh">Stock</span><span class="n" id="invCount">0</span></button>
+      <button role="tab" id="tab-map" data-tab="map" aria-selected="false" type="button"><span data-l="fr">Carte</span><span data-l="en">Map</span></button>
     </div>
     <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="Chercher un personnage" autocomplete="off"></label>
     <div class="hfwrap" id="hfwrap">
-      <span class="hflbl">Honneur requis</span>
+      <span class="hflbl"><span data-l="fr">Honneur requis</span><span data-l="en">Renown needed</span></span>
       <div class="hfilter" id="hfilter" role="group" aria-label="Filtrer par Honneur requis"></div>
     </div>
   </div>
 
   <details class="tips">
-    <summary>Bon à savoir</summary>
-    <ul>
+    <summary><span data-l="fr">Bon à savoir</span><span data-l="en">Good to know</span></summary>
+    <ul data-l="fr">
       <li><b>Inventaire :</b> renseigne tes cadeaux dans l'onglet Inventaire. Dans la fiche d'un personnage, « À offrir » liste ce que tu possèdes et qui lui plaît. « Offert » retire 1 de ton stock ; « Offert, soutien +1 » monte aussi son soutien d'un niveau.</li>
       <li><b>Une partie par Seigneur :</b> inventaire, Honneur, soutiens, premiers cadeaux, conditions et recrutés sont notés à part pour chaque Seigneur. Le soutien se noue entre le Seigneur et le personnage : il repart à 1 dans chaque partie.</li>
       <li><b>Suivi :</b> dans la fiche, indique ton niveau de soutien actuel, coche la condition (quête, objets, or) puis « Recruté ». Ceux dont le soutien suffit passent en grisé en bas de leur groupe ; ceux qui ont tout passent dans « Prêts à recruter ».</li>
@@ -983,12 +1000,41 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
       <li><b>En cas de doute, le jeu fait foi :</b> les exigences exactes s'affichent dans la fiche du personnage à Dagsion. ⚠ signale des sources qui se contredisent.</li>
       <li><b>Le badge « ? »</b> marque un cadeau vu dans une seule source. Les noms français relevés dans le jeu sont les noms officiels ; les autres sont des traductions proposées. Le nom anglais est toujours affiché dessous.</li>
     </ul>
+    <ul data-l="en">
+      <li><b>Inventory:</b> enter your gifts in the Inventory tab. In a character's sheet, “To give” lists what you own that they like. “Given” takes 1 from your stock; “Given, Support +1” also raises their Support by one level.</li>
+      <li><b>One playthrough per Lord:</b> inventory, Renown, Supports, first gifts, conditions and recruits are tracked separately for each Lord. Support is built between the Lord and the character, so it starts again at 1 in each playthrough.</li>
+      <li><b>Tracking:</b> in a sheet, set your current Support level, tick the condition (quest, items, gold), then “Recruited”. Those whose Support is high enough are greyed out at the bottom of their group; those who meet every requirement move to “Ready to recruit”.</li>
+      <li><b>Weekly round:</b> it shares your inventory among the characters who still need Support (best gift first, never more than you own). Confirm as you go with “Given”, “Given, Support +1” or “Other gift”, then “End the round” to move on to the next week.</li>
+      <li><b>Backup:</b> the ⇅ button exports all your data. To move from computer to phone, show the QR code and scan it with the camera: the tool opens and offers to import. Also keep the code in a note: it is your backup copy.</li>
+      <li><b>App:</b> on Android and on computers, the “Install” button at the top adds the tool as an app that works offline. On iPhone, in Safari: Share button, then “Add to Home Screen”. On iPhone, the installed app keeps its own data: move it over with Backup.</li>
+      <li><b>Keyboard:</b> on a computer, <kbd>/</kbd> starts a search, <kbd>1</kbd> to <kbd>5</kbd> switch tabs and the arrow keys move through the list. <button type="button" class="linkbtn" data-keys>See all shortcuts</button></li>
+      <li><b>Tables:</b> in Inventory and Weekly, “Table” shows a compact view. Tap a column header to sort.</li>
+      <li><b>Tooltips:</b> on a computer, hover over a gift to see where to buy it, its price and who loves it.</li>
+      <li><b>Sounds:</b> the Sounds button at the top turns on little handheld-style menu beeps. They are off by default.</li>
+      <li><b>Theme:</b> two buttons at the top. The sun or moon switches between day and night, the little hand turns on the retro style, like Fire Emblem on the Game Boy Advance.</li>
+      <li><b>Where to buy:</b> most gifts are sold at the Markets of the towns on the map. In Dagsion, the Lowcity Tavern is cheaper than the Market Gallery, but neither stock is fully known. In Gifts, “By town” tells you what to buy where you are, and “Don't miss” lists gifts from time-limited quests.</li>
+      <li><b>Restocks:</b> sources disagree (every chapter or every week). The “Gift Discount” perk (300 karma shards) lowers prices by 10%.</li>
+      <li><b>Map:</b> the Map tab shows towns, roads and gathering spots. Tick the regions you have reached to lift the fog without spoilers, and type an item in the search to see where to find it.</li>
+      <li><b>Shopping list:</b> in Weekly, it tells you what to buy, and where, for characters with nothing good in your stock.</li>
+      <li><b>Pins:</b> the star in a character's sheet puts them at the top of the list and serves them first in the weekly round.</li>
+      <li><b>In-game date:</b> set it in Gifts, “Don't miss”, to see the days left before each quest.</li>
+      <li><b>One gift per character per week.</b> Aim for ⇈ “loves”: two gold arrows, double Support.</li>
+      <li><b>The first gift can be anything cheap</b> (Lowcity Tavern): it unlocks invitations, such as meals at the inn. Until a character has received something from your Lord, you can't invite them anywhere. A padlock next to their name shows it; the first gift you log removes it.</li>
+      <li><b>Weapons:</b> the icon before a name shows their favourite weapon. The sheet lists all their weapons and, when sources agree, their starting class. Most recruits start as Commoner or Noble, classes open to every weapon.</li>
+      <li><b>On their birthday</b>, a character reacts with at least “really liked it”, even to an ordinary gift. The calendar is in Gifts, “Don't miss”; a cake marks this week's birthdays once the in-game date is set.</li>
+      <li><b>Safe bets:</b> Tales of Adventure, Portrait of Yu Phas, Pegasus Panorama, Shield Portrait, Flower Painting and Arrowhead Gem are loved by almost everyone (except Theodora, who doesn't like reading, and Nuzzuo for Tales of Adventure).</li>
+      <li><b>“Renown needed” filter:</b> tap a level to see only the characters who need exactly that much Renown. Your current level is circled.</li>
+      <li><b>Spotted a mistake?</b> At the bottom of every sheet, “Report it” prepares a correction, sent to GitHub or copied. An in-game screenshot is the proof; every suggestion is reviewed before it is applied. <button type="button" class="linkbtn" data-report="x|">Report a mistake</button></li>
+      <li><b>When in doubt, the game is right:</b> the exact requirements are shown in the character's profile in Dagsion. ⚠ marks sources that disagree.</li>
+      <li><b>The “?” badge</b> marks a gift seen in a single source. In English, names come from English sources; the French name is shown below in small print.</li>
+    </ul>
   </details>
 
   <section id="listCol" aria-label="Liste"></section>
   <footer>
-  Données croisées le 2 octobre 2026 à partir de Raider King (tests en jeu, par niveau de réaction), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (boutiques) et Game8. Guide non officiel : projet de fan non affilié à Nintendo, Intelligent Systems ou Koei Tecmo. Icônes pixel art originales.
-  <p class="repfoot">Une erreur, un oubli ? <button type="button" class="linkbtn" data-report="x|">Signale-le</button> : chaque proposition est relue avant d'être appliquée.</p>
+  <span data-l="fr">Données croisées le 2 octobre 2026 à partir de Raider King (tests en jeu, par niveau de réaction), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (boutiques) et Game8. Guide non officiel : projet de fan non affilié à Nintendo, Intelligent Systems ou Koei Tecmo. Icônes pixel art originales.</span>
+  <span data-l="en">Data cross-checked on October 2, 2026 from Raider King (in-game tests, by reaction level), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (shops) and Game8. Unofficial guide: a fan project not affiliated with Nintendo, Intelligent Systems or Koei Tecmo. Original pixel-art icons.</span>
+  <p class="repfoot"><span data-l="fr">Une erreur, un oubli ? <button type="button" class="linkbtn" data-report="x|">Signale-le</button> : chaque proposition est relue avant d'être appliquée.</span><span data-l="en">A mistake, something missing? <button type="button" class="linkbtn" data-report="x|">Report it</button>: every suggestion is reviewed before it is applied.</span></p>
   </footer>
   </div>
   <div class="scrim" id="scrim"></div>
@@ -996,11 +1042,16 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
 </main>
 </div>
 <datalist id="townlist"></datalist>
-<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo">Annuler</button></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo"><span data-l="fr">Annuler</span><span data-l="en">Undo</span></button></div>
 <div class="tip" id="tip" aria-hidden="true" hidden></div>
 
 
 <script>
+// deux langues, choisies dans l'en-tête de la page : Tr('français', 'English') rend le texte de la langue affichée
+const LANG = document.documentElement.lang === 'en' ? 'en' : 'fr';
+const Tr = (fr, en) => LANG === 'en' ? en : fr;
+const LOCALE = Tr('fr-FR', 'en-US');
+const GOLD = Tr('or', 'gold');
 const LORDS = [
   { id: 'cai', name: 'Cai', em: '🦊', army: 'Vents de Ribeira' },
   { id: 'die', name: 'Dietrich', em: '🦁', army: 'Maison Lamine' },
@@ -1754,6 +1805,122 @@ const WHERE = {
 };
 const KNOWN_TOWNS = [...new Set([DAG_T, 'Dagsion (Galerie marchande)', 'Fina', ...Object.values(WHERE).flatMap(w => w.t || [])])].sort((a, b) => a.localeCompare(b));
 
+/* ---------- version anglaise : les textes des données ci-dessus, traduits ---------- */
+const EN_DATA = {
+  lords: { cai: 'Ribeira Winds', die: 'House Lamine', the: 'Megaira’s Beacon', led: 'Rose Tempest' },
+  chars: {
+    Alexandra: { d: 'Pegasus knight', g: 'her parents, her pegasus Bucephalus, virtuous men, talking about love; training', note: 'Arrives in Dagsion around May 29.', req: { the: { w: 'Other sources give Support 1 and Renown 6 with Theodora.' } } },
+    Anatolia: { d: 'Mediator and martial artist', g: 'hexagram divination, round objects; meditation, martial arts', note: 'Not recruitable in Part I. Joins the army in Part III if you completed her paralogue.' },
+    Benditz: { d: 'Chariot veteran', g: 'the tactics of the Great Augustus, promising youngsters; lecturing the young, reading', note: 'Arrives in Dagsion around April 11.' },
+    Bertrand: { d: 'Warrior seeking freedom', g: 'smithing, salted meats, garum, well-made weapons; board games, reading. Hates spicy food.', note: 'Not recruitable in Part I. Can only receive gifts with Cai (Act 1). Joins as a guest in Part II, then in Part III if his paralogue is done.' },
+    Bonaventure: { d: 'Strategist of Saramis', g: 'knowledge, sages, discovering other lands; cooking, reciting poetry' },
+    Buccar: { d: 'Veteran guardian', g: 'loyalty, training, alcohol, Leda’s happiness; cooking, guiding the young', ex: 'Leda’s paralogue completed' },
+    Cai: { d: 'Flame Lord', g: 'physical training, catching animals; fishing, the lance' },
+    Catania: { d: 'Elite mercenary', g: 'exceptional items, people and meals; gathering information, making a name for herself', note: 'Likes anything rare (items with the sparkle icon).' },
+    Centurio: { d: 'Heavily armored veteran', g: 'serving the temple of Aurora, patrolling; board games, studying', note: 'Not recruitable in Part I. Joins in Part III after the quest “Rescue Centurio”.' },
+    Dadao: { d: 'Sturdy fighter', g: 'women (especially Anatolia), machines, good food, fighting; tinkering', ex: '2× Kothar Gar (fish)' },
+    Dante: { d: 'Mage and woman of letters', g: 'herself, writing fast, dramatic subjects; people-watching', ex: '8,000 gold' },
+    Diego: { d: 'Woodland warrior', g: 'forest walks, medicinal plants, Orchel; the flute', ex: 'Orchel’s paralogue completed' },
+    Dietrich: { d: 'Flame Lord', g: 'beauty, cats, sweets, his little sister; facing strong opponents, meditating', note: 'Coffee Pastries have no effect on him.' },
+    Esmeralda: { d: 'Trident warrior', g: 'handsome men, throwing her trident, her fishing gear; fishing, carving dolls', ex: 'Recruitment quest' },
+    Fabio: { d: 'Missionary, black magic', g: 'suffering, forgotten feelings, dissecting beauty; drawing', ex: 'Dietrich’s paralogue completed', req: { led: { w: 'Another source gives Support 2 and Renown 7 with Leda.' } } },
+    Fianna: { d: 'Gloomy-looking cleric', g: 'poetry, spicy food, coffee; praying, theater. Hates sweets.', ex: '3,000 gold', req: { the: { w: 'Renown 5 or 9 depending on the source (swapped between Theodora and Leda).' }, led: { w: 'Renown 5 or 9 depending on the source (swapped between Theodora and Leda).' } } },
+    Gaitz: { d: 'Sword fighter from the East', g: 'Sai tea, horses, duels, calligraphy; making tea', ex: 'Bertrand’s paralogue completed, then wait for Chapter 12' },
+    Goliath: { d: 'Armored giant', g: 'smashing things, food, animals, smoking meat; training', ex: '3× Giant’s Meat', note: 'Ordinary coffees leave him fairly indifferent.' },
+    Guzran: { d: 'Boastful mercenary', g: 'alcohol, women, interesting people; bragging' },
+    Halvin: { d: 'Archer and street performer', g: 'growing vegetables, shopping, street performances; magic tricks', ex: '10× Dates' },
+    Inyoni: { d: 'Expert archer', g: 'her family, hunting, the farm, bow maintenance; shooting, frugality', note: 'Arrives in Dagsion around July 10.', req: { cai: { c: '6,000 gold' }, die: { c: '6,000 gold' }, the: { c: '4,000 gold' }, led: { c: '3,000 gold' } } },
+    Io: { d: 'Young mercenary cavalier', g: 'chivalry, discipline, his horse Rocinan; tending to his mount', req: { cai: { c: '4,000 gold' }, die: { c: '800 gold' }, the: { c: '4,000 gold' }, led: { c: '1,500 gold' } } },
+    Jasmine: { d: 'Mercenary leader', g: 'memories of her husband, her mercenaries, getting rich; counting money', note: 'Arrives in Dagsion around May 8.', req: { cai: { c: '2,000 gold' }, die: { c: '5,000 gold' }, the: { c: '5,000 gold' }, led: { c: '500 gold' } } },
+    Jester: { d: 'Face-painted swordsman', g: 'the White-Maned Demon, reading fear in opponents', ex: '3 quests to complete for him' },
+    Kiroc: { d: 'Pirate without a ship', g: 'stealing, the sea, ships, obedient underlings', note: 'Arrives in Dagsion around May 4.', req: { cai: { c: '8× Pure Water' }, die: { c: '3× Pure Water' }, the: { c: '8× Pure Water' }, led: { c: '3× Pure Water' } } },
+    Leda: { d: 'Flame Lord', g: 'her parents, songs of her homeland, gemstones, applause. Hates cooking.', note: 'Avoid cooking gifts: she hates cooking.' },
+    Lilian: { d: 'Precise archer', g: 'gold coins, gemstones, mature men; frugality, hunting', ex: '5,000 gold' },
+    Loretta: { d: 'Agile swordswoman', g: 'reliable people, sweets, her friends; swordplay, fishing', ex: '3× Iron Sword' },
+    Ludia: { d: 'Graceful blade', g: 'writing stories, art, talking about love; adventure novels, shopping', ex: 'Recruitment quest' },
+    Lysander: { d: 'Swift knight', g: 'gazing at the sky, dining with women; whittling throwing sticks, long rides. Hates coffee.', ex: '5× Iron Lance (3 according to one source)' },
+    Majide: { d: 'Axe-wielding brute', g: 'alcohol, women, brawling, being strong', ex: 'Answer his question (3 times)' },
+    Mikaela: { d: 'Close-combat soldier', g: 'exercise, looking after others; cooking, baking, making coffee', ex: '3,000 gold' },
+    Mu: { d: 'Promising fighter', g: 'inventing remedies, her parents, sweets; elixirs, sports. Hates spicy food.', ex: '3× Glirmosa' },
+    Nezha: { d: 'Young sword fighter', g: 'sports, justice, fighting, eating well; eating a lot', ex: '3× Sandworm Meat' },
+    Ninae: { d: 'Temple Vulkan', g: 'pitiable people, talking to spirits, her necklace, the sky; daydreaming', ex: '1× Paradise Fish' },
+    Noctula: { d: 'Pugilist', g: 'the city and its people, brawling; exploring the city, training' },
+    Nuzzuo: { d: 'Forest warrior', g: 'tradition, honor, power; talking to the forest spirits', note: 'Arrives in Dagsion around July 1. Exception: he doesn’t like Tales of Adventure, which almost everyone loves.', req: { cai: { c: '3× Iron Bow' }, die: { c: '2× Iron Bow' }, the: { c: '3× Iron Bow' }, led: { c: '3× Iron Bow' } } },
+    Nydine: { d: 'Ornius-riding mercenary', g: 'doing her duty, caring for ornius; improving in combat, reading', note: 'No Mane Ornament: she rides an ornius, not a horse.', req: { cai: { c: '2× Bronze Axe' }, die: { c: '2× Bronze Axe' }, the: { c: '3× Iron Axe' }, led: { c: '3× Iron Axe' } } },
+    Olympia: { d: 'Singer and priestess', g: 'singing, dancing, music, getting attention. Hates cooking and crafting.', ex: 'Recruitment quests' },
+    Orchel: { d: 'Mysterious young woman', g: 'animals, music, housework, cooking; plants, reading', note: 'Not recruitable in Part I. Joins in Part III if her paralogue is completed.' },
+    Peppe: { d: 'Noble hunter', g: 'spirits, the sun, his homeland; hunting, watching city folk', ex: 'Bertrand’s paralogue completed' },
+    Peter: { d: 'Elite archer', g: 'his mother’s cooking, ginji fruit; eating, watching the clouds', ex: 'Recruitment quest' },
+    Seteth: { d: 'Traveler from Fódlan', g: 'the teachings of Seiros, fishing, his daughter; writing fables, teaching', ex: 'Recruitment quest' },
+    'Sha Lan': { d: 'Spirit magic and healing', g: 'good food, drinks, socializing; watching over Anatolia', ex: 'Anatolia’s paralogue + answer: Saramis, Da Mina, Grounded Ship' },
+    Simon: { d: 'Relentless fighter', g: 'fights to the death, the food of his homeland; carving, preserving food', ex: 'Heads or tails: pick Tails' },
+    Sirocco: { d: 'Versatile bard', g: 'the goddess Kalla, all women, poetry; reading, portraits', ex: 'Recruitment quest' },
+    Sofia: { d: 'Healing priestess', g: 'good food, the moment a dish arrives (and disappears)' },
+    Talimun: { d: 'Merchant magnate', g: 'money, adventure, cinnamon, flirting', note: 'Not recruitable in Part I. Joins in Part III if his paralogue is completed.' },
+    Theodora: { d: 'Flame Lord', g: 'combat, Yu Phas, seeing her people prosper; hunting, training', note: 'No books: even the Strategy Manuscript leaves her cold.' },
+    Tialla: { d: 'Tactical genius', g: 'libraries, romantic gossip, solitude, her grandfather; reading, board games', ex: 'Cai’s paralogue completed + 3,000 gold' },
+    Tobias: { d: 'Lionheart of Saramis', g: 'drinking, fighting, singing; hunting, camping alone' },
+    Ultand: { d: 'Battle healer', g: 'looking after others, her family, housework, love stories; saving money, markets', ex: 'Recruitment quest', note: 'With Cai, she joins automatically in Chapter 6.' },
+    Ursula: { d: 'Trading post manager', g: 'poetry, animals, shade flowers, counting money; reading, drawing', ex: 'Talimun’s paralogue + answer “Yes” 3 times' },
+    'Yang Jie': { d: 'Warrior monk', g: 'alcohol, old tales, long journeys; collecting liquors', ex: 'Answer: Cheese, Moon, Potatoes', req: { led: { w: 'One source says he can’t be recruited with Leda.' } } },
+    Zarcone: { d: 'Axe-wielding bandit', g: 'money, violence, vegetables, drinking with friends. Hates coffee.', ex: 'Haggle over his fee (goes as low as 10 gold)' }
+  },
+  bdayNote: {
+    Bonaventure: 'One source gives April 4.',
+    Nuzzuo: 'One source gives April 23.',
+    Zarcone: 'One source gives March 29.',
+    Seteth: 'One source gives December 7. December 27 is also his birthday in Three Houses.'
+  },
+  where: {
+    weak_cervi: { x: 'The Dagsion Tavern reportedly sells cervi too.' },
+    strong_cervi: { x: 'The Dagsion Tavern reportedly sells cervi too.' },
+    saraminian_sweets: { x: 'Unlimited stock in Megaira.', q: ['Priest, city streets'] },
+    candy_crystals: { x: 'Not sold in shops.', q: ['Boy in the entertainment district; find a buyer in Ribeira'] },
+    rare_spices: { x: 'Seen in-game at the Callianeira market. Shama still to be confirmed.' },
+    jade_ghosh: { x: 'Seen in-game at the Callianeira market. Whill still to be confirmed.' },
+    secret_ghosh: { x: 'Seen in-game at the Callianeira market. Yaaman still to be confirmed.' },
+    southern_ghosh: { x: 'Seen in-game at the Callianeira market. Megaira still to be confirmed.' },
+    crimson_ghosh: { q: ['Tavern waitress; talk to Gaston in Fina'] },
+    common_coffee: { x: 'Also seen at a merchant in Dagsion.' },
+    select_coffee: { w: 'Megaira is cited by only one source.' },
+    fodlan_tea: { w: 'Another source places it in Megaira.', q: ['Servant, city streets; deliver Enrietto'] },
+    pickled_bulbs: { q: ['Lowcity resident; deliver Jyoppa from Aguino'] },
+    morfis_almanac: { q: ['Gisco’s treasure hunt'] },
+    strategy_manuscript: { x: 'A fan site lists it in Mahon, Mons or Ribeira, but those shops’ inventories don’t confirm it.' },
+    black_silk: { x: 'Seen in-game at the Callianeira market. A fan site also places it in Breston, unconfirmed.', q: ['Worshipper near the temple of Jurah; deliver Rahlan from Pandora'] },
+    mane_ornament: { q: ['Worried woman, Arena square (Chapter 4)'] },
+    wing_fletching: { x: 'Hint: archery gifts are found in Zoste, Breston and Ribeira.' },
+    flower_painting: { x: 'Not sold in shops.', q: ['Priest, city streets'] },
+    yu_phas: { x: 'Not sold in shops: only one copy per route in Part I.' },
+    yarc_milk: { x: 'Probably at the Dagsion Tavern (cheap drink), unconfirmed.' }
+  }
+};
+const TOWN_EN = { 'Dagsion (Taverne)': 'Dagsion (Tavern)', 'Dagsion (Galerie marchande)': 'Dagsion (Market Gallery)', 'Ribeira (colporteur)': 'Ribeira (peddler)' };
+const townName = t => LANG === 'en' && TOWN_EN[t] || t;
+const catName = k => Tr(CATS[k][0], CATS[k][1]);
+// nom anglais d'origine, quelle que soit la langue affichée : la carte s'en sert pour reconnaître les cadeaux
+const GIFT_EN = Object.fromEntries(Object.entries(GIFTS).map(([k, v]) => [k, v[0]]));
+if(LANG === 'en'){
+  // en anglais, le nom anglais passe devant et le français en petit dessous : on échange les deux une fois pour toutes
+  for(const k in GIFTS){ const [en, fr, cat] = GIFTS[k]; GIFTS[k] = [fr, en.replace(' (ou ', ' (or '), cat]; }
+  for(const k in GROUPS){ const [fr, en, list] = GROUPS[k]; GROUPS[k] = [en, fr, list]; }
+  for(const k in CLASS){ const c = CLASS[k]; CLASS[k] = [c[1], c[0], c[2], c[3]]; }
+  Object.assign(WPN, { sword: ['w-sword', 'Sword'], lance: ['w-lance', 'Lance'], axe: ['w-axe', 'Axe'], bow: ['w-bow', 'Bow'], tome: ['w-tome', 'Black Magic'], staff: ['w-staff', 'White Magic'], fist: ['w-fist', 'Fists'] });
+  for(const l of LORDS) if(EN_DATA.lords[l.id]) l.army = EN_DATA.lords[l.id];
+  for(const c of CHARS){
+    const e = EN_DATA.chars[c.n]; if(!e) continue;
+    for(const f of ['d', 'g', 'note', 'ex']) if(e[f]) c[f] = e[f];
+    for(const l in e.req || {}){ const r = c.req && c.req[l]; if(!Array.isArray(r)) continue; if(e.req[l].c) r[2] = e.req[l].c; if(e.req[l].w) r[3] = e.req[l].w; }
+  }
+  Object.assign(BDAY_NOTE, EN_DATA.bdayNote);
+  for(const g in EN_DATA.where){
+    const w = WHERE[g], e = EN_DATA.where[g]; if(!w) continue;
+    if(e.x) w.x = e.x;
+    if(e.w) w.w = e.w;
+    (e.q || []).forEach((i, n) => { if(w.q && w.q[n]) w.q[n].i = i; });
+  }
+}
+
 /* ---------- stockage ---------- */
 const store = {
   get(k, d){ try{ const v = localStorage.getItem('feweave:'+k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
@@ -1848,10 +2015,10 @@ const lordOf = id => LORDS.find(l => l.id === id);
 const lordName = id => lordOf(id).name;
 const pix = (name, cls) => `<i class="pi pi-${name}${cls ? ' ' + cls : ''}" aria-hidden="true"></i>`;
 const TIERS = [
-  ['L','Adore','soutien ×2','⇈'],
-  ['R','Aime beaucoup','gros gain','↑'],
-  ['B','Aime bien','gain moyen','↗'],
-  ['X','À éviter','aucun gain','✕']
+  ['L',Tr('Adore', 'Loves'),Tr('soutien ×2', 'Support ×2'),'⇈'],
+  ['R',Tr('Aime beaucoup', 'Really likes'),Tr('gros gain', 'big gain'),'↑'],
+  ['B',Tr('Aime bien', 'Likes'),Tr('gain moyen', 'medium gain'),'↗'],
+  ['X',Tr('À éviter', 'Avoid'),Tr('aucun gain', 'no gain'),'✕']
 ];
 const TIER_MK = Object.fromEntries(TIERS.map(t => [t[0], t[3]]));
 const TIER_RANK = { L:0, R:1, B:2, X:3 };
@@ -1943,14 +2110,14 @@ function renderTop(){
   document.documentElement.setAttribute('data-lord', S.lord);
   $('#lords').innerHTML = LORDS.map(l =>
     `<button type="button" class="lord" data-lord="${l.id}" aria-pressed="${l.id === S.lord}">
-      ${pix(l.id, 'x2')}<span><b>${l.name}</b><small>${esc(l.army)} · ${(p => `<span title="${p.rec} recrutés sur ${p.tot}">${p.rec}/${p.tot}</span>`)(lordProgress(l.id))}</small></span></button>`).join('');
+      ${pix(l.id, 'x2')}<span><b>${l.name}</b><small>${esc(l.army)} · ${(p => `<span title="${Tr(`${p.rec} recrutés sur ${p.tot}`, `${p.rec} of ${p.tot} recruited`)}">${p.rec}/${p.tot}</span>`)(lordProgress(l.id))}</small></span></button>`).join('');
   const L = lordOf(S.lord), top = $('#top'), pill = $('#lordPill');
   top.classList.toggle('compact', S.lordChosen);
   top.classList.toggle('picking', S.picking);
   if(typeof syncTopH === 'function') syncTopH();
   pill.innerHTML = `${pix(L.id, 'x2')}<span><b>${L.name}</b><small>${esc(L.army)}</small></span><span class="chev" aria-hidden="true">▾</span>`;
   pill.setAttribute('aria-expanded', String(S.picking));
-  pill.setAttribute('aria-label', `Seigneur joué : ${L.name}. ${S.picking ? 'Fermer le choix du Seigneur' : 'Changer de Seigneur'}`);
+  pill.setAttribute('aria-label', Tr(`Seigneur joué : ${L.name}. ${S.picking ? 'Fermer le choix du Seigneur' : 'Changer de Seigneur'}`, `Lord played: ${L.name}. ${S.picking ? 'Close the Lord choice' : 'Change Lord'}`));
   $('#hVal').textContent = S.honor;
   $('#hMinus').disabled = S.honor <= 1;
   $('#hPlus').disabled = S.honor >= 10;
@@ -1961,18 +2128,18 @@ function renderTabs(){
   $('#invCount').textContent = invTotal();
   const left = planTour().filter(p => p.a).length;
   $('#tourCount').textContent = left; $('#tourCount').hidden = !left;
-  $('#q').placeholder = (S.tab === 'gifts' && S.giftMode === 'town') ? 'Chercher un cadeau dans cette ville' : S.tab === 'map' ? 'Objet ou lieu à trouver' : 'Personnage, cadeau ou ville';
+  $('#q').placeholder = (S.tab === 'gifts' && S.giftMode === 'town') ? Tr('Chercher un cadeau dans cette ville', 'Search for a gift in this town') : S.tab === 'map' ? Tr('Objet ou lieu à trouver', 'Item or place to find') : Tr('Personnage, cadeau ou ville', 'Character, gift or town');
 }
 
 /* ---------- liste des personnages ---------- */
 const GROUP_DEF = [
-  ['ready', 'Prêts à recruter', 'Soutien, Honneur et condition sont bons : va leur parler à Dagsion.', true],
-  ['ok', 'Honneur atteint', 'Il reste le soutien ou la condition. Ceux dont le soutien suffit déjà sont en bas, en grisé.', true],
-  ['wait', 'Honneur insuffisant', 'Commence les cadeaux dès maintenant. Soutien déjà suffisant : en bas, en grisé.', true],
-  ['auto', 'Déjà dans ton armée', 'Rejoignent automatiquement. Les cadeaux restent utiles pour les bonus de soutien en combat.', false],
-  ['rec', 'Recrutés', 'Ceux que tu as marqués comme recrutés avec ce Seigneur.', false],
-  ['nr', 'Non recrutables', 'Autres Seigneurs et personnages qui rejoignent plus tard selon l\u2019histoire.', false],
-  ['na', 'Pas sur cette voie', 'Impossible à recruter avec ce Seigneur.', false]
+  ['ready', Tr('Prêts à recruter', 'Ready to recruit'), Tr('Soutien, Honneur et condition sont bons : va leur parler à Dagsion.', 'Support, Renown and condition are all met: go and talk to them in Dagsion.'), true],
+  ['ok', Tr('Honneur atteint', 'Renown reached'), Tr('Il reste le soutien ou la condition. Ceux dont le soutien suffit déjà sont en bas, en grisé.', 'Support or the condition is still missing. Those whose Support is already enough are at the bottom, greyed out.'), true],
+  ['wait', Tr('Honneur insuffisant', 'Not enough Renown'), Tr('Commence les cadeaux dès maintenant. Soutien déjà suffisant : en bas, en grisé.', 'Start giving gifts now. Support already enough: at the bottom, greyed out.'), true],
+  ['auto', Tr('Déjà dans ton armée', 'Already in your army'), Tr('Rejoignent automatiquement. Les cadeaux restent utiles pour les bonus de soutien en combat.', 'They join automatically. Gifts still help with Support bonuses in battle.'), false],
+  ['rec', Tr('Recrutés', 'Recruited'), Tr('Ceux que tu as marqués comme recrutés avec ce Seigneur.', 'Those you marked as recruited with this Lord.'), false],
+  ['nr', Tr('Non recrutables', 'Not recruitable'), Tr('Autres Seigneurs et personnages qui rejoignent plus tard selon l\u2019histoire.', 'Other Lords and characters who join later in the story.'), false],
+  ['na', Tr('Pas sur cette voie', 'Not on this route'), Tr('Impossible à recruter avec ce Seigneur.', 'Cannot be recruited with this Lord.'), false]
 ];
 const openState = store.get('open', {});
 
@@ -1980,39 +2147,39 @@ const openState = store.get('open', {});
 const bdOf = c => BDAY[c.n] || null;
 function bdLeft(c){ const b = bdOf(c); if(!b || !S.gameDate) return null; let d = doy(b) - doy(S.gameDate); if(d < 0) d += 365; return d; }
 const bdSoon = c => { const d = bdLeft(c); return d !== null && d <= 6; };
-const bdWhen = d => d === 0 ? 'aujourd’hui' : d === 1 ? 'demain' : `dans ${d} jours`;
-const bdNum = b => { const [m, d] = b.split('-').map(Number); return `${d}/${m}`; };
-function bdBadge(c){ if(!bdSoon(c)) return ''; const d = bdLeft(c); return `<span class="pill bd" title="Anniversaire ${bdWhen(d)}, le ${fmtGD(bdOf(c))}">${pix('cake')}${d === 0 ? 'Auj.' : 'J-' + d}</span>`; }
-function bdNote(c){ if(!bdSoon(c)) return ''; const d = bdLeft(c); return `<p class="bdnote">${pix('cake')}<span>Anniversaire ${bdWhen(d)}, le ${fmtGD(bdOf(c))} : ce jour-là, même un cadeau banal sera « beaucoup aimé ».</span></p>`; }
+const bdWhen = d => d === 0 ? Tr('aujourd’hui', 'today') : d === 1 ? Tr('demain', 'tomorrow') : Tr(`dans ${d} jours`, `in ${d} days`);
+const bdNum = b => { const [m, d] = b.split('-').map(Number); return Tr(`${d}/${m}`, `${m}/${d}`); };
+function bdBadge(c){ if(!bdSoon(c)) return ''; const d = bdLeft(c); return `<span class="pill bd" title="${Tr(`Anniversaire ${bdWhen(d)}, le ${fmtGD(bdOf(c))}`, `Birthday ${bdWhen(d)}, ${fmtGD(bdOf(c))}`)}">${pix('cake')}${d === 0 ? Tr('Auj.', 'Today') : Tr('J-', 'D-') + d}</span>`; }
+function bdNote(c){ if(!bdSoon(c)) return ''; const d = bdLeft(c); return `<p class="bdnote">${pix('cake')}<span>${Tr(`Anniversaire ${bdWhen(d)}, le ${fmtGD(bdOf(c))} : ce jour-là, même un cadeau banal sera « beaucoup aimé ».`, `Birthday ${bdWhen(d)}, ${fmtGD(bdOf(c))}: that day, even an ordinary gift will be “really liked”.`)}</span></p>`; }
 function wIcon(c){ const k = CLASS[c.n]; if(!k) return ''; const w = WPN[k[2][0]]; return `<i class="pi pi-${w[0]} wpn" title="${esc(k[2].map(x => WPN[x][1]).join(', '))}" aria-hidden="true"></i>`; }
 function charMeta(c){
   const out = [], k = CLASS[c.n], b = bdOf(c);
-  if(k) out.push(`<span class="meta-i" title="${k[0] ? esc(k[0]) + ' · ' : ''}Armes de prédilection${k[3] < 2 ? ', une seule source' : ''}">${k[2].map(x => pix(WPN[x][0])).join('')}${k[1] ? esc(k[1]) + ' · ' : ''}${esc(k[2].map(x => WPN[x][1]).join(', '))}${k[3] < 2 ? ' <span class="unv">?</span>' : ''}</span>`);
-  if(b){ const d = bdLeft(c); out.push(`<span class="meta-i">${pix('cake')}Anniversaire le ${fmtGD(b)}${d !== null && d <= 30 ? ` · <b>${bdWhen(d)}</b>` : ''}${BDAY_NOTE[c.n] ? ` <span class="bdw" title="${esc(BDAY_NOTE[c.n])}" aria-label="${esc(BDAY_NOTE[c.n])}">⚠</span>` : ''}</span>`); }
-  else out.push(`<span class="meta-i">${pix('cake')}Anniversaire inconnu</span>`);
+  if(k) out.push(`<span class="meta-i" title="${k[0] ? esc(k[0]) + ' · ' : ''}${Tr('Armes de prédilection', 'Favourite weapons')}${k[3] < 2 ? Tr(', une seule source', ', single source') : ''}">${k[2].map(x => pix(WPN[x][0])).join('')}${k[1] ? esc(k[1]) + ' · ' : ''}${esc(k[2].map(x => WPN[x][1]).join(', '))}${k[3] < 2 ? ' <span class="unv">?</span>' : ''}</span>`);
+  if(b){ const d = bdLeft(c); out.push(`<span class="meta-i">${pix('cake')}${Tr('Anniversaire le', 'Birthday:')} ${fmtGD(b)}${d !== null && d <= 30 ? ` · <b>${bdWhen(d)}</b>` : ''}${BDAY_NOTE[c.n] ? ` <span class="bdw" title="${esc(BDAY_NOTE[c.n])}" aria-label="${esc(BDAY_NOTE[c.n])}">⚠</span>` : ''}</span>`); }
+  else out.push(`<span class="meta-i">${pix('cake')}${Tr('Anniversaire inconnu', 'Birthday unknown')}</span>`);
   return `<p class="meta">${out.join('')}</p>`;
 }
 
-const lockMark = c => wasGifted(c) ? '' : `<span class="pill nogift" title="Rien reçu avec ${lordName(S.lord)} : impossible de l’inviter">${pix('lock')}<span class="vh">, pas encore invitable</span></span>`;
+const lockMark = c => wasGifted(c) ? '' : `<span class="pill nogift" title="${Tr(`Rien reçu avec ${lordName(S.lord)} : impossible de l’inviter`, `Nothing received with ${lordName(S.lord)}: can’t be invited yet`)}">${pix('lock')}<span class="vh">${Tr(', pas encore invitable', ', not invitable yet')}</span></span>`;
 function charRow(c, st){
   const r = reqOf(c);
   const met = supMet(c);
   let pills = '';
   if(Array.isArray(r)){
     pills += met
-      ? `<span class="pill good">Soutien ✓</span>`
-      : `<span class="pill">Soutien ${supOf(c)}/${r[0]}</span>`;
-    pills += `<span class="pill ${S.honor >= r[1] ? '' : 'miss'}">Honneur ${r[1]}</span>`;
-    if(r[3]) pills += `<span class="pill warn" title="Sources contradictoires">⚠</span>`;
+      ? `<span class="pill good">${Tr('Soutien', 'Support')} ✓</span>`
+      : `<span class="pill">${Tr('Soutien', 'Support')} ${supOf(c)}/${r[0]}</span>`;
+    pills += `<span class="pill ${S.honor >= r[1] ? '' : 'miss'}">${Tr('Honneur', 'Renown')} ${r[1]}</span>`;
+    if(r[3]) pills += `<span class="pill warn" title="${Tr('Sources contradictoires', 'Sources disagree')}">⚠</span>`;
   }
   const needGifts = !(st === 'rec' || met);
   const best = needGifts ? bestOwnedTier(c) : null;
-  const stock = best ? ` <span class="pill stock ${best === 'R' ? 'r' : ''}" title="Tu possèdes un cadeau qu'il ou elle ${best === 'L' ? 'adore' : 'aime beaucoup'}">${pix('gift')}${TIER_MK[best]}</span>` : '';
+  const stock = best ? ` <span class="pill stock ${best === 'R' ? 'r' : ''}" title="${best === 'L' ? Tr('Tu possèdes un cadeau qu\'il ou elle adore', 'You own a gift they love') : Tr('Tu possèdes un cadeau qu\'il ou elle aime beaucoup', 'You own a gift they really like')}">${pix('gift')}${TIER_MK[best]}</span>` : '';
   let ds = esc(c.d);
-  if(st === 'ready') ds = '<span class="done-c">Tout est bon : recrute-le à Dagsion</span>';
+  if(st === 'ready') ds = `<span class="done-c">${Tr('Tout est bon : recrute-le à Dagsion', 'All set: recruit them in Dagsion')}</span>`;
   else if(st === 'ok' || st === 'wait'){
     const ex = extraOf(c);
-    if(ex) ds = condDone(c) ? `<span class="done-c">✓ Condition faite</span>` : `<span class="ex">+ ${esc(ex)}</span>`;
+    if(ex) ds = condDone(c) ? `<span class="done-c">✓ ${Tr('Condition faite', 'Condition done')}</span>` : `<span class="ex">+ ${esc(ex)}</span>`;
   }
   const dim = (st === 'ok' || st === 'wait') && met;
   return `<button type="button" class="row ${dim ? 'dim' : ''}" data-char="${esc(c.n)}" aria-current="${S.sel && S.sel.k === 'c' && S.sel.id === c.n}">
@@ -2039,8 +2206,8 @@ function renderChars(){
   let html = '';
   if(pinned.length){
     pinned.sort((a, b) => S.pins.indexOf(a.n) - S.pins.indexOf(b.n));
-    html += `<details class="grp pins" data-g="pins" open><summary><h2 class="disp">${pix('star')} Épinglés</h2><span class="cnt">${pinned.length}</span></summary>
-      <p class="hint">Tes priorités, quel que soit leur état. L'étoile de leur fiche les retire d'ici.</p>
+    html += `<details class="grp pins" data-g="pins" open><summary><h2 class="disp">${pix('star')} ${Tr('Épinglés', 'Pinned')}</h2><span class="cnt">${pinned.length}</span></summary>
+      <p class="hint">${Tr('Tes priorités, quel que soit leur état. L\'étoile de leur fiche les retire d\'ici.', 'Your priorities, whatever their status. The star in their sheet removes them from here.')}</p>
       <div class="rows">${pinned.map(c => charRow(c, status(c))).join('')}</div></details>`;
   }
   for(const [id, title, hint, defOpen] of GROUP_DEF){
@@ -2054,8 +2221,8 @@ function renderChars(){
       <div class="rows">${list.map(c => charRow(c, id)).join('')}</div></details>`;
   }
   if(!html) html = S.hf && !q
-    ? `<p class="empty">Aucun personnage ne demande Honneur ${S.hf} avec ${lordName(S.lord)}. Choisis un autre niveau ou « Tous ».</p>`
-    : `<p class="empty">Aucun personnage ne correspond${q ? ` à « ${esc(S.q)} »` : ''}${S.hf ? ` avec Honneur ${S.hf}` : ''}. Vérifie l'orthographe ou retire un filtre.</p>`;
+    ? `<p class="empty">${Tr(`Aucun personnage ne demande Honneur ${S.hf} avec ${lordName(S.lord)}. Choisis un autre niveau ou « Tous ».`, `No character needs Renown ${S.hf} with ${lordName(S.lord)}. Pick another level or “All”.`)}</p>`
+    : `<p class="empty">${Tr(`Aucun personnage ne correspond${q ? ` à « ${esc(S.q)} »` : ''}${S.hf ? ` avec Honneur ${S.hf}` : ''}. Vérifie l'orthographe ou retire un filtre.`, `No character matches${q ? ` “${esc(S.q)}”` : ''}${S.hf ? ` with Renown ${S.hf}` : ''}. Check the spelling or remove a filter.`)}</p>`;
   setList(((!q && !S.hf && isSheet()) ? dashMobile() : '') + html);
 }
 
@@ -2069,10 +2236,10 @@ function renderHonorFilter(){
     const r = reqOf(c); if(Array.isArray(r)) count[r[1]] = (count[r[1]] || 0) + 1;
   }
   if(S.hf && !count[S.hf]) S.hf = null;
-  let h = `<button type="button" class="hf" data-hf="" aria-pressed="${!S.hf}">Tous</button>`;
+  let h = `<button type="button" class="hf" data-hf="" aria-pressed="${!S.hf}">${Tr('Tous', 'All')}</button>`;
   for(let i = 1; i <= 10; i++){
     const n = count[i] || 0;
-    h += `<button type="button" class="hf ${i === S.honor ? 'me' : ''}" data-hf="${i}" aria-pressed="${S.hf === i}" ${n ? '' : 'disabled'} aria-label="Honneur ${i}, ${n} personnage${n > 1 ? 's' : ''}${i === S.honor ? ', ton niveau actuel' : ''}">${i}<small>${n}</small></button>`;
+    h += `<button type="button" class="hf ${i === S.honor ? 'me' : ''}" data-hf="${i}" aria-pressed="${S.hf === i}" ${n ? '' : 'disabled'} aria-label="${Tr(`Honneur ${i}, ${n} personnage${n > 1 ? 's' : ''}${i === S.honor ? ', ton niveau actuel' : ''}`, `Renown ${i}, ${n} character${n === 1 ? '' : 's'}${i === S.honor ? ', your current level' : ''}`)}">${i}<small>${n}</small></button>`;
   }
   $('#hfilter').innerHTML = h;
 }
@@ -2098,28 +2265,28 @@ function renderGifts(){
   const top = Object.keys(GIFTS).filter(g => loveCount[g] >= 8).sort((a, b) => loveCount[b] - loveCount[a]);
   const row = g => `<button type="button" class="row" data-gift="${g}" aria-current="${S.sel && S.sel.k === 'g' && S.sel.id === g}">
       <span class="who"><span class="nm">${pix(GIFTS[g][2])} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])} — ${esc(whereShort(g))}</span></span>
-      <span class="req">${qty(g) ? `<span class="qty" title="Dans ton inventaire">×${qty(g)}</span>` : ''}<span class="loved ${loveCount[g] ? '' : 'zero'}" title="Nombre de personnages qui l'adorent">⇈ ${loveCount[g]}</span></span></button>`;
+      <span class="req">${qty(g) ? `<span class="qty" title="${Tr('Dans ton inventaire', 'In your inventory')}">×${qty(g)}</span>` : ''}<span class="loved ${loveCount[g] ? '' : 'zero'}" title="${Tr('Nombre de personnages qui l\'adorent', 'Number of characters who love it')}">⇈ ${loveCount[g]}</span></span></button>`;
   let html = '';
   if(!q && top.length){
-    html += `<details class="grp" open><summary><h2 class="disp">Valeurs sûres</h2><span class="cnt">${top.length}</span></summary>
-      <p class="hint">Adorés par au moins 8 personnages accessibles avec ${lordName(S.lord)}. Le chiffre ⇈ compte les « adore ».</p>
+    html += `<details class="grp" open><summary><h2 class="disp">${Tr('Valeurs sûres', 'Safe bets')}</h2><span class="cnt">${top.length}</span></summary>
+      <p class="hint">${Tr(`Adorés par au moins 8 personnages accessibles avec ${lordName(S.lord)}. Le chiffre ⇈ compte les « adore ».`, `Loved by at least 8 characters available with ${lordName(S.lord)}. The ⇈ number counts “loves”.`)}</p>
       <div class="rows glist">${top.map(row).join('')}</div></details>`;
   }
   for(const cat in CATS){
     const items = Object.keys(GIFTS).filter(g => GIFTS[g][2] === cat && giftMatches(g, q));
     if(!items.length) continue;
     items.sort((a, b) => loveCount[b] - loveCount[a] || GIFTS[a][1].localeCompare(GIFTS[b][1]));
-    html += `<details class="grp" ${q ? 'open' : ''}><summary><h2 class="disp">${pix(cat)} ${esc(CATS[cat][0])}</h2><span class="cnt">${items.length}</span></summary>
-      <p class="hint">${esc(CATS[cat][1])}</p>
+    html += `<details class="grp" ${q ? 'open' : ''}><summary><h2 class="disp">${pix(cat)} ${esc(catName(cat))}</h2><span class="cnt">${items.length}</span></summary>
+      ${LANG === 'fr' ? `<p class="hint">${esc(CATS[cat][1])}</p>` : ''}
       <div class="rows glist">${items.map(row).join('')}</div></details>`;
   }
-  if(!html) html = `<p class="empty">Aucun cadeau ne correspond à « ${esc(S.q)} ». Essaie le nom anglais ou un mot plus court.</p>`;
+  if(!html) html = `<p class="empty">${Tr(`Aucun cadeau ne correspond à « ${esc(S.q)} ». Essaie le nom anglais ou un mot plus court.`, `No gift matches “${esc(S.q)}”. Try the French name or a shorter word.`)}</p>`;
   setList(giftModeSeg() + html);
 }
 
 /* ---------- tableaux denses, triables par colonne ---------- */
 const denseOn = tab => !!S.dense[tab];
-const viewSeg = tab => `<div class="seg3 vseg" role="tablist" aria-label="Affichage">${[['0', 'Liste'], ['1', 'Tableau']].map(([v, l]) => `<button type="button" role="tab" data-dense="${v}" aria-selected="${denseOn(tab) === (v === '1')}">${l}</button>`).join('')}</div>`;
+const viewSeg = tab => `<div class="seg3 vseg" role="tablist" aria-label="${Tr('Affichage', 'View')}">${[['0', Tr('Liste', 'List')], ['1', Tr('Tableau', 'Table')]].map(([v, l]) => `<button type="button" role="tab" data-dense="${v}" aria-selected="${denseOn(tab) === (v === '1')}">${l}</button>`).join('')}</div>`;
 const SORT_DEF = { inv: { k: 'name', d: 1 }, tour: { k: 'hon', d: 1 } };
 const SORT_DIR = { love: -1, qty: -1 };
 const sortOf = tab => { const o = S.sort[tab]; return o && o.k ? o : SORT_DEF[tab]; };
@@ -2145,13 +2312,13 @@ function invTable(q){
   items.sort(cmpBy(keys[o.k] || name, o.d, name));
   const rows = items.map(g => { const w = WHERE[g] || {};
     return `<tr class="${qty(g) ? 'own' : ''}" data-row="${g}">
-      <td><button type="button" class="gname" data-gift="${g}">${pix(GIFTS[g][2])}<span><span class="nm">${esc(GIFTS[g][1])}</span><small>${esc(GIFTS[g][0])}<span class="sub"> · ${esc(whereShort(g))}${w.p ? ` · ${w.p} or` : ''}</span></small></span></button></td>
-      <td class="c-wide">${esc(CATS[GIFTS[g][2]][0])}</td>
+      <td><button type="button" class="gname" data-gift="${g}">${pix(GIFTS[g][2])}<span><span class="nm">${esc(GIFTS[g][1])}</span><small>${esc(GIFTS[g][0])}<span class="sub"> · ${esc(whereShort(g))}${w.p ? ` · ${w.p} ${GOLD}` : ''}</span></small></span></button></td>
+      <td class="c-wide">${esc(catName(GIFTS[g][2]))}</td>
       <td class="num">${love[g] ? `<span class="loved">⇈ ${love[g]}</span>` : '<span class="muted">0</span>'}</td>
       <td class="c-wide">${esc(whereShort(g))}</td>
-      <td class="num c-wide">${w.p ? w.p + ' or' : '<span class="muted">?</span>'}</td>
+      <td class="num c-wide">${w.p ? w.p + ' ' + GOLD : '<span class="muted">?</span>'}</td>
       <td class="num">${stepper(g)}</td></tr>`; }).join('');
-  return `<div class="dt-wrap"><table class="dt dt-inv"><thead><tr>${thSort('inv', 'name', 'Cadeau')}${thSort('inv', 'cat', 'Catégorie', 'c-wide')}${thSort('inv', 'love', '⇈', 'num', 'Adoré par')}${thPlain('Où', 'c-wide')}${thSort('inv', 'price', 'Prix', 'num c-wide')}${thSort('inv', 'qty', 'Stock', 'num')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="dt-wrap"><table class="dt dt-inv"><thead><tr>${thSort('inv', 'name', Tr('Cadeau', 'Gift'))}${thSort('inv', 'cat', Tr('Catégorie', 'Category'), 'c-wide')}${thSort('inv', 'love', '⇈', 'num', Tr('Adoré par', 'Loved by'))}${thPlain(Tr('Où', 'Where'), 'c-wide')}${thSort('inv', 'price', Tr('Prix', 'Price'), 'num c-wide')}${thSort('inv', 'qty', 'Stock', 'num')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function tourTable(plan){
   const o = sortOf('tour'), name = p => p.c.n;
@@ -2161,31 +2328,31 @@ function tourTable(plan){
   const rows = plan.map(({ c, a }) => {
     const r = reqOf(c), open = S.pick === c.n;
     const gift = a ? `<div class="tgift"><span class="mk ${a.t}" aria-hidden="true">${TIER_MK[a.t]}</span><span><b>${esc(GIFTS[a.g][1])}${a.u ? ' <span class="unv">?</span>' : ''}</b> <span class="qty">×${qty(a.g)}</span></span></div>`
-      : `<div class="tgift"><span class="mk N" aria-hidden="true">·</span><span>Rien de bon en stock</span></div>`;
+      : `<div class="tgift"><span class="mk N" aria-hidden="true">·</span><span>${Tr('Rien de bon en stock', 'Nothing good in stock')}</span></div>`;
     return `<tr class="${a ? '' : 'none'}" data-tc="${esc(c.n)}">
       <td><button type="button" class="tname" data-char="${esc(c.n)}">${wIcon(c)}<span><span class="nm">${esc(c.n)}${lockMark(c)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small class="sub">${supLine(c)}</small></span></button></td>
       <td class="num c-wide">${supOf(c)}/${r[0]}</td>
       <td class="num c-wide ${S.honor >= r[1] ? '' : 'miss'}">${r[1]}</td>
       <td>${gift}</td>
-      <td><div class="tact">${a ? giveBtns(`data-tgive="${a.g}"`, supOf(c) < SUP_MAX, true) : ''}<button type="button" class="btn" data-tother aria-expanded="${open}" aria-label="Autre cadeau pour ${esc(c.n)}">Autre</button><button type="button" class="linkbtn" data-tskip aria-label="Pas cette semaine pour ${esc(c.n)}">Passer</button></div></td></tr>
+      <td><div class="tact">${a ? giveBtns(`data-tgive="${a.g}"`, supOf(c) < SUP_MAX, true) : ''}<button type="button" class="btn" data-tother aria-expanded="${open}" aria-label="${Tr('Autre cadeau pour', 'Other gift for')} ${esc(c.n)}">${Tr('Autre', 'Other')}</button><button type="button" class="linkbtn" data-tskip aria-label="${Tr('Pas cette semaine pour', 'Not this week for')} ${esc(c.n)}">${Tr('Passer', 'Skip')}</button></div></td></tr>
       ${open ? `<tr class="pk-row" data-tc="${esc(c.n)}"><td colspan="5">${pickerHtml(c)}</td></tr>` : ''}`;
   }).join('');
-  return `<div class="dt-wrap"><table class="dt dt-tour"><thead><tr>${thSort('tour', 'name', 'Personnage')}${thSort('tour', 'sup', 'Soutien', 'num c-wide', 'Soutien manquant')}${thSort('tour', 'hon', 'Honneur', 'num c-wide')}${thSort('tour', 'tier', 'Cadeau prévu')}${thPlain('<span class="vh">Actions</span>')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="dt-wrap"><table class="dt dt-tour"><thead><tr>${thSort('tour', 'name', Tr('Personnage', 'Character'))}${thSort('tour', 'sup', Tr('Soutien', 'Support'), 'num c-wide', Tr('Soutien manquant', 'Support missing'))}${thSort('tour', 'hon', Tr('Honneur', 'Renown'), 'num c-wide')}${thSort('tour', 'tier', Tr('Cadeau prévu', 'Planned gift'))}${thPlain('<span class="vh">Actions</span>')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 /* ---------- inventaire ---------- */
-const stepper = g => `<div class="stp" data-g="${g}"><button type="button" data-step="-1" aria-label="Retirer un ${esc(GIFTS[g][1])}">−</button><input type="number" inputmode="numeric" min="0" max="999" value="${qty(g)}" aria-label="Quantité de ${esc(GIFTS[g][1])}"><button type="button" data-step="1" aria-label="Ajouter un ${esc(GIFTS[g][1])}">+</button></div>`;
+const stepper = g => `<div class="stp" data-g="${g}"><button type="button" data-step="-1" aria-label="${Tr('Retirer un', 'Remove one')} ${esc(GIFTS[g][1])}">−</button><input type="number" inputmode="numeric" min="0" max="999" value="${qty(g)}" aria-label="${Tr('Quantité de', 'Quantity of')} ${esc(GIFTS[g][1])}"><button type="button" data-step="1" aria-label="${Tr('Ajouter un', 'Add one')} ${esc(GIFTS[g][1])}">+</button></div>`;
 let resetArmed = null;
 function invSummary(){
   const t = invTotal(), k = invKinds();
-  return t ? `<b>${t} cadeau${t > 1 ? 'x' : ''} en stock</b><small>${k} sorte${k > 1 ? 's' : ''} différente${k > 1 ? 's' : ''}, partie avec ${lordName(S.lord)}</small>`
-           : `<b>Inventaire vide</b><small>Partie avec ${lordName(S.lord)} : ouvre une catégorie, puis ajoute tes cadeaux avec + ou tape la quantité.</small>`;
+  return t ? Tr(`<b>${t} cadeau${t > 1 ? 'x' : ''} en stock</b><small>${k} sorte${k > 1 ? 's' : ''} différente${k > 1 ? 's' : ''}, partie avec ${lordName(S.lord)}</small>`, `<b>${t} gift${t === 1 ? '' : 's'} in stock</b><small>${k} kind${k === 1 ? '' : 's'}, playthrough with ${lordName(S.lord)}</small>`)
+           : Tr(`<b>Inventaire vide</b><small>Partie avec ${lordName(S.lord)} : ouvre une catégorie, puis ajoute tes cadeaux avec + ou tape la quantité.</small>`, `<b>Empty inventory</b><small>Playthrough with ${lordName(S.lord)}: open a category, then add your gifts with + or type the quantity.</small>`);
 }
 function renderInv(){
   const q = norm(S.q);
   let html = `<div class="invhead"><div class="sum" id="invSum">${invSummary()}</div>
-    <div class="acts">${viewSeg('inv')}<button type="button" class="btn" id="invOnly" aria-pressed="${S.invOnly}">Seulement ce que j'ai</button>
-    <button type="button" class="btn danger" id="invReset">Tout remettre à zéro</button></div></div>`;
+    <div class="acts">${viewSeg('inv')}<button type="button" class="btn" id="invOnly" aria-pressed="${S.invOnly}">${Tr('Seulement ce que j\'ai', 'Only what I have')}</button>
+    <button type="button" class="btn danger" id="invReset">${Tr('Tout remettre à zéro', 'Reset everything')}</button></div></div>`;
   let any = false;
   if(denseOn('inv')){ const tb = invTable(q); html += tb; any = !!tb; }
   else
@@ -2195,26 +2362,26 @@ function renderInv(){
     any = true;
     items.sort((a, b) => GIFTS[a][1].localeCompare(GIFTS[b][1]));
     const owned = items.reduce((s, g) => s + qty(g), 0);
-    html += `<details class="grp" data-g="inv-${cat}" ${q || S.invOnly || owned || openState['inv-' + cat] ? 'open' : ''}><summary><h2 class="disp">${pix(cat)} ${esc(CATS[cat][0])}</h2><span class="cnt">${owned ? owned + ' en stock' : items.length}</span></summary>
+    html += `<details class="grp" data-g="inv-${cat}" ${q || S.invOnly || owned || openState['inv-' + cat] ? 'open' : ''}><summary><h2 class="disp">${pix(cat)} ${esc(catName(cat))}</h2><span class="cnt">${owned ? owned + Tr(' en stock', ' in stock') : items.length}</span></summary>
       <div class="rows">${items.map(g => `<div class="inv-row ${qty(g) ? 'own' : ''}" data-row="${g}">
         <button type="button" class="gname" data-gift="${g}"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}</span></button>${stepper(g)}</div>`).join('')}</div></details>`;
   }
   if(!any) html += S.invOnly && !invTotal()
-    ? `<p class="empty">Ton inventaire est vide. Désactive « Seulement ce que j'ai » puis ajoute tes cadeaux avec +.</p>`
-    : `<p class="empty">Aucun cadeau ne correspond${q ? ` à « ${esc(S.q)} »` : ''}. Essaie le nom anglais ou retire le filtre.</p>`;
+    ? `<p class="empty">${Tr('Ton inventaire est vide. Désactive « Seulement ce que j\'ai » puis ajoute tes cadeaux avec +.', 'Your inventory is empty. Turn off “Only what I have”, then add your gifts with +.')}</p>`
+    : `<p class="empty">${Tr(`Aucun cadeau ne correspond${q ? ` à « ${esc(S.q)} »` : ''}. Essaie le nom anglais ou retire le filtre.`, `No gift matches${q ? ` “${esc(S.q)}”` : ''}. Try a shorter word or remove the filter.`)}</p>`;
   setList(html);
 }
 
 /* ---------- fiche personnage ---------- */
 function chip(tok){
   const u = tok.endsWith('?'); const k = u ? tok.slice(0,-1) : tok;
-  const unv = u ? '<span class="unv" title="Une seule source, à confirmer">?</span>' : '';
+  const unv = u ? `<span class="unv" title="${Tr('Une seule source, à confirmer', 'Single source, to be confirmed')}">?</span>` : '';
   if(k[0] === '@'){
     const g = GROUPS[k.slice(1)];
     const ic = pix(GIFTS[g[2][0]][2]);
     const own = g[2].filter(x => qty(x));
     const n = own.reduce((s, x) => s + qty(x), 0);
-    const title = own.length ? 'Tu as : ' + own.map(x => `${GIFTS[x][1]} ×${qty(x)}`).join(', ') : g[2].map(x => GIFTS[x][1]).join(', ');
+    const title = own.length ? Tr('Tu as : ', 'You have: ') + own.map(x => `${GIFTS[x][1]} ×${qty(x)}`).join(', ') : g[2].map(x => GIFTS[x][1]).join(', ');
     return `<span class="chip ${n ? 'own' : ''}" title="${esc(title)}"><span class="ic" aria-hidden="true">${ic}</span><span><span class="fr">${esc(g[0])}${unv}${n ? `<span class="qty">×${n}</span>` : ''}</span><span class="en">${esc(g[1])}</span></span></span>`;
   }
   const G = GIFTS[k]; const n = qty(k);
@@ -2223,46 +2390,46 @@ function chip(tok){
 
 function recBox(c){
   const st = status(c);
-  if(st === 'nr') return `<div class="recbox"><div class="t">${c.lord ? 'Seigneur de la Flamme' : 'Non recrutable en Partie I'}</div><div class="s">${c.lord ? 'Les Seigneurs ne se recrutent pas entre eux, mais le soutien compte.' : esc(c.note || '')}</div></div>`;
-  if(st === 'na') return `<div class="recbox"><div class="t">Pas recrutable avec ${lordName(S.lord)}</div><div class="s">Regarde le tableau plus bas pour les autres voies.</div></div>`;
-  if(st === 'auto') return `<div class="recbox"><div class="t">Rejoint automatiquement ${lordName(S.lord)}</div><div class="s">Rien à faire pour le recruter : les cadeaux servent au soutien en combat.</div></div>`;
+  if(st === 'nr') return `<div class="recbox"><div class="t">${c.lord ? Tr('Seigneur de la Flamme', 'Flame Lord') : Tr('Non recrutable en Partie I', 'Not recruitable in Part I')}</div><div class="s">${c.lord ? Tr('Les Seigneurs ne se recrutent pas entre eux, mais le soutien compte.', 'Lords can’t recruit each other, but Support still counts.') : esc(c.note || '')}</div></div>`;
+  if(st === 'na') return `<div class="recbox"><div class="t">${Tr('Pas recrutable avec', 'Not recruitable with')} ${lordName(S.lord)}</div><div class="s">${Tr('Regarde le tableau plus bas pour les autres voies.', 'See the table below for the other routes.')}</div></div>`;
+  if(st === 'auto') return `<div class="recbox"><div class="t">${Tr(`Rejoint automatiquement ${lordName(S.lord)}`, `Joins ${lordName(S.lord)} automatically`)}</div><div class="s">${Tr('Rien à faire pour le recruter : les cadeaux servent au soutien en combat.', 'Nothing to do to recruit them: gifts help their Support in battle.')}</div></div>`;
   const r = reqOf(c); const ex = extraOf(c);
   let line;
-  if(st === 'rec') line = 'Marqué comme recruté avec ' + lordName(S.lord) + '.';
-  else if(st === 'ready') line = 'Tout est bon : va lui parler à Dagsion pour le recruter.';
+  if(st === 'rec') line = Tr(`Marqué comme recruté avec ${lordName(S.lord)}.`, `Marked as recruited with ${lordName(S.lord)}.`);
+  else if(st === 'ready') line = Tr('Tout est bon : va lui parler à Dagsion pour le recruter.', 'All set: go and talk to them in Dagsion to recruit them.');
   else {
     const miss = [];
-    if(S.honor < r[1]) { const m = r[1] - S.honor; miss.push(`${m} niveau${m > 1 ? 'x' : ''} d'Honneur`); }
-    if(!supMet(c)) miss.push(`du soutien (${supOf(c)}/${r[0]})`);
-    if(ex && !condDone(c)) miss.push(`la condition : ${esc(ex)}`);
-    line = 'Il manque ' + miss.join(', ') + '.';
+    if(S.honor < r[1]) { const m = r[1] - S.honor; miss.push(Tr(`${m} niveau${m > 1 ? 'x' : ''} d'Honneur`, `${m} Renown level${m === 1 ? '' : 's'}`)); }
+    if(!supMet(c)) miss.push(Tr(`du soutien (${supOf(c)}/${r[0]})`, `Support (${supOf(c)}/${r[0]})`));
+    if(ex && !condDone(c)) miss.push(Tr(`la condition : ${esc(ex)}`, `the condition: ${esc(ex)}`));
+    line = Tr(`Il manque ${miss.join(', ')}.`, `Still missing: ${miss.join(', ')}.`);
   }
-  return `<div class="recbox"><div class="t">Avec ${lordName(S.lord)} : Soutien ${r[0]} et Honneur ${r[1]}${ex ? ' + ' + esc(ex) : ''}</div><div class="s">${line}</div>${r[3] ? `<div class="w">⚠ ${esc(r[3])}</div>` : ''}</div>`;
+  return `<div class="recbox"><div class="t">${Tr(`Avec ${lordName(S.lord)} : Soutien ${r[0]} et Honneur ${r[1]}`, `With ${lordName(S.lord)}: Support ${r[0]} and Renown ${r[1]}`)}${ex ? ' + ' + esc(ex) : ''}</div><div class="s">${line}</div>${r[3] ? `<div class="w">⚠ ${esc(r[3])}</div>` : ''}</div>`;
 }
 
 const tracksSup = st => ['ok','wait','ready','rec'].includes(st);
 function inviteLine(c){
   const on = wasGifted(c);
-  return `<div class="line"><button type="button" class="tg" data-gifted aria-pressed="${on}"><span class="box" aria-hidden="true">${on ? '✓' : ''}</span>Premier cadeau offert</button></div>
-    <small>${on ? 'Les invitations sont débloquées.' : `${pix('lock')} Rien reçu avec ${lordName(S.lord)} : impossible de l’inviter. Un premier cadeau, même bon marché, débloque les invitations.`}</small>`;
+  return `<div class="line"><button type="button" class="tg" data-gifted aria-pressed="${on}"><span class="box" aria-hidden="true">${on ? '✓' : ''}</span>${Tr('Premier cadeau offert', 'First gift given')}</button></div>
+    <small>${on ? Tr('Les invitations sont débloquées.', 'Invitations are unlocked.') : `${pix('lock')} ${Tr(`Rien reçu avec ${lordName(S.lord)} : impossible de l’inviter. Un premier cadeau, même bon marché, débloque les invitations.`, `Nothing received with ${lordName(S.lord)}: can’t be invited yet. A first gift, even a cheap one, unlocks invitations.`)}`}</small>`;
 }
 function trackBox(c){
   const st = status(c);
   if(!showsInvite(st)) return '';
-  if(!tracksSup(st)) return `<div class="track"><h3>Ton suivi</h3>${inviteLine(c)}</div>`;
+  if(!tracksSup(st)) return `<div class="track"><h3>${Tr('Ton suivi', 'Your tracking')}</h3>${inviteLine(c)}</div>`;
   const r = reqOf(c); const have = supOf(c); const ex = extraOf(c);
-  const seg = Array.from({ length: SUP_MAX }, (_, k) => k + 1).map(i => `<button type="button" data-sup="${i}" aria-pressed="${have === i}" class="${i >= r[0] ? 'met' : ''}" aria-label="Soutien ${i}${i >= r[0] ? ' (suffisant)' : ''}">${i}</button>`).join('');
-  return `<div class="track"><h3>Ton suivi</h3>
-    <div class="line"><span class="lbl">Soutien actuel</span><div class="seg" role="group" aria-label="Niveau de soutien actuel avec ${lordName(S.lord)}">${seg}</div></div>
-    <small>Requis : ${r[0]} avec ${lordName(S.lord)} (trait vert = suffisant). Le soutien repart à 1 avec chaque Seigneur.</small>
+  const seg = Array.from({ length: SUP_MAX }, (_, k) => k + 1).map(i => `<button type="button" data-sup="${i}" aria-pressed="${have === i}" class="${i >= r[0] ? 'met' : ''}" aria-label="${Tr('Soutien', 'Support')} ${i}${i >= r[0] ? Tr(' (suffisant)', ' (enough)') : ''}">${i}</button>`).join('');
+  return `<div class="track"><h3>${Tr('Ton suivi', 'Your tracking')}</h3>
+    <div class="line"><span class="lbl">${Tr('Soutien actuel', 'Current Support')}</span><div class="seg" role="group" aria-label="${Tr('Niveau de soutien actuel avec', 'Current Support level with')} ${lordName(S.lord)}">${seg}</div></div>
+    <small>${Tr(`Requis : ${r[0]} avec ${lordName(S.lord)} (trait vert = suffisant). Le soutien repart à 1 avec chaque Seigneur.`, `Needed: ${r[0]} with ${lordName(S.lord)} (green line = enough). Support starts again at 1 with each Lord.`)}</small>
     <div class="line" style="margin-top:10px">
-      ${ex ? `<button type="button" class="tg" data-cond aria-pressed="${condDone(c)}"><span class="box" aria-hidden="true">${condDone(c) ? '✓' : ''}</span>Condition faite : ${esc(ex)}</button>` : ''}
-      <button type="button" class="tg" data-rec aria-pressed="${isRec(c)}"><span class="box" aria-hidden="true">${isRec(c) ? '✓' : ''}</span>Recruté</button>
+      ${ex ? `<button type="button" class="tg" data-cond aria-pressed="${condDone(c)}"><span class="box" aria-hidden="true">${condDone(c) ? '✓' : ''}</span>${Tr('Condition faite :', 'Condition done:')} ${esc(ex)}</button>` : ''}
+      <button type="button" class="tg" data-rec aria-pressed="${isRec(c)}"><span class="box" aria-hidden="true">${isRec(c) ? '✓' : ''}</span>${Tr('Recruté', 'Recruited')}</button>
     </div>${inviteLine(c)}</div>`;
 }
 
 // « Offert » retire le cadeau du stock ; la variante « soutien +1 » note aussi le niveau gagné
-const giveBtns = (attr, up, short) => `<span class="gives"><button type="button" class="give" ${attr}>Offert</button>${up ? `<button type="button" class="give up" ${attr} data-up title="Offert, et son soutien a monté d’un niveau">${short ? 'Soutien +1' : 'Offert, soutien +1'}</button>` : ''}</span>`;
+const giveBtns = (attr, up, short) => `<span class="gives"><button type="button" class="give" ${attr}>${Tr('Offert', 'Given')}</button>${up ? `<button type="button" class="give up" ${attr} data-up title="${Tr('Offert, et son soutien a monté d’un niveau', 'Given, and their Support went up one level')}">${short ? Tr('Soutien +1', 'Support +1') : Tr('Offert, soutien +1', 'Given, Support +1')}</button>` : ''}</span>`;
 function offerBox(c){
   const st = status(c);
   const owned = ownedFor(c);
@@ -2270,14 +2437,14 @@ function offerBox(c){
   const bad = owned.filter(o => o.t === 'X');
   const up = tracksSup(st) && supOf(c) < SUP_MAX;
   let inner;
-  if(!invTotal()) inner = `<p class="hint2">Renseigne tes cadeaux dans l'onglet Inventaire : ceux qui lui plaisent apparaîtront ici.</p>`;
-  else if(!good.length) inner = `<p class="hint2">Rien dans ton inventaire ne lui fait vraiment plaisir.</p>`;
+  if(!invTotal()) inner = `<p class="hint2">${Tr('Renseigne tes cadeaux dans l\'onglet Inventaire : ceux qui lui plaisent apparaîtront ici.', 'Enter your gifts in the Inventory tab: the ones they like will show up here.')}</p>`;
+  else if(!good.length) inner = `<p class="hint2">${Tr('Rien dans ton inventaire ne lui fait vraiment plaisir.', 'Nothing in your inventory really pleases them.')}</p>`;
   else inner = good.map(o => `<div class="off-row"><span class="mk ${o.t}" aria-hidden="true">${TIER_MK[o.t]}</span>
-      <span class="gn"><b>${esc(GIFTS[o.g][1])}${o.u ? ' <span class="unv">?</span>' : ''} <span class="qty" title="Dans ton inventaire">×${qty(o.g)}</span></b><small>${esc(GIFTS[o.g][0])}</small></span>
+      <span class="gn"><b>${esc(GIFTS[o.g][1])}${o.u ? ' <span class="unv">?</span>' : ''} <span class="qty" title="${Tr('Dans ton inventaire', 'In your inventory')}">×${qty(o.g)}</span></b><small>${esc(GIFTS[o.g][0])}</small></span>
       ${giveBtns(`data-give="${o.g}"`, up)}</div>`).join('');
-  const avoid = bad.length ? `<p class="avoid-own">✕ À ne pas lui donner : ${bad.map(o => esc(GIFTS[o.g][1])).join(', ')}</p>` : '';
-  const metNote = (st === 'ok' || st === 'wait' || st === 'ready') && supMet(c) ? `<p class="hint2">Son soutien suffit déjà pour le recrutement : garde tes meilleurs cadeaux pour les autres.</p>` : '';
-  return `<div class="offer"><h3>À offrir depuis ton inventaire</h3>${metNote}${inner}${avoid}</div>`;
+  const avoid = bad.length ? `<p class="avoid-own">✕ ${Tr('À ne pas lui donner :', 'Don’t give them:')} ${bad.map(o => esc(GIFTS[o.g][1])).join(', ')}</p>` : '';
+  const metNote = (st === 'ok' || st === 'wait' || st === 'ready') && supMet(c) ? `<p class="hint2">${Tr('Son soutien suffit déjà pour le recrutement : garde tes meilleurs cadeaux pour les autres.', 'Their Support is already enough to recruit them: keep your best gifts for the others.')}</p>` : '';
+  return `<div class="offer"><h3>${Tr('À offrir depuis ton inventaire', 'To give from your inventory')}</h3>${metNote}${inner}${avoid}</div>`;
 }
 
 function logBox(c){
@@ -2285,10 +2452,10 @@ function logBox(c){
   if(!L.length) return '';
   const items = L.slice(-5).reverse().map((e, i) => {
     const d = new Date(e.ts);
-    const when = d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
-    return `<li><span>${esc(GIFTS[e.g] ? GIFTS[e.g][1] : e.g)} <small>${lordOf(e.l) ? pix(e.l) : ''} ${when}</small></span>${i === 0 ? `<button type="button" class="linkbtn" data-undo="${esc(c.n)}">Annuler</button>` : ''}</li>`;
+    const when = d.toLocaleDateString(LOCALE, { day:'numeric', month:'short' });
+    return `<li><span>${esc(GIFTS[e.g] ? GIFTS[e.g][1] : e.g)} <small>${lordOf(e.l) ? pix(e.l) : ''} ${when}</small></span>${i === 0 ? `<button type="button" class="linkbtn" data-undo="${esc(c.n)}">${Tr('Annuler', 'Undo')}</button>` : ''}</li>`;
   }).join('');
-  return `<div class="log"><h3>Cadeaux déjà offerts</h3><ul>${items}</ul></div>`;
+  return `<div class="log"><h3>${Tr('Cadeaux déjà offerts', 'Gifts already given')}</h3><ul>${items}</ul></div>`;
 }
 
 function renderCharPanel(c){
@@ -2297,16 +2464,16 @@ function renderCharPanel(c){
   for(const [t, lbl, sub, mk] of TIERS){
     const list = c[t] || [];
     if(!list.length){
-      if(t === 'L') tiers += `<div class="tier L"><h3><span class="mk">${mk}</span>${lbl}</h3><p class="nothing">Aucun cadeau « adoré » confirmé pour l'instant : vise la ligne suivante.</p></div>`;
+      if(t === 'L') tiers += `<div class="tier L"><h3><span class="mk">${mk}</span>${lbl}</h3><p class="nothing">${Tr('Aucun cadeau « adoré » confirmé pour l\'instant : vise la ligne suivante.', 'No confirmed “loved” gift yet: aim for the next row.')}</p></div>`;
       continue;
     }
     tiers += `<div class="tier ${t}"><h3><span class="mk" aria-hidden="true">${mk}</span>${lbl} <small>${sub}</small></h3><div class="chips ${hasInv && t !== 'X' ? 'has-inv' : ''}">${list.map(chip).join('')}</div></div>`;
   }
   const st = status(c);
   const note = c.note && !(st === 'nr' && !c.lord) ? `<div class="note">${esc(c.note)}</div>` : '';
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p>${charMeta(c)}</div><div class="ph-acts">${c.lord === S.lord ? '' : `<button type="button" class="pin" data-pin aria-pressed="${isPinned(c.n)}" aria-label="Épingler ${esc(c.n)} en haut de la liste" title="${isPinned(c.n) ? 'Retirer des épinglés' : 'Épingler en haut de la liste'}">${pix('star')}</button>`}${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p>${charMeta(c)}</div><div class="ph-acts">${c.lord === S.lord ? '' : `<button type="button" class="pin" data-pin aria-pressed="${isPinned(c.n)}" aria-label="${Tr(`Épingler ${esc(c.n)} en haut de la liste`, `Pin ${esc(c.n)} to the top of the list`)}" title="${isPinned(c.n) ? Tr('Retirer des épinglés', 'Unpin') : Tr('Épingler en haut de la liste', 'Pin to the top of the list')}">${pix('star')}</button>`}${BACK_BTN}<button type="button" class="x" data-close aria-label="${Tr('Fermer', 'Close')}">✕</button></div></div>
     <div class="pb" data-for="${esc(c.n)}">${bdNote(c)}${recBox(c)}${trackBox(c)}${offerBox(c)}${favBox(c)}${logBox(c)}
-      <p class="likes" style="margin-top:16px"><b>D'après sa fiche :</b> ${esc(c.g)}</p>
+      <p class="likes" style="margin-top:16px"><b>${Tr('D\'après sa fiche :', 'From their profile:')}</b> ${esc(c.g)}</p>
       ${tiers}${note}${allLordsTable(c)}${reportLine('c', c.n)}
     </div>`;
 }
@@ -2315,23 +2482,23 @@ function allLordsTable(c){
   if(c.nr || c.lord) return '';
   const rows = LORDS.map(l => {
     const r = reqOf(c, l.id); let v;
-    if(r === 'A') v = 'Rejoint automatiquement';
-    else if(!r) v = 'Non recrutable';
+    if(r === 'A') v = Tr('Rejoint automatiquement', 'Joins automatically');
+    else if(!r) v = Tr('Non recrutable', 'Not recruitable');
     else {
       const ex = extraOf(c, l.id);
-      v = `Soutien ${r[0]}, Honneur ${r[1]}${ex ? ' + ' + esc(ex) : ''}${r[3] ? ' ⚠' : ''}`;
-      if(inList(S.rec, l.id, c.n)) v += ' <b>✓ recruté</b>';
+      v = `${Tr('Soutien', 'Support')} ${r[0]}, ${Tr('Honneur', 'Renown')} ${r[1]}${ex ? ' + ' + esc(ex) : ''}${r[3] ? ' ⚠' : ''}`;
+      if(inList(S.rec, l.id, c.n)) v += ` <b>✓ ${Tr('recruté', 'recruited')}</b>`;
     }
     return `<tr class="${l.id === S.lord ? 'cur' : ''}"><th>${pix(l.id)} ${l.name}</th><td>${v}</td></tr>`;
   }).join('');
-  return `<div class="sect"><h3>Selon le Seigneur</h3><table class="alltbl">${rows}</table></div>`;
+  return `<div class="sect"><h3>${Tr('Selon le Seigneur', 'By Lord')}</h3><table class="alltbl">${rows}</table></div>`;
 }
 
 /* ---------- fiche cadeau ---------- */
 function renderGiftPanel(g){
   const G = GIFTS[g];
   const rel = CHARS.filter(c => status(c) !== 'self');
-  let body = `<div class="track"><div class="line"><span class="lbl">Dans ton inventaire</span>${stepper(g)}</div></div>${whereBlock(g)}<h3 class="whoh">Qui l'apprécie</h3>`;
+  let body = `<div class="track"><div class="line"><span class="lbl">${Tr('Dans ton inventaire', 'In your inventory')}</span>${stepper(g)}</div></div>${whereBlock(g)}<h3 class="whoh">${Tr('Qui l\'apprécie', 'Who likes it')}</h3>`;
   let anyTier = false;
   const order = { ready:0, ok:1, wait:2, auto:3, rec:4, nr:5, na:6 };
   for(const [t, lbl, sub, mk] of TIERS){
@@ -2343,18 +2510,18 @@ function renderGiftPanel(g){
     body += `<div class="tier ${t}"><h3><span class="mk" aria-hidden="true">${mk}</span>${lbl} <small>${sub}</small></h3><div class="who-list">${
       who.map(({ c, r }) => { const st = status(c);
         const met = (st === 'ok' || st === 'wait' || st === 'ready') && supMet(c);
-        const tag = st === 'na' ? 'pas sur ta voie' : st === 'auto' ? 'dans ton armée' : st === 'nr' ? 'non recrutable' : st === 'rec' ? 'recruté' : met ? 'soutien ✓' : '';
+        const tag = st === 'na' ? Tr('pas sur ta voie', 'not on your route') : st === 'auto' ? Tr('dans ton armée', 'in your army') : st === 'nr' ? Tr('non recrutable', 'not recruitable') : st === 'rec' ? Tr('recruté', 'recruited') : met ? Tr('soutien ✓', 'Support ✓') : '';
         return `<button type="button" class="who-btn ${st === 'na' ? 'dim' : ''} ${met || st === 'rec' ? 'met' : ''}" data-char="${esc(c.n)}">${esc(c.n)}${r.u ? ' <span class="unv">?</span>' : ''}${tag ? `<small>${tag}</small>` : ''}</button>`; }).join('')
     }</div></div>`;
   }
-  if(!anyTier) body += `<p class="nothing">Aucune réaction connue pour ce cadeau. Garde-le comme premier cadeau pour débloquer les repas.</p>`;
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(G[2], 'x2')} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
-    <div class="pb">${body}<div class="note">Personnages triés selon ta voie : d'abord ceux qui ont encore besoin de soutien.</div>${reportLine('g', g)}</div>`;
+  if(!anyTier) body += `<p class="nothing">${Tr('Aucune réaction connue pour ce cadeau. Garde-le comme premier cadeau pour débloquer les repas.', 'No known reaction to this gift. Keep it as a first gift to unlock meals.')}</p>`;
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(G[2], 'x2')} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(catName(G[2]))}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="${Tr('Fermer', 'Close')}">✕</button></div></div>
+    <div class="pb">${body}<div class="note">${Tr('Personnages triés selon ta voie : d\'abord ceux qui ont encore besoin de soutien.', 'Characters sorted for your route: those who still need Support come first.')}</div>${reportLine('g', g)}</div>`;
 }
 
 /* ---------- panneau ---------- */
-const PH = '<div class="panel-ph"><span class="disp">Choisis un personnage</span>Sa liste de cadeaux, ce que tu peux lui offrir et ses conditions de recrutement s\u2019afficheront ici.</div>';
-const BACK_BTN = '<button type="button" class="btn back" data-dash title="Revenir au résumé">Résumé</button>';
+const PH = `<div class="panel-ph"><span class="disp">${Tr('Choisis un personnage', 'Pick a character')}</span>${Tr('Sa liste de cadeaux, ce que tu peux lui offrir et ses conditions de recrutement s\u2019afficheront ici.', 'Their gift list, what you can give them and their recruitment requirements will show up here.')}</div>`;
+const BACK_BTN = `<button type="button" class="btn back" data-dash title="${Tr('Revenir au résumé', 'Back to the summary')}">${Tr('Résumé', 'Summary')}</button>`;
 const isSheet = () => window.matchMedia('(max-width: 679px)').matches;
 let lastFocus = null;
 function openPanel(kind, id){
@@ -2402,7 +2569,7 @@ function renderList(){
   document.body.classList.toggle('tab-map', S.tab === 'map');
   if(S.tab !== 'map' && S.mFs && window.MAP) MAP.exitFs(false);
   if(S.tab === 'chars') renderChars(); else if(S.tab === 'gifts') renderGifts(); else if(S.tab === 'tour') renderTour();
-  else if(S.tab === 'map'){ if(window.MAP) MAP.render(); else setList('<p class="empty">Chargement de la carte…</p>'); }
+  else if(S.tab === 'map'){ if(window.MAP) MAP.render(); else setList(`<p class="empty">${Tr('Chargement de la carte…', 'Loading the map…')}</p>`); }
   else renderInv();
   markCurrent();
 }
@@ -2419,7 +2586,7 @@ function afterQty(g, opts = {}){
   document.querySelectorAll(`[data-row="${g}"]`).forEach(r => {
     const grp = r.closest('.grp'); if(!grp) return;
     const n = [...grp.querySelectorAll('[data-row]')].reduce((a, x) => a + qty(x.dataset.row), 0);
-    grp.querySelector('.cnt').textContent = n ? n + ' en stock' : grp.querySelectorAll('[data-row]').length;
+    grp.querySelector('.cnt').textContent = n ? n + Tr(' en stock', ' in stock') : grp.querySelectorAll('[data-row]').length;
   });
   if(S.tab === 'chars' || S.tab === 'gifts') renderList();
   const tc = $('#tourCount'); if(tc){ const left = planTour().filter(p => p.a).length; tc.textContent = left; tc.hidden = !left; }
@@ -2497,40 +2664,40 @@ function wishlist(c){
 
 function supLine(c){
   const r = reqOf(c);
-  return `Soutien ${supOf(c)}/${r[0]}, Honneur ${r[1]}`;
+  return `${Tr('Soutien', 'Support')} ${supOf(c)}/${r[0]}, ${Tr('Honneur', 'Renown')} ${r[1]}`;
 }
 
 function pickerHtml(c){
   const owned = [];
   for(const g in S.inv){ if(!S.inv[g]) continue; const t = tierOf(c, g); owned.push({ g, t: t ? t.t : null }); }
   owned.sort((a, b) => (a.t ? TIER_RANK[a.t] : 2.5) - (b.t ? TIER_RANK[b.t] : 2.5) || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
-  const btn = (g, t, inStock) => `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t || 'N'}" aria-hidden="true">${t ? TIER_MK[t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}${inStock ? ` <span class="qty">×${qty(g)}</span>` : ''}</b><small>${esc(GIFTS[g][0])}${t ? '' : ', réaction inconnue'}</small></span></button>`;
+  const btn = (g, t, inStock) => `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t || 'N'}" aria-hidden="true">${t ? TIER_MK[t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}${inStock ? ` <span class="qty">×${qty(g)}</span>` : ''}</b><small>${esc(GIFTS[g][0])}${t ? '' : Tr(', réaction inconnue', ', unknown reaction')}</small></span></button>`;
   const up = tracksSup(status(c)) && supOf(c) < SUP_MAX;
-  return `<div class="tpick"><p class="tq">Qu'as-tu offert à ${esc(c.n)} ?</p>
-    ${up ? `<button type="button" class="tg" data-tpup aria-pressed="false"><span class="box" aria-hidden="true"></span>Son soutien a monté d’un niveau</button>` : ''}
-    ${owned.length ? `<div class="pklist">${owned.map(o => btn(o.g, o.t, true)).join('')}</div>` : `<p class="hint2">Ton inventaire est vide : cherche le cadeau ci-dessous.</p>`}
-    <label class="search small"><span aria-hidden="true">⌕</span><input class="tps" type="search" placeholder="Un cadeau hors inventaire ?" autocomplete="off"></label>
+  return `<div class="tpick"><p class="tq">${Tr(`Qu'as-tu offert à ${esc(c.n)} ?`, `What did you give ${esc(c.n)}?`)}</p>
+    ${up ? `<button type="button" class="tg" data-tpup aria-pressed="false"><span class="box" aria-hidden="true"></span>${Tr('Son soutien a monté d’un niveau', 'Their Support went up one level')}</button>` : ''}
+    ${owned.length ? `<div class="pklist">${owned.map(o => btn(o.g, o.t, true)).join('')}</div>` : `<p class="hint2">${Tr('Ton inventaire est vide : cherche le cadeau ci-dessous.', 'Your inventory is empty: search for the gift below.')}</p>`}
+    <label class="search small"><span aria-hidden="true">⌕</span><input class="tps" type="search" placeholder="${Tr('Un cadeau hors inventaire ?', 'A gift not in your inventory?')}" autocomplete="off"></label>
     <div class="pklist" data-tpres></div>
-    <button type="button" class="linkbtn" data-tcancel>Fermer</button></div>`;
+    <button type="button" class="linkbtn" data-tcancel>${Tr('Fermer', 'Close')}</button></div>`;
 }
 function pickerSearch(c, q){
   q = norm(q.trim()); if(q.length < 2) return '';
   const res = Object.keys(GIFTS).filter(g => !qty(g) && giftMatches(g, q)).slice(0, 12);
-  if(!res.length) return `<p class="hint2">Aucun cadeau ne correspond.</p>`;
-  return res.map(g => { const t = tierOf(c, g); return `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t ? t.t : 'N'}" aria-hidden="true">${t ? TIER_MK[t.t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}</b><small>${esc(GIFTS[g][0])}, pas dans ton inventaire</small></span></button>`; }).join('');
+  if(!res.length) return `<p class="hint2">${Tr('Aucun cadeau ne correspond.', 'No gift matches.')}</p>`;
+  return res.map(g => { const t = tierOf(c, g); return `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t ? t.t : 'N'}" aria-hidden="true">${t ? TIER_MK[t.t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}</b><small>${esc(GIFTS[g][0])}${Tr(', pas dans ton inventaire', ', not in your inventory')}</small></span></button>`; }).join('');
 }
 
 function tourRow(c, a){
   const gift = a
     ? `<div class="tgift"><span class="mk ${a.t}" aria-hidden="true">${TIER_MK[a.t]}</span><span class="gn"><b>${esc(GIFTS[a.g][1])}${a.u ? ' <span class="unv">?</span>' : ''} <span class="qty">×${qty(a.g)}</span></b><small>${esc(GIFTS[a.g][0])}</small></span></div>`
-    : `<p class="twish">Rien de bon en stock. À chercher : ${esc(wishlist(c).join(', ') || 'voir sa fiche')}.</p>`;
+    : `<p class="twish">${Tr('Rien de bon en stock. À chercher :', 'Nothing good in stock. Look for:')} ${esc(wishlist(c).join(', ') || Tr('voir sa fiche', 'see their sheet'))}.</p>`;
   const open = S.pick === c.n;
   return `<div class="trow ${a ? '' : 'none'}" data-tc="${esc(c.n)}">
     <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${wIcon(c)}${esc(c.n)}${lockMark(c)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small>${supLine(c)}</small></button>
     ${gift}
     <div class="tact">${a ? giveBtns(`data-tgive="${a.g}"`, supOf(c) < SUP_MAX) : ''}
-      <button type="button" class="btn" data-tother aria-expanded="${open}">Autre cadeau</button>
-      <button type="button" class="linkbtn" data-tskip>Pas cette semaine</button></div>
+      <button type="button" class="btn" data-tother aria-expanded="${open}">${Tr('Autre cadeau', 'Other gift')}</button>
+      <button type="button" class="linkbtn" data-tskip>${Tr('Pas cette semaine', 'Not this week')}</button></div>
     ${bdNote(c)}${open ? pickerHtml(c) : ''}</div>`;
 }
 
@@ -2543,31 +2710,31 @@ function renderTour(){
   const doneNames = Object.keys(t.done);
   const nDone = doneNames.length, total = nDone + planTour().filter(p => p.a).length;
   const pct = total ? Math.round(nDone / total * 100) : 0;
-  let html = `<div class="invhead tourhead"><div class="sum"><b>Tournée ${t.n} avec ${lordName(S.lord)}</b>
-      <small>${nDone} cadeau${nDone > 1 ? 'x' : ''} fait${nDone > 1 ? 's' : ''} sur ${total} prévu${total > 1 ? 's' : ''}</small>
+  let html = `<div class="invhead tourhead"><div class="sum"><b>${Tr(`Tournée ${t.n} avec ${lordName(S.lord)}`, `Round ${t.n} with ${lordName(S.lord)}`)}</b>
+      <small>${Tr(`${nDone} cadeau${nDone > 1 ? 'x' : ''} fait${nDone > 1 ? 's' : ''} sur ${total} prévu${total > 1 ? 's' : ''}`, `${nDone} of ${total} planned gift${total === 1 ? '' : 's'} given`)}</small>
       <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
-    <div class="acts">${viewSeg('tour')}<button type="button" class="btn danger" id="tourEnd">Terminer la tournée</button></div></div>`;
-  if(!invTotal()) html += `<div class="note">Ton inventaire est vide : la tournée ne peut rien te proposer. <button type="button" class="linkbtn" data-goinv>Remplir l'inventaire</button></div>`;
+    <div class="acts">${viewSeg('tour')}<button type="button" class="btn danger" id="tourEnd">${Tr('Terminer la tournée', 'End the round')}</button></div></div>`;
+  if(!invTotal()) html += `<div class="note">${Tr('Ton inventaire est vide : la tournée ne peut rien te proposer.', 'Your inventory is empty: the round has nothing to suggest.')} <button type="button" class="linkbtn" data-goinv>${Tr('Remplir l\'inventaire', 'Fill the inventory')}</button></div>`;
   if(!q) html += shopSection();
   const section = (title, hint, rows, cls = '', open = true) => rows.length ? `<details class="grp tour ${cls}" ${open ? 'open' : ''}><summary><h2 class="disp">${title}</h2><span class="cnt">${rows.length}</span></summary>${hint ? `<p class="hint">${hint}</p>` : ''}<div class="rows trows">${rows.join('')}</div></details>` : '';
   if(denseOn('tour')){
     const all = [...withGift, ...without];
-    if(all.length) html += `<details class="grp tour" open><summary><h2 class="disp">À servir cette tournée</h2><span class="cnt">${all.length}</span></summary><p class="hint">Touche l’en-tête d’une colonne pour trier. Les personnages épinglés restent en tête.</p>${tourTable(all)}</details>`;
+    if(all.length) html += `<details class="grp tour" open><summary><h2 class="disp">${Tr('À servir cette tournée', 'To serve this round')}</h2><span class="cnt">${all.length}</span></summary><p class="hint">${Tr('Touche l’en-tête d’une colonne pour trier. Les personnages épinglés restent en tête.', 'Tap a column header to sort. Pinned characters stay on top.')}</p>${tourTable(all)}</details>`;
   } else {
-  html += section('Honneur atteint', 'Les plus proches du recrutement.', withGift.filter(p => status(p.c) === 'ok').map(p => tourRow(p.c, p.a)));
-  html += section('Honneur insuffisant', 'Le soutien sera prêt quand l\u2019Honneur suivra.', withGift.filter(p => status(p.c) === 'wait').map(p => tourRow(p.c, p.a)));
-  html += section('Rien de bon en stock', 'Ce qu\u2019il faudrait leur trouver. Tu peux quand même noter un autre cadeau.', without.map(p => tourRow(p.c, null)), 'muted', !!q || !withGift.length || without.some(p => p.c.n === S.pick));
+  html += section(Tr('Honneur atteint', 'Renown reached'), Tr('Les plus proches du recrutement.', 'Closest to being recruited.'), withGift.filter(p => status(p.c) === 'ok').map(p => tourRow(p.c, p.a)));
+  html += section(Tr('Honneur insuffisant', 'Not enough Renown'), Tr('Le soutien sera prêt quand l\u2019Honneur suivra.', 'Their Support will be ready when Renown catches up.'), withGift.filter(p => status(p.c) === 'wait').map(p => tourRow(p.c, p.a)));
+  html += section(Tr('Rien de bon en stock', 'Nothing good in stock'), Tr('Ce qu\u2019il faudrait leur trouver. Tu peux quand même noter un autre cadeau.', 'What you would need to find for them. You can still log another gift.'), without.map(p => tourRow(p.c, null)), 'muted', !!q || !withGift.length || without.some(p => p.c.n === S.pick));
   }
   const doneRows = doneNames.filter(n => !q || norm(n).includes(q)).sort((a, b) => t.done[b].ts - t.done[a].ts).map(n => {
     const d = t.done[n]; const tt = charByName[n] ? tierOf(charByName[n], d.g) : null;
     return `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">✓ ${esc(n)}</span></button>
-      <div class="tgift"><span class="mk ${tt ? tt.t : 'N'}" aria-hidden="true">${tt ? TIER_MK[tt.t] : '·'}</span><span class="gn"><b>${esc(GIFTS[d.g] ? GIFTS[d.g][1] : d.g)}</b><small>${d.inv === false ? 'hors inventaire' : 'retiré de l\u2019inventaire'}</small></span></div>
-      <div class="tact"><button type="button" class="linkbtn" data-tundo="${esc(n)}">Annuler</button></div></div>`;
+      <div class="tgift"><span class="mk ${tt ? tt.t : 'N'}" aria-hidden="true">${tt ? TIER_MK[tt.t] : '·'}</span><span class="gn"><b>${esc(GIFTS[d.g] ? GIFTS[d.g][1] : d.g)}</b><small>${d.inv === false ? Tr('hors inventaire', 'not from inventory') : Tr('retiré de l\u2019inventaire', 'taken from inventory')}</small></span></div>
+      <div class="tact"><button type="button" class="linkbtn" data-tundo="${esc(n)}">${Tr('Annuler', 'Undo')}</button></div></div>`;
   });
-  html += section('Faits cette tournée', '', doneRows, 'donegrp');
-  const sk = t.skip.filter(n => !q || norm(n).includes(q)).map(n => `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">${esc(n)}</span></button><div class="tact"><button type="button" class="linkbtn" data-tunskip="${esc(n)}">Remettre dans la tournée</button></div></div>`);
-  html += section('Mis de côté', '', sk, 'donegrp');
-  if(!plan.length && !nDone && !t.skip.length) html += `<p class="empty">Personne n'a besoin de soutien avec ${lordName(S.lord)} pour l'instant. Note ton soutien actuel dans les fiches pour affiner la tournée.</p>`;
+  html += section(Tr('Faits cette tournée', 'Done this round'), '', doneRows, 'donegrp');
+  const sk = t.skip.filter(n => !q || norm(n).includes(q)).map(n => `<div class="trow done"><button type="button" class="tname" data-char="${esc(n)}"><span class="nm">${esc(n)}</span></button><div class="tact"><button type="button" class="linkbtn" data-tunskip="${esc(n)}">${Tr('Remettre dans la tournée', 'Put back in the round')}</button></div></div>`);
+  html += section(Tr('Mis de côté', 'Set aside'), '', sk, 'donegrp');
+  if(!plan.length && !nDone && !t.skip.length) html += `<p class="empty">${Tr(`Personne n'a besoin de soutien avec ${lordName(S.lord)} pour l'instant. Note ton soutien actuel dans les fiches pour affiner la tournée.`, `Nobody needs Support with ${lordName(S.lord)} right now. Set your current Support in the sheets to refine the round.`)}</p>`;
   setList(html);
 }
 
@@ -2587,7 +2754,7 @@ function recordGift(name, g, up){
   afterQty(g);
   if(S.tab === 'tour') renderList();
   refreshPanel();
-  toast(`${GIFTS[g][1]} offert à ${name}.` + (d.up ? ` Soutien ${supOf(c)}.` : '') + (d.first ? ' Invitations débloquées.' : '') + (fromInv ? ` Il t'en reste ${qty(g)}.` : ''), () => undoGift(name));
+  toast(Tr(`${GIFTS[g][1]} offert à ${name}.`, `${GIFTS[g][1]} given to ${name}.`) + (d.up ? ` ${Tr('Soutien', 'Support')} ${supOf(c)}.` : '') + (d.first ? Tr(' Invitations débloquées.', ' Invitations unlocked.') : '') + (fromInv ? Tr(` Il t'en reste ${qty(g)}.`, ` ${qty(g)} left.`) : ''), () => undoGift(name));
 }
 // défait un cadeau noté, sur la partie où il a été offert : stock, soutien gagné et premier cadeau
 function revertGift(name, e){
@@ -2606,7 +2773,9 @@ function undoGift(name){
   afterQty(e.g);
   if(S.tab === 'tour') renderList();
   refreshPanel();
-  toast(`Annulé : ${GIFTS[e.g] ? GIFTS[e.g][1] : e.g}${e.inv !== false ? ` remis dans l’inventaire${l !== S.lord ? ' de ' + lordName(l) : ''}` : ' retiré de la tournée'}.`);
+  const gn = GIFTS[e.g] ? GIFTS[e.g][1] : e.g;
+  toast(e.inv !== false ? Tr(`Annulé : ${gn} remis dans l’inventaire${l !== S.lord ? ' de ' + lordName(l) : ''}.`, `Undone: ${gn} put back in ${l !== S.lord ? lordName(l) + '’s' : 'the'} inventory.`)
+    : Tr(`Annulé : ${gn} retiré de la tournée.`, `Undone: ${gn} removed from the round.`));
 }
 function undoTourEntry(name){
   const t = T(); const d = t.done[name]; if(!d) return;
@@ -2617,13 +2786,13 @@ function undoTourEntry(name){
   else revertGift(name, { ...d, l: S.lord });
   delete t.done[name]; saveTours();
   afterQty(d.g); renderList(); refreshPanel();
-  toast(`Annulé : ${GIFTS[d.g] ? GIFTS[d.g][1] : d.g} pour ${name}.`);
+  toast(Tr(`Annulé : ${GIFTS[d.g] ? GIFTS[d.g][1] : d.g} pour ${name}.`, `Undone: ${GIFTS[d.g] ? GIFTS[d.g][1] : d.g} for ${name}.`));
 }
 let tourEndArmed = null;
 function endTour(btn){
   if(!tourEndArmed){
-    btn.textContent = 'Confirmer : terminer'; btn.classList.add('armed');
-    tourEndArmed = setTimeout(() => { tourEndArmed = null; btn.textContent = 'Terminer la tournée'; btn.classList.remove('armed'); }, 4000);
+    btn.textContent = Tr('Confirmer : terminer', 'Confirm: end'); btn.classList.add('armed');
+    tourEndArmed = setTimeout(() => { tourEndArmed = null; btn.textContent = Tr('Terminer la tournée', 'End the round'); btn.classList.remove('armed'); }, 4000);
     return;
   }
   clearTimeout(tourEndArmed); tourEndArmed = null;
@@ -2631,7 +2800,7 @@ function endTour(btn){
   const n = Object.keys(t.done).length;
   S.tours[S.lord] = { n: t.n + 1, done: {}, skip: [] }; saveTours();
   S.pick = null; renderTabs(); renderList();
-  toast(`Tournée ${backup.n} terminée (${n} cadeau${n > 1 ? 'x' : ''}). La tournée ${backup.n + 1} est prête.`, () => { S.tours[S.lord] = backup; saveTours(); renderTabs(); renderList(); });
+  toast(Tr(`Tournée ${backup.n} terminée (${n} cadeau${n > 1 ? 'x' : ''}). La tournée ${backup.n + 1} est prête.`, `Round ${backup.n} ended (${n} gift${n === 1 ? '' : 's'}). Round ${backup.n + 1} is ready.`), () => { S.tours[S.lord] = backup; saveTours(); renderTabs(); renderList(); });
 }
 
 function tourClick(e){
@@ -2651,7 +2820,7 @@ function tourClick(e){
   if(pk && name){ const upb = row.querySelector('[data-tpup]'); recordGift(name, pk.dataset.tpg, !!upb && upb.getAttribute('aria-pressed') === 'true'); return true; }
   if(e.target.closest('[data-tskip]') && name){
     T().skip.push(name); saveTours(); if(S.pick === name) S.pick = null; renderTabs(); renderList();
-    toast(`${name} mis de côté pour cette tournée.`, () => { const s = T().skip; const i = s.indexOf(name); if(i >= 0) s.splice(i, 1); saveTours(); renderTabs(); renderList(); });
+    toast(Tr(`${name} mis de côté pour cette tournée.`, `${name} set aside for this round.`), () => { const s = T().skip; const i = s.indexOf(name); if(i >= 0) s.splice(i, 1); saveTours(); renderTabs(); renderList(); });
     return true;
   }
   const us = e.target.closest('[data-tunskip]'); if(us){ const s = T().skip; const i = s.indexOf(us.dataset.tunskip); if(i >= 0) s.splice(i, 1); saveTours(); renderTabs(); renderList(); return true; }
@@ -2665,11 +2834,11 @@ S.giftMode = store.get('giftMode', 'cat');
 if(!['cat','town','quest'].includes(S.giftMode)) S.giftMode = 'cat';
 S.town = store.get('town', null);
 S.spots = store.get('spots', {});   // { idCadeau: [lieux notés par l'utilisateur] }
-const CONF = { 2: ['c2', '✓ Confirmé'], 1: ['c1', '1 source'], 0: ['c0', 'Indice'] };
+const CONF = { 2: ['c2', Tr('✓ Confirmé', '✓ Confirmed')], 1: ['c1', '1 source'], 0: ['c0', Tr('Indice', 'Hint')] };
 
 function canonTown(s){
   const n = norm(s.trim());
-  return KNOWN_TOWNS.find(t => norm(t) === n) || s.trim();
+  return KNOWN_TOWNS.find(t => norm(t) === n || norm(townName(t)) === n) || s.trim();
 }
 function townsOf(g){
   const w = WHERE[g] || {};
@@ -2681,10 +2850,10 @@ function townsOf(g){
 function whereShort(g){
   const w = WHERE[g];
   const ts = townsOf(g);
-  if(ts.length) return ts.slice(0, 2).join(', ') + (ts.length > 2 ? '…' : '');
-  if(w && w.r) return `Honneur ${w.r}`;
-  if(w && w.q && w.q.length) return `quête, avant le ${w.q[0].d}`;
-  return w ? 'lieu incertain' : 'lieu inconnu';
+  if(ts.length) return ts.slice(0, 2).map(townName).join(', ') + (ts.length > 2 ? '…' : '');
+  if(w && w.r) return `${Tr('Honneur', 'Renown')} ${w.r}`;
+  if(w && w.q && w.q.length) return Tr(`quête, avant le ${w.q[0].d}`, `quest, before ${qDate(w.q[0])}`);
+  return w ? Tr('lieu incertain', 'uncertain place') : Tr('lieu inconnu', 'unknown place');
 }
 function needingChars(){
   return CHARS.filter(c => { const st = status(c); return (st === 'ok' || st === 'wait') && !supMet(c); });
@@ -2698,36 +2867,36 @@ function townIndex(){
 function whereBlock(g){
   const w = WHERE[g];
   const spots = S.spots[g] || [];
-  const conf = w && w.c !== undefined ? CONF[w.c] : ['c-', 'Inconnu'];
+  const conf = w && w.c !== undefined ? CONF[w.c] : ['c-', Tr('Inconnu', 'Unknown')];
   let lines = '';
-  if(w && w.t && w.t.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('shop')}</span><div><b>${w.t.length > 1 ? 'Marchés' : 'Marché'}</b><div class="tchips">${w.t.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(t)}</button>`).join('')}</div></div></div>`;
-  if(w && (w.t || []).length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('coin')}</span><div>${w.p ? `Prix : <b>${w.p} or</b>` : 'Prix non documenté'}</div></div>`;
-  if(w && w.r) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('star')}</span><div><b>Récompense du rang d'Honneur ${w.r}</b></div></div>`;
-  for(const q of (w && w.q) || []) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>Quête « ${esc(q.n)} »</b><small>${esc(q.i)}. À faire avant le ${q.d}.</small></div></div>`;
+  if(w && w.t && w.t.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('shop')}</span><div><b>${w.t.length > 1 ? Tr('Marchés', 'Markets') : Tr('Marché', 'Market')}</b><div class="tchips">${w.t.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(townName(t))}</button>`).join('')}</div></div></div>`;
+  if(w && (w.t || []).length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('coin')}</span><div>${w.p ? `${Tr('Prix :', 'Price:')} <b>${w.p} ${GOLD}</b>` : Tr('Prix non documenté', 'Price not documented')}</div></div>`;
+  if(w && w.r) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('star')}</span><div><b>${Tr(`Récompense du rang d'Honneur ${w.r}`, `Renown rank ${w.r} reward`)}</b></div></div>`;
+  for(const q of (w && w.q) || []) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>${Tr(`Quête « ${esc(q.n)} »`, `Quest “${esc(q.n)}”`)}</b><small>${esc(q.i)}. ${Tr(`À faire avant le ${q.d}.`, `Do it before ${qDate(q)}.`)}</small></div></div>`;
   if(w && w.x) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('info')}</span><div><small>${esc(w.x)}</small></div></div>`;
   if(w && w.w) lines += `<div class="wl warn"><span class="wi" aria-hidden="true">⚠</span><div><small>${esc(w.w)}</small></div></div>`;
   const mt = window.MAP && MAP.ready ? MAP.giftTowns(g).filter(t => !((w && w.t) || []).includes(t)) : [];
-  if(mt.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>Relevé sur la carte</b><div class="tchips">${mt.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(t)}</button>`).join('')}</div><small>Stocks de marché compilés par des fans pour la carte.</small></div></div>`;
-  if(!w && !mt.length) lines += `<p class="hint2">Aucune source n'indique où le trouver. Si tu le croises en jeu, note-le ci-dessous.</p>`;
+  if(mt.length) lines += `<div class="wl"><span class="wi" aria-hidden="true">${pix('scroll')}</span><div><b>${Tr('Relevé sur la carte', 'Found on the map')}</b><div class="tchips">${mt.map(t => `<button type="button" class="tchip" data-town="${esc(t)}">${esc(townName(t))}</button>`).join('')}</div><small>${Tr('Stocks de marché compilés par des fans pour la carte.', 'Market stocks compiled by fans for the map.')}</small></div></div>`;
+  if(!w && !mt.length) lines += `<p class="hint2">${Tr('Aucune source n\'indique où le trouver. Si tu le croises en jeu, note-le ci-dessous.', 'No source says where to find it. If you come across it in the game, note it below.')}</p>`;
   const mk = window.MAP && MAP.ready ? MAP.giftKey(g) : null;
-  if(mk) lines += `<div class="acts" style="margin-top:8px"><button type="button" class="btn" data-mitem="${esc(mk)}">${pix('lens')} Voir sur la carte</button></div>`;
-  const mine = spots.length ? `<div class="tchips">${spots.map((s, i) => `<span class="tchip mine"><button type="button" class="tlink" data-town="${esc(s)}">${esc(s)}</button><button type="button" class="tdel" data-spotdel="${i}" aria-label="Retirer ${esc(s)}">✕</button></span>`).join('')}</div>` : '';
-  return `<div class="where"><h3>Où le trouver <span class="conf ${conf[0]}">${conf[1]}</span></h3>${lines}
-    <div class="spots"><b>Tes repérages</b>${mine}${spots.length ? `<button type="button" class="linkbtn spotprop" data-report="g|${g}" data-report-t="where" data-report-txt="${esc('Vu dans le jeu à : ' + spots.join(', '))}">Proposer ${spots.length > 1 ? 'ces repérages' : 'ce repérage'} à tout le monde</button>` : ''}
-      <div class="spotadd"><input type="text" list="townlist" placeholder="Ex. Galerie de Dagsion" aria-label="Lieu où tu l'as vu" data-spotin><button type="button" class="btn" data-spotadd="${g}">Je l'ai vu ici</button></div></div></div>`;
+  if(mk) lines += `<div class="acts" style="margin-top:8px"><button type="button" class="btn" data-mitem="${esc(mk)}">${pix('lens')} ${Tr('Voir sur la carte', 'See on the map')}</button></div>`;
+  const mine = spots.length ? `<div class="tchips">${spots.map((s, i) => `<span class="tchip mine"><button type="button" class="tlink" data-town="${esc(s)}">${esc(s)}</button><button type="button" class="tdel" data-spotdel="${i}" aria-label="${Tr('Retirer', 'Remove')} ${esc(s)}">✕</button></span>`).join('')}</div>` : '';
+  return `<div class="where"><h3>${Tr('Où le trouver', 'Where to find it')} <span class="conf ${conf[0]}">${conf[1]}</span></h3>${lines}
+    <div class="spots"><b>${Tr('Tes repérages', 'Your sightings')}</b>${mine}${spots.length ? `<button type="button" class="linkbtn spotprop" data-report="g|${g}" data-report-t="where" data-report-txt="${esc(Tr('Vu dans le jeu à : ', 'Seen in the game at: ') + spots.join(', '))}">${spots.length > 1 ? Tr('Proposer ces repérages à tout le monde', 'Share these sightings with everyone') : Tr('Proposer ce repérage à tout le monde', 'Share this sighting with everyone')}</button>` : ''}
+      <div class="spotadd"><input type="text" list="townlist" placeholder="${Tr('Ex. Galerie de Dagsion', 'E.g. Dagsion market')}" aria-label="${Tr('Lieu où tu l\'as vu', 'Place where you saw it')}" data-spotin><button type="button" class="btn" data-spotadd="${g}">${Tr('Je l\'ai vu ici', 'Seen it here')}</button></div></div></div>`;
 }
 
 function favBox(c){
   const favs = (c.L || []).filter(t => t[0] !== '@').map(t => ({ g: t.replace(/\?$/, ''), u: t.endsWith('?') }));
   if(!favs.length) return '';
   favs.sort((a, b) => a.u - b.u);
-  return `<div class="favs"><h3>Ses favoris : où les trouver</h3>${favs.slice(0, 8).map(f =>
+  return `<div class="favs"><h3>${Tr('Ses favoris : où les trouver', 'Their favourites: where to find them')}</h3>${favs.slice(0, 8).map(f =>
     `<button type="button" class="fav" data-gift="${f.g}"><span class="mk L" aria-hidden="true">⇈</span><span class="gn"><b>${esc(GIFTS[f.g][1])}${qty(f.g) ? ` <span class="qty">×${qty(f.g)}</span>` : ''}</b><small>${esc(whereShort(f.g))}</small></span></button>`).join('')}</div>`;
 }
 
 function giftModeSeg(){
-  const m = [['cat', 'Catégories'], ['town', 'Par ville'], ['quest', 'À ne pas rater']];
-  return `<div class="seg3" role="tablist" aria-label="Affichage des cadeaux">${m.map(([id, l]) => `<button type="button" role="tab" data-gmode="${id}" aria-selected="${S.giftMode === id}">${l}</button>`).join('')}</div>`;
+  const m = [['cat', Tr('Catégories', 'Categories')], ['town', Tr('Par ville', 'By town')], ['quest', Tr('À ne pas rater', 'Don’t miss')]];
+  return `<div class="seg3" role="tablist" aria-label="${Tr('Affichage des cadeaux', 'Gift view')}">${m.map(([id, l]) => `<button type="button" role="tab" data-gmode="${id}" aria-selected="${S.giftMode === id}">${l}</button>`).join('')}</div>`;
 }
 
 function renderTownHtml(){
@@ -2741,28 +2910,28 @@ function renderTownHtml(){
   if(!S.town || !idx[S.town]) S.town = towns.length ? towns[0].t : null;
   lastTowns = towns;
   const cur = towns.find(x => x.t === S.town);
-  let html = `<button type="button" class="townpick" data-townpick aria-expanded="${S.townPick}">${pix('shop')}<span class="tl"><small>Ville où tu es</small><b>${esc(S.town || 'Choisir une ville')}</b></span>${cur && cur.n ? `<span class="loved" title="Cadeaux adorés par tes personnages qu'on trouve ici">⇈ ${cur.n}</span>` : ''}<span class="chev" aria-hidden="true">▾</span></button>`;
-  if(S.townPick) return html + `<div class="tpicker"><label class="search small"><span aria-hidden="true">⌕</span><input type="search" data-townq placeholder="Chercher une ville" value="${esc(S.townQ)}" autocomplete="off"></label><div data-townres>${townPickerHtml(towns)}</div></div>
-    <p class="hint townhint">Le chiffre ⇈ compte les cadeaux qu'on trouve dans la ville et qu'adorent tes personnages qui ont encore besoin de soutien avec ${lordName(S.lord)}.</p>`;
-  if(!S.town) return html + `<p class="empty">Aucune ville connue.</p>`;
+  let html = `<button type="button" class="townpick" data-townpick aria-expanded="${S.townPick}">${pix('shop')}<span class="tl"><small>${Tr('Ville où tu es', 'Town you are in')}</small><b>${esc(S.town ? townName(S.town) : Tr('Choisir une ville', 'Pick a town'))}</b></span>${cur && cur.n ? `<span class="loved" title="${Tr('Cadeaux adorés par tes personnages qu\'on trouve ici', 'Gifts loved by your characters that you can find here')}">⇈ ${cur.n}</span>` : ''}<span class="chev" aria-hidden="true">▾</span></button>`;
+  if(S.townPick) return html + `<div class="tpicker"><label class="search small"><span aria-hidden="true">⌕</span><input type="search" data-townq placeholder="${Tr('Chercher une ville', 'Search for a town')}" value="${esc(S.townQ)}" autocomplete="off"></label><div data-townres>${townPickerHtml(towns)}</div></div>
+    <p class="hint townhint">${Tr(`Le chiffre ⇈ compte les cadeaux qu'on trouve dans la ville et qu'adorent tes personnages qui ont encore besoin de soutien avec ${lordName(S.lord)}.`, `The ⇈ number counts gifts found in the town that are loved by your characters who still need Support with ${lordName(S.lord)}.`)}</p>`;
+  if(!S.town) return html + `<p class="empty">${Tr('Aucune ville connue.', 'No known town.')}</p>`;
   const gifts = [...idx[S.town]].filter(g => giftMatches(g, q));
   gifts.sort((a, b) => sc[b].L - sc[a].L || sc[b].R - sc[a].R || GIFTS[a][1].localeCompare(GIFTS[b][1]));
   const row = g => {
     const w = WHERE[g] || {}; const mine = (S.spots[g] || []).includes(S.town);
     const viaMap = !mine && !(w.t || []).includes(S.town) && window.MAP && MAP.isMapTown(g, S.town);
-    const extra = [w.p ? `${w.p} or` : '', mine ? 'repéré par toi' : '', viaMap ? 'relevé sur la carte' : ''].filter(Boolean).join(', ');
+    const extra = [w.p ? `${w.p} ${GOLD}` : '', mine ? Tr('repéré par toi', 'spotted by you') : '', viaMap ? Tr('relevé sur la carte', 'found on the map') : ''].filter(Boolean).join(', ');
     return `<div class="inv-row buyrow ${qty(g) ? 'own' : ''}" data-row="${g}">
       <button type="button" class="gname" data-gift="${g}"><span class="nm">${pix(GIFTS[g][2])} ${esc(GIFTS[g][1])}</span><span class="ds">${esc(GIFTS[g][0])}${extra ? ' — ' + esc(extra) : ''}</span></button>
-      <span class="usef">${sc[g].L ? `<span class="loved" title="Personnages qui l'adorent">⇈ ${sc[g].L}</span>` : ''}${sc[g].R ? `<span class="pill good" title="Personnages qui l'aiment beaucoup">↑ ${sc[g].R}</span>` : ''}</span>
-      <button type="button" class="buy" data-buy="${g}" aria-label="J'en ai acheté un : ajouter à l'inventaire">+1${qty(g) ? `<small>×${qty(g)}</small>` : ''}</button></div>`;
+      <span class="usef">${sc[g].L ? `<span class="loved" title="${Tr('Personnages qui l\'adorent', 'Characters who love it')}">⇈ ${sc[g].L}</span>` : ''}${sc[g].R ? `<span class="pill good" title="${Tr('Personnages qui l\'aiment beaucoup', 'Characters who really like it')}">↑ ${sc[g].R}</span>` : ''}</span>
+      <button type="button" class="buy" data-buy="${g}" aria-label="${Tr('J\'en ai acheté un : ajouter à l\'inventaire', 'I bought one: add it to the inventory')}">+1${qty(g) ? `<small>×${qty(g)}</small>` : ''}</button></div>`;
   };
   const useful = gifts.filter(g => sc[g].L || sc[g].R), rest = gifts.filter(g => !sc[g].L && !sc[g].R);
   const isDag = S.town.startsWith('Dagsion');
-  html += `<details class="grp" open><summary><h2 class="disp">${esc(S.town)}</h2><span class="cnt">${useful.length} utile${useful.length > 1 ? 's' : ''}</span></summary>
-    <p class="hint">${isDag ? 'Le stock complet des marchands de Dagsion n\u2019a pas été publié : complète avec tes repérages.' : 'Marché de la ville. Lieux issus surtout d\u2019une seule source : vérifie en jeu.'} Touche +1 quand tu achètes, ça remplit ton inventaire.</p>
-    ${reportLine('t', S.town, 'Le stock ou un prix est faux ?', 'Signale-le')}
-    ${useful.length ? `<div class="rows">${useful.map(row).join('')}</div>` : `<p class="empty">Rien ici ne sert à tes personnages qui ont encore besoin de soutien.</p>`}</details>`;
-  if(rest.length) html += `<details class="grp"><summary><h2 class="disp">Personne n'en a besoin</h2><span class="cnt">${rest.length}</span></summary><div class="rows">${rest.map(row).join('')}</div></details>`;
+  html += `<details class="grp" open><summary><h2 class="disp">${esc(townName(S.town))}</h2><span class="cnt">${useful.length} ${Tr(useful.length > 1 ? 'utiles' : 'utile', 'useful')}</span></summary>
+    <p class="hint">${isDag ? Tr('Le stock complet des marchands de Dagsion n\u2019a pas été publié : complète avec tes repérages.', 'The full stock of the Dagsion merchants hasn’t been published: add your own sightings.') : Tr('Marché de la ville. Lieux issus surtout d\u2019une seule source : vérifie en jeu.', 'The town’s market. Places mostly come from a single source: check in the game.')} ${Tr('Touche +1 quand tu achètes, ça remplit ton inventaire.', 'Tap +1 when you buy, it fills your inventory.')}</p>
+    ${reportLine('t', S.town, Tr('Le stock ou un prix est faux ?', 'Is the stock or a price wrong?'), Tr('Signale-le', 'Report it'))}
+    ${useful.length ? `<div class="rows">${useful.map(row).join('')}</div>` : `<p class="empty">${Tr('Rien ici ne sert à tes personnages qui ont encore besoin de soutien.', 'Nothing here helps your characters who still need Support.')}</p>`}</details>`;
+  if(rest.length) html += `<details class="grp"><summary><h2 class="disp">${Tr('Personne n\'en a besoin', 'Nobody needs these')}</h2><span class="cnt">${rest.length}</span></summary><div class="rows">${rest.map(row).join('')}</div></details>`;
   return html;
 }
 
@@ -2773,24 +2942,24 @@ function renderQuestHtml(){
   const items = questsAll();
   const row = ({ g, q }) => {
     const left = now === null ? null : doy(q.s) - now;
-    const badge = left === null ? `<span class="qdate"><b>${q.d}</b><small>limite</small></span>`
-      : left < 0 ? `<span class="qdate past"><b>${q.d}</b><small>passée</small></span>`
-      : `<span class="qdate ${left <= 7 ? 'soon' : ''}"><b>${left === 0 ? 'Auj.' : 'J-' + left}</b><small>${q.d}</small></span>`;
+    const badge = left === null ? `<span class="qdate"><b>${qShort(q)}</b><small>${Tr('limite', 'deadline')}</small></span>`
+      : left < 0 ? `<span class="qdate past"><b>${qShort(q)}</b><small>${Tr('passée', 'passed')}</small></span>`
+      : `<span class="qdate ${left <= 7 ? 'soon' : ''}"><b>${left === 0 ? Tr('Auj.', 'Today') : Tr('J-', 'D-') + left}</b><small>${qShort(q)}</small></span>`;
     return `<button type="button" class="row qrow" data-gift="${g}">${badge}
-      <span class="who"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">Quête « ${esc(q.n)} » : ${esc(q.i)}</span></span>
+      <span class="who"><span class="nm">${esc(GIFTS[g][1])}</span><span class="ds">${Tr(`Quête « ${esc(q.n)} » : ${esc(q.i)}`, `Quest “${esc(q.n)}”: ${esc(q.i)}`)}</span></span>
       <span class="req">${loved(g) ? `<span class="loved">⇈ ${loved(g)}</span>` : ''}</span></button>`;
   };
   const upcoming = now === null ? items : items.filter(x => doy(x.q.s) >= now);
   const past = now === null ? [] : items.filter(x => doy(x.q.s) < now);
-  const yu = `<button type="button" class="row qrow" data-gift="yu_phas"><span class="qdate"><b>12</b><small>Honneur</small></span>
-      <span class="who"><span class="nm">${esc(GIFTS.yu_phas[1])}</span><span class="ds">Récompense du rang d'Honneur 12, un seul exemplaire par voie</span></span>
+  const yu = `<button type="button" class="row qrow" data-gift="yu_phas"><span class="qdate"><b>12</b><small>${Tr('Honneur', 'Renown')}</small></span>
+      <span class="who"><span class="nm">${esc(GIFTS.yu_phas[1])}</span><span class="ds">${Tr('Récompense du rang d\'Honneur 12, un seul exemplaire par voie', 'Renown rank 12 reward, a single copy per route')}</span></span>
       <span class="req">${loved('yu_phas') ? `<span class="loved">⇈ ${loved('yu_phas')}</span>` : ''}</span></button>`;
-  return gdateHtml() + `<details class="grp" open><summary><h2 class="disp">À ne pas rater</h2><span class="cnt">${upcoming.length + 1}</span></summary>
-    <p class="hint">${now === null ? 'Indique la date du jeu ci-dessus pour voir les jours restants et ranger les quêtes passées. ' : ''}Cadeaux rares obtenus par quête, triés par date limite du calendrier du jeu (Partie I, peut varier selon la voie). Les noms de quêtes sont en anglais : aide-toi du personnage et du lieu.</p>
+  return gdateHtml() + `<details class="grp" open><summary><h2 class="disp">${Tr('À ne pas rater', 'Don’t miss')}</h2><span class="cnt">${upcoming.length + 1}</span></summary>
+    <p class="hint">${now === null ? Tr('Indique la date du jeu ci-dessus pour voir les jours restants et ranger les quêtes passées. ', 'Set the in-game date above to see the days left and file away past quests. ') : ''}${Tr('Cadeaux rares obtenus par quête, triés par date limite du calendrier du jeu (Partie I, peut varier selon la voie). Les noms de quêtes sont en anglais : aide-toi du personnage et du lieu.', 'Rare gifts from quests, sorted by deadline in the game calendar (Part I, may vary by route).')}</p>
     <div class="rows">${yu}${upcoming.map(row).join('')}</div></details>
-    ${past.length ? `<details class="grp" data-g="qpast"><summary><h2 class="disp">Déjà passées</h2><span class="cnt">${past.length}</span></summary><div class="rows">${past.map(row).join('')}</div></details>` : ''}
+    ${past.length ? `<details class="grp" data-g="qpast"><summary><h2 class="disp">${Tr('Déjà passées', 'Already passed')}</h2><span class="cnt">${past.length}</span></summary><div class="rows">${past.map(row).join('')}</div></details>` : ''}
     ${bdayHtml()}
-    <div class="note">Astuce : les Boîtes cadeaux (boutique d'objets d'Alecto et de Barsk, et récompenses des représentations de Leda) donnent un cadeau au hasard, parfois rare.</div>`;
+    <div class="note">${Tr('Astuce : les Boîtes cadeaux (boutique d\'objets d\'Alecto et de Barsk, et récompenses des représentations de Leda) donnent un cadeau au hasard, parfois rare.', 'Tip: Gift Boxes (item shops in Alecto and Barsk, and rewards from Leda’s performances) give a random gift, sometimes a rare one.')}</div>`;
 }
 
 function bdayHtml(){
@@ -2798,18 +2967,18 @@ function bdayHtml(){
   const all = CHARS.filter(bdOf);
   const now = S.gameDate ? doy(S.gameDate) : null;
   const soon = now === null ? [] : all.filter(c => mine.has(c.n)).map(c => ({ c, d: bdLeft(c) })).filter(x => x.d <= 30).sort((a, b) => a.d - b.d);
-  const row = ({ c, d }) => `<button type="button" class="row qrow" data-char="${esc(c.n)}"><span class="qdate ${d <= 6 ? 'soon' : ''}"><b>${d === 0 ? 'Auj.' : 'J-' + d}</b><small>${bdNum(bdOf(c))}</small></span>
+  const row = ({ c, d }) => `<button type="button" class="row qrow" data-char="${esc(c.n)}"><span class="qdate ${d <= 6 ? 'soon' : ''}"><b>${d === 0 ? Tr('Auj.', 'Today') : Tr('J-', 'D-') + d}</b><small>${bdNum(bdOf(c))}</small></span>
       <span class="who"><span class="nm">${wIcon(c)}${esc(c.n)}</span><span class="ds">${esc(c.d)}</span></span><span class="req">${pix('cake')}</span></button>`;
   const months = MONTHS.map((mn, i) => {
     const list = all.filter(c => +bdOf(c).slice(0, 2) === i + 1).sort((a, b) => bdOf(a).localeCompare(bdOf(b)));
     if(!list.length) return '';
     return `<div class="bdm"><h3>${mn}</h3><div class="who-list">${list.map(c => `<button type="button" class="who-btn ${mine.has(c.n) ? '' : 'dim'} ${bdSoon(c) ? 'soon' : ''}" data-char="${esc(c.n)}"><b>${+bdOf(c).slice(3)}</b> ${esc(c.n)}</button>`).join('')}</div></div>`;
   }).join('');
-  return `<details class="grp" data-g="bday" ${openState.bday === false ? '' : 'open'}><summary><h2 class="disp">${pix('cake')} Anniversaires</h2><span class="cnt">${now === null ? all.length : `${soon.length} dans les 30 jours`}</span></summary>
-    <p class="hint">Le jour de son anniversaire, un personnage réagit au moins « a beaucoup aimé », même à un cadeau qui le laisserait indifférent, et son soutien monte davantage. Le jeu te le rappelle pour tes recrues. Pour les autres, va les trouver à Dagsion ce jour-là.${now === null ? ' Indique la date du jeu ci-dessus pour voir les prochains.' : ''}</p>
+  return `<details class="grp" data-g="bday" ${openState.bday === false ? '' : 'open'}><summary><h2 class="disp">${pix('cake')} ${Tr('Anniversaires', 'Birthdays')}</h2><span class="cnt">${now === null ? all.length : Tr(`${soon.length} dans les 30 jours`, `${soon.length} in the next 30 days`)}</span></summary>
+    <p class="hint">${Tr('Le jour de son anniversaire, un personnage réagit au moins « a beaucoup aimé », même à un cadeau qui le laisserait indifférent, et son soutien monte davantage. Le jeu te le rappelle pour tes recrues. Pour les autres, va les trouver à Dagsion ce jour-là.', 'On their birthday, a character reacts with at least “really liked it”, even to a gift they wouldn’t care about, and their Support rises more. The game reminds you for your recruits. For the others, go and find them in Dagsion that day.')}${now === null ? Tr(' Indique la date du jeu ci-dessus pour voir les prochains.', ' Set the in-game date above to see the next ones.') : ''}</p>
     ${soon.length ? `<div class="rows">${soon.map(row).join('')}</div>` : ''}
     <div class="bdcal">${months}</div>
-    <p class="hint2">En grisé : pas sur ta voie avec ${lordName(S.lord)}. Dates confirmées par au moins deux sources (Game8, Fire Emblem Wiki, RaiderKing, Fextralife). Celui de Fianna n’est pas connu. ⚠ dans une fiche : une source donne une autre date.</p></details>`;
+    <p class="hint2">${Tr(`En grisé : pas sur ta voie avec ${lordName(S.lord)}. Dates confirmées par au moins deux sources (Game8, Fire Emblem Wiki, RaiderKing, Fextralife). Celui de Fianna n’est pas connu. ⚠ dans une fiche : une source donne une autre date.`, `Greyed out: not on your route with ${lordName(S.lord)}. Dates confirmed by at least two sources (Game8, Fire Emblem Wiki, RaiderKing, Fextralife). Fianna’s is unknown. ⚠ in a sheet: one source gives another date.`)}</p></details>`;
 }
 
 function whereClick(e){
@@ -2846,7 +3015,7 @@ function addSpot(g, val){
   if(!a.includes(t)) a.push(t);
   store.set('spots', S.spots); refreshPanel();
   if(S.tab === 'gifts') renderList();
-  toast(`Noté : ${GIFTS[g][1]} à ${t}.`);
+  toast(Tr(`Noté : ${GIFTS[g][1]} à ${t}.`, `Noted: ${GIFTS[g][1]} at ${t}.`));
 }
 function delSpot(g, i){
   const a = S.spots[g] || []; a.splice(i, 1);
@@ -2857,45 +3026,46 @@ function delSpot(g, i){
 
 /* ---------- signaler une erreur : un ticket GitHub prérempli, sans serveur ni base ---------- */
 const REPO_URL = 'https://github.com/Ly-Ten/fe-gift-tactician';
-const reportLine = (k, id, q = 'Une erreur dans cette fiche ?', a = 'Signale-la') => `<p class="repline">${q} <button type="button" class="linkbtn" data-report="${esc(k + '|' + id)}">${a}</button></p>`;
+const REPORT_TPL = Tr('correction.yml', 'correction-en.yml');
+const reportLine = (k, id, q = Tr('Une erreur dans cette fiche ?', 'A mistake in this sheet?'), a = Tr('Signale-la', 'Report it')) => `<p class="repline">${q} <button type="button" class="linkbtn" data-report="${esc(k + '|' + id)}">${a}</button></p>`;
 const tokName = tok => { const u = tok.endsWith('?'), k = u ? tok.slice(0, -1) : tok; return (k[0] === '@' ? GROUPS[k.slice(1)][0] : GIFTS[k] ? GIFTS[k][1] : k) + (u ? ' (?)' : ''); };
 // la fiche signalée et ses sujets : [id, libellé, ce que l'outil affiche aujourd'hui, exemple de correction]
 function reportCtx(k, id){
-  const other = ['other', 'Autre', '', 'Décris ce qui ne va pas'];
+  const other = ['other', Tr('Autre', 'Other'), '', Tr('Décris ce qui ne va pas', 'Describe what is wrong')];
   if(k === 'g' && GIFTS[id]){
     const G = GIFTS[id], w = WHERE[id] || {};
     const shops = [...new Set([...(w.t || []), ...(window.MAP && MAP.ready ? MAP.giftTowns(id) : [])])];
-    const where = [shops.length ? 'Marchés : ' + shops.join(', ') : '', w.r ? `Récompense du rang d'Honneur ${w.r}` : '', ...(w.q || []).map(q => `Quête « ${q.n} », avant le ${q.d}`)].filter(Boolean).join('\n');
+    const where = [shops.length ? Tr('Marchés : ', 'Markets: ') + shops.map(townName).join(', ') : '', w.r ? Tr(`Récompense du rang d'Honneur ${w.r}`, `Renown rank ${w.r} reward`) : '', ...(w.q || []).map(q => Tr(`Quête « ${q.n} », avant le ${q.d}`, `Quest “${q.n}”, before ${qDate(q)}`))].filter(Boolean).join('\n');
     const who = TIERS.map(([t, lbl]) => { const n = CHARS.filter(c => { const r = tierOf(c, id); return r && r.t === t; }).map(c => c.n); return n.length ? `${lbl} : ${n.join(', ')}` : ''; }).filter(Boolean).join('\n');
-    return { what: `Cadeau « ${G[1]} »`, ref: id, topics: [
-      ['name', 'Nom français', `${G[1]} (en anglais : ${G[0]})`, 'Ex. : dans le jeu, il s’appelle « … »'],
-      ['where', 'Où le trouver', where || 'Lieu inconnu', 'Ex. : vendu au marché de …'],
-      ['price', 'Prix', w.p ? `${w.p} or` : 'Prix non documenté', 'Ex. : 450 or au marché de …'],
-      ['who', 'Qui l’aime', who || 'Aucune réaction connue', 'Ex. : Alexandra a réagi « a adoré »'], other] };
+    return { what: Tr(`Cadeau « ${G[1]} »`, `Gift “${G[1]}”`), ref: id, topics: [
+      ['name', Tr('Nom français', 'Name'), Tr(`${G[1]} (en anglais : ${G[0]})`, `${G[1]} (French: ${G[0]})`), Tr('Ex. : dans le jeu, il s\u2019appelle « … »', 'E.g. in the game it is called “…”')],
+      ['where', Tr('Où le trouver', 'Where to find it'), where || Tr('Lieu inconnu', 'Unknown place'), Tr('Ex. : vendu au marché de …', 'E.g. sold at the … market')],
+      ['price', Tr('Prix', 'Price'), w.p ? `${w.p} ${GOLD}` : Tr('Prix non documenté', 'Price not documented'), Tr('Ex. : 450 or au marché de …', 'E.g. 450 gold at the … market')],
+      ['who', Tr('Qui l\u2019aime', 'Who likes it'), who || Tr('Aucune réaction connue', 'No known reaction'), Tr('Ex. : Alexandra a réagi « a adoré »', 'E.g. Alexandra reacted “loved it”')], other] };
   }
   if(k === 'c' && charByName[id]){
     const c = charByName[id], cl = CLASS[c.n], b = bdOf(c);
     const likes = TIERS.map(([t, lbl]) => (c[t] || []).length ? `${lbl} : ${c[t].map(tokName).join(', ')}` : '').filter(Boolean).join('\n');
-    const req = c.nr || c.lord ? (c.lord ? 'Seigneur de la Flamme' : 'Non recrutable en Partie I')
-      : LORDS.map(l => { const r = reqOf(c, l.id), ex = extraOf(c, l.id); return `${l.name} : ${r === 'A' ? 'rejoint automatiquement' : !r ? 'non recrutable' : `Soutien ${r[0]}, Honneur ${r[1]}${ex ? ' + ' + ex : ''}`}`; }).join('\n');
-    return { what: `Personnage « ${c.n} »`, ref: '', topics: [
-      ['likes', 'Cadeaux préférés', likes, 'Ex. : réaction « a adoré » pour le …'],
-      ['req', 'Conditions de recrutement', req, 'Ex. : avec Dietrich, Soutien 2 et Honneur 6'],
-      ['bday', 'Anniversaire', b ? fmtGD(b) : 'Inconnu', 'Ex. : le 12 mars'],
-      ['wpn', 'Armes ou classe', cl ? `${cl[1] ? cl[1] + ' · ' : ''}${cl[2].map(x => WPN[x][1]).join(', ')}` : 'Inconnues', ''], other] };
+    const req = c.nr || c.lord ? (c.lord ? Tr('Seigneur de la Flamme', 'Flame Lord') : Tr('Non recrutable en Partie I', 'Not recruitable in Part I'))
+      : LORDS.map(l => { const r = reqOf(c, l.id), ex = extraOf(c, l.id); return `${l.name}${Tr(' : ', ': ')}${r === 'A' ? Tr('rejoint automatiquement', 'joins automatically') : !r ? Tr('non recrutable', 'not recruitable') : `${Tr('Soutien', 'Support')} ${r[0]}, ${Tr('Honneur', 'Renown')} ${r[1]}${ex ? ' + ' + ex : ''}`}`; }).join('\n');
+    return { what: Tr(`Personnage « ${c.n} »`, `Character “${c.n}”`), ref: '', topics: [
+      ['likes', Tr('Cadeaux préférés', 'Favourite gifts'), likes, Tr('Ex. : réaction « a adoré » pour le …', 'E.g. reaction “loved it” for the …')],
+      ['req', Tr('Conditions de recrutement', 'Recruitment requirements'), req, Tr('Ex. : avec Dietrich, Soutien 2 et Honneur 6', 'E.g. with Dietrich, Support 2 and Renown 6')],
+      ['bday', Tr('Anniversaire', 'Birthday'), b ? fmtGD(b) : Tr('Inconnu', 'Unknown'), Tr('Ex. : le 12 mars', 'E.g. March 12')],
+      ['wpn', Tr('Armes ou classe', 'Weapons or class'), cl ? `${cl[1] ? cl[1] + ' · ' : ''}${cl[2].map(x => WPN[x][1]).join(', ')}` : Tr('Inconnues', 'Unknown'), ''], other] };
   }
   if(k === 'p' && window.MAP && MAP.ready && MAP.placeInfo){
     const p = MAP.placeInfo(id); if(!p) return null;
-    return { what: `Lieu « ${p.n} »`, ref: id, topics: [
-      ['stock', 'Objets vendus ou trouvés', p.stock || 'Aucun objet relevé', 'Ex. : on y trouve aussi … / … n’y est pas'],
-      ['place', 'Nom ou position', `${p.n}, ${p.kind}, ${p.region}`, ''], other] };
+    return { what: Tr(`Lieu « ${p.n} »`, `Place “${p.n}”`), ref: id, topics: [
+      ['stock', Tr('Objets vendus ou trouvés', 'Items sold or found'), p.stock || Tr('Aucun objet relevé', 'No item recorded'), Tr('Ex. : on y trouve aussi … / … n\u2019y est pas', 'E.g. … can also be found here / … isn’t there')],
+      ['place', Tr('Nom ou position', 'Name or position'), `${p.n}, ${p.kind}, ${p.region}`, ''], other] };
   }
   if(k === 't'){
     const gs = Object.keys(GIFTS).filter(g => ((WHERE[g] || {}).t || []).includes(id) || (window.MAP && MAP.ready && MAP.isMapTown(g, id)));
-    return { what: `Marché de ${id}`, ref: '', topics: [
-      ['stock', 'Cadeaux vendus ou prix', gs.map(g => GIFTS[g][1] + ((WHERE[g] || {}).p ? ` (${WHERE[g].p} or)` : '')).join(', ') || 'Aucun cadeau relevé', 'Ex. : il vend aussi … / … coûte 300 or'], other] };
+    return { what: Tr(`Marché de ${id}`, `${townName(id)} market`), ref: '', topics: [
+      ['stock', Tr('Cadeaux vendus ou prix', 'Gifts sold or prices'), gs.map(g => GIFTS[g][1] + ((WHERE[g] || {}).p ? ` (${WHERE[g].p} ${GOLD})` : '')).join(', ') || Tr('Aucun cadeau relevé', 'No gift recorded'), Tr('Ex. : il vend aussi … / … coûte 300 or', 'E.g. it also sells … / … costs 300 gold')], other] };
   }
-  return { what: 'Le fil des cadeaux', ref: '', topics: [other] };
+  return { what: Tr('Le fil des cadeaux', 'Fortune’s Gifts'), ref: '', topics: [other] };
 }
 function openReport(k, id, t, txt){
   S.rep = { k, id, t: t || null, txt: txt || '' };
@@ -2904,26 +3074,26 @@ function openReport(k, id, t, txt){
   openPanel('r', '');
 }
 const repTopic = ctx => ctx.topics.find(x => x[0] === S.rep.t) || ctx.topics[0];
-const repNow = tp => tp[2] ? `<h3>Ce que l'outil affiche</h3><p class="repnow">${esc(tp[2]).replace(/\n/g, '<br>')}</p>` : '';
+const repNow = tp => tp[2] ? `<h3>${Tr('Ce que l\'outil affiche', 'What the tool shows')}</h3><p class="repnow">${esc(tp[2]).replace(/\n/g, '<br>')}</p>` : '';
 function renderReportPanel(){
   const ctx = reportCtx(S.rep.k, S.rep.id), tp = repTopic(ctx);
-  const back = ['g', 'c', 'p'].includes(S.rep.k) ? '<button type="button" class="btn back" data-rep-back>Retour</button>' : '';
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Signaler une erreur</h2><p>${esc(ctx.what)}</p></div><div class="ph-acts">${back}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+  const back = ['g', 'c', 'p'].includes(S.rep.k) ? `<button type="button" class="btn back" data-rep-back>${Tr('Retour', 'Back')}</button>` : '';
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${Tr('Signaler une erreur', 'Report a mistake')}</h2><p>${esc(ctx.what)}</p></div><div class="ph-acts">${back}<button type="button" class="x" data-close aria-label="${Tr('Fermer', 'Close')}">✕</button></div></div>
   <div class="pb rep">
-    ${ctx.topics.length > 1 ? `<h3>Ce qui ne va pas</h3><div class="who-list" role="group" aria-label="Sujet de l'erreur">${ctx.topics.map(([id, lbl]) => `<button type="button" class="who-btn" data-rep-t="${id}" aria-pressed="${id === tp[0]}">${esc(lbl)}</button>`).join('')}</div>` : ''}
+    ${ctx.topics.length > 1 ? `<h3>${Tr('Ce qui ne va pas', 'What is wrong')}</h3><div class="who-list" role="group" aria-label="${Tr('Sujet de l\'erreur', 'Topic of the mistake')}">${ctx.topics.map(([id, lbl]) => `<button type="button" class="who-btn" data-rep-t="${id}" aria-pressed="${id === tp[0]}">${esc(lbl)}</button>`).join('')}</div>` : ''}
     <div data-rep-now>${repNow(tp)}</div>
-    <label class="repf"><b>Ta correction</b><textarea data-rep-txt rows="4" placeholder="${esc(tp[3] || 'Décris ce qui ne va pas')}">${esc(S.rep.txt)}</textarea></label>
-    <label class="repf"><b>Comment tu le sais <small>(facultatif)</small></b><input type="text" data-rep-src placeholder="Vu dans le jeu, lien vers un guide…"></label>
-    <p class="hint2">La meilleure preuve est une capture d'écran du jeu : tu pourras la glisser dans le ticket, sur GitHub.</p>
-    <div class="acts"><a class="give" data-rep-send href="${REPO_URL}/issues/new?template=correction.yml" target="_blank" rel="noopener">Envoyer sur GitHub</a><button type="button" class="btn" data-rep-copy>Copier le texte</button></div>
-    <p class="hint2">Il faut un compte GitHub, gratuit. Sans compte, copie le texte pour l'envoyer autrement. Chaque proposition est relue avant d'être appliquée : le jeu fait foi.</p>
+    <label class="repf"><b>${Tr('Ta correction', 'Your correction')}</b><textarea data-rep-txt rows="4" placeholder="${esc(tp[3] || Tr('Décris ce qui ne va pas', 'Describe what is wrong'))}">${esc(S.rep.txt)}</textarea></label>
+    <label class="repf"><b>${Tr('Comment tu le sais', 'How you know')} <small>${Tr('(facultatif)', '(optional)')}</small></b><input type="text" data-rep-src placeholder="${Tr('Vu dans le jeu, lien vers un guide…', 'Seen in the game, link to a guide…')}"></label>
+    <p class="hint2">${Tr('La meilleure preuve est une capture d\'écran du jeu : tu pourras la glisser dans le ticket, sur GitHub.', 'The best proof is an in-game screenshot: you can drop it into the issue on GitHub.')}</p>
+    <div class="acts"><a class="give" data-rep-send href="${REPO_URL}/issues/new?template=${REPORT_TPL}" target="_blank" rel="noopener">${Tr('Envoyer sur GitHub', 'Send to GitHub')}</a><button type="button" class="btn" data-rep-copy>${Tr('Copier le texte', 'Copy the text')}</button></div>
+    <p class="hint2">${Tr('Il faut un compte GitHub, gratuit. Sans compte, copie le texte pour l\'envoyer autrement. Chaque proposition est relue avant d\'être appliquée : le jeu fait foi.', 'You need a free GitHub account. Without one, copy the text and send it another way. Every suggestion is reviewed before it is applied: the game is the authority.')}</p>
   </div>`;
 }
 function reportData(){
   const ctx = reportCtx(S.rep.k, S.rep.id), tp = repTopic(ctx);
   const v = s => ((document.querySelector(s) || {}).value || '').trim();
   return { title: `${ctx.what} : ${tp[1]}`, fiche: ctx.what + (ctx.ref ? ` [${ctx.ref}]` : ''), sujet: tp[1], actuel: tp[2].slice(0, 1500),
-    proposition: v('[data-rep-txt]'), source: v('[data-rep-src]'), contexte: `Seigneur joué : ${lordName(S.lord)}, Honneur ${S.honor}` };
+    proposition: v('[data-rep-txt]'), source: v('[data-rep-src]'), contexte: Tr(`Seigneur joué : ${lordName(S.lord)}, Honneur ${S.honor}`, `Lord played: ${lordName(S.lord)}, Renown ${S.honor}`) };
 }
 function reportClick(e){
   const t = e.target.closest('[data-rep-t]');
@@ -2931,21 +3101,21 @@ function reportClick(e){
     S.rep.t = t.dataset.repT; const tp = repTopic(reportCtx(S.rep.k, S.rep.id));
     document.querySelectorAll('[data-rep-t]').forEach(b => b.setAttribute('aria-pressed', b === t));
     document.querySelector('[data-rep-now]').innerHTML = repNow(tp);
-    document.querySelector('[data-rep-txt]').placeholder = tp[3] || 'Décris ce qui ne va pas';
+    document.querySelector('[data-rep-txt]').placeholder = tp[3] || Tr('Décris ce qui ne va pas', 'Describe what is wrong');
     return true;
   }
   if(e.target.closest('[data-rep-back]')){ openPanel(S.rep.k, S.rep.id); return true; }
   const send = e.target.closest('[data-rep-send]');
   if(send){
     const d = reportData();
-    if(!d.proposition){ e.preventDefault(); toast('Écris d’abord ta correction.'); document.querySelector('[data-rep-txt]').focus(); return true; }
-    send.href = `${REPO_URL}/issues/new?` + new URLSearchParams({ template: 'correction.yml', ...d });
+    if(!d.proposition){ e.preventDefault(); toast(Tr('Écris d\u2019abord ta correction.', 'Write your correction first.')); document.querySelector('[data-rep-txt]').focus(); return true; }
+    send.href = `${REPO_URL}/issues/new?` + new URLSearchParams({ template: REPORT_TPL, ...d });
     return true;
   }
   if(e.target.closest('[data-rep-copy]')){
     const d = reportData();
-    if(!d.proposition){ toast('Écris d’abord ta correction.'); document.querySelector('[data-rep-txt]').focus(); return true; }
-    copyText(`Signalement pour Le fil des cadeaux\nFiche : ${d.fiche}\nSujet : ${d.sujet}\nCe que l'outil affiche : ${d.actuel || '—'}\nCorrection : ${d.proposition}\nComment je le sais : ${d.source || '—'}\n${d.contexte}\n${location.origin + location.pathname}`, 'Texte copié.');
+    if(!d.proposition){ toast(Tr('Écris d\u2019abord ta correction.', 'Write your correction first.')); document.querySelector('[data-rep-txt]').focus(); return true; }
+    copyText(Tr(`Signalement pour Le fil des cadeaux\nFiche : ${d.fiche}\nSujet : ${d.sujet}\nCe que l'outil affiche : ${d.actuel || '—'}\nCorrection : ${d.proposition}\nComment je le sais : ${d.source || '—'}\n${d.contexte}`, `Report for Fortune’s Gifts\nSheet: ${d.fiche}\nTopic: ${d.sujet}\nWhat the tool shows: ${d.actuel || '—'}\nCorrection: ${d.proposition}\nHow I know: ${d.source || '—'}\n${d.contexte}`) + `\n${location.origin + location.pathname}`, Tr('Texte copié.', 'Text copied.'));
     return true;
   }
   return false;
@@ -2968,15 +3138,15 @@ function snapshot(){
   try {
     for(let i = 0; i < localStorage.length; i++){
       const k = localStorage.key(i);
-      if(k && k.startsWith('feweave:')){ try { data[k.slice(8)] = JSON.parse(localStorage.getItem(k)); } catch(e) {} }
+      if(k && k.startsWith('feweave:') && k !== 'feweave:lang'){ try { data[k.slice(8)] = JSON.parse(localStorage.getItem(k)); } catch(e) {} }
     }
   } catch(e) {}
   return { app: APP_ID, v: 1, date: new Date().toISOString(), data };
 }
 function parseImport(text){
   let o;
-  try { o = JSON.parse(String(text || '').trim()); } catch(e) { return { err: 'Ce texte n\u2019est pas un code de sauvegarde valide. Vérifie que tu as tout copié, du premier { au dernier }.' }; }
-  if(!o || o.app !== APP_ID || typeof o.data !== 'object' || !o.data) return { err: 'Ce code ne vient pas de cet outil.' };
+  try { o = JSON.parse(String(text || '').trim()); } catch(e) { return { err: Tr('Ce texte n\u2019est pas un code de sauvegarde valide. Vérifie que tu as tout copié, du premier { au dernier }.', 'This text isn’t a valid backup code. Check that you copied everything, from the first { to the last }.') }; }
+  if(!o || o.app !== APP_ID || typeof o.data !== 'object' || !o.data) return { err: Tr('Ce code ne vient pas de cet outil.', 'This code doesn’t come from this tool.') };
   return { ok: o };
 }
 function importSummary(o){
@@ -2990,21 +3160,23 @@ function importSummary(o){
   const gifts = Object.values(d.log || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
   const spots = Object.values(d.spots || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
   const lord = d.lord && LORDS.find(l => l.id === d.lord);
-  const when = o.date ? new Date(o.date).toLocaleString('fr-FR', { day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }) : 'date inconnue';
-  return `Sauvegarde du ${esc(when)}${lord ? `, avec ${lord.name}` : ''}${honor ? `, Honneur ${+honor}` : ''} : ${inv} cadeau${inv > 1 ? 'x' : ''} en stock, ${sup} soutien${sup > 1 ? 's' : ''} noté${sup > 1 ? 's' : ''}, ${rec} recrutement${rec > 1 ? 's' : ''}, ${gifts} cadeau${gifts > 1 ? 'x' : ''} offert${gifts > 1 ? 's' : ''}, ${spots} repérage${spots > 1 ? 's' : ''}.`;
+  const when = o.date ? new Date(o.date).toLocaleString(LOCALE, { day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }) : Tr('date inconnue', 'unknown date');
+  const pl = n => n === 1 ? '' : 's';
+  return Tr(`Sauvegarde du ${esc(when)}${lord ? `, avec ${lord.name}` : ''}${honor ? `, Honneur ${+honor}` : ''} : ${inv} cadeau${inv > 1 ? 'x' : ''} en stock, ${sup} soutien${sup > 1 ? 's' : ''} noté${sup > 1 ? 's' : ''}, ${rec} recrutement${rec > 1 ? 's' : ''}, ${gifts} cadeau${gifts > 1 ? 'x' : ''} offert${gifts > 1 ? 's' : ''}, ${spots} repérage${spots > 1 ? 's' : ''}.`,
+    `Backup from ${esc(when)}${lord ? `, with ${lord.name}` : ''}${honor ? `, Renown ${+honor}` : ''}: ${inv} gift${pl(inv)} in stock, ${sup} Support${pl(sup)} noted, ${rec} recruit${pl(rec)}, ${gifts} gift${pl(gifts)} given, ${spots} sighting${pl(spots)}.`);
 }
 function writeAll(data){
   const keys = [];
-  for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if(k && k.startsWith('feweave:')) keys.push(k); }
+  for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if(k && k.startsWith('feweave:') && k !== 'feweave:lang') keys.push(k); }
   keys.forEach(k => localStorage.removeItem(k));
-  for(const k in data) localStorage.setItem('feweave:' + k, JSON.stringify(data[k]));
+  for(const k in data) if(k !== 'lang') localStorage.setItem('feweave:' + k, JSON.stringify(data[k]));
 }
 function applyImport(o){
   try {
     localStorage.setItem(BACKUP_KEY, JSON.stringify(snapshot()));
     writeAll(o.data);
     location.reload();
-  } catch(e) { toast('Import impossible : le navigateur refuse l\u2019enregistrement.'); }
+  } catch(e) { toast(Tr('Import impossible : le navigateur refuse l\u2019enregistrement.', 'Import failed: the browser refuses to save.')); }
 }
 function restoreBackup(){
   try {
@@ -3012,31 +3184,31 @@ function restoreBackup(){
     writeAll(b.data);
     localStorage.removeItem(BACKUP_KEY);
     location.reload();
-  } catch(e) { toast('Impossible de restaurer la sauvegarde précédente.'); }
+  } catch(e) { toast(Tr('Impossible de restaurer la sauvegarde précédente.', 'Couldn’t restore the previous backup.')); }
 }
 function hasBackup(){ try { return !!localStorage.getItem(BACKUP_KEY); } catch(e) { return false; } }
 
 function renderSavePanel(){
   const code = JSON.stringify(snapshot());
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Sauvegarde</h2><p>Transférer tes données vers une autre version de l'outil</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${Tr('Sauvegarde', 'Backup')}</h2><p>${Tr('Transférer tes données vers une autre version de l\'outil', 'Move your data to another copy of the tool')}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="${Tr('Fermer', 'Close')}">✕</button></div></div>
   <div class="pb">
-    <div class="where"><h3>Vers un autre appareil</h3>
-      <p class="hint2">Affiche le QR code, puis scanne-le avec l'appareil photo de ton téléphone : l'outil s'ouvre et te propose l'import. Tu peux aussi copier le lien et te l'envoyer.</p>
-      <div class="acts"><button type="button" class="give" data-qr>Afficher le QR code</button><button type="button" class="btn" data-link-copy>Copier le lien</button></div>
+    <div class="where"><h3>${Tr('Vers un autre appareil', 'To another device')}</h3>
+      <p class="hint2">${Tr('Affiche le QR code, puis scanne-le avec l\'appareil photo de ton téléphone : l\'outil s\'ouvre et te propose l\'import. Tu peux aussi copier le lien et te l\'envoyer.', 'Show the QR code, then scan it with your phone’s camera: the tool opens and offers to import. You can also copy the link and send it to yourself.')}</p>
+      <div class="acts"><button type="button" class="give" data-qr>${Tr('Afficher le QR code', 'Show the QR code')}</button><button type="button" class="btn" data-link-copy>${Tr('Copier le lien', 'Copy the link')}</button></div>
       <div data-qr-out aria-live="polite"></div>
     </div>
-    <div class="where"><h3>Exporter le code</h3>
-      <p class="hint2">Tout est inclus : inventaire, soutiens, conditions, recrutés, cadeaux offerts, tournées, repérages et réglages.</p>
-      <div class="acts"><button type="button" class="give" data-exp-copy>Copier le code</button>${isTopLevel ? '<button type="button" class="btn" data-exp-dl>Télécharger le fichier</button>' : ''}</div>
-      <textarea class="code" readonly rows="4" data-exp aria-label="Code de sauvegarde">${esc(code)}</textarea>
-      <small class="hint2">Colle ce code dans l'autre version de l'outil, rubrique Sauvegarde. Garde-le aussi dans une note : c'est ta copie de secours.</small>
+    <div class="where"><h3>${Tr('Exporter le code', 'Export the code')}</h3>
+      <p class="hint2">${Tr('Tout est inclus : inventaire, soutiens, conditions, recrutés, cadeaux offerts, tournées, repérages et réglages.', 'Everything is included: inventory, Supports, conditions, recruits, gifts given, rounds, sightings and settings.')}</p>
+      <div class="acts"><button type="button" class="give" data-exp-copy>${Tr('Copier le code', 'Copy the code')}</button>${isTopLevel ? `<button type="button" class="btn" data-exp-dl>${Tr('Télécharger le fichier', 'Download the file')}</button>` : ''}</div>
+      <textarea class="code" readonly rows="4" data-exp aria-label="${Tr('Code de sauvegarde', 'Backup code')}">${esc(code)}</textarea>
+      <small class="hint2">${Tr('Colle ce code dans l\'autre version de l\'outil, rubrique Sauvegarde. Garde-le aussi dans une note : c\'est ta copie de secours.', 'Paste this code into the other copy of the tool, under Backup. Also keep it in a note: it is your backup copy.')}</small>
     </div>
-    <div class="where"><h3>Importer un code</h3>
-      <textarea class="code" rows="4" placeholder="Colle ici le code exporté" data-imp aria-label="Code à importer"></textarea>
-      <div class="acts"><label class="btn file">Choisir un fichier<input type="file" accept=".json,application/json,text/plain" data-imp-file hidden></label><button type="button" class="give" data-imp-go>Vérifier le code</button></div>
+    <div class="where"><h3>${Tr('Importer un code', 'Import a code')}</h3>
+      <textarea class="code" rows="4" placeholder="${Tr('Colle ici le code exporté', 'Paste the exported code here')}" data-imp aria-label="${Tr('Code à importer', 'Code to import')}"></textarea>
+      <div class="acts"><label class="btn file">${Tr('Choisir un fichier', 'Choose a file')}<input type="file" accept=".json,application/json,text/plain" data-imp-file hidden></label><button type="button" class="give" data-imp-go>${Tr('Vérifier le code', 'Check the code')}</button></div>
       <div data-imp-msg aria-live="polite"></div>
     </div>
-    ${hasBackup() ? `<div class="where"><h3>Annuler le dernier import</h3><p class="hint2">Tes données d'avant le dernier import ont été gardées de côté.</p><button type="button" class="btn" data-imp-undo>Revenir à mes données d'avant</button></div>` : ''}
+    ${hasBackup() ? `<div class="where"><h3>${Tr('Annuler le dernier import', 'Undo the last import')}</h3><p class="hint2">${Tr('Tes données d\'avant le dernier import ont été gardées de côté.', 'Your data from before the last import was kept aside.')}</p><button type="button" class="btn" data-imp-undo>${Tr('Revenir à mes données d\'avant', 'Go back to my previous data')}</button></div>` : ''}
   </div>`;
 }
 
@@ -3046,10 +3218,10 @@ function checkImport(text, viaLink){
   pendingImport = null; importArmed = false;
   if(r.err){ box.innerHTML = `<p class="imp-err">${esc(r.err)}</p>`; return; }
   pendingImport = r.ok;
-  box.innerHTML = `${viaLink ? '<p class="imp-ok">Données reçues depuis ton autre appareil.</p>' : ''}<p class="imp-ok">${importSummary(r.ok)}</p>
-    <p class="hint2">L'import remplace toutes les données de cette version. Elles sont gardées de côté, tu pourras revenir en arrière.</p>
-    <div class="acts"><button type="button" class="btn danger" data-imp-confirm>Remplacer mes données</button>${viaLink ? '<button type="button" class="btn" data-imp-copy>Copier le code</button>' : ''}</div>
-    ${viaLink ? '<small class="hint2">Sur iPhone, l\u2019app installée sur l\u2019écran d\u2019accueil garde ses propres données. Pour les y mettre, copie le code, ouvre l\u2019app, puis colle-le dans Sauvegarde.</small>' : ''}`;
+  box.innerHTML = `${viaLink ? `<p class="imp-ok">${Tr('Données reçues depuis ton autre appareil.', 'Data received from your other device.')}</p>` : ''}<p class="imp-ok">${importSummary(r.ok)}</p>
+    <p class="hint2">${Tr('L\'import remplace toutes les données de cette version. Elles sont gardées de côté, tu pourras revenir en arrière.', 'Importing replaces all the data in this copy. It is kept aside, so you can go back.')}</p>
+    <div class="acts"><button type="button" class="btn danger" data-imp-confirm>${Tr('Remplacer mes données', 'Replace my data')}</button>${viaLink ? `<button type="button" class="btn" data-imp-copy>${Tr('Copier le code', 'Copy the code')}</button>` : ''}</div>
+    ${viaLink ? `<small class="hint2">${Tr('Sur iPhone, l\u2019app installée sur l\u2019écran d\u2019accueil garde ses propres données. Pour les y mettre, copie le code, ouvre l\u2019app, puis colle-le dans Sauvegarde.', 'On iPhone, the app installed on the home screen keeps its own data. To put it there, copy the code, open the app, then paste it in Backup.')}</small>` : ''}`;
 }
 
 /* transfert vers un autre appareil : lien et QR code (données compressées dans l'ancre de l'adresse, jamais envoyées à un serveur) */
@@ -3075,9 +3247,9 @@ async function transferLink(){
   const steps = [
     [() => {}, ''],
     [() => ['open', 'tab', 'hf', 'invOnly', 'giftMode', 'town', 'recentTowns', 'remindSnooze'].forEach(k => delete d[k]), ''],
-    [() => trimLog(5), 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité aux 5 derniers par personnage.'],
-    [() => trimLog(1), 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité au dernier par personnage.'],
-    [() => { delete d.log; }, 'Pour tenir dans le QR code, l\u2019historique des cadeaux offerts n\u2019est pas inclus. Utilise « Copier le lien » pour tout transférer.']
+    [() => trimLog(5), Tr('Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité aux 5 derniers par personnage.', 'To fit in the QR code, the gift history is limited to the last 5 per character.')],
+    [() => trimLog(1), Tr('Pour tenir dans le QR code, l\u2019historique des cadeaux offerts est limité au dernier par personnage.', 'To fit in the QR code, the gift history is limited to the last one per character.')],
+    [() => { delete d.log; }, Tr('Pour tenir dans le QR code, l\u2019historique des cadeaux offerts n\u2019est pas inclus. Utilise « Copier le lien » pour tout transférer.', 'To fit in the QR code, the gift history is not included. Use “Copy the link” to transfer everything.')]
   ];
   for(const [step, note] of steps){
     step();
@@ -3101,20 +3273,20 @@ function qrSvg(lib, text){
   const q = lib(0, 'L'); q.addData(text, 'Byte'); q.make();
   const n = q.getModuleCount(), m = 4, sz = n + 2 * m; let d = '';
   for(let y = 0; y < n; y++){ let x = 0; while(x < n){ if(q.isDark(y, x)){ let e = x; while(e < n && q.isDark(y, e)) e++; d += `M${x + m} ${y + m}h${e - x}v1h-${e - x}z`; x = e; } else x++; } }
-  return `<svg viewBox="0 0 ${sz} ${sz}" role="img" aria-label="QR code de transfert de tes données" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"><rect width="${sz}" height="${sz}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+  return `<svg viewBox="0 0 ${sz} ${sz}" role="img" aria-label="${Tr('QR code de transfert de tes données', 'QR code to transfer your data')}" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"><rect width="${sz}" height="${sz}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
 }
 async function showQr(btn){
   const out = document.querySelector('[data-qr-out]'); if(!out) return;
-  out.innerHTML = '<p class="hint2">Préparation du QR code…</p>';
-  const tooBig = '<p class="imp-err">Trop de données pour un QR code. Utilise « Copier le lien » ou « Copier le code ».</p>';
+  out.innerHTML = `<p class="hint2">${Tr('Préparation du QR code…', 'Preparing the QR code…')}</p>`;
+  const tooBig = `<p class="imp-err">${Tr('Trop de données pour un QR code. Utilise « Copier le lien » ou « Copier le code ».', 'Too much data for a QR code. Use “Copy the link” or “Copy the code”.')}</p>`;
   let t = null; try { t = await transferLink(); } catch(e) {}
   if(!t){ out.innerHTML = tooBig; return; }
-  let lib; try { lib = await loadQr(); } catch(e) { out.innerHTML = '<p class="imp-err">Le générateur de QR code n\u2019a pas pu se charger. Vérifie ta connexion, ou utilise « Copier le lien ».</p>'; return; }
+  let lib; try { lib = await loadQr(); } catch(e) { out.innerHTML = `<p class="imp-err">${Tr('Le générateur de QR code n\u2019a pas pu se charger. Vérifie ta connexion, ou utilise « Copier le lien ».', 'The QR code generator couldn’t load. Check your connection, or use “Copy the link”.')}</p>`; return; }
   let svg; try { svg = qrSvg(lib, t.url); } catch(e) { out.innerHTML = tooBig; return; }
   if(!document.body.contains(out)) return;
   markExport();
-  out.innerHTML = `<div class="qrbox">${svg}</div>${t.note ? `<p class="hint2">${esc(t.note)}</p>` : ''}<small class="hint2">Le QR code contient tes données de cet instant. Après une modification, affiche-le à nouveau.</small>`;
-  if(btn) btn.textContent = 'Actualiser le QR code';
+  out.innerHTML = `<div class="qrbox">${svg}</div>${t.note ? `<p class="hint2">${esc(t.note)}</p>` : ''}<small class="hint2">${Tr('Le QR code contient tes données de cet instant. Après une modification, affiche-le à nouveau.', 'The QR code holds your data as of now. After a change, show it again.')}</small>`;
+  if(btn) btn.textContent = Tr('Actualiser le QR code', 'Refresh the QR code');
 }
 let xferLink = null;
 async function prepLink(){ xferLink = null; try { xferLink = appUrl() + '#import=' + await packCode(snapshot()); } catch(e) {} }
@@ -3124,18 +3296,18 @@ async function copyText(text, okMsg){
   document.body.appendChild(ta); ta.select();
   let ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
   ta.remove();
-  toast(ok ? okMsg : 'Copie automatique bloquée par le navigateur.');
+  toast(ok ? okMsg : Tr('Copie automatique bloquée par le navigateur.', 'Automatic copy blocked by the browser.'));
 }
 async function copyLink(){
   const link = xferLink || appUrl() + '#import=' + await packCode(snapshot());
-  copyText(link, 'Lien copié. Ouvre-le sur ton autre appareil pour y importer tes données.');
+  copyText(link, Tr('Lien copié. Ouvre-le sur ton autre appareil pour y importer tes données.', 'Link copied. Open it on your other device to import your data there.'));
   markExport();
   prepLink();
 }
 async function importFromHash(){
   const m = /^#import=([01][A-Za-z0-9_-]+)$/.exec(location.hash); if(!m) return;
   try { history.replaceState(null, '', location.pathname + location.search); } catch(e) {}
-  let text; try { text = await unpackCode(m[1]); } catch(e) { toast('Ce lien de transfert est illisible ou incomplet.'); return; }
+  let text; try { text = await unpackCode(m[1]); } catch(e) { toast(Tr('Ce lien de transfert est illisible ou incomplet.', 'This transfer link is unreadable or incomplete.')); return; }
   openPanel('s');
   const t = document.querySelector('[data-imp]'); if(t) t.value = text;
   checkImport(text, true);
@@ -3144,16 +3316,16 @@ async function importFromHash(){
 
 async function copyCode(){
   const ta = document.querySelector('[data-exp]'); if(!ta) return;
-  try { await navigator.clipboard.writeText(ta.value); markExport(); toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } catch(e) {}
-  try { ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); if(document.execCommand('copy')){ markExport(); toast('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.'); return; } } catch(e) {}
+  try { await navigator.clipboard.writeText(ta.value); markExport(); toast(Tr('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.', 'Code copied. Paste it into the other copy of the tool.')); return; } catch(e) {}
+  try { ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); if(document.execCommand('copy')){ markExport(); toast(Tr('Code copié. Colle-le dans l\u2019autre version de l\u2019outil.', 'Code copied. Paste it into the other copy of the tool.')); return; } } catch(e) {}
   ta.focus(); ta.select();
-  toast('Copie automatique bloquée : le code est sélectionné, copie-le à la main.');
+  toast(Tr('Copie automatique bloquée : le code est sélectionné, copie-le à la main.', 'Automatic copy blocked: the code is selected, copy it by hand.'));
 }
 function downloadCode(){
   const blob = new Blob([JSON.stringify(snapshot(), null, 1)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `fil-des-cadeaux-${new Date().toISOString().slice(0, 10)}.json`;
+  a.download = `${Tr('fil-des-cadeaux', 'fortunes-gifts')}-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   markExport();
@@ -3162,19 +3334,19 @@ function downloadCode(){
 function saveClick(e){
   const qb = e.target.closest('[data-qr]'); if(qb){ showQr(qb); return true; }
   if(e.target.closest('[data-link-copy]')){ copyLink(); return true; }
-  if(e.target.closest('[data-imp-copy]')){ const t = document.querySelector('[data-imp]'); copyText(t ? t.value : '', 'Code copié. Colle-le dans l\u2019app, rubrique Sauvegarde.'); return true; }
+  if(e.target.closest('[data-imp-copy]')){ const t = document.querySelector('[data-imp]'); copyText(t ? t.value : '', Tr('Code copié. Colle-le dans l\u2019app, rubrique Sauvegarde.', 'Code copied. Paste it into the app, under Backup.')); return true; }
   if(e.target.closest('[data-exp-copy]')){ copyCode(); return true; }
   if(e.target.closest('[data-exp-dl]')){ downloadCode(); return true; }
   if(e.target.closest('[data-imp-go]')){ const t = document.querySelector('[data-imp]'); checkImport(t ? t.value : ''); return true; }
   const cf = e.target.closest('[data-imp-confirm]');
   if(cf && pendingImport){
-    if(!importArmed){ importArmed = true; cf.textContent = 'Confirmer : remplacer'; cf.classList.add('armed'); return true; }
+    if(!importArmed){ importArmed = true; cf.textContent = Tr('Confirmer : remplacer', 'Confirm: replace'); cf.classList.add('armed'); return true; }
     applyImport(pendingImport); return true;
   }
   const un = e.target.closest('[data-imp-undo]');
   if(un){
     if(un.dataset.armed){ restoreBackup(); return true; }
-    un.dataset.armed = '1'; un.textContent = 'Confirmer : revenir en arrière'; un.classList.add('danger', 'armed'); return true;
+    un.dataset.armed = '1'; un.textContent = Tr('Confirmer : revenir en arrière', 'Confirm: go back'); un.classList.add('danger', 'armed'); return true;
   }
   return false;
 }
@@ -3186,7 +3358,7 @@ function togglePin(n){
   const i = S.pins.indexOf(n);
   if(i >= 0) S.pins.splice(i, 1); else S.pins.push(n);
   store.set('pins', S.pins); renderList(); refreshPanel();
-  toast(i >= 0 ? `${n} n’est plus épinglé.` : `${n} est épinglé en haut de la liste.`);
+  toast(i >= 0 ? Tr(`${n} n’est plus épinglé.`, `${n} is no longer pinned.`) : Tr(`${n} est épinglé en haut de la liste.`, `${n} is pinned to the top of the list.`));
 }
 function lordProgress(l){
   let tot = 0, rec = 0;
@@ -3198,7 +3370,7 @@ function lordProgress(l){
 }
 function buyOne(g){
   setQty(g, qty(g) + 1); afterQty(g);
-  toast(`${GIFTS[g][1]} ajouté à ton inventaire (×${qty(g)}).`, () => { setQty(g, qty(g) - 1); afterQty(g); if(S.tab === 'tour') renderList(); });
+  toast(Tr(`${GIFTS[g][1]} ajouté à ton inventaire (×${qty(g)}).`, `${GIFTS[g][1]} added to your inventory (×${qty(g)}).`), () => { setQty(g, qty(g) - 1); afterQty(g); if(S.tab === 'tour') renderList(); });
 }
 
 /* choix de la ville */
@@ -3206,17 +3378,17 @@ let lastTowns = [];
 function addRecentTown(t){ S.recentTowns = [t, ...S.recentTowns.filter(x => x !== t)].slice(0, 4); store.set('recentTowns', S.recentTowns); }
 function townPickerHtml(towns){
   const q = norm(S.townQ.trim());
-  const row = ({ t, n }) => `<button type="button" class="tp-row" data-town="${esc(t)}" aria-current="${t === S.town}"><span>${esc(t)}</span>${n ? `<span class="loved">⇈ ${n}</span>` : ''}</button>`;
+  const row = ({ t, n }) => `<button type="button" class="tp-row" data-town="${esc(t)}" aria-current="${t === S.town}"><span>${esc(townName(t))}</span>${n ? `<span class="loved">⇈ ${n}</span>` : ''}</button>`;
   const byName = towns.slice().sort((a, b) => a.t.localeCompare(b.t));
   if(q){
-    const hits = byName.filter(x => norm(x.t).includes(q));
-    return hits.length ? `<div class="tp-grid">${hits.map(row).join('')}</div>` : '<p class="hint2" style="margin-top:10px">Aucune ville ne correspond.</p>';
+    const hits = byName.filter(x => norm(x.t).includes(q) || norm(townName(x.t)).includes(q));
+    return hits.length ? `<div class="tp-grid">${hits.map(row).join('')}</div>` : `<p class="hint2" style="margin-top:10px">${Tr('Aucune ville ne correspond.', 'No town matches.')}</p>`;
   }
   const useful = towns.filter(x => x.n).slice(0, 6);
   const recent = S.recentTowns.map(t => towns.find(x => x.t === t)).filter(Boolean);
-  return (useful.length ? `<h3>Les plus utiles cette semaine</h3><div class="tp-grid">${useful.map(row).join('')}</div>` : '')
-    + (recent.length ? `<h3>Récentes</h3><div class="tp-grid">${recent.map(row).join('')}</div>` : '')
-    + `<h3>Toutes les villes</h3><div class="tp-grid">${byName.map(row).join('')}</div>`;
+  return (useful.length ? `<h3>${Tr('Les plus utiles cette semaine', 'Most useful this week')}</h3><div class="tp-grid">${useful.map(row).join('')}</div>` : '')
+    + (recent.length ? `<h3>${Tr('Récentes', 'Recent')}</h3><div class="tp-grid">${recent.map(row).join('')}</div>` : '')
+    + `<h3>${Tr('Toutes les villes', 'All towns')}</h3><div class="tp-grid">${byName.map(row).join('')}</div>`;
 }
 
 /* liste de courses : le moins d'achats possible pour ceux qui n'ont rien de bon en stock, regroupés par ville */
@@ -3265,22 +3437,26 @@ function shopSection(){
     const whoTxt = [L.length ? `⇈ ${L.join(', ')}` : '', R.length ? `↑ ${R.join(', ')}` : ''].filter(Boolean).join(' · ');
     const n = it.who.length;
     return `<div class="inv-row buyrow ${qty(it.g) ? 'own' : ''}" data-row="${it.g}">
-      <button type="button" class="gname" data-gift="${it.g}"><span class="nm">${pix(GIFTS[it.g][2])} ${esc(GIFTS[it.g][1])}${n > 1 ? ` <span class="qty">×${n}</span>` : ''}</span><span class="ds">${esc(whoTxt)}${it.price ? ` — ${it.price} or${n > 1 ? ' pièce' : ''}` : ''}</span></button>
-      <button type="button" class="buy" data-buy="${it.g}" aria-label="J'en ai acheté un : ajouter à l'inventaire">+1</button></div>`;
+      <button type="button" class="gname" data-gift="${it.g}"><span class="nm">${pix(GIFTS[it.g][2])} ${esc(GIFTS[it.g][1])}${n > 1 ? ` <span class="qty">×${n}</span>` : ''}</span><span class="ds">${esc(whoTxt)}${it.price ? ` — ${it.price} ${GOLD}${n > 1 ? Tr(' pièce', ' each') : ''}` : ''}</span></button>
+      <button type="button" class="buy" data-buy="${it.g}" aria-label="${Tr('J\'en ai acheté un : ajouter à l\'inventaire', 'I bought one: add it to the inventory')}">+1</button></div>`;
   };
-  const towns = sp.byTown.map(({ town, items }) => `<div class="shop-town"><b>${esc(town)}</b><button type="button" class="linkbtn" data-gotown="${esc(town)}">Voir la ville</button></div>${items.map(line).join('')}`).join('');
-  return `<details class="grp shop" data-g="shop" ${open ? 'open' : ''}><summary><h2 class="disp">${pix('shop')} Liste de courses</h2><span class="cnt">${sp.count}</span></summary>
-    <p class="hint">Pour ceux qui n'ont rien de bon dans ton stock : le moins d'achats possible, regroupés par ville. Touche +1 quand tu achètes.${window.MAP && MAP.ready ? ' Seules les villes des régions cochées sur la carte sont proposées.' : ''}</p>
-    ${sp.items.length ? `<div class="rows">${towns}</div><p class="shop-total">Total connu : <b>${sp.total} or</b>${sp.unknown ? `, plus ${sp.unknown} prix inconnu${sp.unknown > 1 ? 's' : ''}` : ''}.</p>` : ''}
-    ${sp.none.length ? `<p class="hint">Aucun cadeau connu en boutique pour : ${esc(sp.none.join(', '))}. Regarde leur fiche.</p>` : ''}</details>`;
+  const towns = sp.byTown.map(({ town, items }) => `<div class="shop-town"><b>${esc(townName(town))}</b><button type="button" class="linkbtn" data-gotown="${esc(town)}">${Tr('Voir la ville', 'See the town')}</button></div>${items.map(line).join('')}`).join('');
+  return `<details class="grp shop" data-g="shop" ${open ? 'open' : ''}><summary><h2 class="disp">${pix('shop')} ${Tr('Liste de courses', 'Shopping list')}</h2><span class="cnt">${sp.count}</span></summary>
+    <p class="hint">${Tr('Pour ceux qui n\'ont rien de bon dans ton stock : le moins d\'achats possible, regroupés par ville. Touche +1 quand tu achètes.', 'For those with nothing good in your stock: as few purchases as possible, grouped by town. Tap +1 when you buy.')}${window.MAP && MAP.ready ? Tr(' Seules les villes des régions cochées sur la carte sont proposées.', ' Only towns in the regions ticked on the map are suggested.') : ''}</p>
+    ${sp.items.length ? `<div class="rows">${towns}</div><p class="shop-total">${Tr('Total connu :', 'Known total:')} <b>${sp.total} ${GOLD}</b>${sp.unknown ? Tr(`, plus ${sp.unknown} prix inconnu${sp.unknown > 1 ? 's' : ''}`, `, plus ${sp.unknown} unknown price${sp.unknown === 1 ? '' : 's'}`) : ''}.</p>` : ''}
+    ${sp.none.length ? `<p class="hint">${Tr('Aucun cadeau connu en boutique pour :', 'No known gift in shops for:')} ${esc(sp.none.join(', '))}. ${Tr('Regarde leur fiche.', 'Check their sheet.')}</p>` : ''}</details>`;
 }
 
 /* date dans le jeu (mois-jour, calendrier sans année bissextile) */
-const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const MONTHS = Tr(['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']);
 const MDAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const doy = s => { const [m, d] = s.split('-').map(Number); return MDAYS.slice(0, m - 1).reduce((a, b) => a + b, 0) + d; };
 const fromDoy = n => { n = Math.max(1, Math.min(365, n)); let m = 0; while(n > MDAYS[m]){ n -= MDAYS[m]; m++; } return String(m + 1).padStart(2, '0') + '-' + String(n).padStart(2, '0'); };
-const fmtGD = s => { const [m, d] = s.split('-').map(Number); return `${d} ${MONTHS[m - 1]}`; };
+const fmtGD = s => { const [m, d] = s.split('-').map(Number); return Tr(`${d} ${MONTHS[m - 1]}`, `${MONTHS[m - 1]} ${d}`); };
+// date limite d'une quête : jour/mois en français, mois/jour en anglais
+const qShort = q => Tr(q.d, bdNum(q.s));
+const qDate = q => Tr(q.d, fmtGD(q.s));
 function setGameDate(v){ S.gameDate = v; store.set('gameDate', v); renderList(); refreshPanel(); }
 function questsAll(){
   const items = [];
@@ -3290,10 +3466,10 @@ function questsAll(){
 function nextQuest(){ if(!S.gameDate) return null; const now = doy(S.gameDate); return questsAll().find(x => doy(x.q.s) >= now) || null; }
 function gdateHtml(){
   const [m, d] = S.gameDate ? S.gameDate.split('-').map(Number) : [0, 0];
-  return `<div class="gdate"><b>${pix('scroll')} Date dans le jeu</b>
-    <select data-gd="d" aria-label="Jour dans le jeu"><option value="">jour</option>${Array.from({ length: 31 }, (_, i) => `<option value="${i + 1}" ${d === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select>
-    <select data-gd="m" aria-label="Mois dans le jeu"><option value="">mois</option>${MONTHS.map((n, i) => `<option value="${i + 1}" ${m === i + 1 ? 'selected' : ''}>${n}</option>`).join('')}</select>
-    ${S.gameDate ? '<button type="button" class="btn" data-gd7>+7 jours</button><button type="button" class="linkbtn" data-gdclear>Effacer</button>' : ''}</div>`;
+  return `<div class="gdate"><b>${pix('scroll')} ${Tr('Date dans le jeu', 'In-game date')}</b>
+    <select data-gd="d" aria-label="${Tr('Jour dans le jeu', 'In-game day')}"><option value="">${Tr('jour', 'day')}</option>${Array.from({ length: 31 }, (_, i) => `<option value="${i + 1}" ${d === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select>
+    <select data-gd="m" aria-label="${Tr('Mois dans le jeu', 'In-game month')}"><option value="">${Tr('mois', 'month')}</option>${MONTHS.map((n, i) => `<option value="${i + 1}" ${m === i + 1 ? 'selected' : ''}>${n}</option>`).join('')}</select>
+    ${S.gameDate ? `<button type="button" class="btn" data-gd7>${Tr('+7 jours', '+7 days')}</button><button type="button" class="linkbtn" data-gdclear>${Tr('Effacer', 'Clear')}</button>` : ''}</div>`;
 }
 
 /* recherche : ce que la barre trouve dans les autres rubriques */
@@ -3302,22 +3478,22 @@ function alsoFound(){
   const parts = [];
   if(S.tab !== 'chars' && S.tab !== 'tour'){
     const cs = CHARS.filter(c => status(c) !== 'self' && norm(c.n).includes(q)).slice(0, 6);
-    if(cs.length) parts.push(['Personnages', cs.map(c => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)}</button>`)]);
+    if(cs.length) parts.push([Tr('Personnages', 'Characters'), cs.map(c => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)}</button>`)]);
   }
   if(S.tab !== 'gifts' && S.tab !== 'inv'){
     const gs = Object.keys(GIFTS).filter(g => giftMatches(g, q)).slice(0, 6);
-    if(gs.length) parts.push(['Cadeaux', gs.map(g => `<button type="button" class="who-btn" data-gift="${g}">${pix(GIFTS[g][2])}${esc(GIFTS[g][1])}</button>`)]);
+    if(gs.length) parts.push([Tr('Cadeaux', 'Gifts'), gs.map(g => `<button type="button" class="who-btn" data-gift="${g}">${pix(GIFTS[g][2])}${esc(GIFTS[g][1])}</button>`)]);
   }
   if(!(S.tab === 'gifts' && S.giftMode === 'town')){
-    const ts = Object.keys(townIndex()).filter(t => norm(t).includes(q)).sort((a, b) => a.localeCompare(b)).slice(0, 6);
-    if(ts.length) parts.push(['Villes', ts.map(t => `<button type="button" class="who-btn" data-gotown="${esc(t)}">${pix('shop')}${esc(t)}</button>`)]);
+    const ts = Object.keys(townIndex()).filter(t => norm(t).includes(q) || norm(townName(t)).includes(q)).sort((a, b) => a.localeCompare(b)).slice(0, 6);
+    if(ts.length) parts.push([Tr('Villes', 'Towns'), ts.map(t => `<button type="button" class="who-btn" data-gotown="${esc(t)}">${pix('shop')}${esc(townName(t))}</button>`)]);
   }
   if(window.MAP && MAP.ready && S.tab !== 'map'){
     const its = MAP.search(q);
-    if(its.length) parts.push(['Objets sur la carte', its.map(e => `<button type="button" class="who-btn" data-mitem="${esc(e.key)}">${pix('lens')}${esc(e.name)}</button>`)]);
+    if(its.length) parts.push([Tr('Objets sur la carte', 'Items on the map'), its.map(e => `<button type="button" class="who-btn" data-mitem="${esc(e.key)}">${pix('lens')}${esc(e.name)}</button>`)]);
   }
   if(!parts.length) return '';
-  return `<div class="alsofound"><h3>Aussi trouvé ailleurs</h3>${parts.map(([h, b]) => `<div class="af"><small>${h}</small><div class="who-list">${b.join('')}</div></div>`).join('')}</div>`;
+  return `<div class="alsofound"><h3>${Tr('Aussi trouvé ailleurs', 'Also found elsewhere')}</h3>${parts.map(([h, b]) => `<div class="af"><small>${h}</small><div class="who-list">${b.join('')}</div></div>`).join('')}</div>`;
 }
 
 /* rappel de sauvegarde */
@@ -3331,9 +3507,9 @@ function exportDue(){
 }
 function remindHtml(){
   const d = exportDue(); if(!d) return '';
-  return `<div class="remind">${pix('scroll')}<span>${d.never ? 'Tu n’as encore jamais sauvegardé tes données.' : `Dernière sauvegarde il y a ${d.days} jours.`} Exporte-les pour ne rien perdre.</span><button type="button" class="give" data-remind-save>Sauvegarder</button><button type="button" class="linkbtn" data-remind-later>Plus tard</button></div>`;
+  return `<div class="remind">${pix('scroll')}<span>${d.never ? Tr('Tu n’as encore jamais sauvegardé tes données.', 'You have never backed up your data.') : Tr(`Dernière sauvegarde il y a ${d.days} jours.`, `Last backup ${d.days} days ago.`)} ${Tr('Exporte-les pour ne rien perdre.', 'Export it so you lose nothing.')}</span><button type="button" class="give" data-remind-save>${Tr('Sauvegarder', 'Back up')}</button><button type="button" class="linkbtn" data-remind-later>${Tr('Plus tard', 'Later')}</button></div>`;
 }
-const ago = ts => { const d = Math.floor((Date.now() - ts) / DAY); return d <= 0 ? 'aujourd’hui' : d === 1 ? 'hier' : `il y a ${d} jours`; };
+const ago = ts => { const d = Math.floor((Date.now() - ts) / DAY); return d <= 0 ? Tr('aujourd’hui', 'today') : d === 1 ? Tr('hier', 'yesterday') : Tr(`il y a ${d} jours`, `${d} days ago`); };
 
 /* résumé */
 function dashCards(){
@@ -3347,37 +3523,37 @@ function dashCards(){
   const others = LORDS.filter(l => l.id !== S.lord).map(l => { const p = lordProgress(l.id);
     return `<div class="lp">${pix(l.id)}<div class="prog"><i style="width:${p.tot ? Math.round(p.rec / p.tot * 100) : 0}%"></i></div><small>${p.rec}/${p.tot}</small></div>`; }).join('');
   return `<div class="dash">
-    <div class="where"><h3>${pix(L.id)} Progression avec ${L.name}</h3><div class="big">${pr.rec} recruté${pr.rec > 1 ? 's' : ''} sur ${pr.tot}</div>
+    <div class="where"><h3>${pix(L.id)} ${Tr('Progression avec', 'Progress with')} ${L.name}</h3><div class="big">${Tr(`${pr.rec} recruté${pr.rec > 1 ? 's' : ''} sur ${pr.tot}`, `${pr.rec} of ${pr.tot} recruited`)}</div>
       <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
-      <div class="lps" aria-label="Autres Seigneurs">${others}</div></div>
-    <div class="where"><h3>Prêts à recruter</h3>${ready.length ? `<div class="who-list">${ready.map(c => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)}</button>`).join('')}</div><small class="hint2">Va leur parler à Dagsion.</small>` : '<p class="hint2">Personne pour l’instant.</p>'}</div>
-    <div class="where"><h3>Tournée ${t.n}</h3><div class="big">${nDone} cadeau${nDone > 1 ? 'x' : ''} sur ${totalT}</div><div class="prog"><i style="width:${pctT}%"></i></div>
-      <div class="acts"><button type="button" class="btn" data-gotab="tour">Ouvrir la tournée</button></div></div>
-    <div class="where"><h3>${pix('shop')} Courses</h3>${sp.count ? `<p class="hint2">${sp.count} achat${sp.count > 1 ? 's' : ''} conseillé${sp.count > 1 ? 's' : ''}, d'abord à <b>${esc(sp.byTown[0].town)}</b>${sp.total ? `, environ ${sp.total} or` : ''}.</p>
-      <div class="acts"><button type="button" class="btn" data-gotab="tour">Voir la liste de courses</button></div>` : '<p class="hint2">Rien à acheter pour la tournée en cours.</p>'}</div>
-    <div class="where"><h3>${pix('scroll')} Quêtes à date limite</h3>${S.gameDate
-      ? (nq ? `<p class="hint2">Prochaine : <b>${esc(GIFTS[nq.g][1])}</b>, quête « ${esc(nq.q.n)} », ${qLeft === 0 ? 'aujourd’hui' : `dans ${qLeft} jour${qLeft > 1 ? 's' : ''}`}.</p>` : '<p class="hint2">Plus aucune quête à date limite connue.</p>') + `<small class="hint2">Date dans le jeu : ${fmtGD(S.gameDate)}.</small>`
-      : '<p class="hint2">Indique la date du jeu pour voir les jours restants avant chaque quête.</p>'}
-      <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">${S.gameDate ? 'Voir les quêtes' : 'Indiquer la date'}</button></div></div>
-    <div class="where"><h3>${pix('cake')} Anniversaires</h3>${bdDash()}
-      <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">Voir le calendrier</button></div></div>
-    <div class="where"><h3>Sauvegarde</h3><p class="hint2">${last ? `Dernière sauvegarde ${ago(last)}.` : 'Jamais sauvegardé sur cet appareil.'}</p>
-      <div class="acts"><button type="button" class="btn" data-open-save>Sauvegarder</button></div></div>
+      <div class="lps" aria-label="${Tr('Autres Seigneurs', 'Other Lords')}">${others}</div></div>
+    <div class="where"><h3>${Tr('Prêts à recruter', 'Ready to recruit')}</h3>${ready.length ? `<div class="who-list">${ready.map(c => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)}</button>`).join('')}</div><small class="hint2">${Tr('Va leur parler à Dagsion.', 'Go and talk to them in Dagsion.')}</small>` : `<p class="hint2">${Tr('Personne pour l’instant.', 'Nobody yet.')}</p>`}</div>
+    <div class="where"><h3>${Tr('Tournée', 'Round')} ${t.n}</h3><div class="big">${Tr(`${nDone} cadeau${nDone > 1 ? 'x' : ''} sur ${totalT}`, `${nDone} of ${totalT} gift${totalT === 1 ? '' : 's'}`)}</div><div class="prog"><i style="width:${pctT}%"></i></div>
+      <div class="acts"><button type="button" class="btn" data-gotab="tour">${Tr('Ouvrir la tournée', 'Open the round')}</button></div></div>
+    <div class="where"><h3>${pix('shop')} ${Tr('Courses', 'Shopping')}</h3>${sp.count ? `<p class="hint2">${Tr(`${sp.count} achat${sp.count > 1 ? 's' : ''} conseillé${sp.count > 1 ? 's' : ''}, d'abord à <b>${esc(townName(sp.byTown[0].town))}</b>${sp.total ? `, environ ${sp.total} or` : ''}.`, `${sp.count} suggested purchase${sp.count === 1 ? '' : 's'}, first in <b>${esc(townName(sp.byTown[0].town))}</b>${sp.total ? `, about ${sp.total} gold` : ''}.`)}</p>
+      <div class="acts"><button type="button" class="btn" data-gotab="tour">${Tr('Voir la liste de courses', 'See the shopping list')}</button></div>` : `<p class="hint2">${Tr('Rien à acheter pour la tournée en cours.', 'Nothing to buy for the current round.')}</p>`}</div>
+    <div class="where"><h3>${pix('scroll')} ${Tr('Quêtes à date limite', 'Time-limited quests')}</h3>${S.gameDate
+      ? (nq ? `<p class="hint2">${Tr(`Prochaine : <b>${esc(GIFTS[nq.g][1])}</b>, quête « ${esc(nq.q.n)} », ${qLeft === 0 ? 'aujourd’hui' : `dans ${qLeft} jour${qLeft > 1 ? 's' : ''}`}.`, `Next: <b>${esc(GIFTS[nq.g][1])}</b>, quest “${esc(nq.q.n)}”, ${qLeft === 0 ? 'today' : `in ${qLeft} day${qLeft === 1 ? '' : 's'}`}.`)}</p>` : `<p class="hint2">${Tr('Plus aucune quête à date limite connue.', 'No more known time-limited quests.')}</p>`) + `<small class="hint2">${Tr('Date dans le jeu :', 'In-game date:')} ${fmtGD(S.gameDate)}.</small>`
+      : `<p class="hint2">${Tr('Indique la date du jeu pour voir les jours restants avant chaque quête.', 'Set the in-game date to see the days left before each quest.')}</p>`}
+      <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">${S.gameDate ? Tr('Voir les quêtes', 'See the quests') : Tr('Indiquer la date', 'Set the date')}</button></div></div>
+    <div class="where"><h3>${pix('cake')} ${Tr('Anniversaires', 'Birthdays')}</h3>${bdDash()}
+      <div class="acts"><button type="button" class="btn" data-gotab="gifts" data-gmode-go="quest">${Tr('Voir le calendrier', 'See the calendar')}</button></div></div>
+    <div class="where"><h3>${Tr('Sauvegarde', 'Backup')}</h3><p class="hint2">${last ? Tr(`Dernière sauvegarde ${ago(last)}.`, `Last backup ${ago(last)}.`) : Tr('Jamais sauvegardé sur cet appareil.', 'Never backed up on this device.')}</p>
+      <div class="acts"><button type="button" class="btn" data-open-save>${Tr('Sauvegarder', 'Back up')}</button></div></div>
   </div>`;
 }
 function bdDash(){
-  if(!S.gameDate) return '<p class="hint2">Indique la date du jeu pour voir les prochains anniversaires.</p>';
+  if(!S.gameDate) return `<p class="hint2">${Tr('Indique la date du jeu pour voir les prochains anniversaires.', 'Set the in-game date to see upcoming birthdays.')}</p>`;
   const next = relevantChars().filter(bdOf).map(c => ({ c, d: bdLeft(c) })).sort((a, b) => a.d - b.d).slice(0, 4);
-  if(!next.length) return '<p class="hint2">Aucun anniversaire connu.</p>';
-  return `<div class="who-list">${next.map(({ c, d }) => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)} <small>${d === 0 ? 'aujourd’hui' : d === 1 ? 'demain' : `J-${d}, le ${bdNum(bdOf(c))}`}</small></button>`).join('')}</div>`;
+  if(!next.length) return `<p class="hint2">${Tr('Aucun anniversaire connu.', 'No known birthday.')}</p>`;
+  return `<div class="who-list">${next.map(({ c, d }) => `<button type="button" class="who-btn" data-char="${esc(c.n)}">${esc(c.n)} <small>${d === 0 ? Tr('aujourd’hui', 'today') : d === 1 ? Tr('demain', 'tomorrow') : Tr(`J-${d}, le ${bdNum(bdOf(c))}`, `D-${d}, ${bdNum(bdOf(c))}`)}</small></button>`).join('')}</div>`;
 }
 function dashPanel(){
-  return `<div class="ph"><div><h2 class="disp" id="pTitle" tabindex="-1">Résumé</h2><p>Avec ${lordName(S.lord)}, Honneur ${S.honor}</p></div></div>
-    <div class="pb">${dashCards()}<p class="hint2" style="margin-top:12px">Touche un personnage ou un cadeau pour afficher sa fiche ici.</p></div>`;
+  return `<div class="ph"><div><h2 class="disp" id="pTitle" tabindex="-1">${Tr('Résumé', 'Summary')}</h2><p>${Tr(`Avec ${lordName(S.lord)}, Honneur ${S.honor}`, `With ${lordName(S.lord)}, Renown ${S.honor}`)}</p></div></div>
+    <div class="pb">${dashCards()}<p class="hint2" style="margin-top:12px">${Tr('Touche un personnage ou un cadeau pour afficher sa fiche ici.', 'Tap a character or a gift to show its sheet here.')}</p></div>`;
 }
 function dashMobile(){
   const pr = lordProgress(S.lord), nr = CHARS.filter(c => status(c) === 'ready').length;
-  return `<details class="grp dash-m" data-g="dash" ${openState.dash === true ? 'open' : ''}><summary><h2 class="disp">Résumé</h2><span class="cnt">${pr.rec}/${pr.tot} recrutés${nr ? ` · ${nr} prêt${nr > 1 ? 's' : ''}` : ''}</span></summary>${dashCards()}</details>`;
+  return `<details class="grp dash-m" data-g="dash" ${openState.dash === true ? 'open' : ''}><summary><h2 class="disp">${Tr('Résumé', 'Summary')}</h2><span class="cnt">${pr.rec}/${pr.tot} ${Tr('recrutés', 'recruited')}${nr ? Tr(` · ${nr} prêt${nr > 1 ? 's' : ''}`, ` · ${nr} ready`) : ''}</span></summary>${dashCards()}</details>`;
 }
 function setList(html){ $('#listCol').innerHTML = remindHtml() + alsoFound() + html; }
 function goTab(tab, gmode){
@@ -3419,9 +3595,10 @@ const SFX = (() => {
 })();
 function renderSoundBtn(){
   const b = $('#soundBtn'); if(!b) return;
-  b.innerHTML = `${pix(S.sound ? 'sound' : 'mute')}<span class="bl"> Sons</span>`;
+  b.innerHTML = `${pix(S.sound ? 'sound' : 'mute')}<span class="bl"> ${Tr('Sons', 'Sounds')}</span>`;
   b.setAttribute('aria-pressed', String(S.sound));
-  b.title = S.sound ? 'Couper les sons de menu' : 'Activer les petits sons de menu';
+  b.setAttribute('aria-label', Tr('Sons de menu', 'Menu sounds'));
+  b.title = S.sound ? Tr('Couper les sons de menu', 'Turn menu sounds off') : Tr('Activer les petits sons de menu', 'Turn on little menu sounds');
 }
 const SFX_MAP = [
   ['[data-give],[data-tgive],[data-tpg],[data-rec]', 'ok'],
@@ -3456,20 +3633,20 @@ function moveItem(d, open){
 function renderKeysPanel(){
   const k = x => `<kbd>${x}</kbd>`;
   const rows = [
-    [`${k('/')} ou ${k('Ctrl')} ${k('K')}`, 'Aller à la recherche'],
-    [`${k('1')} à ${k('5')}`, 'Personnages, Tournée, Cadeaux, Inventaire, Carte'],
-    [`${k('↓')} ${k('↑')}`, 'Parcourir la liste. Depuis la recherche, ↓ descend dans la liste.'],
-    [k('Entrée'), 'Ouvrir la fiche'],
-    [`${k('J')} ${k('K')}`, 'Suivant ou précédent. Depuis une fiche, ouvre directement la fiche suivante.'],
-    [k('Échap'), 'Fermer la fiche, quitter le plein écran de la carte'],
-    [k('N'), 'Mode jour ou nuit'],
-    [k('R'), 'Style rétro'],
-    [k('S'), 'Sons de menu'],
-    [k('F'), 'Carte en plein écran'],
-    [`${k('+')} ${k('−')} ${k('←')} ${k('→')}`, 'Sur la carte : zoomer et se déplacer'],
-    [k('?'), 'Afficher cette aide']
+    [`${k('/')} ${Tr('ou', 'or')} ${k('Ctrl')} ${k('K')}`, Tr('Aller à la recherche', 'Go to search')],
+    [`${k('1')} ${Tr('à', 'to')} ${k('5')}`, Tr('Personnages, Tournée, Cadeaux, Inventaire, Carte', 'Characters, Weekly, Gifts, Inventory, Map')],
+    [`${k('↓')} ${k('↑')}`, Tr('Parcourir la liste. Depuis la recherche, ↓ descend dans la liste.', 'Move through the list. From the search box, ↓ goes down into the list.')],
+    [k(Tr('Entrée', 'Enter')), Tr('Ouvrir la fiche', 'Open the sheet')],
+    [`${k('J')} ${k('K')}`, Tr('Suivant ou précédent. Depuis une fiche, ouvre directement la fiche suivante.', 'Next or previous. From a sheet, opens the next sheet directly.')],
+    [k(Tr('Échap', 'Esc')), Tr('Fermer la fiche, quitter le plein écran de la carte', 'Close the sheet, leave the full-screen map')],
+    [k('N'), Tr('Mode jour ou nuit', 'Day or night mode')],
+    [k('R'), Tr('Style rétro', 'Retro style')],
+    [k('S'), Tr('Sons de menu', 'Menu sounds')],
+    [k('F'), Tr('Carte en plein écran', 'Full-screen map')],
+    [`${k('+')} ${k('−')} ${k('←')} ${k('→')}`, Tr('Sur la carte : zoomer et se déplacer', 'On the map: zoom and move around')],
+    [k('?'), Tr('Afficher cette aide', 'Show this help')]
   ];
-  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Raccourcis clavier</h2><p>Actifs hors des champs de saisie</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${Tr('Raccourcis clavier', 'Keyboard shortcuts')}</h2><p>${Tr('Actifs hors des champs de saisie', 'Active outside text fields')}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="${Tr('Fermer', 'Close')}">✕</button></div></div>
     <div class="pb"><table class="keys"><tbody>${rows.map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function showKeys(){ lastFocus = document.activeElement; openPanel('k'); }
@@ -3499,19 +3676,19 @@ const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
 let tipTimer = null, tipFor = null, mouseXY = [0, 0];
 function tipHtml(g){
   const G = GIFTS[g], w = WHERE[g] || {}, towns = townsOf(g), out = [];
-  out.push(`<span class="t">${esc(G[1])}</span><small>${esc(G[0])} · ${esc(CATS[G[2]][0])}</small>`);
-  if(towns.length) out.push(`<div class="tl">${pix('shop')}${esc(towns.slice(0, 5).join(', '))}${towns.length > 5 ? '…' : ''} · ${w.p ? `<b>${w.p} or</b>` : 'prix non documenté'}</div>`);
-  if(w.r) out.push(`<div class="tl">${pix('star')}Récompense du rang d’Honneur ${w.r}</div>`);
-  for(const q of (w.q || []).slice(0, 2)) out.push(`<div class="tl">${pix('scroll')}Quête « ${esc(q.n)} », avant le ${q.d}</div>`);
-  if(!towns.length && !w.r && !(w.q || []).length) out.push(`<div class="tl"><small>Lieu inconnu</small></div>`);
+  out.push(`<span class="t">${esc(G[1])}</span><small>${esc(G[0])} · ${esc(catName(G[2]))}</small>`);
+  if(towns.length) out.push(`<div class="tl">${pix('shop')}${esc(towns.slice(0, 5).map(townName).join(', '))}${towns.length > 5 ? '…' : ''} · ${w.p ? `<b>${w.p} ${GOLD}</b>` : Tr('prix non documenté', 'price not documented')}</div>`);
+  if(w.r) out.push(`<div class="tl">${pix('star')}${Tr(`Récompense du rang d’Honneur ${w.r}`, `Renown rank ${w.r} reward`)}</div>`);
+  for(const q of (w.q || []).slice(0, 2)) out.push(`<div class="tl">${pix('scroll')}${Tr(`Quête « ${esc(q.n)} », avant le ${q.d}`, `Quest “${esc(q.n)}”, before ${qDate(q)}`)}</div>`);
+  if(!towns.length && !w.r && !(w.q || []).length) out.push(`<div class="tl"><small>${Tr('Lieu inconnu', 'Unknown place')}</small></div>`);
   const fans = relevantChars().filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; });
   if(fans.length){
     const need = fans.filter(c => !supMet(c) && !isRec(c)), rest = fans.filter(c => !need.includes(c));
     const names = [...need.map(c => `<span class="need">${esc(c.n)}</span>`), ...rest.map(c => esc(c.n))];
-    out.push(`<div class="tl">⇈ Adoré par ${names.slice(0, 10).join(', ')}${names.length > 10 ? ` et ${names.length - 10} autres` : ''}</div>`);
-    if(need.length && rest.length) out.push(`<small>En gras : ceux qui ont encore besoin de soutien.</small>`);
-  } else out.push(`<div class="tl"><small>Personne sur ta voie ne l’adore.</small></div>`);
-  if(qty(g)) out.push(`<div class="tl">En stock : <b>×${qty(g)}</b></div>`);
+    out.push(`<div class="tl">⇈ ${Tr('Adoré par', 'Loved by')} ${names.slice(0, 10).join(', ')}${names.length > 10 ? Tr(` et ${names.length - 10} autres`, ` and ${names.length - 10} more`) : ''}</div>`);
+    if(need.length && rest.length) out.push(`<small>${Tr('En gras : ceux qui ont encore besoin de soutien.', 'In bold: those who still need Support.')}</small>`);
+  } else out.push(`<div class="tl"><small>${Tr('Personne sur ta voie ne l’adore.', 'Nobody on your route loves it.')}</small></div>`);
+  if(qty(g)) out.push(`<div class="tl">${Tr('En stock :', 'In stock:')} <b>×${qty(g)}</b></div>`);
   return out.join('');
 }
 function hideTip(){ clearTimeout(tipTimer); tipTimer = null; tipFor = null; const t = $('#tip'); if(t && !t.hidden) t.hidden = true; }
@@ -3606,10 +3783,10 @@ $('#listCol').addEventListener('click', e => {
       clearTimeout(resetArmed); resetArmed = null;
       const backup = { ...S.inv }, l = S.lord;
       S.inv = {}; store.set('invs', S.invs); render();
-      toast(`Inventaire de la partie avec ${lordName(l)} remis à zéro.`, () => { S.invs[l] = backup; store.set('invs', S.invs); render(); });
+      toast(Tr(`Inventaire de la partie avec ${lordName(l)} remis à zéro.`, `Inventory for the ${lordName(l)} playthrough reset.`), () => { S.invs[l] = backup; store.set('invs', S.invs); render(); });
     } else {
-      rb.textContent = 'Confirmer la remise à zéro'; rb.classList.add('armed');
-      resetArmed = setTimeout(() => { resetArmed = null; rb.textContent = 'Tout remettre à zéro'; rb.classList.remove('armed'); }, 4000);
+      rb.textContent = Tr('Confirmer la remise à zéro', 'Confirm the reset'); rb.classList.add('armed');
+      resetArmed = setTimeout(() => { resetArmed = null; rb.textContent = Tr('Tout remettre à zéro', 'Reset everything'); rb.classList.remove('armed'); }, 4000);
     }
     return;
   }
@@ -3689,16 +3866,30 @@ function applyTheme(){
   if(S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
   const n = isNight(), r = isRetro();
   const nb = $('#nightBtn');
-  nb.innerHTML = `${pix(n ? 'moon' : 'sun')}<span class="bl"> ${n ? 'Nuit' : 'Jour'}</span>`;
+  nb.innerHTML = `${pix(n ? 'moon' : 'sun')}<span class="bl"> ${n ? Tr('Nuit', 'Night') : Tr('Jour', 'Day')}</span>`;
   nb.setAttribute('aria-checked', String(n));
-  nb.title = n ? 'Passer en mode jour' : 'Passer en mode nuit';
+  nb.setAttribute('aria-label', Tr('Mode nuit', 'Night mode'));
+  nb.title = n ? Tr('Passer en mode jour', 'Switch to day mode') : Tr('Passer en mode nuit', 'Switch to night mode');
   const rb = $('#retroBtn');
-  rb.innerHTML = `${pix('hand')}<span class="bl"> Rétro</span>`;
+  rb.innerHTML = `${pix('hand')}<span class="bl"> ${Tr('Rétro', 'Retro')}</span>`;
   rb.setAttribute('aria-pressed', String(r));
-  rb.title = r ? 'Revenir au style moderne' : 'Passer au style rétro, façon Game Boy Advance';
+  rb.setAttribute('aria-label', Tr('Style rétro', 'Retro style'));
+  rb.title = r ? Tr('Revenir au style moderne', 'Back to the modern style') : Tr('Passer au style rétro, façon Game Boy Advance', 'Switch to the retro style, Game Boy Advance-like');
   if(S.tab === 'map' && window.MAP && MAP.ready) MAP.render();
   const tc = $('#themeColor'); if(tc) tc.setAttribute('content', (S.theme || '').startsWith('gba') ? '#4262CA' : (getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#FBFAFD'));
 }
+// langue : on retient le choix et on recharge la page, sans le ?lang= éventuel du lien
+const langBtn = $('#langBtn');
+langBtn.textContent = Tr('EN', 'FR'); langBtn.lang = Tr('en', 'fr');
+langBtn.setAttribute('aria-label', Tr('English version', 'Version française'));
+langBtn.title = Tr('Passer le site en anglais', 'Passer le site en français');
+langBtn.addEventListener('click', () => { store.set('lang', Tr('en', 'fr')); history.replaceState(null, '', location.pathname + location.hash); location.reload(); });
+if(LANG === 'en') for(const [sel, attr, v] of [
+  ['#installBtn', 'aria-label', 'Install the app on this device'], ['#saveBtn', 'aria-label', 'Backup: export or import your data'],
+  ['#lords', 'aria-label', 'Flame Lord played'], ['#hMinus', 'aria-label', 'Lower Renown'], ['#hPlus', 'aria-label', 'Raise Renown'],
+  ['#sideTabs', 'aria-label', 'Sections'], ['#hfilter', 'aria-label', 'Filter by Renown needed'], ['#listCol', 'aria-label', 'List'],
+  ['#appTitle', 'content', 'Fortune’s Gifts']
+]){ const el = $(sel); if(el) el.setAttribute(attr, v); }
 $('#nightBtn').addEventListener('click', () => { S.theme = themeOf(!isNight(), isRetro()); store.set('theme', S.theme); applyTheme(); });
 $('#retroBtn').addEventListener('click', () => { S.theme = themeOf(isNight(), !isRetro()); store.set('theme', S.theme); applyTheme(); });
 if(mqDark.addEventListener) mqDark.addEventListener('change', () => { if(!S.theme) applyTheme(); });
@@ -3731,12 +3922,12 @@ $('#installBtn').addEventListener('click', async () => {
   try { await installEvt.userChoice; } catch(e) {}
   installEvt = null; $('#installBtn').hidden = true;
 });
-window.addEventListener('appinstalled', () => { $('#installBtn').hidden = true; toast('Application installée : retrouve-la sur ton écran d\u2019accueil.'); });
+window.addEventListener('appinstalled', () => { $('#installBtn').hidden = true; toast(Tr('Application installée : retrouve-la sur ton écran d\u2019accueil.', 'App installed: find it on your home screen.')); });
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && isTopLevel){
   window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
 }
 
-$('#townlist').innerHTML = KNOWN_TOWNS.map(t => `<option value="${esc(t)}">`).join('');
+$('#townlist').innerHTML = KNOWN_TOWNS.map(t => `<option value="${esc(townName(t))}">`).join('');
 placeTabs();
 applyTheme();
 render();

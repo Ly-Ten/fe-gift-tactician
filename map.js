@@ -7,12 +7,16 @@
   let GW = 224, GH = 184;
   const HD = 4; let hdKey = null;
   const KIND = {
-    town: ['Ville', 'castle'], post: ['Relais de poste', 'horse'], temple: ['Temple', 'temple'], dungeon: ['Donjon', 'cave'],
-    gather: ['Récolte', 'seeds'], fish: ['Pêche', 'fish'], ore: ['Minerai', 'pick'], search: ['Fouille', 'lens'],
-    feast: ['Festin', 'meat'], fort: ['Forteresse', 'tower'], story: ['Lieu d’histoire', 'star']
+    town: [Tr('Ville', 'Town'), 'castle'], post: [Tr('Relais de poste', 'Post town'), 'horse'], temple: ['Temple', 'temple'], dungeon: [Tr('Donjon', 'Dungeon'), 'cave'],
+    gather: [Tr('Récolte', 'Gathering'), 'seeds'], fish: [Tr('Pêche', 'Fishing'), 'fish'], ore: [Tr('Minerai', 'Ore'), 'pick'], search: [Tr('Fouille', 'Search'), 'lens'],
+    feast: [Tr('Festin', 'Feast'), 'meat'], fort: [Tr('Forteresse', 'Fortress'), 'tower'], story: [Tr('Lieu d’histoire', 'Story place'), 'star']
   };
-  const HOW = { gather: 'Récolte', fish: 'Pêche', ore: 'Minerai', search: 'Fouille', feast: 'Festin', dungeon: 'Coffres et butin', town: 'Sur place', post: 'Sur place', temple: 'Sur place', fort: 'Sur place', story: 'Sur place' };
-  const SHOP = { m: 'Marché', i: 'Boutique d’objets', a: 'Armurerie', v: 'Vandahl Trading Co.' };
+  const ON_SITE = Tr('Sur place', 'On site');
+  const HOW = { gather: Tr('Récolte', 'Gathering'), fish: Tr('Pêche', 'Fishing'), ore: Tr('Minerai', 'Ore'), search: Tr('Fouille', 'Search'), feast: Tr('Festin', 'Feast'), dungeon: Tr('Coffres et butin', 'Chests and loot'), town: ON_SITE, post: ON_SITE, temple: ON_SITE, fort: ON_SITE, story: ON_SITE };
+  const SHOP = { m: Tr('Marché', 'Market'), i: Tr('Boutique d’objets', 'Item shop'), a: Tr('Armurerie', 'Armory'), v: 'Vandahl Trading Co.' };
+  // les données de la carte sont en anglais, sauf deux mers et la note de crédit
+  const REGION_EN = { 'Mer de Lir': 'Sea of Lir', 'Mer de Danann': 'Sea of Danann' };
+  const regionName = r => LANG === 'en' && REGION_EN[r.n] || r.n;
   const BASE = { cai: ['idyia', 'ribeira'], die: ['castalia', 'fina'], the: ['saveilon', 'megaira'], led: ['thaleia', 'kassite'] };
   // villes de l'outil et lieux de la carte
   const TOWN_PLACE = { 'Aguino': 'aguino', 'Alecto': 'alecto', 'Barsk': 'barsk-post-town', 'Benetnasch': 'benetnasch', 'Breston': 'breston',
@@ -26,8 +30,8 @@
 
   // ---------- état ----------
   const ALLK = Object.keys(KIND);
-  const FILTERS = [['town', ['town'], 'castle', 'Villes'], ['temple', ['post', 'temple'], 'temple', 'Relais et temples'], ['dungeon', ['dungeon', 'fort', 'story'], 'cave', 'Donjons et forteresses'],
-    ['gather', ['gather'], 'seeds', 'Récolte'], ['fish', ['fish'], 'fish', 'Pêche'], ['ore', ['ore', 'search'], 'pick', 'Minerai et fouille'], ['feast', ['feast'], 'meat', 'Festins']];
+  const FILTERS = [['town', ['town'], 'castle', Tr('Villes', 'Towns')], ['temple', ['post', 'temple'], 'temple', Tr('Relais et temples', 'Post towns and temples')], ['dungeon', ['dungeon', 'fort', 'story'], 'cave', Tr('Donjons et forteresses', 'Dungeons and fortresses')],
+    ['gather', ['gather'], 'seeds', Tr('Récolte', 'Gathering')], ['fish', ['fish'], 'fish', Tr('Pêche', 'Fishing')], ['ore', ['ore', 'search'], 'pick', Tr('Minerai et fouille', 'Ore and search')], ['feast', ['feast'], 'meat', Tr('Festins', 'Feasts')]];
   S.mapKinds = (a => Array.isArray(a) ? a.filter(k => ALLK.includes(k)) : ALLK.filter(k => k !== 'story'))(store.get('mapKinds', null));
   S.regions = (a => Array.isArray(a) ? a : null)(store.get('regions', null));
   S.spoil = !!store.get('spoil', false);
@@ -54,7 +58,7 @@
   function giftKeys(){
     const out = {};
     for(const g in GIFTS){
-      const en = GIFTS[g][0];
+      const en = typeof GIFT_EN === 'object' ? GIFT_EN[g] : GIFTS[g][0];
       const m = /^(.*?)\s*\((?:ou|or)\s+([^)]*)\)\s*$/.exec(en);
       const names = m ? [m[1], m[2]] : en.split(' / ');
       for(const n of names) out[normItem(n)] = g;
@@ -76,7 +80,7 @@
         const g = GIFT_KEY[normItem(it)];
         if(g && (p.k === 'town' || s === 'm')) (MKT[g] = MKT[g] || new Set()).add(toolName(p));
       }
-      for(const it of p.it || []) add(it, p.id, HOW[p.k] || 'Sur place');
+      for(const it of p.it || []) add(it, p.id, HOW[p.k] || ON_SITE);
     }
   }
   const itemLabel = e => e.gift ? `${pix(GIFTS[e.gift][2])}${esc(GIFTS[e.gift][1])}` : esc(e.name);
@@ -236,36 +240,36 @@
 
   // ---------- rendu de l'onglet ----------
   M.render = () => {
-    if(!M.ready){ setList(`<p class="empty">${M.error ? 'La carte n’a pas pu se charger. Vérifie ta connexion puis rouvre cet onglet.' : 'Chargement de la carte…'}</p>`); return; }
+    if(!M.ready){ setList(`<p class="empty">${M.error ? Tr('La carte n’a pas pu se charger. Vérifie ta connexion puis rouvre cet onglet.', 'The map couldn’t load. Check your connection, then reopen this tab.') : Tr('Chargement de la carte…', 'Loading the map…')}</p>`); return; }
     const q = norm(S.q.trim());
     let html = '';
     // recherche d'objets et de lieux
     if(q.length >= 2){
       const items = [...IDX.values()].filter(e => normItem(e.name).includes(q) || (e.gift && norm(GIFTS[e.gift][1]).includes(q))).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 14);
       const places = D.places.filter(p => visible(p) && norm(p.n).includes(q)).slice(0, 8);
-      html += `<div class="alsofound mres"><h3>Sur la carte</h3>
-        ${items.length ? `<div class="af"><small>Objets</small><div class="who-list">${items.map(e => `<button type="button" class="who-btn" data-mitem="${esc(e.key)}" aria-pressed="${S.mapItem === e.key}">${itemLabel(e)} <small>${e.at.length} lieu${e.at.length > 1 ? 'x' : ''}</small></button>`).join('')}</div></div>` : ''}
-        ${places.length ? `<div class="af"><small>Lieux</small><div class="who-list">${places.map(p => `<button type="button" class="who-btn" data-mplace="${p.id}">${pix(KIND[p.k][1])}${esc(p.n)}</button>`).join('')}</div></div>` : ''}
-        ${!items.length && !places.length ? '<p class="hint2">Rien sur la carte ne correspond. Essaie le nom anglais de l’objet.</p>' : ''}</div>`;
+      html += `<div class="alsofound mres"><h3>${Tr('Sur la carte', 'On the map')}</h3>
+        ${items.length ? `<div class="af"><small>${Tr('Objets', 'Items')}</small><div class="who-list">${items.map(e => `<button type="button" class="who-btn" data-mitem="${esc(e.key)}" aria-pressed="${S.mapItem === e.key}">${itemLabel(e)} <small>${Tr(`${e.at.length} lieu${e.at.length > 1 ? 'x' : ''}`, `${e.at.length} place${e.at.length === 1 ? '' : 's'}`)}</small></button>`).join('')}</div></div>` : ''}
+        ${places.length ? `<div class="af"><small>${Tr('Lieux', 'Places')}</small><div class="who-list">${places.map(p => `<button type="button" class="who-btn" data-mplace="${p.id}">${pix(KIND[p.k][1])}${esc(p.n)}</button>`).join('')}</div></div>` : ''}
+        ${!items.length && !places.length ? `<p class="hint2">${Tr('Rien sur la carte ne correspond. Essaie le nom anglais de l’objet.', 'Nothing on the map matches. Try a shorter word.')}</p>` : ''}</div>`;
     }
-    if(!S.regions) html += `<div class="note mfog">${pix('lens')} Seules tes régions de départ sont dévoilées. Coche les régions que tu as atteintes pour afficher leurs lieux. <button type="button" class="linkbtn" data-mregs-open>Choisir mes régions</button></div>`;
-    html += `<div class="mapbar"><div class="mk-filters" role="group" aria-label="Types de lieux affichés">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}</div>
-      <div class="mtoggles"><button type="button" class="btn" data-museful aria-pressed="${S.mUseful}" title="Villes où trouver des cadeaux adorés par tes personnages qui ont encore besoin de soutien">⇈ Utile</button><button type="button" class="btn" data-mfast aria-pressed="${S.mFast}" title="Carrosses et Portes des Dieux">Voyage rapide</button><button type="button" class="btn" data-mnames aria-pressed="${S.mNames}" title="Afficher les noms des lieux quand il y a la place">Noms</button></div></div>
-      <div class="map-view${S.mFs ? ' fs' : ''}" tabindex="0" aria-label="Carte du monde. Glisse pour te déplacer, pince ou utilise les boutons pour zoomer.">
-        ${S.mFs ? `<div class="map-fsbar" role="group" aria-label="Types de lieux affichés">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}<button type="button" class="btn" data-mnames aria-pressed="${S.mNames}">Noms</button></div>` : ''}
+    if(!S.regions) html += `<div class="note mfog">${pix('lens')} ${Tr('Seules tes régions de départ sont dévoilées. Coche les régions que tu as atteintes pour afficher leurs lieux.', 'Only your starting regions are revealed. Tick the regions you have reached to show their places.')} <button type="button" class="linkbtn" data-mregs-open>${Tr('Choisir mes régions', 'Choose my regions')}</button></div>`;
+    html += `<div class="mapbar"><div class="mk-filters" role="group" aria-label="${Tr('Types de lieux affichés', 'Place types shown')}">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}</div>
+      <div class="mtoggles"><button type="button" class="btn" data-museful aria-pressed="${S.mUseful}" title="${Tr('Villes où trouver des cadeaux adorés par tes personnages qui ont encore besoin de soutien', 'Towns with gifts loved by your characters who still need Support')}">⇈ ${Tr('Utile', 'Useful')}</button><button type="button" class="btn" data-mfast aria-pressed="${S.mFast}" title="${Tr('Carrosses et Portes des Dieux', 'Carriages and Gods’ Gates')}">${Tr('Voyage rapide', 'Fast travel')}</button><button type="button" class="btn" data-mnames aria-pressed="${S.mNames}" title="${Tr('Afficher les noms des lieux quand il y a la place', 'Show place names when there is room')}">${Tr('Noms', 'Names')}</button></div></div>
+      <div class="map-view${S.mFs ? ' fs' : ''}" tabindex="0" aria-label="${Tr('Carte du monde. Glisse pour te déplacer, pince ou utilise les boutons pour zoomer.', 'World map. Drag to move around, pinch or use the buttons to zoom.')}">
+        ${S.mFs ? `<div class="map-fsbar" role="group" aria-label="${Tr('Types de lieux affichés', 'Place types shown')}">${FILTERS.map(([id, kinds, ic, label]) => `<button type="button" class="mkf" data-mkind="${id}" aria-pressed="${S.mapKinds.includes(kinds[0])}" title="${label}" aria-label="${label}">${pix(ic)}</button>`).join('')}<button type="button" class="btn" data-mnames aria-pressed="${S.mNames}">${Tr('Noms', 'Names')}</button></div>` : ''}
         <div class="map-stage" style="width:${GW}px;height:${GH}px"><canvas class="map-canvas" width="${GW}" height="${GH}" style="width:${GW}px;height:${GH}px"></canvas><canvas class="map-canvas-hd" width="${GW * HD}" height="${GH * HD}" style="width:${GW}px;height:${GH}px"></canvas><svg class="map-roads" viewBox="0 0 ${GW} ${GH}" width="${GW}" height="${GH}" aria-hidden="true"></svg></div>
         <div class="map-pins"></div>
-        <div class="map-ctrl"><button type="button" data-mzoom="1.6" aria-label="Zoomer">+</button><button type="button" data-mzoom="0.625" aria-label="Dézoomer">−</button><button type="button" data-mfit aria-label="Voir toute la carte">⌂</button><button type="button" data-mfs aria-pressed="${S.mFs}" aria-label="${S.mFs ? 'Quitter le plein écran' : 'Plein écran'}" title="${S.mFs ? 'Quitter le plein écran' : 'Plein écran'}">${S.mFs ? '✕' : '⛶'}</button></div>
+        <div class="map-ctrl"><button type="button" data-mzoom="1.6" aria-label="${Tr('Zoomer', 'Zoom in')}">+</button><button type="button" data-mzoom="0.625" aria-label="${Tr('Dézoomer', 'Zoom out')}">−</button><button type="button" data-mfit aria-label="${Tr('Voir toute la carte', 'Show the whole map')}">⌂</button><button type="button" data-mfs aria-pressed="${S.mFs}" aria-label="${S.mFs ? Tr('Quitter le plein écran', 'Exit full screen') : Tr('Plein écran', 'Full screen')}" title="${S.mFs ? Tr('Quitter le plein écran', 'Exit full screen') : Tr('Plein écran', 'Full screen')}">${S.mFs ? '✕' : '⛶'}</button></div>
       </div>`;
     // objet sélectionné
     if(S.mapItem && IDX.get(S.mapItem)){
       const e = IDX.get(S.mapItem);
       const rows = e.at.map(a => ({ a, p: P[a.id] })).sort((x, y) => visible(y.p) - visible(x.p) || x.p.n.localeCompare(y.p.n));
-      html += `<div class="where mitem"><h3>${e.gift ? pix(GIFTS[e.gift][2]) : pix('lens')} Où trouver ${itemLabel(e)}</h3>
-        <div class="who-list">${rows.map(({ a, p }) => visible(p) ? `<button type="button" class="who-btn" data-mplace="${p.id}">${pix(KIND[p.k][1])}${esc(p.n)} <small>${esc(a.how)}</small></button>` : `<span class="who-btn dim">${pix('lens')}Région non cochée <small>${esc(a.how)}</small></span>`).join('')}</div>
-        <div class="acts">${e.gift ? `<button type="button" class="btn" data-gift="${e.gift}">Fiche du cadeau</button>` : ''}<button type="button" class="linkbtn" data-mclear>Effacer la recherche</button></div></div>`;
+      html += `<div class="where mitem"><h3>${e.gift ? pix(GIFTS[e.gift][2]) : pix('lens')} ${Tr('Où trouver', 'Where to find')} ${itemLabel(e)}</h3>
+        <div class="who-list">${rows.map(({ a, p }) => visible(p) ? `<button type="button" class="who-btn" data-mplace="${p.id}">${pix(KIND[p.k][1])}${esc(p.n)} <small>${esc(a.how)}</small></button>` : `<span class="who-btn dim">${pix('lens')}${Tr('Région non cochée', 'Region not ticked')} <small>${esc(a.how)}</small></span>`).join('')}</div>
+        <div class="acts">${e.gift ? `<button type="button" class="btn" data-gift="${e.gift}">${Tr('Fiche du cadeau', 'Gift sheet')}</button>` : ''}<button type="button" class="linkbtn" data-mclear>${Tr('Effacer la recherche', 'Clear the search')}</button></div></div>`;
     }
-    html += routeBlock() + regionsBlock() + `<p class="map-credit">${esc(D.note)} Le jeu fait foi.</p>`;
+    html += routeBlock() + regionsBlock() + `<p class="map-credit">${Tr(`${esc(D.note)} Le jeu fait foi.`, 'Unofficial fan map: terrain, roads and positions redrawn from the game’s map; places and stocks compiled from Fextralife, IGN, RPG Site, VGC, Game8, Siliconera, Gematsu and NightlyGamingBinge (October 2026). The game is the authority.')}</p>`;
     setList(html);
     mount();
   };
@@ -277,24 +281,24 @@
     let res = '';
     if(S.route){
       const R = S.route;
-      res = `<ol class="mstops"><li><button type="button" class="who-btn" data-mplace="${R.from}">${pix(KIND[P[R.from].k][1])}${esc(P[R.from].n)}</button> <small>départ</small></li>${R.stops.map((id, i) => `<li><button type="button" class="who-btn" data-mplace="${id}">${pix(KIND[P[id].k][1])}${esc(P[id].n)}</button> <small>étape ${i + 1}</small></li>`).join('')}</ol>
-        ${R.via.length ? `<p class="hint2">En passant par ${R.via.slice(0, 8).map(id => esc(P[id].n)).join(', ')}${R.via.length > 8 ? '…' : ''}.</p>` : ''}
-        <p class="hint2">Environ ${R.nodes} nœud${R.nodes > 1 ? 's' : ''} sur la carte, soit à peu près ${Math.max(1, Math.ceil(R.nodes / 3))} tour${Math.ceil(R.nodes / 3) > 1 ? 's' : ''} : on avance de trois nœuds par tour au plus. Estimation d’après la carte, le jeu fait foi.${R.miss.length ? ` Hors d’atteinte avec tes régions cochées : ${R.miss.map(id => esc(P[id].n)).join(', ')}.` : ''}</p>
-        <button type="button" class="linkbtn" data-mrclear>Effacer l’itinéraire</button>`;
+      res = `<ol class="mstops"><li><button type="button" class="who-btn" data-mplace="${R.from}">${pix(KIND[P[R.from].k][1])}${esc(P[R.from].n)}</button> <small>${Tr('départ', 'start')}</small></li>${R.stops.map((id, i) => `<li><button type="button" class="who-btn" data-mplace="${id}">${pix(KIND[P[id].k][1])}${esc(P[id].n)}</button> <small>${Tr('étape', 'stop')} ${i + 1}</small></li>`).join('')}</ol>
+        ${R.via.length ? `<p class="hint2">${Tr('En passant par', 'Going through')} ${R.via.slice(0, 8).map(id => esc(P[id].n)).join(', ')}${R.via.length > 8 ? '…' : ''}.</p>` : ''}
+        <p class="hint2">${Tr(`Environ ${R.nodes} nœud${R.nodes > 1 ? 's' : ''} sur la carte, soit à peu près ${Math.max(1, Math.ceil(R.nodes / 3))} tour${Math.ceil(R.nodes / 3) > 1 ? 's' : ''} : on avance de trois nœuds par tour au plus. Estimation d’après la carte, le jeu fait foi.`, `About ${R.nodes} node${R.nodes === 1 ? '' : 's'} on the map, so roughly ${Math.max(1, Math.ceil(R.nodes / 3))} turn${Math.ceil(R.nodes / 3) === 1 ? '' : 's'}: you move up to three nodes per turn. Estimated from the map, the game is the authority.`)}${R.miss.length ? Tr(` Hors d’atteinte avec tes régions cochées : ${R.miss.map(id => esc(P[id].n)).join(', ')}.`, ` Out of reach with your ticked regions: ${R.miss.map(id => esc(P[id].n)).join(', ')}.`) : ''}</p>
+        <button type="button" class="linkbtn" data-mrclear>${Tr('Effacer l’itinéraire', 'Clear the route')}</button>`;
     }
-    return `<details class="grp" data-g="mroute" ${openState.mroute === false ? '' : 'open'}><summary><h2 class="disp">Itinéraire</h2></summary>
+    return `<details class="grp" data-g="mroute" ${openState.mroute === false ? '' : 'open'}><summary><h2 class="disp">${Tr('Itinéraire', 'Route')}</h2></summary>
       <div class="mroute">
-        <label>Départ <select data-mfrom>${towns.map(p => `<option value="${p.id}" ${p.id === from ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label>
-        <label>Arrivée <select data-mto><option value="">choisir…</option>${dests.map(p => `<option value="${p.id}" ${S.mTo === p.id ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label>
-        <div class="acts"><button type="button" class="btn" data-mshop>Tournée des courses</button></div>
-      </div>${res || '<p class="hint2">Choisis une arrivée, ou trace la tournée qui passe par les villes de ta liste de courses.</p>'}</details>`;
+        <label>${Tr('Départ', 'From')} <select data-mfrom>${towns.map(p => `<option value="${p.id}" ${p.id === from ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label>
+        <label>${Tr('Arrivée', 'To')} <select data-mto><option value="">${Tr('choisir…', 'choose…')}</option>${dests.map(p => `<option value="${p.id}" ${S.mTo === p.id ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label>
+        <div class="acts"><button type="button" class="btn" data-mshop>${Tr('Tournée des courses', 'Shopping run')}</button></div>
+      </div>${res || `<p class="hint2">${Tr('Choisis une arrivée, ou trace la tournée qui passe par les villes de ta liste de courses.', 'Pick a destination, or plot a run through the towns on your shopping list.')}</p>`}</details>`;
   }
   function regionsBlock(){
     const ok = reached(), base = BASE[S.lord][0];
-    return `<details class="grp" data-g="mreg" ${openState.mreg ? 'open' : ''}><summary><h2 class="disp">Régions atteintes</h2><span class="cnt">${ok.length}/${D.regions.length}</span></summary>
-      <p class="hint">Les régions non cochées restent dans le brouillard, sans lieux ni noms, pour éviter les spoilers. Elles sont aussi exclues de la liste de courses et des itinéraires.</p>
-      <div class="mregs">${D.regions.map(r => `<label><input type="checkbox" data-mregion="${r.id}" ${ok.includes(r.id) ? 'checked' : ''}> ${esc(r.n)}${r.id === base ? ' <small>départ</small>' : ''}</label>`).join('')}</div>
-      <label class="mspoil"><input type="checkbox" data-mspoil ${S.spoil ? 'checked' : ''}> Montrer les lieux d’histoire et de fin de jeu (spoilers)</label></details>`;
+    return `<details class="grp" data-g="mreg" ${openState.mreg ? 'open' : ''}><summary><h2 class="disp">${Tr('Régions atteintes', 'Regions reached')}</h2><span class="cnt">${ok.length}/${D.regions.length}</span></summary>
+      <p class="hint">${Tr('Les régions non cochées restent dans le brouillard, sans lieux ni noms, pour éviter les spoilers. Elles sont aussi exclues de la liste de courses et des itinéraires.', 'Unticked regions stay in the fog, with no places or names, to avoid spoilers. They are also left out of the shopping list and routes.')}</p>
+      <div class="mregs">${D.regions.map(r => `<label><input type="checkbox" data-mregion="${r.id}" ${ok.includes(r.id) ? 'checked' : ''}> ${esc(regionName(r))}${r.id === base ? ` <small>${Tr('départ', 'start')}</small>` : ''}</label>`).join('')}</div>
+      <label class="mspoil"><input type="checkbox" data-mspoil ${S.spoil ? 'checked' : ''}> ${Tr('Montrer les lieux d’histoire et de fin de jeu (spoilers)', 'Show story and endgame places (spoilers)')}</label></details>`;
   }
 
   // ---------- carte : montage, vue, épingles ----------
@@ -393,7 +397,7 @@
       if(!shown) continue;
       const u = useful[p.id], si = stops.indexOf(p.id);
       const cls = ['mpin', 'k-' + p.k, p.k === 'town' ? '' : 'minor', S.mapSel === p.id ? 'sel' : '', hl.has(p.id) ? 'hl' : '', si >= 0 ? 'stop' : '', item && !hl.has(p.id) ? 'dim' : ''].join(' ');
-      h += `<button type="button" class="${cls}" data-place="${p.id}" data-x="${p.x * GW}" data-y="${p.y * GH}" aria-label="${esc(p.n)}, ${KIND[p.k][0]}${u ? `, ${u} cadeau${u > 1 ? 'x' : ''} utile${u > 1 ? 's' : ''}` : ''}">${pix(KIND[p.k][1])}${u ? `<span class="mb">⇈${u}</span>` : ''}${si >= 0 ? `<span class="ms">${si === 0 ? 'D' : si}</span>` : ''}<span class="pl">${esc(p.n)}</span></button>`;
+      h += `<button type="button" class="${cls}" data-place="${p.id}" data-x="${p.x * GW}" data-y="${p.y * GH}" aria-label="${esc(p.n)}, ${KIND[p.k][0]}${u ? Tr(`, ${u} cadeau${u > 1 ? 'x' : ''} utile${u > 1 ? 's' : ''}`, `, ${u} useful gift${u === 1 ? '' : 's'}`) : ''}">${pix(KIND[p.k][1])}${u ? `<span class="mb">⇈${u}</span>` : ''}${si >= 0 ? `<span class="ms">${si === 0 ? 'D' : si}</span>` : ''}<span class="pl">${esc(p.n)}</span></button>`;
     }
     pinsEl.innerHTML = h;
   }
@@ -598,7 +602,7 @@
   M.placePanel = id => {
     const p = P[id]; if(!p) return '';
     const tool = p.k === 'town' ? toolName(p) : null;
-    const regionN = (D.regions.find(r => r.id === p.r) || {}).n || p.r;
+    const regionN = (rg => rg ? regionName(rg) : p.r)(D.regions.find(r => r.id === p.r));
     const need = needingChars();
     const loved = g => need.filter(c => { const t = tierOf(c, g); return t && t.t === 'L'; }).length;
     const chipFor = name => {
@@ -614,17 +618,17 @@
     const items = p.it && p.it.length ? `<div class="where"><h3>${pix(KIND[p.k][1])} ${HOW[p.k]}</h3><div class="who-list">${p.it.map(chipFor).join('')}</div></div>` : '';
     const nb = [];
     for(const [a, b, k] of D.routes){ const o = a === id ? b : b === id ? a : null; if(o && visible(P[o]) && !nb.some(x => x[0] === o)) nb.push([o, k]); }
-    const KR = { r: 'route', d: 'piste du désert', D: 'piste du désert', s: 'voie maritime', S: 'voie maritime', c: 'carrosse', w: 'Porte des Dieux' };
-    const pos = p.x == null ? 'Position inconnue : ce lieu n’est pas placé sur la carte.' : `Position ${p.pc === 2 ? 'confirmée par plusieurs captures' : p.pc === 1 ? 'tirée d’une seule source' : 'estimée'}.`;
-    return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(KIND[p.k][1], 'x2')} ${esc(p.n)}</h2><p>${KIND[p.k][0]} · ${esc(regionN)}${p.lv ? ` · niveau ${p.lv}` : ''}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+    const KR = { r: Tr('route', 'road'), d: Tr('piste du désert', 'desert trail'), D: Tr('piste du désert', 'desert trail'), s: Tr('voie maritime', 'sea route'), S: Tr('voie maritime', 'sea route'), c: Tr('carrosse', 'carriage'), w: Tr('Porte des Dieux', 'Gods’ Gate') };
+    const pos = p.x == null ? Tr('Position inconnue : ce lieu n’est pas placé sur la carte.', 'Unknown position: this place isn’t placed on the map.') : Tr(`Position ${p.pc === 2 ? 'confirmée par plusieurs captures' : p.pc === 1 ? 'tirée d’une seule source' : 'estimée'}.`, `Position ${p.pc === 2 ? 'confirmed by several screenshots' : p.pc === 1 ? 'from a single source' : 'estimated'}.`);
+    return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(KIND[p.k][1], 'x2')} ${esc(p.n)}</h2><p>${KIND[p.k][0]} · ${esc(regionN)}${p.lv ? ` · ${Tr('niveau', 'level')} ${p.lv}` : ''}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="${Tr('Fermer', 'Close')}">✕</button></div></div>
       <div class="pb">
-        <div class="acts mpacts">${tool ? `<button type="button" class="give" data-gotown="${esc(tool)}">Cadeaux de cette ville</button>` : ''}${p.x != null ? `<button type="button" class="btn" data-mroute-to="${p.id}">Itinéraire jusqu’ici</button><button type="button" class="btn" data-mfocus="${p.id}">Voir sur la carte</button>` : ''}</div>
-        ${p.id === 'dagsion' ? '<p class="hint2">Le Marché de Dagsion correspond sans doute à la « Galerie marchande » de l’outil. La Taverne de la ville basse a un stock à part, non relevé.</p>' : ''}
-        ${p.id === 'ribeira' ? '<p class="hint2">Aucune source ne mentionne de colporteur à Ribeira : à vérifier en jeu.</p>' : ''}
+        <div class="acts mpacts">${tool ? `<button type="button" class="give" data-gotown="${esc(tool)}">${Tr('Cadeaux de cette ville', 'Gifts in this town')}</button>` : ''}${p.x != null ? `<button type="button" class="btn" data-mroute-to="${p.id}">${Tr('Itinéraire jusqu’ici', 'Route to here')}</button><button type="button" class="btn" data-mfocus="${p.id}">${Tr('Voir sur la carte', 'See on the map')}</button>` : ''}</div>
+        ${p.id === 'dagsion' ? `<p class="hint2">${Tr('Le Marché de Dagsion correspond sans doute à la « Galerie marchande » de l’outil. La Taverne de la ville basse a un stock à part, non relevé.', 'The Dagsion Market is probably the tool’s “Market Gallery”. The Lowcity Tavern has its own stock, not recorded.')}</p>` : ''}
+        ${p.id === 'ribeira' ? `<p class="hint2">${Tr('Aucune source ne mentionne de colporteur à Ribeira : à vérifier en jeu.', 'No source mentions a peddler in Ribeira: to be checked in the game.')}</p>` : ''}
         ${shops}${items}
-        ${!shops && !items ? '<p class="hint2">Aucun objet relevé ici pour l’instant.</p>' : ''}
-        ${nb.length ? `<div class="where"><h3>${pix('horse')} Voisins</h3><div class="who-list">${nb.map(([o, k]) => `<button type="button" class="who-btn" data-mplace="${o}">${pix(KIND[P[o].k][1])}${esc(P[o].n)} <small>${KR[k] || 'route'}</small></button>`).join('')}</div></div>` : ''}
-        <p class="hint2" style="margin-top:12px">${pos} ${p.c === 2 ? 'Lieu confirmé par plusieurs sources.' : 'Lieu tiré d’une seule source.'} Données de fans : le jeu fait foi.</p>
+        ${!shops && !items ? `<p class="hint2">${Tr('Aucun objet relevé ici pour l’instant.', 'No item recorded here yet.')}</p>` : ''}
+        ${nb.length ? `<div class="where"><h3>${pix('horse')} ${Tr('Voisins', 'Neighbours')}</h3><div class="who-list">${nb.map(([o, k]) => `<button type="button" class="who-btn" data-mplace="${o}">${pix(KIND[P[o].k][1])}${esc(P[o].n)} <small>${KR[k] || KR.r}</small></button>`).join('')}</div></div>` : ''}
+        <p class="hint2" style="margin-top:12px">${pos} ${p.c === 2 ? Tr('Lieu confirmé par plusieurs sources.', 'Place confirmed by several sources.') : Tr('Lieu tiré d’une seule source.', 'Place from a single source.')} ${Tr('Données de fans : le jeu fait foi.', 'Fan data: the game is the authority.')}</p>
         ${typeof reportLine === 'function' ? reportLine('p', p.id) : ''}
       </div>`;
   };
@@ -632,9 +636,9 @@
   M.placeInfo = id => {
     const p = P[id]; if(!p) return null;
     const name = s => { const e = IDX.get(normItem(s)); return e && e.gift ? GIFTS[e.gift][1] : s; };
-    const stock = [...['m', 'i', 'a', 'v'].filter(k => p.sh && p.sh[k]).map(k => `${SHOP[k]} : ${p.sh[k].map(name).join(', ')}`),
-      ...(p.it && p.it.length ? [`${HOW[p.k]} : ${p.it.map(name).join(', ')}`] : [])].join('\n');
-    return { n: p.n, kind: KIND[p.k][0], region: (D.regions.find(r => r.id === p.r) || {}).n || p.r, stock };
+    const stock = [...['m', 'i', 'a', 'v'].filter(k => p.sh && p.sh[k]).map(k => `${SHOP[k]}${Tr(' : ', ': ')}${p.sh[k].map(name).join(', ')}`),
+      ...(p.it && p.it.length ? [`${HOW[p.k]}${Tr(' : ', ': ')}${p.it.map(name).join(', ')}`] : [])].join('\n');
+    return { n: p.n, kind: KIND[p.k][0], region: (rg => rg ? regionName(rg) : p.r)(D.regions.find(r => r.id === p.r)), stock };
   };
 
   // ---------- recherche depuis le reste de l'outil ----------

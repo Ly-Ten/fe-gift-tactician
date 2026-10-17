@@ -1,0 +1,32 @@
+{
+  "name": "Fortune's Gifts, Fire Emblem: Fortune's Weave",
+  "short_name": "Fortune's Gifts",
+  "description": "Gift and recruitment guide for Fire Emblem: Fortune's Weave. Unofficial fan project.",
+  "lang": "en",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#15121D",
+  "theme_color": "#263C9C",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

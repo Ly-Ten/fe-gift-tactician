@@ -28,6 +28,7 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
   - Tablette en portrait et pliant déplié : deux volets égaux, liste et fiche, séparés au niveau du pli. L'en-tête tient sur une ligne et reste en haut.
   - Tablette en paysage et ordinateur : trois colonnes, avec le menu à gauche.
   - Sur les pliants dont le navigateur signale la charnière, aucun contenu ne passe dessous.
+- **Français ou anglais** : le bouton FR/EN de l'en-tête change la langue de tout l'outil, et le choix est retenu. Au premier lancement, l'outil prend la langue de l'appareil. Le lien `?lang=en` ouvre directement la version anglaise, « Fortune's Gifts ». En anglais, les noms du jeu sont ceux des sources anglaises et le nom français est affiché dessous.
 - **Thèmes** : un bouton jour/nuit et un bouton rétro, façon Fire Emblem sur Game Boy Advance.
 - **En-tête toujours visible** : le Seigneur, l'Honneur et les boutons restent en haut pendant le défilement, sur téléphone comme sur tablette.
 - **Recherche** : une seule barre, qui signale aussi les personnages, cadeaux et villes trouvés dans les autres rubriques.
@@ -49,6 +50,10 @@ Sur iPhone, l'app installée sur l'écran d'accueil garde ses propres données, 
 ## Technique
 
 Site statique, rien à compiler. Les icônes pixel art sont originales et dessinées en code dans `tools/icons.js` ; pour les régénérer : `node tools/icons.js` (produit `pixel-art.css` et `icons/`). Les données de la carte (`data/map.json`) sont produites par `node tools/build-map.js` à partir d'un dossier de recherche local, non publié.
+
+## In English
+
+The whole tool is also available in English as **Fortune's Gifts**: use the FR/EN button in the header, or open https://ly-ten.github.io/fe-gift-tactician/?lang=en. It tracks recruitment for each Flame Lord, every character's gift preferences, your inventory per playthrough, a weekly gift round with a shopping list, birthdays and a spoiler-safe world map. Everything stays in your browser. Spotted a mistake? Use the “Report it” link at the bottom of any sheet.
 
 ## Mentions
 

@@ -1,0 +1,42 @@
+name: Report a mistake
+description: Suggest a correction to a gift, a character, a town or a place on the map.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! Every suggestion is reviewed before it is applied: the game is the authority.
+        The easiest way is the “Report it” link at the bottom of every sheet in the tool: it fills in this form for you.
+  - type: input
+    id: fiche
+    attributes:
+      label: Sheet
+      placeholder: Gift “Simple Pastries”
+    validations:
+      required: true
+  - type: input
+    id: sujet
+    attributes:
+      label: What is wrong
+      placeholder: Name, price, where to buy it, likes, recruitment requirements…
+  - type: textarea
+    id: actuel
+    attributes:
+      label: What the tool shows
+  - type: textarea
+    id: proposition
+    attributes:
+      label: Your correction
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: How you know
+      description: Drop an in-game screenshot here, it is the best proof. Otherwise, a link to a guide.
+  - type: input
+    id: contexte
+    attributes:
+      label: Current playthrough
+      placeholder: Lord played and Renown
