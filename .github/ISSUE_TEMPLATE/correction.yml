@@ -1,0 +1,42 @@
+name: Signaler une erreur
+description: Proposer une correction sur un cadeau, un personnage, une ville ou un lieu de la carte.
+title: "Correction : "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci ! Chaque proposition est relue avant d'être appliquée : le jeu fait foi.
+        Le plus simple est le lien « Signale-la » en bas de chaque fiche de l'outil : il remplit ce formulaire pour toi.
+  - type: input
+    id: fiche
+    attributes:
+      label: Fiche concernée
+      placeholder: Cadeau « Biscuits classiques »
+    validations:
+      required: true
+  - type: input
+    id: sujet
+    attributes:
+      label: Ce qui ne va pas
+      placeholder: Nom français, prix, où l'acheter, goûts, conditions de recrutement…
+  - type: textarea
+    id: actuel
+    attributes:
+      label: Ce que l'outil affiche
+  - type: textarea
+    id: proposition
+    attributes:
+      label: Ta correction
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Comment tu le sais
+      description: Glisse ici une capture d'écran du jeu, c'est la meilleure preuve. Sinon, un lien vers un guide.
+  - type: input
+    id: contexte
+    attributes:
+      label: Partie en cours
+      placeholder: Seigneur joué et Honneur

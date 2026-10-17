@@ -625,7 +625,16 @@
         ${!shops && !items ? '<p class="hint2">Aucun objet relevé ici pour l’instant.</p>' : ''}
         ${nb.length ? `<div class="where"><h3>${pix('horse')} Voisins</h3><div class="who-list">${nb.map(([o, k]) => `<button type="button" class="who-btn" data-mplace="${o}">${pix(KIND[P[o].k][1])}${esc(P[o].n)} <small>${KR[k] || 'route'}</small></button>`).join('')}</div></div>` : ''}
         <p class="hint2" style="margin-top:12px">${pos} ${p.c === 2 ? 'Lieu confirmé par plusieurs sources.' : 'Lieu tiré d’une seule source.'} Données de fans : le jeu fait foi.</p>
+        ${typeof reportLine === 'function' ? reportLine('p', p.id) : ''}
       </div>`;
+  };
+  // ce que la fiche d'un lieu affiche, pour un signalement d'erreur
+  M.placeInfo = id => {
+    const p = P[id]; if(!p) return null;
+    const name = s => { const e = IDX.get(normItem(s)); return e && e.gift ? GIFTS[e.gift][1] : s; };
+    const stock = [...['m', 'i', 'a', 'v'].filter(k => p.sh && p.sh[k]).map(k => `${SHOP[k]} : ${p.sh[k].map(name).join(', ')}`),
+      ...(p.it && p.it.length ? [`${HOW[p.k]} : ${p.it.map(name).join(', ')}`] : [])].join('\n');
+    return { n: p.n, kind: KIND[p.k][0], region: (D.regions.find(r => r.id === p.r) || {}).n || p.r, stock };
   };
 
   // ---------- recherche depuis le reste de l'outil ----------

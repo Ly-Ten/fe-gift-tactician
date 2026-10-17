@@ -538,7 +538,24 @@ small.hint2{display:block;margin-top:6px}
 :root[data-theme^="gba"] .pill{background:var(--inset)}
 :root[data-theme^="gba"] .chip.own{background:color-mix(in srgb,var(--acc) 22%,rgba(8,14,60,.4))}
 :root[data-theme^="gba"] :is(.qty,.give,.buy,.mk,.loved,.pill.stock,.conf,.unv){text-shadow:none}
-:root[data-theme^="gba"] :is(.search input,.spotadd input,textarea.code)::placeholder{color:rgba(222,230,255,.72)}
+:root[data-theme^="gba"] :is(.search input,.spotadd input,textarea.code,.repf textarea,.repf input)::placeholder{color:rgba(222,230,255,.72)}
+/* signaler une erreur */
+.repline{margin:18px 0 0;font-size:14px;color:var(--muted)}
+.repline .linkbtn,.repfoot .linkbtn{font-size:inherit;padding:2px 2px}
+.repfoot{margin:10px 0 0}
+.spotprop{display:block;margin:8px 0 0;padding:2px 0;font-size:13.5px;text-align:left}
+.pb.rep h3{margin:16px 0 8px;font-size:15px}
+.pb.rep > h3:first-child{margin-top:0}
+.pb.rep .repf + .hint2{margin-top:8px}
+.pb.rep .who-btn[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.repnow{margin:0;font-size:13.5px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:8px 10px;max-height:9.5em;overflow:auto}
+.repf{display:block;margin-top:16px}
+.repf b{display:block;font-size:15px;margin-bottom:6px}
+.repf small{font-weight:400;color:var(--muted)}
+.repf :is(textarea,input){display:block;width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 10px;font:inherit;font-size:16px}
+.repf textarea{resize:vertical;min-height:5.5em}
+.pb.rep .acts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
+a.give{text-decoration:none;display:inline-flex;align-items:center}
 :root[data-theme^="gba"] .toast{color:var(--ink)}
 :root[data-theme^="gba"] .toast button{background:var(--acc);color:var(--acc-ink)}
 :root[data-theme^="gba"] :is(.disp,.row .nm,.tname .nm,.inv-row .gname .nm,.dt .gname .nm,.tip .t,.lord b,.lordpill b,.stepper output,.honor-lbl b,.invhead .sum b,.tabs button,.seg3 button){font-family:"Jersey 15","Alegreya Sans",system-ui,sans-serif;font-weight:400;font-variant-ligatures:none;letter-spacing:.02em;font-size-adjust:.52}
@@ -962,6 +979,7 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
       <li><b>Le jour de son anniversaire</b>, un personnage réagit « a beaucoup aimé » même à un cadeau banal. Le calendrier est dans Cadeaux, « À ne pas rater » ; un gâteau signale les anniversaires de la semaine quand la date du jeu est indiquée.</li>
       <li><b>Valeurs sûres :</b> Récits d'aventure, Portrait de Yu Phas, Panorama de pégases, Portrait au bouclier, Tableau de fleurs et Gemme en pointe de flèche sont adorés par presque tout le monde (sauf Theodora, qui n'aime pas lire, et Nuzzuo pour les Récits d'aventure).</li>
       <li><b>Filtre « Honneur requis » :</b> touche un niveau pour ne voir que les personnages qui demandent exactement cet Honneur. Ton niveau actuel est entouré.</li>
+      <li><b>Une erreur ?</b> En bas de chaque fiche, « Signale-la » prépare une proposition de correction, envoyée sur GitHub ou copiée. Une capture d'écran du jeu sert de preuve ; chaque proposition est relue avant d'être appliquée. <button type="button" class="linkbtn" data-report="x|">Signaler une erreur</button></li>
       <li><b>En cas de doute, le jeu fait foi :</b> les exigences exactes s'affichent dans la fiche du personnage à Dagsion. ⚠ signale des sources qui se contredisent.</li>
       <li><b>Le badge « ? »</b> marque un cadeau vu dans une seule source. Les noms français relevés dans le jeu sont les noms officiels ; les autres sont des traductions proposées. Le nom anglais est toujours affiché dessous.</li>
     </ul>
@@ -970,6 +988,7 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
   <section id="listCol" aria-label="Liste"></section>
   <footer>
   Données croisées le 2 octobre 2026 à partir de Raider King (tests en jeu, par niveau de réaction), GameSpot, Selphie1999Gaming, KeenGamer, Game Rant, Nintendo Insider, fortunesweave.online, fireemblemfortunesweave.wiki, Pocket Tactics, NightlyGamingBinge (boutiques) et Game8. Guide non officiel : projet de fan non affilié à Nintendo, Intelligent Systems ou Koei Tecmo. Icônes pixel art originales.
+  <p class="repfoot">Une erreur, un oubli ? <button type="button" class="linkbtn" data-report="x|">Signale-le</button> : chaque proposition est relue avant d'être appliquée.</p>
   </footer>
   </div>
   <div class="scrim" id="scrim"></div>
@@ -2288,7 +2307,7 @@ function renderCharPanel(c){
   return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${esc(c.n)}</h2><p>${esc(c.d)}</p>${charMeta(c)}</div><div class="ph-acts">${c.lord === S.lord ? '' : `<button type="button" class="pin" data-pin aria-pressed="${isPinned(c.n)}" aria-label="Épingler ${esc(c.n)} en haut de la liste" title="${isPinned(c.n) ? 'Retirer des épinglés' : 'Épingler en haut de la liste'}">${pix('star')}</button>`}${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
     <div class="pb" data-for="${esc(c.n)}">${bdNote(c)}${recBox(c)}${trackBox(c)}${offerBox(c)}${favBox(c)}${logBox(c)}
       <p class="likes" style="margin-top:16px"><b>D'après sa fiche :</b> ${esc(c.g)}</p>
-      ${tiers}${note}${allLordsTable(c)}
+      ${tiers}${note}${allLordsTable(c)}${reportLine('c', c.n)}
     </div>`;
 }
 
@@ -2330,7 +2349,7 @@ function renderGiftPanel(g){
   }
   if(!anyTier) body += `<p class="nothing">Aucune réaction connue pour ce cadeau. Garde-le comme premier cadeau pour débloquer les repas.</p>`;
   return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">${pix(G[2], 'x2')} ${esc(G[1])}</h2><p>${esc(G[0])} — ${esc(CATS[G[2]][0])}</p></div><div class="ph-acts">${BACK_BTN}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
-    <div class="pb">${body}<div class="note">Personnages triés selon ta voie : d'abord ceux qui ont encore besoin de soutien.</div></div>`;
+    <div class="pb">${body}<div class="note">Personnages triés selon ta voie : d'abord ceux qui ont encore besoin de soutien.</div>${reportLine('g', g)}</div>`;
 }
 
 /* ---------- panneau ---------- */
@@ -2341,7 +2360,7 @@ let lastFocus = null;
 function openPanel(kind, id){
   S.sel = { k: kind, id };
   const p = $('#panel');
-  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : kind === 'k' ? renderKeysPanel() : kind === 'p' ? MAP.placePanel(id) : renderGiftPanel(id);
+  p.innerHTML = kind === 'c' ? renderCharPanel(charByName[id]) : kind === 's' ? renderSavePanel() : kind === 'k' ? renderKeysPanel() : kind === 'r' ? renderReportPanel() : kind === 'p' ? MAP.placePanel(id) : renderGiftPanel(id);
   if(kind === 's') prepLink();
   p.scrollTop = 0;
   if(isSheet()){
@@ -2372,7 +2391,7 @@ function markCurrent(){
 function refreshPanel(){
   const p = $('#panel');
   if(!S.sel){ if(!p.classList.contains('open')) p.innerHTML = isSheet() ? PH : dashPanel(); return; }
-  if(S.sel.k === 's' || S.sel.k === 'k') return; // ne pas effacer un code en cours de collage
+  if(S.sel.k === 's' || S.sel.k === 'k' || S.sel.k === 'r') return; // ne pas effacer un code en cours de collage ni un signalement en cours
   const st = p.scrollTop;
   p.innerHTML = S.sel.k === 'c' ? renderCharPanel(charByName[S.sel.id]) : S.sel.k === 'p' ? MAP.placePanel(S.sel.id) : renderGiftPanel(S.sel.id);
   p.scrollTop = st;
@@ -2694,7 +2713,7 @@ function whereBlock(g){
   if(mk) lines += `<div class="acts" style="margin-top:8px"><button type="button" class="btn" data-mitem="${esc(mk)}">${pix('lens')} Voir sur la carte</button></div>`;
   const mine = spots.length ? `<div class="tchips">${spots.map((s, i) => `<span class="tchip mine"><button type="button" class="tlink" data-town="${esc(s)}">${esc(s)}</button><button type="button" class="tdel" data-spotdel="${i}" aria-label="Retirer ${esc(s)}">✕</button></span>`).join('')}</div>` : '';
   return `<div class="where"><h3>Où le trouver <span class="conf ${conf[0]}">${conf[1]}</span></h3>${lines}
-    <div class="spots"><b>Tes repérages</b>${mine}
+    <div class="spots"><b>Tes repérages</b>${mine}${spots.length ? `<button type="button" class="linkbtn spotprop" data-report="g|${g}" data-report-t="where" data-report-txt="${esc('Vu dans le jeu à : ' + spots.join(', '))}">Proposer ${spots.length > 1 ? 'ces repérages' : 'ce repérage'} à tout le monde</button>` : ''}
       <div class="spotadd"><input type="text" list="townlist" placeholder="Ex. Galerie de Dagsion" aria-label="Lieu où tu l'as vu" data-spotin><button type="button" class="btn" data-spotadd="${g}">Je l'ai vu ici</button></div></div></div>`;
 }
 
@@ -2741,6 +2760,7 @@ function renderTownHtml(){
   const isDag = S.town.startsWith('Dagsion');
   html += `<details class="grp" open><summary><h2 class="disp">${esc(S.town)}</h2><span class="cnt">${useful.length} utile${useful.length > 1 ? 's' : ''}</span></summary>
     <p class="hint">${isDag ? 'Le stock complet des marchands de Dagsion n\u2019a pas été publié : complète avec tes repérages.' : 'Marché de la ville. Lieux issus surtout d\u2019une seule source : vérifie en jeu.'} Touche +1 quand tu achètes, ça remplit ton inventaire.</p>
+    ${reportLine('t', S.town, 'Le stock ou un prix est faux ?', 'Signale-le')}
     ${useful.length ? `<div class="rows">${useful.map(row).join('')}</div>` : `<p class="empty">Rien ici ne sert à tes personnages qui ont encore besoin de soutien.</p>`}</details>`;
   if(rest.length) html += `<details class="grp"><summary><h2 class="disp">Personne n'en a besoin</h2><span class="cnt">${rest.length}</span></summary><div class="rows">${rest.map(row).join('')}</div></details>`;
   return html;
@@ -2834,6 +2854,107 @@ function delSpot(g, i){
   store.set('spots', S.spots); refreshPanel();
   if(S.tab === 'gifts') renderList();
 }
+
+/* ---------- signaler une erreur : un ticket GitHub prérempli, sans serveur ni base ---------- */
+const REPO_URL = 'https://github.com/Ly-Ten/fe-gift-tactician';
+const reportLine = (k, id, q = 'Une erreur dans cette fiche ?', a = 'Signale-la') => `<p class="repline">${q} <button type="button" class="linkbtn" data-report="${esc(k + '|' + id)}">${a}</button></p>`;
+const tokName = tok => { const u = tok.endsWith('?'), k = u ? tok.slice(0, -1) : tok; return (k[0] === '@' ? GROUPS[k.slice(1)][0] : GIFTS[k] ? GIFTS[k][1] : k) + (u ? ' (?)' : ''); };
+// la fiche signalée et ses sujets : [id, libellé, ce que l'outil affiche aujourd'hui, exemple de correction]
+function reportCtx(k, id){
+  const other = ['other', 'Autre', '', 'Décris ce qui ne va pas'];
+  if(k === 'g' && GIFTS[id]){
+    const G = GIFTS[id], w = WHERE[id] || {};
+    const shops = [...new Set([...(w.t || []), ...(window.MAP && MAP.ready ? MAP.giftTowns(id) : [])])];
+    const where = [shops.length ? 'Marchés : ' + shops.join(', ') : '', w.r ? `Récompense du rang d'Honneur ${w.r}` : '', ...(w.q || []).map(q => `Quête « ${q.n} », avant le ${q.d}`)].filter(Boolean).join('\n');
+    const who = TIERS.map(([t, lbl]) => { const n = CHARS.filter(c => { const r = tierOf(c, id); return r && r.t === t; }).map(c => c.n); return n.length ? `${lbl} : ${n.join(', ')}` : ''; }).filter(Boolean).join('\n');
+    return { what: `Cadeau « ${G[1]} »`, ref: id, topics: [
+      ['name', 'Nom français', `${G[1]} (en anglais : ${G[0]})`, 'Ex. : dans le jeu, il s’appelle « … »'],
+      ['where', 'Où le trouver', where || 'Lieu inconnu', 'Ex. : vendu au marché de …'],
+      ['price', 'Prix', w.p ? `${w.p} or` : 'Prix non documenté', 'Ex. : 450 or au marché de …'],
+      ['who', 'Qui l’aime', who || 'Aucune réaction connue', 'Ex. : Alexandra a réagi « a adoré »'], other] };
+  }
+  if(k === 'c' && charByName[id]){
+    const c = charByName[id], cl = CLASS[c.n], b = bdOf(c);
+    const likes = TIERS.map(([t, lbl]) => (c[t] || []).length ? `${lbl} : ${c[t].map(tokName).join(', ')}` : '').filter(Boolean).join('\n');
+    const req = c.nr || c.lord ? (c.lord ? 'Seigneur de la Flamme' : 'Non recrutable en Partie I')
+      : LORDS.map(l => { const r = reqOf(c, l.id), ex = extraOf(c, l.id); return `${l.name} : ${r === 'A' ? 'rejoint automatiquement' : !r ? 'non recrutable' : `Soutien ${r[0]}, Honneur ${r[1]}${ex ? ' + ' + ex : ''}`}`; }).join('\n');
+    return { what: `Personnage « ${c.n} »`, ref: '', topics: [
+      ['likes', 'Cadeaux préférés', likes, 'Ex. : réaction « a adoré » pour le …'],
+      ['req', 'Conditions de recrutement', req, 'Ex. : avec Dietrich, Soutien 2 et Honneur 6'],
+      ['bday', 'Anniversaire', b ? fmtGD(b) : 'Inconnu', 'Ex. : le 12 mars'],
+      ['wpn', 'Armes ou classe', cl ? `${cl[1] ? cl[1] + ' · ' : ''}${cl[2].map(x => WPN[x][1]).join(', ')}` : 'Inconnues', ''], other] };
+  }
+  if(k === 'p' && window.MAP && MAP.ready && MAP.placeInfo){
+    const p = MAP.placeInfo(id); if(!p) return null;
+    return { what: `Lieu « ${p.n} »`, ref: id, topics: [
+      ['stock', 'Objets vendus ou trouvés', p.stock || 'Aucun objet relevé', 'Ex. : on y trouve aussi … / … n’y est pas'],
+      ['place', 'Nom ou position', `${p.n}, ${p.kind}, ${p.region}`, ''], other] };
+  }
+  if(k === 't'){
+    const gs = Object.keys(GIFTS).filter(g => ((WHERE[g] || {}).t || []).includes(id) || (window.MAP && MAP.ready && MAP.isMapTown(g, id)));
+    return { what: `Marché de ${id}`, ref: '', topics: [
+      ['stock', 'Cadeaux vendus ou prix', gs.map(g => GIFTS[g][1] + ((WHERE[g] || {}).p ? ` (${WHERE[g].p} or)` : '')).join(', ') || 'Aucun cadeau relevé', 'Ex. : il vend aussi … / … coûte 300 or'], other] };
+  }
+  return { what: 'Le fil des cadeaux', ref: '', topics: [other] };
+}
+function openReport(k, id, t, txt){
+  S.rep = { k, id, t: t || null, txt: txt || '' };
+  if(!reportCtx(k, id)) return;
+  lastFocus = lastFocus || document.activeElement;
+  openPanel('r', '');
+}
+const repTopic = ctx => ctx.topics.find(x => x[0] === S.rep.t) || ctx.topics[0];
+const repNow = tp => tp[2] ? `<h3>Ce que l'outil affiche</h3><p class="repnow">${esc(tp[2]).replace(/\n/g, '<br>')}</p>` : '';
+function renderReportPanel(){
+  const ctx = reportCtx(S.rep.k, S.rep.id), tp = repTopic(ctx);
+  const back = ['g', 'c', 'p'].includes(S.rep.k) ? '<button type="button" class="btn back" data-rep-back>Retour</button>' : '';
+  return `<div class="ph"><span class="grab" aria-hidden="true"></span><div><h2 class="disp" id="pTitle" tabindex="-1">Signaler une erreur</h2><p>${esc(ctx.what)}</p></div><div class="ph-acts">${back}<button type="button" class="x" data-close aria-label="Fermer">✕</button></div></div>
+  <div class="pb rep">
+    ${ctx.topics.length > 1 ? `<h3>Ce qui ne va pas</h3><div class="who-list" role="group" aria-label="Sujet de l'erreur">${ctx.topics.map(([id, lbl]) => `<button type="button" class="who-btn" data-rep-t="${id}" aria-pressed="${id === tp[0]}">${esc(lbl)}</button>`).join('')}</div>` : ''}
+    <div data-rep-now>${repNow(tp)}</div>
+    <label class="repf"><b>Ta correction</b><textarea data-rep-txt rows="4" placeholder="${esc(tp[3] || 'Décris ce qui ne va pas')}">${esc(S.rep.txt)}</textarea></label>
+    <label class="repf"><b>Comment tu le sais <small>(facultatif)</small></b><input type="text" data-rep-src placeholder="Vu dans le jeu, lien vers un guide…"></label>
+    <p class="hint2">La meilleure preuve est une capture d'écran du jeu : tu pourras la glisser dans le ticket, sur GitHub.</p>
+    <div class="acts"><a class="give" data-rep-send href="${REPO_URL}/issues/new?template=correction.yml" target="_blank" rel="noopener">Envoyer sur GitHub</a><button type="button" class="btn" data-rep-copy>Copier le texte</button></div>
+    <p class="hint2">Il faut un compte GitHub, gratuit. Sans compte, copie le texte pour l'envoyer autrement. Chaque proposition est relue avant d'être appliquée : le jeu fait foi.</p>
+  </div>`;
+}
+function reportData(){
+  const ctx = reportCtx(S.rep.k, S.rep.id), tp = repTopic(ctx);
+  const v = s => ((document.querySelector(s) || {}).value || '').trim();
+  return { title: `${ctx.what} : ${tp[1]}`, fiche: ctx.what + (ctx.ref ? ` [${ctx.ref}]` : ''), sujet: tp[1], actuel: tp[2].slice(0, 1500),
+    proposition: v('[data-rep-txt]'), source: v('[data-rep-src]'), contexte: `Seigneur joué : ${lordName(S.lord)}, Honneur ${S.honor}` };
+}
+function reportClick(e){
+  const t = e.target.closest('[data-rep-t]');
+  if(t){
+    S.rep.t = t.dataset.repT; const tp = repTopic(reportCtx(S.rep.k, S.rep.id));
+    document.querySelectorAll('[data-rep-t]').forEach(b => b.setAttribute('aria-pressed', b === t));
+    document.querySelector('[data-rep-now]').innerHTML = repNow(tp);
+    document.querySelector('[data-rep-txt]').placeholder = tp[3] || 'Décris ce qui ne va pas';
+    return true;
+  }
+  if(e.target.closest('[data-rep-back]')){ openPanel(S.rep.k, S.rep.id); return true; }
+  const send = e.target.closest('[data-rep-send]');
+  if(send){
+    const d = reportData();
+    if(!d.proposition){ e.preventDefault(); toast('Écris d’abord ta correction.'); document.querySelector('[data-rep-txt]').focus(); return true; }
+    send.href = `${REPO_URL}/issues/new?` + new URLSearchParams({ template: 'correction.yml', ...d });
+    return true;
+  }
+  if(e.target.closest('[data-rep-copy]')){
+    const d = reportData();
+    if(!d.proposition){ toast('Écris d’abord ta correction.'); document.querySelector('[data-rep-txt]').focus(); return true; }
+    copyText(`Signalement pour Le fil des cadeaux\nFiche : ${d.fiche}\nSujet : ${d.sujet}\nCe que l'outil affiche : ${d.actuel || '—'}\nCorrection : ${d.proposition}\nComment je le sais : ${d.source || '—'}\n${d.contexte}\n${location.origin + location.pathname}`, 'Texte copié.');
+    return true;
+  }
+  return false;
+}
+document.addEventListener('click', e => {
+  const o = e.target.closest('[data-report]'); if(!o) return;
+  const i = o.dataset.report.indexOf('|');
+  openReport(o.dataset.report.slice(0, i), o.dataset.report.slice(i + 1), o.dataset.reportT, o.dataset.reportTxt);
+});
 
 
 /* ---------- sauvegarde : export / import ---------- */
@@ -3518,6 +3639,7 @@ $('#panel').addEventListener('click', e => {
   if(e.target.closest('[data-pin]') && S.sel && S.sel.k === 'c'){ togglePin(S.sel.id); return; }
   if(window.MAP && MAP.ready && MAP.panelClick(e)) return;
   if(S.sel && S.sel.k === 's' && saveClick(e)) return;
+  if(S.sel && S.sel.k === 'r' && reportClick(e)) return;
   if(dashClick(e)) return;
   const sa = e.target.closest('[data-spotadd]');
   if(sa){ const inp = sa.parentElement.querySelector('[data-spotin]'); addSpot(sa.dataset.spotadd, inp ? inp.value : ''); return; }

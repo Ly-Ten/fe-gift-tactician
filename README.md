@@ -11,6 +11,7 @@ Version en ligne : https://ly-ten.github.io/fe-gift-tactician/
 - **Une partie par Seigneur** : inventaire, Honneur, soutiens, premiers cadeaux, conditions et recrutés sont notés à part pour chacun des quatre Seigneurs. Le soutien se noue entre le Seigneur et le personnage : il repart à 1 dans chaque partie.
 - **Inventaire** : tes cadeaux en stock, avec les quantités.
 - **Offrir** : « Offert » retire le cadeau du stock ; « Offert, soutien +1 » note en plus le niveau de soutien gagné. Tout se défait avec « Annuler ».
+- **Signaler une erreur** : en bas de chaque fiche (cadeau, personnage, lieu de la carte, marché d'une ville), « Signale-la » prépare une proposition de correction avec ce que l'outil affiche. Elle s'envoie comme ticket GitHub prérempli, où l'on peut joindre une capture du jeu, ou se copie pour l'envoyer autrement. Tes repérages peuvent être proposés à tout le monde de la même façon. Chaque proposition est relue avant d'être appliquée.
 - **Premier cadeau** : un cadenas signale les personnages qui n'ont encore rien reçu du Seigneur joué, et qu'on ne peut donc inviter nulle part.
 - **Tournée de la semaine** : répartition automatique de ton inventaire entre les personnages qui ont encore besoin de soutien, meilleur cadeau d'abord.
 - **Où trouver les cadeaux** : marchés par ville, quêtes à date limite, et tes propres repères.
