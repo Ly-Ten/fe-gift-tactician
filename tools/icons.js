@@ -166,6 +166,9 @@ def('coin', grid(set => {
 }), { outline:true });
 def('star', [E8,'.......y','.......y','......yy','......yy','yyyyyyyy','.yyyyyyy','..yyyyyy',
  '...yyyyy','...yyyyY','..yyyyYY','..yyy.YY','.yy.....','.y......',E8,E8], { mirror:true, outline:true });
+// cadenas : personnage qu'on ne peut pas encore inviter
+def('lock', [E8,E8,'.....ggg','....gg..','....g...','....g...','....g...','..yyyyyy',
+ '..yyyyyy','..yyyyyk','..yyyyyk','..yyyyyy','..YYYYYY',E8,E8,E8], { mirror:true, outline:true });
 def('scroll', [E16,E16,
  '...tttttttttt...','..tNttttttttNt..','...mmmmmmmmmm...','...mnnnnnnnmm...','...mmmmmmmmmm...',
  '...mnnnnnnmmm...','...mmmmmmmmmm...','...mnnnnnnnmm...','...mmmmmmmmmm...','..tNttttttttNt..',

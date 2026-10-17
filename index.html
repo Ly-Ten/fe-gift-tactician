@@ -230,6 +230,8 @@ footer a{color:inherit}
 .pill.good{background:var(--t-r-bg);color:var(--t-r)}
 .pill.stock{background:var(--t-l-bg);color:var(--t-l);font-family:"Alegreya Sans",system-ui,sans-serif;font-size:12px;padding:3px 6px;vertical-align:3px;margin-left:4px}
 .pill.stock.r{background:var(--t-r-bg);color:var(--t-r)}
+.pill.nogift{background:transparent;border:1px dashed var(--muted);padding:2px 4px;vertical-align:3px;margin-left:4px;display:inline-flex}
+.track small .pi{margin-right:2px}
 .row .ds .done-c{color:var(--t-r)}
 .grp.ready .rows{border-color:color-mix(in srgb,var(--t-r) 55%,transparent)}
 .grp.ready h2{color:var(--t-r)}
@@ -289,10 +291,15 @@ footer a{color:inherit}
 .off-row .mk.R{background:var(--t-r-bg);color:var(--t-r)}
 .off-row .mk.B{background:var(--t-b-bg);color:var(--t-b)}
 .off-row .mk.X{background:var(--t-x-bg);color:var(--t-x)}
-.off-row .gn{flex:1;min-width:0}
+.off-row .gn{flex:1 1 9rem;min-width:0}
 .off-row .gn b{display:block;font-weight:500;font-size:15px;line-height:1.2}
 .off-row .gn small{color:var(--muted);font-size:12.5px}
 .give{border:0;border-radius:999px;padding:8px 14px;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:14px;flex-shrink:0}
+.give.up{background:var(--t-r);color:var(--surface)}
+.gives{display:inline-flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.off-row{flex-wrap:wrap}
+.off-row .gives{margin-left:auto}
+.tpick [data-tpup]{margin-bottom:10px}
 .avoid-own{margin:8px 0 6px;font-size:14px;color:var(--t-x)}
 .log{margin-top:16px}
 .log h3{margin:0 0 6px;font-size:15px}
@@ -932,9 +939,10 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
   <details class="tips">
     <summary>Bon à savoir</summary>
     <ul>
-      <li><b>Inventaire :</b> renseigne tes cadeaux dans l'onglet Inventaire. Dans la fiche d'un personnage, « À offrir » liste ce que tu possèdes et qui lui plaît ; le bouton Offrir retire 1 de ton stock.</li>
+      <li><b>Inventaire :</b> renseigne tes cadeaux dans l'onglet Inventaire. Dans la fiche d'un personnage, « À offrir » liste ce que tu possèdes et qui lui plaît. « Offert » retire 1 de ton stock ; « Offert, soutien +1 » monte aussi son soutien d'un niveau.</li>
+      <li><b>Une partie par Seigneur :</b> inventaire, Honneur, soutiens, premiers cadeaux, conditions et recrutés sont notés à part pour chaque Seigneur. Le soutien se noue entre le Seigneur et le personnage : il repart à 1 dans chaque partie.</li>
       <li><b>Suivi :</b> dans la fiche, indique ton niveau de soutien actuel, coche la condition (quête, objets, or) puis « Recruté ». Ceux dont le soutien suffit passent en grisé en bas de leur groupe ; ceux qui ont tout passent dans « Prêts à recruter ».</li>
-      <li><b>Tournée :</b> elle répartit ton inventaire entre les personnages qui ont encore besoin de soutien (meilleur cadeau d'abord, sans dépasser tes quantités). Valide au fil de l'eau avec « Offert » ou « Autre cadeau », puis « Terminer la tournée » pour passer à la semaine suivante.</li>
+      <li><b>Tournée :</b> elle répartit ton inventaire entre les personnages qui ont encore besoin de soutien (meilleur cadeau d'abord, sans dépasser tes quantités). Valide au fil de l'eau avec « Offert », « Offert, soutien +1 » ou « Autre cadeau », puis « Terminer la tournée » pour passer à la semaine suivante.</li>
       <li><b>Sauvegarde :</b> le bouton ⇅ exporte toutes tes données. Pour passer de l'ordinateur au téléphone, affiche le QR code et scanne-le avec l'appareil photo : l'outil s'ouvre et te propose l'import. Garde aussi le code dans une note : c'est ta copie de secours.</li>
       <li><b>Application :</b> sur Android et sur ordinateur, le bouton « Installer » en haut ajoute l'outil comme une app, utilisable sans connexion. Sur iPhone, dans Safari : bouton Partager, puis « Sur l'écran d'accueil ». Sur iPhone, l'app installée garde ses propres données : transfère-les avec la Sauvegarde.</li>
       <li><b>Clavier :</b> sur ordinateur, <kbd>/</kbd> lance la recherche, <kbd>1</kbd> à <kbd>5</kbd> changent d'onglet et les flèches parcourent la liste. <button type="button" class="linkbtn" data-keys>Voir tous les raccourcis</button></li>
@@ -949,12 +957,11 @@ kbd{display:inline-block;min-width:24px;padding:1px 7px;border:1px solid var(--l
       <li><b>Épingles :</b> l'étoile dans la fiche d'un personnage le place en haut de la liste et le sert en premier dans la tournée.</li>
       <li><b>Date du jeu :</b> indique-la dans Cadeaux, « À ne pas rater », pour voir les jours restants avant chaque quête.</li>
       <li><b>Un cadeau par personnage et par semaine.</b> Vise les ⇈ « adore » : deux flèches dorées, soutien doublé.</li>
-      <li><b>Le premier cadeau peut être n'importe quoi de pas cher</b> (taverne de la ville basse) : il débloque les repas à l'auberge.</li>
+      <li><b>Le premier cadeau peut être n'importe quoi de pas cher</b> (taverne de la ville basse) : il débloque les invitations, comme les repas à l'auberge. Tant qu'un personnage n'a rien reçu de ton Seigneur, on ne peut l'inviter nulle part. Un cadenas à côté de son nom le signale ; le premier cadeau noté l'enlève.</li>
       <li><b>Armes :</b> l'icône devant un nom montre son arme de prédilection. La fiche liste toutes ses armes et, quand les sources s'accordent, sa classe de départ. La plupart des recrues commencent Roturier ou Noble, des classes ouvertes à toutes les armes.</li>
       <li><b>Le jour de son anniversaire</b>, un personnage réagit « a beaucoup aimé » même à un cadeau banal. Le calendrier est dans Cadeaux, « À ne pas rater » ; un gâteau signale les anniversaires de la semaine quand la date du jeu est indiquée.</li>
       <li><b>Valeurs sûres :</b> Récits d'aventure, Portrait de Yu Phas, Panorama de pégases, Portrait au bouclier, Tableau de fleurs et Gemme en pointe de flèche sont adorés par presque tout le monde (sauf Theodora, qui n'aime pas lire, et Nuzzuo pour les Récits d'aventure).</li>
       <li><b>Filtre « Honneur requis » :</b> touche un niveau pour ne voir que les personnages qui demandent exactement cet Honneur. Ton niveau actuel est entouré.</li>
-      <li><b>Le soutien est conservé d'une voie à l'autre</b> (il est donc noté une seule fois), l'Honneur, la condition et le recrutement sont propres à chaque Seigneur.</li>
       <li><b>En cas de doute, le jeu fait foi :</b> les exigences exactes s'affichent dans la fiche du personnage à Dagsion. ⚠ signale des sources qui se contredisent.</li>
       <li><b>Le badge « ? »</b> marque un cadeau vu dans une seule source. Les noms français relevés dans le jeu sont les noms officiels ; les autres sont des traductions proposées. Le nom anglais est toujours affiché dessous.</li>
     </ul>
@@ -1734,15 +1741,33 @@ const store = {
   set(k, v){ try{ localStorage.setItem('feweave:'+k, JSON.stringify(v)); }catch(e){} }
 };
 const LORD_IDS = LORDS.map(l => l.id);
+// une partie par Seigneur : l'inventaire, l'Honneur et les soutiens, autrefois communs, vont au Seigneur qui était joué
+(function migrateLords(){
+  try {
+    const l = (id => LORD_IDS.includes(id) ? id : 'cai')(store.get('lord', 'cai'));
+    for(const [old, key] of [['inv', 'invs'], ['honor', 'honors'], ['sup', 'sups']]){
+      const v = store.get(old, null); if(v === null) continue;
+      const all = store.get(key, null) || {};
+      if(all[l] === undefined) all[l] = v;
+      store.set(key, all); localStorage.removeItem('feweave:' + old);
+    }
+    if(store.get('gifted', null) === null){ // premier cadeau : déduit des cadeaux déjà notés dans l'outil
+      const g = {}, lg = store.get('log', null) || {};
+      for(const n in lg) for(const e of lg[n] || []) if(e && LORD_IDS.includes(e.l)){ g[e.l] = g[e.l] || []; if(!g[e.l].includes(n)) g[e.l].push(n); }
+      store.set('gifted', g);
+    }
+  } catch(e) {}
+})();
 // cadeaux renommés ou scindés : les données enregistrées (et les anciens exports, importés puis rechargés) suivent
 (function migrateGifts(){
   const REN = { bull_panther: 'crimson_bull' };
   try {
-    const inv = store.get('inv', null);
-    if(inv && Object.keys(REN).some(o => o in inv)){ for(const o in REN) if(o in inv){ inv[REN[o]] = (inv[REN[o]] || 0) + inv[o]; delete inv[o]; } store.set('inv', inv); }
+    const invs = store.get('invs', null); let ch = false;
+    if(invs) for(const l in invs){ const inv = invs[l] || {}; for(const o in REN) if(o in inv){ inv[REN[o]] = (inv[REN[o]] || 0) + inv[o]; delete inv[o]; ch = true; } }
+    if(ch) store.set('invs', invs);
     const sp = store.get('spots', null);
     if(sp && Object.keys(REN).some(o => o in sp)){ for(const o in REN) if(o in sp){ sp[REN[o]] = [...new Set([...(sp[REN[o]] || []), ...sp[o]])]; delete sp[o]; } store.set('spots', sp); }
-    const lg = store.get('log', null); let ch = false;
+    const lg = store.get('log', null); ch = false;
     if(lg) for(const n in lg) for(const e of lg[n] || []) if(e && REN[e.g]){ e.g = REN[e.g]; ch = true; }
     if(ch) store.set('log', lg);
     const tr = store.get('tours', null); ch = false;
@@ -1750,29 +1775,39 @@ const LORD_IDS = LORDS.map(l => l.id);
     if(ch) store.set('tours', tr);
   } catch(e) {}
 })();
+const objOr = o => o && typeof o === 'object' && !Array.isArray(o) ? o : {};
 const S = {
   lord: store.get('lord', 'cai'),
-  honor: store.get('honor', 1),
+  honors: objOr(store.get('honors', {})),  // { seigneur: 1..10 }
   tab: store.get('tab', 'chars'),
   hf: store.get('hf', null),
   theme: store.get('theme', null),
-  inv: store.get('inv', {}),          // { idCadeau: quantité }
-  sup: store.get('sup', {}),          // { nom: 1..3 } soutien actuel (commun aux voies)
-  cond: store.get('cond', {}),        // { seigneur: [noms] } condition faite
-  rec: store.get('rec', null),        // { seigneur: [noms] } recrutés
-  log: store.get('log', {}),          // { nom: [{g, ts, l}] }
+  invs: objOr(store.get('invs', {})),      // { seigneur: { idCadeau: quantité } }
+  sups: objOr(store.get('sups', {})),      // { seigneur: { nom: 2..3 } } soutien actuel, 1 si absent
+  gifted: objOr(store.get('gifted', {})),  // { seigneur: [noms] } ont déjà reçu un cadeau : on peut les inviter
+  cond: objOr(store.get('cond', {})),      // { seigneur: [noms] } condition faite
+  rec: store.get('rec', null),             // { seigneur: [noms] } recrutés
+  log: store.get('log', {}),               // { nom: [{g, ts, l, inv, up, first}] }
   invOnly: store.get('invOnly', false),
-  q: '', sel: null
+  q: '', sel: null,
+  // chaque Seigneur a sa propre partie : ces raccourcis suivent le Seigneur joué
+  get inv(){ return this.invs[this.lord]; }, set inv(v){ this.invs[this.lord] = v; },
+  get honor(){ return this.honors[this.lord]; }, set honor(v){ this.honors[this.lord] = v; },
+  get sup(){ return this.sups[this.lord]; }
 };
 if(!LORD_IDS.includes(S.lord)) S.lord = 'cai';
 if(!['chars','gifts','inv','tour','map'].includes(S.tab)) S.tab = 'chars';
-S.honor = Math.min(10, Math.max(1, +S.honor || 1));
 if(!S.rec){ // migration de l'ancienne marque « recruté » (globale) vers le Seigneur courant
   S.rec = {}; const old = store.get('done', []);
   if(old.length) S.rec[S.lord] = old;
   store.set('rec', S.rec);
 }
-for(const l of LORD_IDS){ S.rec[l] = S.rec[l] || []; S.cond[l] = S.cond[l] || []; }
+for(const l of LORD_IDS){
+  S.rec[l] = S.rec[l] || []; S.cond[l] = S.cond[l] || [];
+  S.gifted[l] = Array.isArray(S.gifted[l]) ? S.gifted[l] : [];
+  S.invs[l] = objOr(S.invs[l]); S.sups[l] = objOr(S.sups[l]);
+  S.honors[l] = Math.min(10, Math.max(1, +S.honors[l] || 1));
+}
 // en-tête compact dès qu'un Seigneur a été choisi une fois
 S.lordChosen = (() => { try { return localStorage.getItem('feweave:lord') !== null; } catch(e) { return true; } })();
 S.picking = false;
@@ -1804,13 +1839,13 @@ const TIER_RANK = { L:0, R:1, B:2, X:3 };
 const charByName = Object.fromEntries(CHARS.map(c => [c.n, c]));
 
 /* ---------- inventaire ---------- */
-const qty = g => S.inv[g] || 0;
+const qty = (g, l = S.lord) => S.invs[l][g] || 0;
 const invTotal = () => Object.values(S.inv).reduce((a, b) => a + b, 0);
 const invKinds = () => Object.keys(S.inv).filter(g => S.inv[g] > 0).length;
-function setQty(g, n){
+function setQty(g, n, l = S.lord){
   n = Math.max(0, Math.min(999, Math.floor(+n || 0)));
-  if(n) S.inv[g] = n; else delete S.inv[g];
-  store.set('inv', S.inv);
+  if(n) S.invs[l][g] = n; else delete S.invs[l][g];
+  store.set('invs', S.invs);
 }
 
 /* ---------- suivi du recrutement ---------- */
@@ -1820,13 +1855,28 @@ function toggleIn(obj, key, l, n){
   if(i >= 0) a.splice(i, 1); else a.push(n);
   store.set(key, obj);
 }
-const supOf = c => S.sup[c.n] || 0;
+// le soutien se noue entre le Seigneur et le personnage : chaque partie repart au niveau 1
+const SUP_MAX = 3;
+const supOf = (c, l = S.lord) => S.sups[l][c.n] || 1;
+function setSup(n, v, l = S.lord){
+  v = Math.max(1, Math.min(SUP_MAX, v));
+  if(v > 1) S.sups[l][n] = v; else delete S.sups[l][n];
+  store.set('sups', S.sups);
+}
 function reqOf(c, lord){ return c.req && c.req[lord || S.lord]; }
 function extraOf(c, lord){ const r = reqOf(c, lord); if(Array.isArray(r) && r[2]) return r[2]; return c.ex || ''; }
-function supMet(c, lord){ const r = reqOf(c, lord); return Array.isArray(r) && supOf(c) >= r[0]; }
+function supMet(c, lord){ const r = reqOf(c, lord); return Array.isArray(r) && supOf(c, lord || S.lord) >= r[0]; }
 const hasCond = c => !!extraOf(c);
 const condDone = c => inList(S.cond, S.lord, c.n);
 const isRec = c => inList(S.rec, S.lord, c.n);
+// tant qu'il n'a rien reçu du Seigneur, on ne peut l'inviter nulle part
+const wasGifted = (c, l = S.lord) => inList(S.gifted, l, c.n);
+const showsInvite = st => st !== 'self' && st !== 'na';
+function setGifted(n, on, l = S.lord){
+  const a = S.gifted[l], i = a.indexOf(n);
+  if(on && i < 0) a.push(n); else if(!on && i >= 0) a.splice(i, 1); else return;
+  store.set('gifted', S.gifted);
+}
 
 function status(c){
   if(c.lord === S.lord) return 'self';
@@ -1924,15 +1974,15 @@ function charMeta(c){
   return `<p class="meta">${out.join('')}</p>`;
 }
 
+const lockMark = c => wasGifted(c) ? '' : `<span class="pill nogift" title="Rien reçu avec ${lordName(S.lord)} : impossible de l’inviter">${pix('lock')}<span class="vh">, pas encore invitable</span></span>`;
 function charRow(c, st){
   const r = reqOf(c);
   const met = supMet(c);
   let pills = '';
   if(Array.isArray(r)){
-    const have = supOf(c);
     pills += met
       ? `<span class="pill good">Soutien ✓</span>`
-      : `<span class="pill">Soutien ${have ? have + '/' : ''}${r[0]}</span>`;
+      : `<span class="pill">Soutien ${supOf(c)}/${r[0]}</span>`;
     pills += `<span class="pill ${S.honor >= r[1] ? '' : 'miss'}">Honneur ${r[1]}</span>`;
     if(r[3]) pills += `<span class="pill warn" title="Sources contradictoires">⚠</span>`;
   }
@@ -1947,7 +1997,7 @@ function charRow(c, st){
   }
   const dim = (st === 'ok' || st === 'wait') && met;
   return `<button type="button" class="row ${dim ? 'dim' : ''}" data-char="${esc(c.n)}" aria-current="${S.sel && S.sel.k === 'c' && S.sel.id === c.n}">
-    <span class="who"><span class="nm">${wIcon(c)}${esc(c.n)}${stock}${bdBadge(c)}</span><span class="ds">${ds}</span></span>
+    <span class="who"><span class="nm">${wIcon(c)}${esc(c.n)}${showsInvite(st) ? lockMark(c) : ''}${stock}${bdBadge(c)}</span><span class="ds">${ds}</span></span>
     <span class="req">${pills}</span></button>`;
 }
 
@@ -2094,11 +2144,11 @@ function tourTable(plan){
     const gift = a ? `<div class="tgift"><span class="mk ${a.t}" aria-hidden="true">${TIER_MK[a.t]}</span><span><b>${esc(GIFTS[a.g][1])}${a.u ? ' <span class="unv">?</span>' : ''}</b> <span class="qty">×${qty(a.g)}</span></span></div>`
       : `<div class="tgift"><span class="mk N" aria-hidden="true">·</span><span>Rien de bon en stock</span></div>`;
     return `<tr class="${a ? '' : 'none'}" data-tc="${esc(c.n)}">
-      <td><button type="button" class="tname" data-char="${esc(c.n)}">${wIcon(c)}<span><span class="nm">${esc(c.n)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small class="sub">${supLine(c)}</small></span></button></td>
+      <td><button type="button" class="tname" data-char="${esc(c.n)}">${wIcon(c)}<span><span class="nm">${esc(c.n)}${lockMark(c)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small class="sub">${supLine(c)}</small></span></button></td>
       <td class="num c-wide">${supOf(c)}/${r[0]}</td>
       <td class="num c-wide ${S.honor >= r[1] ? '' : 'miss'}">${r[1]}</td>
       <td>${gift}</td>
-      <td><div class="tact">${a ? `<button type="button" class="give" data-tgive="${a.g}">Offert</button>` : ''}<button type="button" class="btn" data-tother aria-expanded="${open}" aria-label="Autre cadeau pour ${esc(c.n)}">Autre</button><button type="button" class="linkbtn" data-tskip aria-label="Pas cette semaine pour ${esc(c.n)}">Passer</button></div></td></tr>
+      <td><div class="tact">${a ? giveBtns(`data-tgive="${a.g}"`, supOf(c) < SUP_MAX, true) : ''}<button type="button" class="btn" data-tother aria-expanded="${open}" aria-label="Autre cadeau pour ${esc(c.n)}">Autre</button><button type="button" class="linkbtn" data-tskip aria-label="Pas cette semaine pour ${esc(c.n)}">Passer</button></div></td></tr>
       ${open ? `<tr class="pk-row" data-tc="${esc(c.n)}"><td colspan="5">${pickerHtml(c)}</td></tr>` : ''}`;
   }).join('');
   return `<div class="dt-wrap"><table class="dt dt-tour"><thead><tr>${thSort('tour', 'name', 'Personnage')}${thSort('tour', 'sup', 'Soutien', 'num c-wide', 'Soutien manquant')}${thSort('tour', 'hon', 'Honneur', 'num c-wide')}${thSort('tour', 'tier', 'Cadeau prévu')}${thPlain('<span class="vh">Actions</span>')}</tr></thead><tbody>${rows}</tbody></table></div>`;
@@ -2109,8 +2159,8 @@ const stepper = g => `<div class="stp" data-g="${g}"><button type="button" data-
 let resetArmed = null;
 function invSummary(){
   const t = invTotal(), k = invKinds();
-  return t ? `<b>${t} cadeau${t > 1 ? 'x' : ''} en stock</b><small>${k} sorte${k > 1 ? 's' : ''} différente${k > 1 ? 's' : ''}</small>`
-           : `<b>Inventaire vide</b><small>Ouvre une catégorie, puis ajoute tes cadeaux avec + ou tape la quantité.</small>`;
+  return t ? `<b>${t} cadeau${t > 1 ? 'x' : ''} en stock</b><small>${k} sorte${k > 1 ? 's' : ''} différente${k > 1 ? 's' : ''}, partie avec ${lordName(S.lord)}</small>`
+           : `<b>Inventaire vide</b><small>Partie avec ${lordName(S.lord)} : ouvre une catégorie, puis ajoute tes cadeaux avec + ou tape la quantité.</small>`;
 }
 function renderInv(){
   const q = norm(S.q);
@@ -2164,38 +2214,48 @@ function recBox(c){
   else {
     const miss = [];
     if(S.honor < r[1]) { const m = r[1] - S.honor; miss.push(`${m} niveau${m > 1 ? 'x' : ''} d'Honneur`); }
-    if(!supMet(c)) miss.push(supOf(c) ? `du soutien (${supOf(c)}/${r[0]})` : `du soutien (niveau ${r[0]})`);
+    if(!supMet(c)) miss.push(`du soutien (${supOf(c)}/${r[0]})`);
     if(ex && !condDone(c)) miss.push(`la condition : ${esc(ex)}`);
     line = 'Il manque ' + miss.join(', ') + '.';
   }
   return `<div class="recbox"><div class="t">Avec ${lordName(S.lord)} : Soutien ${r[0]} et Honneur ${r[1]}${ex ? ' + ' + esc(ex) : ''}</div><div class="s">${line}</div>${r[3] ? `<div class="w">⚠ ${esc(r[3])}</div>` : ''}</div>`;
 }
 
+const tracksSup = st => ['ok','wait','ready','rec'].includes(st);
+function inviteLine(c){
+  const on = wasGifted(c);
+  return `<div class="line"><button type="button" class="tg" data-gifted aria-pressed="${on}"><span class="box" aria-hidden="true">${on ? '✓' : ''}</span>Premier cadeau offert</button></div>
+    <small>${on ? 'Les invitations sont débloquées.' : `${pix('lock')} Rien reçu avec ${lordName(S.lord)} : impossible de l’inviter. Un premier cadeau, même bon marché, débloque les invitations.`}</small>`;
+}
 function trackBox(c){
   const st = status(c);
-  if(!['ok','wait','ready','rec'].includes(st)) return '';
+  if(!showsInvite(st)) return '';
+  if(!tracksSup(st)) return `<div class="track"><h3>Ton suivi</h3>${inviteLine(c)}</div>`;
   const r = reqOf(c); const have = supOf(c); const ex = extraOf(c);
-  const seg = [1,2,3].map(i => `<button type="button" data-sup="${i}" aria-pressed="${have === i}" class="${i >= r[0] ? 'met' : ''}" aria-label="Soutien ${i}${i >= r[0] ? ' (suffisant)' : ''}">${i}</button>`).join('');
+  const seg = Array.from({ length: SUP_MAX }, (_, k) => k + 1).map(i => `<button type="button" data-sup="${i}" aria-pressed="${have === i}" class="${i >= r[0] ? 'met' : ''}" aria-label="Soutien ${i}${i >= r[0] ? ' (suffisant)' : ''}">${i}</button>`).join('');
   return `<div class="track"><h3>Ton suivi</h3>
-    <div class="line"><span class="lbl">Soutien actuel</span><div class="seg" role="group" aria-label="Niveau de soutien actuel">${seg}</div></div>
-    <small>Requis : ${r[0]} avec ${lordName(S.lord)} (trait vert = suffisant). Touche à nouveau pour effacer.</small>
+    <div class="line"><span class="lbl">Soutien actuel</span><div class="seg" role="group" aria-label="Niveau de soutien actuel avec ${lordName(S.lord)}">${seg}</div></div>
+    <small>Requis : ${r[0]} avec ${lordName(S.lord)} (trait vert = suffisant). Le soutien repart à 1 avec chaque Seigneur.</small>
     <div class="line" style="margin-top:10px">
       ${ex ? `<button type="button" class="tg" data-cond aria-pressed="${condDone(c)}"><span class="box" aria-hidden="true">${condDone(c) ? '✓' : ''}</span>Condition faite : ${esc(ex)}</button>` : ''}
       <button type="button" class="tg" data-rec aria-pressed="${isRec(c)}"><span class="box" aria-hidden="true">${isRec(c) ? '✓' : ''}</span>Recruté</button>
-    </div></div>`;
+    </div>${inviteLine(c)}</div>`;
 }
 
+// « Offert » retire le cadeau du stock ; la variante « soutien +1 » note aussi le niveau gagné
+const giveBtns = (attr, up, short) => `<span class="gives"><button type="button" class="give" ${attr}>Offert</button>${up ? `<button type="button" class="give up" ${attr} data-up title="Offert, et son soutien a monté d’un niveau">${short ? 'Soutien +1' : 'Offert, soutien +1'}</button>` : ''}</span>`;
 function offerBox(c){
   const st = status(c);
   const owned = ownedFor(c);
   const good = owned.filter(o => o.t !== 'X');
   const bad = owned.filter(o => o.t === 'X');
+  const up = tracksSup(st) && supOf(c) < SUP_MAX;
   let inner;
   if(!invTotal()) inner = `<p class="hint2">Renseigne tes cadeaux dans l'onglet Inventaire : ceux qui lui plaisent apparaîtront ici.</p>`;
   else if(!good.length) inner = `<p class="hint2">Rien dans ton inventaire ne lui fait vraiment plaisir.</p>`;
   else inner = good.map(o => `<div class="off-row"><span class="mk ${o.t}" aria-hidden="true">${TIER_MK[o.t]}</span>
       <span class="gn"><b>${esc(GIFTS[o.g][1])}${o.u ? ' <span class="unv">?</span>' : ''} <span class="qty" title="Dans ton inventaire">×${qty(o.g)}</span></b><small>${esc(GIFTS[o.g][0])}</small></span>
-      <button type="button" class="give" data-give="${o.g}">Offrir</button></div>`).join('');
+      ${giveBtns(`data-give="${o.g}"`, up)}</div>`).join('');
   const avoid = bad.length ? `<p class="avoid-own">✕ À ne pas lui donner : ${bad.map(o => esc(GIFTS[o.g][1])).join(', ')}</p>` : '';
   const metNote = (st === 'ok' || st === 'wait' || st === 'ready') && supMet(c) ? `<p class="hint2">Son soutien suffit déjà pour le recrutement : garde tes meilleurs cadeaux pour les autres.</p>` : '';
   return `<div class="offer"><h3>À offrir depuis ton inventaire</h3>${metNote}${inner}${avoid}</div>`;
@@ -2417,8 +2477,8 @@ function wishlist(c){
 }
 
 function supLine(c){
-  const r = reqOf(c); const have = supOf(c);
-  return `Soutien ${have ? have + '/' : ''}${r[0]}, Honneur ${r[1]}`;
+  const r = reqOf(c);
+  return `Soutien ${supOf(c)}/${r[0]}, Honneur ${r[1]}`;
 }
 
 function pickerHtml(c){
@@ -2426,7 +2486,9 @@ function pickerHtml(c){
   for(const g in S.inv){ if(!S.inv[g]) continue; const t = tierOf(c, g); owned.push({ g, t: t ? t.t : null }); }
   owned.sort((a, b) => (a.t ? TIER_RANK[a.t] : 2.5) - (b.t ? TIER_RANK[b.t] : 2.5) || GIFTS[a.g][1].localeCompare(GIFTS[b.g][1]));
   const btn = (g, t, inStock) => `<button type="button" class="pk" data-tpg="${g}"><span class="mk ${t || 'N'}" aria-hidden="true">${t ? TIER_MK[t] : '·'}</span><span class="gn"><b>${esc(GIFTS[g][1])}${inStock ? ` <span class="qty">×${qty(g)}</span>` : ''}</b><small>${esc(GIFTS[g][0])}${t ? '' : ', réaction inconnue'}</small></span></button>`;
+  const up = tracksSup(status(c)) && supOf(c) < SUP_MAX;
   return `<div class="tpick"><p class="tq">Qu'as-tu offert à ${esc(c.n)} ?</p>
+    ${up ? `<button type="button" class="tg" data-tpup aria-pressed="false"><span class="box" aria-hidden="true"></span>Son soutien a monté d’un niveau</button>` : ''}
     ${owned.length ? `<div class="pklist">${owned.map(o => btn(o.g, o.t, true)).join('')}</div>` : `<p class="hint2">Ton inventaire est vide : cherche le cadeau ci-dessous.</p>`}
     <label class="search small"><span aria-hidden="true">⌕</span><input class="tps" type="search" placeholder="Un cadeau hors inventaire ?" autocomplete="off"></label>
     <div class="pklist" data-tpres></div>
@@ -2445,9 +2507,9 @@ function tourRow(c, a){
     : `<p class="twish">Rien de bon en stock. À chercher : ${esc(wishlist(c).join(', ') || 'voir sa fiche')}.</p>`;
   const open = S.pick === c.n;
   return `<div class="trow ${a ? '' : 'none'}" data-tc="${esc(c.n)}">
-    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${wIcon(c)}${esc(c.n)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small>${supLine(c)}</small></button>
+    <button type="button" class="tname" data-char="${esc(c.n)}"><span class="nm">${wIcon(c)}${esc(c.n)}${lockMark(c)}${isPinned(c.n) ? pix('star', 'pinmark') : ''}${bdBadge(c)}</span><small>${supLine(c)}</small></button>
     ${gift}
-    <div class="tact">${a ? `<button type="button" class="give" data-tgive="${a.g}">Offert</button>` : ''}
+    <div class="tact">${a ? giveBtns(`data-tgive="${a.g}"`, supOf(c) < SUP_MAX) : ''}
       <button type="button" class="btn" data-tother aria-expanded="${open}">Autre cadeau</button>
       <button type="button" class="linkbtn" data-tskip>Pas cette semaine</button></div>
     ${bdNote(c)}${open ? pickerHtml(c) : ''}</div>`;
@@ -2490,38 +2552,50 @@ function renderTour(){
   setList(html);
 }
 
-function recordGift(name, g){
+// up : son soutien a monté d'un niveau avec ce cadeau
+function recordGift(name, g, up){
+  const c = charByName[name];
   const fromInv = qty(g) > 0;
   if(fromInv) setQty(g, qty(g) - 1);
-  const ts = Date.now();
-  (S.log[name] = S.log[name] || []).push({ g, ts, l: S.lord, inv: fromInv });
+  const ts = Date.now(), d = { g, ts, inv: fromInv };
+  if(up && c && supOf(c) < SUP_MAX){ setSup(name, supOf(c) + 1); d.up = true; }
+  if(c && !wasGifted(c)){ setGifted(name, true); d.first = true; }
+  (S.log[name] = S.log[name] || []).push({ ...d, l: S.lord });
   if(S.log[name].length > 30) S.log[name] = S.log[name].slice(-30);
   store.set('log', S.log);
-  T().done[name] = { g, ts, inv: fromInv }; saveTours();
+  T().done[name] = d; saveTours();
   if(S.pick === name) S.pick = null;
   afterQty(g);
   if(S.tab === 'tour') renderList();
   refreshPanel();
-  toast(`${GIFTS[g][1]} offert à ${name}.` + (fromInv ? ` Il t'en reste ${qty(g)}.` : ''), () => undoGift(name));
+  toast(`${GIFTS[g][1]} offert à ${name}.` + (d.up ? ` Soutien ${supOf(c)}.` : '') + (d.first ? ' Invitations débloquées.' : '') + (fromInv ? ` Il t'en reste ${qty(g)}.` : ''), () => undoGift(name));
+}
+// défait un cadeau noté, sur la partie où il a été offert : stock, soutien gagné et premier cadeau
+function revertGift(name, e){
+  const l = LORD_IDS.includes(e.l) ? e.l : S.lord, c = charByName[name];
+  if(e.inv !== false) setQty(e.g, qty(e.g, l) + 1, l);
+  if(e.up && c) setSup(name, supOf(c, l) - 1, l);
+  if(e.first && !(S.log[name] || []).some(x => x !== e && x.l === l)) setGifted(name, false, l);
+  return l;
 }
 function undoGift(name){
   const L = S.log[name]; if(!L || !L.length) return;
   const e = L.pop(); store.set('log', S.log);
-  if(e.inv !== false){ setQty(e.g, qty(e.g) + 1); }
-  const tl = T(e.l || S.lord);
+  const l = revertGift(name, e);
+  const tl = T(l);
   if(tl.done[name] && tl.done[name].ts === e.ts){ delete tl.done[name]; saveTours(); }
   afterQty(e.g);
   if(S.tab === 'tour') renderList();
   refreshPanel();
-  toast(`Annulé : ${GIFTS[e.g] ? GIFTS[e.g][1] : e.g}${e.inv !== false ? ' remis dans l\u2019inventaire' : ' retiré de la tournée'}.`);
+  toast(`Annulé : ${GIFTS[e.g] ? GIFTS[e.g][1] : e.g}${e.inv !== false ? ` remis dans l’inventaire${l !== S.lord ? ' de ' + lordName(l) : ''}` : ' retiré de la tournée'}.`);
 }
 function undoTourEntry(name){
   const t = T(); const d = t.done[name]; if(!d) return;
   const L = S.log[name] || [];
   const i = L.findIndex(e => e.ts === d.ts);
   if(i === L.length - 1 && i >= 0){ undoGift(name); return; }
-  if(i >= 0){ L.splice(i, 1); store.set('log', S.log); }
-  if(d.inv !== false) setQty(d.g, qty(d.g) + 1);
+  if(i >= 0){ const e = L.splice(i, 1)[0]; store.set('log', S.log); revertGift(name, e); }
+  else revertGift(name, { ...d, l: S.lord });
   delete t.done[name]; saveTours();
   afterQty(d.g); renderList(); refreshPanel();
   toast(`Annulé : ${GIFTS[d.g] ? GIFTS[d.g][1] : d.g} pour ${name}.`);
@@ -2547,12 +2621,15 @@ function tourClick(e){
   if(e.target.closest('#tourEnd')){ endTour(e.target.closest('#tourEnd')); return true; }
   const bt = e.target.closest('[data-buy]'); if(bt){ buyOne(bt.dataset.buy); renderList(); return true; }
   if(e.target.closest('[data-goinv]')){ S.tab = 'inv'; store.set('tab', S.tab); S.q = ''; $('#q').value = ''; renderTabs(); renderHonorFilter(); renderList(); return true; }
-  const gv = e.target.closest('[data-tgive]'); if(gv && name){ recordGift(name, gv.dataset.tgive); return true; }
+  const gv = e.target.closest('[data-tgive]'); if(gv && name){ recordGift(name, gv.dataset.tgive, 'up' in gv.dataset); return true; }
+  const tu = e.target.closest('[data-tpup]');
+  if(tu){ const on = tu.getAttribute('aria-pressed') !== 'true'; tu.setAttribute('aria-pressed', on); tu.querySelector('.box').textContent = on ? '✓' : ''; return true; }
   if(e.target.closest('[data-tother]') && name){ S.pick = S.pick === name ? null : name; renderList();
     const r2 = [...document.querySelectorAll('[data-tc]')].find(r => r.dataset.tc === name);
     const pk = r2 && r2.querySelector('.tpick'); if(pk && pk.scrollIntoView) pk.scrollIntoView({ block: 'nearest' }); return true; }
   if(e.target.closest('[data-tcancel]')){ S.pick = null; renderList(); return true; }
-  const pk = e.target.closest('[data-tpg]'); if(pk && name){ recordGift(name, pk.dataset.tpg); return true; }
+  const pk = e.target.closest('[data-tpg]');
+  if(pk && name){ const upb = row.querySelector('[data-tpup]'); recordGift(name, pk.dataset.tpg, !!upb && upb.getAttribute('aria-pressed') === 'true'); return true; }
   if(e.target.closest('[data-tskip]') && name){
     T().skip.push(name); saveTours(); if(S.pick === name) S.pick = null; renderTabs(); renderList();
     toast(`${name} mis de côté pour cette tournée.`, () => { const s = T().skip; const i = s.indexOf(name); if(i >= 0) s.splice(i, 1); saveTours(); renderTabs(); renderList(); });
@@ -2783,14 +2860,17 @@ function parseImport(text){
 }
 function importSummary(o){
   const d = o.data || {};
-  const inv = Object.values(d.inv || {}).reduce((a, b) => a + (+b || 0), 0);
-  const sup = Object.keys(d.sup || {}).length;
+  // les anciens codes avaient un seul inventaire, un seul Honneur et des soutiens communs
+  const stock = v => Object.values(v || {}).reduce((a, b) => a + (+b || 0), 0);
+  const inv = d.invs ? Object.values(d.invs).reduce((a, v) => a + stock(v), 0) : stock(d.inv);
+  const sup = d.sups ? Object.values(d.sups).reduce((a, v) => a + Object.keys(v || {}).length, 0) : Object.keys(d.sup || {}).length;
+  const honor = d.honors ? d.honors[d.lord] : d.honor;
   const rec = Object.values(d.rec || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
   const gifts = Object.values(d.log || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
   const spots = Object.values(d.spots || {}).reduce((a, l) => a + (Array.isArray(l) ? l.length : 0), 0);
   const lord = d.lord && LORDS.find(l => l.id === d.lord);
   const when = o.date ? new Date(o.date).toLocaleString('fr-FR', { day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }) : 'date inconnue';
-  return `Sauvegarde du ${esc(when)}${lord ? `, avec ${lord.name}` : ''}${d.honor ? `, Honneur ${+d.honor}` : ''} : ${inv} cadeau${inv > 1 ? 'x' : ''} en stock, ${sup} soutien${sup > 1 ? 's' : ''} noté${sup > 1 ? 's' : ''}, ${rec} recrutement${rec > 1 ? 's' : ''}, ${gifts} cadeau${gifts > 1 ? 'x' : ''} offert${gifts > 1 ? 's' : ''}, ${spots} repérage${spots > 1 ? 's' : ''}.`;
+  return `Sauvegarde du ${esc(when)}${lord ? `, avec ${lord.name}` : ''}${honor ? `, Honneur ${+honor}` : ''} : ${inv} cadeau${inv > 1 ? 'x' : ''} en stock, ${sup} soutien${sup > 1 ? 's' : ''} noté${sup > 1 ? 's' : ''}, ${rec} recrutement${rec > 1 ? 's' : ''}, ${gifts} cadeau${gifts > 1 ? 'x' : ''} offert${gifts > 1 ? 's' : ''}, ${spots} repérage${spots > 1 ? 's' : ''}.`;
 }
 function writeAll(data){
   const keys = [];
@@ -3122,7 +3202,7 @@ function alsoFound(){
 /* rappel de sauvegarde */
 function markExport(){ store.set('lastExport', Date.now()); store.set('remindSnooze', 0); if(S.tab) renderList(); }
 function exportDue(){
-  const has = invTotal() > 0 || Object.keys(S.sup).length > 0 || LORD_IDS.some(l => S.rec[l].length);
+  const has = LORD_IDS.some(l => Object.keys(S.invs[l]).length || Object.keys(S.sups[l]).length || S.gifted[l].length || S.rec[l].length);
   if(!has || Date.now() < (store.get('remindSnooze', 0) || 0)) return null;
   const last = store.get('lastExport', null), ref = last || store.get('firstUse', Date.now());
   const days = Math.floor((Date.now() - ref) / DAY);
@@ -3348,8 +3428,8 @@ $('#lordPill').addEventListener('click', () => {
   S.picking = !S.picking; renderTop();
   if(S.picking){ const on = document.querySelector('#lords [aria-pressed="true"]'); if(on) on.focus(); }
 });
-$('#hMinus').addEventListener('click', () => { S.honor = Math.max(1, S.honor - 1); store.set('honor', S.honor); render(); });
-$('#hPlus').addEventListener('click', () => { S.honor = Math.min(10, S.honor + 1); store.set('honor', S.honor); render(); });
+$('#hMinus').addEventListener('click', () => { S.honor = Math.max(1, S.honor - 1); store.set('honors', S.honors); render(); });
+$('#hPlus').addEventListener('click', () => { S.honor = Math.min(10, S.honor + 1); store.set('honors', S.honors); render(); });
 document.querySelector('.tabs').addEventListener('click', e => {
   const b = e.target.closest('[data-tab]'); if(!b || b.dataset.tab === S.tab) return;
   S.tab = b.dataset.tab; S.q = ''; $('#q').value = ''; store.set('tab', S.tab); S.pick = null;
@@ -3403,9 +3483,9 @@ $('#listCol').addEventListener('click', e => {
     if(!invTotal()) return;
     if(resetArmed){
       clearTimeout(resetArmed); resetArmed = null;
-      const backup = { ...S.inv };
-      S.inv = {}; store.set('inv', S.inv); render();
-      toast('Inventaire remis à zéro.', () => { S.inv = backup; store.set('inv', S.inv); render(); });
+      const backup = { ...S.inv }, l = S.lord;
+      S.inv = {}; store.set('invs', S.invs); render();
+      toast(`Inventaire de la partie avec ${lordName(l)} remis à zéro.`, () => { S.invs[l] = backup; store.set('invs', S.invs); render(); });
     } else {
       rb.textContent = 'Confirmer la remise à zéro'; rb.classList.add('armed');
       resetArmed = setTimeout(() => { resetArmed = null; rb.textContent = 'Tout remettre à zéro'; rb.classList.remove('armed'); }, 4000);
@@ -3445,14 +3525,11 @@ $('#panel').addEventListener('click', e => {
   const tw = e.target.closest('[data-town]'); if(tw){ goTown(tw.dataset.town); return; }
   const pb = e.target.closest('[data-for]');
   const c = pb ? charByName[pb.dataset.for] : null;
-  const give = e.target.closest('[data-give]'); if(give && c){ recordGift(c.n, give.dataset.give); return; }
+  const give = e.target.closest('[data-give]'); if(give && c){ recordGift(c.n, give.dataset.give, 'up' in give.dataset); return; }
   const und = e.target.closest('[data-undo]'); if(und){ undoGift(und.dataset.undo); return; }
   const sup = e.target.closest('[data-sup]');
-  if(sup && c){
-    const v = +sup.dataset.sup;
-    if(S.sup[c.n] === v) delete S.sup[c.n]; else S.sup[c.n] = v;
-    store.set('sup', S.sup); renderHonorFilter(); renderList(); refreshPanel(); return;
-  }
+  if(sup && c){ setSup(c.n, +sup.dataset.sup); renderHonorFilter(); renderList(); refreshPanel(); return; }
+  if(e.target.closest('[data-gifted]') && c){ setGifted(c.n, !wasGifted(c)); renderList(); refreshPanel(); return; }
   if(e.target.closest('[data-cond]') && c){ toggleIn(S.cond, 'cond', S.lord, c.n); renderList(); refreshPanel(); return; }
   if(e.target.closest('[data-rec]') && c){ toggleIn(S.rec, 'rec', S.lord, c.n); renderList(); refreshPanel(); return; }
   const ch = e.target.closest('[data-char]'); if(ch){ openPanel('c', ch.dataset.char); return; }
